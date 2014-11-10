@@ -57,6 +57,14 @@ MIDDLEWARE_CLASSES = (
     'django_pdb.middleware.PdbMiddleware',
 )
 
+
+TEMPLATE_LOADERS = (
+    'hamlpy.template.loaders.HamlPyFilesystemLoader',
+    'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
+
 ROOT_URLCONF = 'oscar.urls'
 
 WSGI_APPLICATION = 'oscar.wsgi.application'
