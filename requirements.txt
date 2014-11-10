@@ -2,3 +2,4 @@ django
 django-bootstrap3
 django-extensions
 django-debug-toolbar
+django_pdb
