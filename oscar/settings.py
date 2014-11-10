@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'bootstrap3',
     'django_extensions',
+    'debug_toolbar',
     'promotions',
     'skills',
     'planification',
