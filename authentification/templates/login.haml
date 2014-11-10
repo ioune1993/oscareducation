@@ -1,27 +1,16 @@
 -extends "bootstrap3/bootstrap3.html"
 
 -load i18n
+-load bootstrap3
 
 -block bootstrap3_title
   Oscar
 
 -block bootstrap3_content
   .container
-    %p pouet
-
-    %form#login-form{action: "{{ app_path }}", method: "post"}
+    %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
       -csrf_token
-      .form-row
-        =form.username.errors
-        %label.required{for: "id_username"}
-          =form.username.label
-        =form.username
-      .form-row
-        =form.password.errors
-        %label.required{for: "id_password"}
-          -trans 'Password:'
-        =form.password
-        <input type="hidden" name="next" value="{{ next }}" />
+      -bootstrap_form form
       -url 'admin_password_reset' as password_reset_url
       -if password_reset_url
         .password-reset-link
@@ -30,4 +19,4 @@
       .submit-row
         %label
           &nbsp
-        %input{type: "submit", value: "{% trans 'Log in' %}"}
+        %input.btn.btn-default{type: "submit", value: "{% trans 'Log in' %}"}
