@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import Test, Exercice
 
-# Register your models here.
+
+class TestAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Test, TestAdmin)
+
+
+class ExerciceAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Exercice, ExerciceAdmin)

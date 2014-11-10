@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import RevisionPlanning
 
-# Register your models here.
+
+class RevisionPlanningAdmin(admin.ModelAdmin):
+    pass
+
+
+admin.site.register(RevisionPlanning, RevisionPlanningAdmin)
