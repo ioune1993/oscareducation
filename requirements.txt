@@ -2,6 +2,6 @@ django
 django-bootstrap3
 django-extensions
 django-debug-toolbar
-django_pdb
+git+https://github.com/tomchristie/django-pdb
 hamlpy
 werkzeug
