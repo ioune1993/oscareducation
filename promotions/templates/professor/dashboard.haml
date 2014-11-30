@@ -1,4 +1,10 @@
 -extends "base.haml"
 
 -block content
-  %p dasbhoard du prof
+  %h1 Tableau de bord
+
+  %h2 Mes classes
+
+  %ul
+    -for lesson in lessons
+      %li= lesson.name
