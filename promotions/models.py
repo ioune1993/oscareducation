@@ -13,7 +13,7 @@ class Student(models.Model):
     user = models.OneToOneField(User)
 
     def __unicode__(self):
-        return ("%s %s" % (self.first_name, self.last_name)) if self.first_name or self.last_name else self.username
+        return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
 
 class Lesson(models.Model):
     name = models.CharField(max_length=255)
