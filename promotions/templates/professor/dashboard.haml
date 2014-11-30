@@ -1,5 +1,7 @@
 -extends "base.haml"
 
+-load bootstrap3
+
 -block content
   %h1 Tableau de bord
 
@@ -8,3 +10,13 @@
   %ul
     -for lesson in lessons
       %li= lesson.name
+
+  %h2 Ajouter une classe:
+
+  %form.form{action: "", method: "post"}
+    -csrf_token
+    -bootstrap_form add_lesson_form
+    {% buttons %}
+      %button.btn.btn-primary{type: "submit"}
+        Ajouter
+    {% endbuttons %}
