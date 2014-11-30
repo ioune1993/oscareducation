@@ -1,0 +1,11 @@
+-extends "base.haml"
+
+-block content
+  %h1 Cours:
+    =lesson.name
+
+  %h2 Élèves:
+
+  %ul
+    -for student in lesson.students.all
+      %li= student

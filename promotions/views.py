@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
@@ -18,4 +18,10 @@ def dashboard(request):
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor),
         "add_lesson_form": form,
+    })
+
+
+def lesson_detail_view(request, pk):
+    return render(request, "professor/lesson_detail_view.haml", {
+        "lesson": get_object_or_404(Lesson, pk=pk)
     })

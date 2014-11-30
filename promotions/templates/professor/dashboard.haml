@@ -9,7 +9,8 @@
 
   %ul
     -for lesson in lessons
-      %li= lesson.name
+      %li
+        %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
 
   %h2 Ajouter une classe:
 
