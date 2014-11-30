@@ -43,6 +43,11 @@ def login(request, template_name='login.haml',
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
 
+            # in function of user kind, redirect to others pages
+            if not redirect_field_name in request.POST:
+                if request.user.is_superuser:
+                    redirect_to = "/admin/"  # thanks django, impossible to find the reverse name for the admin base url...
+
             return HttpResponseRedirect(redirect_to)
     else:
         form = authentication_form(request)
