@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
-from .utils import generate_random_password
+from .utils import generate_random_password, user_is_professor
 
 
+@user_is_professor
 def dashboard(request):
     form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
 
@@ -22,6 +23,7 @@ def dashboard(request):
     })
 
 
+@user_is_professor
 def lesson_detail_view(request, pk):
     form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
 
@@ -51,6 +53,7 @@ def lesson_detail_view(request, pk):
     })
 
 
+@user_is_professor
 def student_detail_view(request, pk):
     student = get_object_or_404(Student, pk=pk)
 
