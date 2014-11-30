@@ -3,6 +3,23 @@
 -block bootstrap3_title
   Oscar
 
+-block bootstrap3_extra_head
+  :css
+    body {
+        padding-top: 51px; /*for navbar*/
+    }
+
+
 -block bootstrap3_content
+  .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
+    .navbar-inner
+      .container
+        %a.brand.navbar-brand{href: "/"}
+          Oscar
+        %a.btn.btn-navbar.navbar-toggle{data-toggle: "collapse", data-target: ".navbar-collapse"}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+
   .container
     -block content
