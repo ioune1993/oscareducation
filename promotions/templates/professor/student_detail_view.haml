@@ -1,0 +1,21 @@
+-extends "base.haml"
+
+-block content
+  %h1
+    =student.user.first_name|title
+    =student.user.last_name|title
+
+  %hr
+
+  %ul
+    %li Nom d'utilisateur:
+      =student.user.username
+    %li Email:
+      =student.get_email
+
+  %h2 Suit les cours suivants:
+
+  %ul
+    -for lesson in student.lesson_set.all
+      %li
+        %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name

@@ -12,6 +12,11 @@ class Professor(models.Model):
 class Student(models.Model):
     user = models.OneToOneField(User)
 
+    def get_email(self):
+        if self.user.email.endswith("@example.com"):
+            return ""
+        return self.user.email
+
     def __unicode__(self):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
 

@@ -10,7 +10,8 @@
 
   %ul
     -for student in lesson.students.all
-      %li= student
+      %li
+        %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
 
   %h2 Ajouter un élève:
 

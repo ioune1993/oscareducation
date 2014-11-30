@@ -49,3 +49,11 @@ def lesson_detail_view(request, pk):
         "lesson": lesson,
         "add_student_form": form,
     })
+
+
+def student_detail_view(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+
+    return render(request, "professor/student_detail_view.haml", {
+        "student": student,
+    })
