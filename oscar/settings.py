@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'debug_toolbar',
     'django_pdb',
+    'oscar',  # hack: add self for tempaltes dir
     'promotions',
     'skills',
     'planification',

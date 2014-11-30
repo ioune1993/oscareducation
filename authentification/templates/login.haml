@@ -1,12 +1,9 @@
--extends "bootstrap3/bootstrap3.html"
+-extends "base.haml"
 
 -load i18n
 -load bootstrap3
 
--block bootstrap3_title
-  Oscar
-
--block bootstrap3_content
+-block content
   .container
     %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
       -csrf_token
