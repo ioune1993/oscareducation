@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'skills',
     'planification',
     'examinations',
+    'student',
 )
 
 MIDDLEWARE_CLASSES = (
