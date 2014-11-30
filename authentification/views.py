@@ -47,6 +47,8 @@ def login(request, template_name='login.haml',
             if not redirect_field_name in request.POST:
                 if request.user.is_superuser:
                     redirect_to = "/admin/"  # thanks django, impossible to find the reverse name for the admin base url...
+                elif hasattr(request.user, "professor"):
+                    redirect_to = reverse("professor_dashboard")
 
             return HttpResponseRedirect(redirect_to)
     else:

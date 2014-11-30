@@ -4,16 +4,15 @@
 -load bootstrap3
 
 -block content
-  .container
-    %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
-      -csrf_token
-      -bootstrap_form form
-      -url 'admin_password_reset' as password_reset_url
-      -if password_reset_url
-        .password-reset-link
-          %a{href: "{{ password_reset_url }}"}
-            -trans 'Forgotten your password or username?'
-      .submit-row
-        %label
-          &nbsp
-        %input.btn.btn-default{type: "submit", value: "{% trans 'Log in' %}"}
+  %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
+    -csrf_token
+    -bootstrap_form form
+    -url 'admin_password_reset' as password_reset_url
+    -if password_reset_url
+      .password-reset-link
+        %a{href: "{{ password_reset_url }}"}
+          -trans 'Forgotten your password or username?'
+    .submit-row
+      %label
+        &nbsp
+      %input.btn.btn-default{type: "submit", value: "{% trans 'Log in' %}"}
