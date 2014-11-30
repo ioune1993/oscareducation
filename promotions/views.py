@@ -41,6 +41,7 @@ def lesson_detail_view(request, pk):
 
         student = Student.objects.create(user=user)
         student.lesson_set.add(lesson)
+        # TODO send email to student here if email doesn't end in @example.com
 
         return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
