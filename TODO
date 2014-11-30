@@ -1,8 +1,6 @@
 Authentification
 ================
 
-* ensure that only the professor can go on professor pages and perform actions
-
 * how should a lesson be handle? should every professor able to modify it?
 * should a professor be able to add other professors to its lesson? how permissions should be handle?
 
