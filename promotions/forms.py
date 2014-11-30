@@ -1,9 +1,9 @@
-from django.forms import ModelForm
+from django import forms
 
 from .models import Lesson
 
 
-class LessonForm(ModelForm):
+class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson
         fields = ['name']
