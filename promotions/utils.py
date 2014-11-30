@@ -1,4 +1,5 @@
-import string, random
+import string
+import random
 
 from django.contrib.auth.decorators import user_passes_test
 
