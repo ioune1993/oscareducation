@@ -3,9 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
+from .utils import generate_random_password
 
 
 def dashboard(request):
@@ -28,12 +28,16 @@ def lesson_detail_view(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
     if form.is_valid():
-        user = User()
-        user.first_name = form.cleaned_data["first_name"]
-        user.last_name = form.cleaned_data["last_name"]
-        user.username = form.generate_student_username()
-        user.email = form.generate_email(user.username)
-        user.save()
+        first_name = form.cleaned_data["first_name"]
+        last_name = form.cleaned_data["last_name"]
+        username = form.generate_student_username()
+        email = form.generate_email(username)
+
+        user = User.objects.create_user(username=username,
+                                        email=email,
+                                        password=generate_random_password(15),
+                                        first_name=first_name,
+                                        last_name=last_name)
 
         student = Student.objects.create(user=user)
         student.lesson_set.add(lesson)
