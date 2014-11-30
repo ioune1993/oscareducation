@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 
-from .models import Lesson
-from .forms import LessonForm
+from .models import Lesson, Student
+from .forms import LessonForm, StudentForm
 
 
 def dashboard(request):
@@ -22,6 +23,24 @@ def dashboard(request):
 
 
 def lesson_detail_view(request, pk):
+    form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
+
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    if form.is_valid():
+        user = User()
+        user.first_name = form.cleaned_data["first_name"]
+        user.last_name = form.cleaned_data["last_name"]
+        user.username = form.generate_student_username()
+        user.email = form.generate_email(user.username)
+        user.save()
+
+        student = Student.objects.create(user=user)
+        student.lesson_set.add(lesson)
+
+        return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
+
     return render(request, "professor/lesson_detail_view.haml", {
-        "lesson": get_object_or_404(Lesson, pk=pk)
+        "lesson": lesson,
+        "add_student_form": form,
     })

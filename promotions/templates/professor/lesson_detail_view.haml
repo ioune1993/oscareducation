@@ -1,5 +1,7 @@
 -extends "base.haml"
 
+-load bootstrap3
+
 -block content
   %h1 Cours:
     =lesson.name
@@ -9,3 +11,13 @@
   %ul
     -for student in lesson.students.all
       %li= student
+
+  %h2 Ajouter un élève:
+
+  %form.form{action: "", method: "post"}
+    -csrf_token
+    -bootstrap_form add_student_form
+    {% buttons %}
+      %button.btn.btn-primary{type: "submit"}
+        Ajouter
+    {% endbuttons %}
