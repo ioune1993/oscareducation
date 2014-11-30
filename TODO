@@ -1,0 +1,19 @@
+Authentification
+================
+
+* ensure that only the professor can go on professor pages and perform actions
+
+* how should a lesson be handle? should every professor able to modify it?
+* should a professor be able to add other professors to its lesson? how permissions should be handle?
+
+Lesson page
+===========
+
+* for now I can add new students, but I can't add an already existing student to my class
+
+Student management
+==================
+
+* a professor should be able to modify a student information
+* he should also be able to resend a new password by email
+* also to generate a password to see it in front to give to the student
