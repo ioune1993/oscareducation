@@ -33,3 +33,15 @@
   -else
     %p
       Cette compétence n'a pas de dépendances.
+
+  %h2 Est une dépendance de:
+
+  -if skill.skill_set.all
+    %ul
+      -for dependance in skill.skill_set.all
+        %li
+          %a{href: "{% url 'professor_skill_detail_view' dependance.code %}"}
+            {{ dependance.code }}: {{ dependance.name }}
+  -else
+    %p
+      Cette compétence n'est une dépendance pour aucune autre compétence.
