@@ -15,6 +15,9 @@ class Skill(models.Model):
 
     depend = models.ManyToManyField('Skill')
 
+    def __unicode__(self):
+        return self.code
+
 
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
