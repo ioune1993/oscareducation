@@ -21,3 +21,15 @@
 
   %p
     =skill.description
+
+  %h2 Dépendances:
+
+  -if skill.depends_on.all
+    %ul
+      -for dependance in skill.depends_on.all
+        %li
+          %a{href: "{% url 'professor_skill_detail_view' dependance.code %}"}
+            {{ dependance.code }}: {{ dependance.name }}
+  -else
+    %p
+      Cette compétence n'a pas de dépendances.
