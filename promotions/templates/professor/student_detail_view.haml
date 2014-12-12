@@ -35,7 +35,8 @@
         -elif forloop.counter0|divisibleby:12
           </tr><tr>
         %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px"}
-          =skill.code
+          %a{href: "{% url 'professor_skill_detail_view' skill.code %}"}
+            =skill.code
 
         -if forloop.last
           </tr>
