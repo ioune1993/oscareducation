@@ -9,7 +9,7 @@ class Skill(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
 
-    level = models.PositiveIntegerField()
+    level = models.PositiveIntegerField(db_index=True)
     stage = models.CharField(max_length=255)
     section = models.CharField(max_length=255)
 
