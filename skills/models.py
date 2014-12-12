@@ -16,7 +16,7 @@ class Skill(models.Model):
     depends_on = models.ManyToManyField('Skill')
 
     def __unicode__(self):
-        return self.code
+        return "%s [%s]" % (self.code, self.level)
 
 
 class StudentSkill(models.Model):
