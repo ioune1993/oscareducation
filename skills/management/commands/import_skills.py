@@ -12,14 +12,19 @@ class Command(BaseCommand):
         # Skill.objects.all().delete()
 
         dependancies = {}
+        rubrique = ''
 
         for row in csv.DictReader(open(args[0], "r"), delimiter=",", quotechar='"'):
+
+            rubrique = row['Rubrique'] if row['Rubrique'] else rubrique
+
             Skill.objects.create(
                 name=row['Intitul\xc3\xa9'],
                 description=row['Commentaires'],
                 stage=row['\xc3\x89tape'],
                 code=row['Code'],
                 level=row['Niveau'],
+                section=rubrique,
             )
 
             for next_ in filter(lambda x: x.startswith("S"), {row["suivant1"], row["suivant2"], row["suivant3"]}):
