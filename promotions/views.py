@@ -3,6 +3,8 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
+from skills.models import Skill
+
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
 from .utils import generate_random_password, user_is_professor
@@ -59,4 +61,5 @@ def student_detail_view(request, pk):
 
     return render(request, "professor/student_detail_view.haml", {
         "student": student,
+        "skills": Skill.objects.order_by('-level', '-code'),
     })

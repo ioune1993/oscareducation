@@ -19,3 +19,23 @@
     -for lesson in student.lesson_set.all
       %li
         %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
+
+  %h2 Empreinte
+
+  -regroup skills by level as levels
+
+  -for level in levels
+    %h5
+      Niveau {{ level.grouper }}
+
+    %table
+      -for skill in level.list
+        -if forloop.first
+          <tr>
+        -elif forloop.counter0|divisibleby:12
+          </tr><tr>
+        %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px"}
+          =skill.code
+
+        -if forloop.last
+          </tr>
