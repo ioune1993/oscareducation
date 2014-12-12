@@ -33,4 +33,4 @@ class Command(BaseCommand):
         for key, value in filter(lambda (x, y): y, dependancies.iteritems()):
             skill = Skill.objects.get(code=key)
             for dep in value:
-                skill.depends_on.add(Skill.objects.get(code=dep))
+                Skill.objects.get(code=dep).depends_on.add(skill)
