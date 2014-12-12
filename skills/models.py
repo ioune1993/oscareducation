@@ -13,7 +13,7 @@ class Skill(models.Model):
     stage = models.CharField(max_length=255)
     section = models.CharField(max_length=255)
 
-    depend = models.ManyToManyField('Skill')
+    depends_on = models.ManyToManyField('Skill')
 
     def __unicode__(self):
         return self.code
