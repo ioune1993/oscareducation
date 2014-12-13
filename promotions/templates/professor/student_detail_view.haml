@@ -67,16 +67,17 @@
               =student_skill.skill.code
               %div{style: "display: none"}
                 %center
-                  %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
-                  %br
-                  %br
-                  %button.btn.btn-success Marquer comme acquise
-                  %br
-                  %br
-                  %button.btn.btn-warning Marquer comme non-acquise
-                  %br
-                  %br
-                  %button.btn.btn-default Marquer comme inconnu
+                  %p
+                    %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
+                  %p
+                    %form{action: "", method: "post"}
+                      %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
+                  %p
+                    %form{action: "", method: "post"}
+                      %input.btn.btn-warning{type: "submit", value: "Marquer comme non-acquise"}
+                  %p
+                    %form{action: "", method: "post"}
+                      %input.btn.btn-default{type: "submit", value: "Marquer comme inconnu"}
 
           -if forloop.last
             </tr>
