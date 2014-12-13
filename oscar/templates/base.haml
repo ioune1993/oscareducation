@@ -4,6 +4,9 @@
   Oscar
 
 -block bootstrap3_extra_head
+  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/angular.js"}
+  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/angular-cookies.js"}
+
   :css
     body {
         padding-top: 51px; /*for navbar*/
