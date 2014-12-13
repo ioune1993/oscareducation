@@ -18,14 +18,12 @@ Student management
 
 * a professor should be able to modify a student information
 * he should also be able to resend a new password by email
-* also to generate a password to see it in front to give to the student
 
 -------------------------------------------
 
 Next actions:
 =============
 
-* generate password for a student from the prof interface
 * afficher StudentSkill au lieu de Skill sur la page de l'étudiant
 ** pouvoir changer l'état d'un skill d'un élève -> validation en cascade des autres skills
 * changer le header si l'user est logué pour retourner au dashboard
