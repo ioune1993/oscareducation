@@ -9,6 +9,10 @@
       $('[data-toggle="popover"]').popover({
         html: true
       })
+
+      $('.skill').each(function(index, node) {
+        node.setAttribute("data-content", node.nextSibling.innerHTML);
+      })
     })
 
 
@@ -59,8 +63,20 @@
           -elif forloop.counter0|divisibleby:12
             </tr><tr>
           %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px"}
-            %a{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "Modification de la compétence", data-content: '<center><a href="{% url "professor_skill_detail_view" student_skill.skill.code %}">Détails de la compétence</a><br><br><button class="btn btn-success">Marquer comme acquise</button><br><br><button class="btn btn-warning">Marquer comme non-acquise</button><br><br><button class="btn btn-default">Marquer comme inconnu</button></center>'}
+            %a.skill{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "Modification de la compétence", data-content: ''}
               =student_skill.skill.code
+              %div{style: "display: none"}
+                %center
+                  %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
+                  %br
+                  %br
+                  %button.btn.btn-success Marquer comme acquise
+                  %br
+                  %br
+                  %button.btn.btn-warning Marquer comme non-acquise
+                  %br
+                  %br
+                  %button.btn.btn-default Marquer comme inconnu
 
           -if forloop.last
             </tr>
