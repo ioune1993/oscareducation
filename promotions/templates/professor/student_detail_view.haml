@@ -48,7 +48,9 @@
         %li
           %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
 
-    %h2 Empreinte:
+    %h2
+      %a{name: "skills"}
+      Empreinte:
 
     -regroup skills by skill.level as levels
 

@@ -106,7 +106,7 @@ def validate_student_skill(request, student_skill):
 
     recursivly_validate_student_skills(student_skill)
 
-    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)))
+    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
 
 
 @require_POST
@@ -126,7 +126,7 @@ def unvalidate_student_skill(request, student_skill):
 
     student_skill.save()
 
-    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)))
+    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
 
 
 @require_POST
@@ -138,4 +138,4 @@ def default_student_skill(request, student_skill):
     student_skill.tested = None
     student_skill.save()
 
-    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)))
+    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
