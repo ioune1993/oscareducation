@@ -3,6 +3,15 @@
 -block head
   %script{type: "text/javascript", src: "{{ STATIC_URL }}js/professor_student.js"}
 
+-block javascript
+  :javascript
+    $(function () {
+      $('[data-toggle="popover"]').popover({
+        html: true
+      })
+    })
+
+
 -block content
   %div{ng-app: "oscar"}
     %h1
@@ -50,7 +59,7 @@
           -elif forloop.counter0|divisibleby:12
             </tr><tr>
           %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px"}
-            %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"}
+            %a{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "Modification de la compétence", data-content: '<center><a href="{% url "professor_skill_detail_view" student_skill.skill.code %}">Détails de la compétence</a><br><br><button class="btn btn-success">Marquer comme acquise</button><br><br><button class="btn btn-warning">Marquer comme non-acquise</button><br><br><button class="btn btn-default">Marquer comme inconnu</button></center>'}
               =student_skill.skill.code
 
           -if forloop.last
