@@ -1,5 +1,8 @@
 -extends "base.haml"
 
+-block head
+  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/professor_student.js"}
+
 -block content
   %h1
     =student.user.first_name|title
@@ -12,6 +15,18 @@
       =student.user.username
     %li Email:
       =student.get_email
+
+  %h2 authentification de l'élève
+
+  %div{ng-app: "oscar", ng-init: "studentId={{ student.id }}"}
+    %div{ng-controller: "regeneratePasswordController"}
+      %form{ng-submit: "askForNewPassword()"}
+        %p{ng-hide: "!password"}
+          Nouveau mot de passe:
+          %span.label.label-default
+            {& password &}
+
+        %input.btn.btn-primary{type: "submit", value: "Regenerer un nouveau mot de passe pour cet élève"}
 
   %h2 Suit les cours suivants:
 

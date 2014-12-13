@@ -1,7 +1,10 @@
-from django.http import HttpResponseRedirect
+import json
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.views.decorators.http import require_POST
 
 from skills.models import Skill
 
@@ -63,3 +66,20 @@ def student_detail_view(request, pk):
         "student": student,
         "skills": Skill.objects.order_by('-level', '-code'),
     })
+
+
+@require_POST
+@user_is_professor
+def regenerate_student_password(request):
+    data = json.load(request)
+
+    student = get_object_or_404(Student, id=data["student_id"])
+    new_password = generate_random_password(8)
+
+    print "pouet:", new_password
+    print student
+
+    student.user.set_password(new_password)
+    student.user.save()
+
+    return HttpResponse(new_password)
