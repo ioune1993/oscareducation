@@ -24,8 +24,7 @@ Student management
 Next actions:
 =============
 
-* afficher StudentSkill au lieu de Skill sur la page de l'étudiant
-** pouvoir changer l'état d'un skill d'un élève -> validation en cascade des autres skills
+* pouvoir changer l'état d'un skill d'un élève -> validation en cascade des autres skills
 * changer le header si l'user est logué pour retourner au dashboard
 * rajouter un lien logout
 * modifier les informations d'un élève
