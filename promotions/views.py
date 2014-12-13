@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 
-from skills.models import Skill
+from skills.models import Skill, StudentSkill
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
@@ -49,6 +49,12 @@ def lesson_detail_view(request, pk):
         student = Student.objects.create(user=user)
         student.lesson_set.add(lesson)
         # TODO send email to student here if email doesn't end in @example.com
+
+        for skill in Skill.objects.all():
+            StudentSkill.objects.create(
+                student=student,
+                skill=skill,
+            )
 
         return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
