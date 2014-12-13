@@ -22,6 +22,6 @@ class Skill(models.Model):
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
     skill = models.ForeignKey(Skill)
-    tested = models.DateTimeField(default=None)
-    acquired = models.DateTimeField(default=None)
+    tested = models.DateTimeField(default=None, null=True)
+    acquired = models.DateTimeField(default=None, null=True)
     # bad: doesn't support regression
