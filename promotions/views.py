@@ -70,7 +70,7 @@ def student_detail_view(request, pk):
 
     return render(request, "professor/student_detail_view.haml", {
         "student": student,
-        "skills": Skill.objects.order_by('-level', '-code'),
+        "skills": StudentSkill.objects.filter(student=student).order_by('-skill__level', '-skill__code'),
     })
 
 

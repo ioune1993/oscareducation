@@ -37,21 +37,21 @@
 
   %h2 Empreinte:
 
-  -regroup skills by level as levels
+  -regroup skills by skill.level as levels
 
   -for level in levels
     %h5
       Niveau {{ level.grouper }}
 
     %table
-      -for skill in level.list
+      -for student_skill in level.list
         -if forloop.first
           <tr>
         -elif forloop.counter0|divisibleby:12
           </tr><tr>
         %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px"}
-          %a{href: "{% url 'professor_skill_detail_view' skill.code %}"}
-            =skill.code
+          %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"}
+            =student_skill.skill.code
 
         -if forloop.last
           </tr>
