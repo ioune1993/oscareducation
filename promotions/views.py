@@ -101,3 +101,15 @@ def validate_student_skill(request, student_skill):
     student_skill.save()
 
     return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)))
+
+
+@require_POST
+@user_is_professor
+def unvalidate_student_skill(request, student_skill):
+    student_skill = get_object_or_404(StudentSkill, id=student_skill)
+
+    student_skill.acquired = None
+    student_skill.tested = datetime.now()
+    student_skill.save()
+
+    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)))

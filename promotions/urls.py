@@ -12,4 +12,5 @@ urlpatterns = patterns('promotions.views',
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='professor_regenerate_student_password'),
 
     url(r'^validate_skill/(?P<student_skill>\d+)/$', 'validate_student_skill', name='professor_validate_student_skill'),
+    url(r'^unvalidate_skill/(?P<student_skill>\d+)/$', 'unvalidate_student_skill', name='professor_unvalidate_student_skill'),
 )
