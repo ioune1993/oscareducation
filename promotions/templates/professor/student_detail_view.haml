@@ -62,8 +62,8 @@
             <tr>
           -elif forloop.counter0|divisibleby:12
             </tr><tr>
-          %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px"}
-            %a.skill{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "Modification de la compétence", data-content: ''}
+          %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px; {% if student_skill.acquired %} background-color: green;{% elif student_skill.tested %} background-color: orange;{% endif %}"}
+            %a.skill{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "Modification de la compétence", data-content: '', style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}'}
               =student_skill.skill.code
               %div{style: "display: none"}
                 %center
