@@ -1,5 +1,7 @@
 import json
 
+from datetime import datetime
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -88,3 +90,14 @@ def regenerate_student_password(request):
     student.user.save()
 
     return HttpResponse(new_password)
+
+
+@require_POST
+@user_is_professor
+def validate_student_skill(request, student_skill):
+    student_skill = get_object_or_404(StudentSkill, id=student_skill)
+
+    student_skill.acquired = datetime.now()
+    student_skill.save()
+
+    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)))

@@ -70,7 +70,7 @@
                   %p
                     %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
                   %p
-                    %form{action: "", method: "post"}
+                    %form{action: "{% url 'professor_validate_student_skill' student_skill.id %}", method: "post"}
                       -csrf_token
                       %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
                   %p
