@@ -82,6 +82,8 @@ def regenerate_student_password(request):
     student = get_object_or_404(Student, id=data["student_id"])
     new_password = generate_random_password(8)
 
+    # TODO: a professor can only modify this for one of his students
+
     student.user.set_password(new_password)
     student.user.save()
 
