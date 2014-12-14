@@ -7,5 +7,5 @@ urlpatterns = patterns('oscar.views',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^professor/', include("promotions.urls")),
     url(r'^student/', include("student.urls")),
-    url(r'^$', 'root_redirection'),
+    url(r'^$', 'root_redirection', name="home"),
 )
