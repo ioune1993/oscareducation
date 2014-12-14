@@ -24,7 +24,6 @@ Student management
 Next actions:
 =============
 
-* changer le header si l'user est logué pour retourner au dashboard
 * rajouter un lien logout
 * modifier les informations d'un élève
 * bouton pour élève "passer un test" -> première version: tester toutes les compétences au top
