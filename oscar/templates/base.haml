@@ -26,6 +26,11 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
+        %ul.nav.navbar-nav.navbar-right
+          %li
+            %a{href: "{% url 'logout' %}"}
+              Déconnection
+
 
   .container
     -block content
