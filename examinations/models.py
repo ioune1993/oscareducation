@@ -12,4 +12,5 @@ class Test(models.Model):
 
 class Exercice(models.Model):
     content = models.TextField()
+    answer = models.TextField()
     skill = models.ForeignKey(Skill)
