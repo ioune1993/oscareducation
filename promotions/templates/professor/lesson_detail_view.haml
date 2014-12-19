@@ -2,16 +2,23 @@
 
 -load bootstrap3
 
+-block head
+  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/professor_lesson.js"}
+
 -block content
   %h1 Cours:
     =lesson.name
 
-  %h2 Tests:
+  %div{ng-app: "oscar", ng-controller: "createTestController"}
+    %h2 Tests:
 
-  %ul
-    -for test in lesson.test_set.all
-      %li
-        =test.name
+    %ul
+      %li{ng-repeat: "test in tests"}
+        {& test.name &}
+
+    %h2 Ajouter un test:
+
+    %form.form{ng-submit: "addNewTest()"}
 
   %h2 Élèves:
 
