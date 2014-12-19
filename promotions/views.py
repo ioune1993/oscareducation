@@ -145,13 +145,16 @@ def default_student_skill(request, student_skill):
 
 
 @user_is_professor
-def lesson_tests(request, lesson_id):
+def lesson_tests_and_skills(request, lesson_id):
     lesson = get_object_or_404(Lesson, id=lesson_id)
 
     if request.user.professor not in lesson.professors.all():
         raise PermissionDenied()
 
-    return HttpResponse(json.dumps(list(lesson.test_set.all().values("name")), indent=4))
+    return HttpResponse(json.dumps({
+        "tests": list(lesson.test_set.all().values("name")),
+        "skills": list(Skill.objects.all().values("id", "code", "name")),
+    }, indent=4))
 
 
 @require_POST

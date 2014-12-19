@@ -1,5 +1,6 @@
 function createTestController($scope, $http) {
     $scope.tests = [];
+    $scope.skills = [];
 
     $scope.addNewTest = function() {
         $http.post("/professor/add_test_for_lesson/", {
@@ -13,9 +14,10 @@ function createTestController($scope, $http) {
     }
 
     update_test_list = function () {
-        $http.get("/professor/lesson_tests/" + context.lessonId + ".json").
+        $http.get("/professor/lesson_tests_and_skills/" + context.lessonId + ".json").
             success(function(data, status, headers, config) {
-                $scope.tests = data;
+                $scope.tests = data.tests;
+                $scope.skills = data.skills;
            })
     }
 

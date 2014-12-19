@@ -15,6 +15,6 @@ urlpatterns = patterns('promotions.views',
     url(r'^unvalidate_skill/(?P<student_skill>\d+)/$', 'unvalidate_student_skill', name='professor_unvalidate_student_skill'),
     url(r'^default_skill/(?P<student_skill>\d+)/$', 'default_student_skill', name='professor_default_student_skill'),
 
-    url(r'^lesson_tests/(?P<lesson_id>\d+).json$', 'lesson_tests', name='lesson_tests'),
+    url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', 'lesson_tests_and_skills', name='lesson_tests_and_skills'),
     url(r'^add_test_for_lesson/$', 'add_test_for_lesson', name='add_test_for_lesson'),
 )
