@@ -19,6 +19,13 @@
     %h2 Ajouter un test:
 
     %form.form{ng-submit: "addNewTest()"}
+      .form-group
+        %label.control-label{for: "test_name"} Nom du test
+        %input#test_name.form-control{type: "text", value: "{& name &}"}
+
+      .form-group
+        %button.btn.btn-primary{type: "submit"}
+          Ajouter
 
   %h2 Élèves:
 
