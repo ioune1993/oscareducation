@@ -8,8 +8,10 @@ from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
+from django.db import transaction
 
 from skills.models import Skill, StudentSkill
+from examinations.models import Test
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
@@ -150,3 +152,27 @@ def lesson_tests(request, lesson_id):
         raise PermissionDenied()
 
     return HttpResponse(json.dumps(list(lesson.test_set.all().values("name")), indent=4))
+
+
+@require_POST
+@user_is_professor
+def add_test_for_lesson(request):
+    data = json.load(request)
+
+    lesson = get_object_or_404(Lesson, id=data["lesson"])
+
+    if request.user.professor not in lesson.professors.all():
+        raise PermissionDenied()
+
+    with transaction.atomic():
+        test = Test.objects.create(
+            lesson=lesson,
+            name=data["name"],
+        )
+
+        for skill_id in data["skills"]:
+            test.skills.add(Skill.objects.get(id=skill_id))
+
+        test.save()
+
+    return HttpResponse("ok")

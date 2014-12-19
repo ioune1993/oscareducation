@@ -26,7 +26,7 @@
     %form.form{ng-submit: "addNewTest()"}
       .form-group
         %label.control-label{for: "test_name"} Nom du test
-        %input#test_name.form-control{type: "text", value: "{& name &}"}
+        %input#test_name.form-control{type: "text", ng-model: "name"}
 
       .form-group
         %button.btn.btn-primary{type: "submit"}

@@ -16,4 +16,5 @@ urlpatterns = patterns('promotions.views',
     url(r'^default_skill/(?P<student_skill>\d+)/$', 'default_student_skill', name='professor_default_student_skill'),
 
     url(r'^lesson_tests/(?P<lesson_id>\d+).json$', 'lesson_tests', name='lesson_tests'),
+    url(r'^add_test_for_lesson/$', 'add_test_for_lesson', name='add_test_for_lesson'),
 )
