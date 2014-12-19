@@ -6,6 +6,13 @@
   %h1 Cours:
     =lesson.name
 
+  %h2 Tests:
+
+  %ul
+    -for test in lesson.test_set.all
+      %li
+        =test.name
+
   %h2 Élèves:
 
   %ul
