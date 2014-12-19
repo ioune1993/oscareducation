@@ -8,6 +8,7 @@ function createTestController($scope, $http) {
             "skills": [],
         }).success(function(data, status, headers, config) {
             update_test_list();
+            $scope.name = "";
         })
     }
 
