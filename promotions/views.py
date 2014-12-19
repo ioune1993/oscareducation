@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 
 from django.http import HttpResponseRedirect, HttpResponse
+from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
@@ -139,3 +140,13 @@ def default_student_skill(request, student_skill):
     student_skill.save()
 
     return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
+
+
+@user_is_professor
+def lesson_tests(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+
+    if request.user.professor not in lesson.professors.all():
+        raise PermissionDenied()
+
+    return HttpResponse(json.dumps(list(lesson.test_set.all().values("name")), indent=4))

@@ -5,6 +5,11 @@
 -block head
   %script{type: "text/javascript", src: "{{ STATIC_URL }}js/professor_lesson.js"}
 
+  :javascript
+    context = {
+      lessonId: {{ lesson.id }}
+    };
+
 -block content
   %h1 Cours:
     =lesson.name
