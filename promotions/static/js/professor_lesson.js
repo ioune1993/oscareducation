@@ -6,11 +6,17 @@ function createTestController($scope, $http) {
             "name": $scope.name,
             "lesson": context.lessonId,
             "skills": [],
+        }).success(function(data, status, headers, config) {
+            update_test_list();
         })
     }
 
-    $http.get("/professor/lesson_tests/" + context.lessonId + ".json").
-        success(function(data, status, headers, config) {
-            $scope.tests = data;
-        })
+    update_test_list = function () {
+        $http.get("/professor/lesson_tests/" + context.lessonId + ".json").
+            success(function(data, status, headers, config) {
+                $scope.tests = data;
+           })
+    }
+
+    update_test_list();
 }
