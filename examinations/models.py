@@ -10,6 +10,9 @@ class Test(models.Model):
     skills = models.ManyToManyField(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['created_at']
+
 
 class Exercice(models.Model):
     content = models.TextField()
