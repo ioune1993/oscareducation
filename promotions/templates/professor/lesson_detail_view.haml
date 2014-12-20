@@ -20,6 +20,8 @@
     %ul
       %li{ng-repeat: "test in tests"}
         {& test.name &}
+        %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px"}
+          {& skill.code &}
 
     %h2 Ajouter un test:
 

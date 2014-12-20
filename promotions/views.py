@@ -152,7 +152,7 @@ def lesson_tests_and_skills(request, lesson_id):
         raise PermissionDenied()
 
     return HttpResponse(json.dumps({
-        "tests": list(lesson.test_set.all().values("name")),
+        "tests": [{"name": x.name, "skills": list(x.skills.all().values("code"))} for x in lesson.test_set.all()],
         "skills": list(Skill.objects.all().values("id", "code", "name")),
     }, indent=4))
 
