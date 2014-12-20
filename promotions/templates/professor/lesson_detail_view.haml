@@ -26,6 +26,10 @@
     %form.form
       %h3 Compétences dont le test testera les dépendances:
       .form-group
+        %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
+          {& skill &}
+
+      .form-group
         %select.form-control{ng-model: "currentlySelectedSkill"}
           %option{ng-repeat: "skill in skills", value: "{& skill.code &}"}
             {& skill.code &} - {& skill.name &}

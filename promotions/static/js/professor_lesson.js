@@ -1,6 +1,7 @@
 function createTestController($scope, $http) {
     $scope.tests = [];
     $scope.skills = [];
+    $scope.toTestSkills = [];
 
     $scope.addNewTest = function() {
         $http.post("/professor/add_test_for_lesson/", {
@@ -14,7 +15,15 @@ function createTestController($scope, $http) {
     }
 
     $scope.addSkillToTest = function() {
-        console.log($scope.currentlySelectedSkill);
+        $scope.toTestSkills.push($scope.currentlySelectedSkill);
+        var toRemoveIndex;
+        for (var index = 0; index < $scope.skills.length; index++) {
+            if ($scope.skills[index].code == $scope.currentlySelectedSkill) {
+                toRemoveIndex = index;
+            }
+        }
+        $scope.skills.splice(toRemoveIndex, 1);
+        $scope.currentlySelectedSkill = $scope.skills[0].code;
     }
 
     update_test_list = function () {
