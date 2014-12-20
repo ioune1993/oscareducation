@@ -13,11 +13,16 @@ function createTestController($scope, $http) {
         })
     }
 
+    $scope.addSkillToTest = function() {
+        console.log($scope.currentlySelectedSkill);
+    }
+
     update_test_list = function () {
         $http.get("/professor/lesson_tests_and_skills/" + context.lessonId + ".json").
             success(function(data, status, headers, config) {
                 $scope.tests = data.tests;
                 $scope.skills = data.skills;
+                $scope.currentlySelectedSkill = data.skills[0].code;
            })
     }
 
