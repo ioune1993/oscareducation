@@ -3,14 +3,17 @@ function createTestController($scope, $http) {
     $scope.skills = [];
 
     $scope.addNewTest = function() {
-        $http.post("/professor/add_test_for_lesson/", {
-            "name": $scope.name,
-            "lesson": context.lessonId,
-            "skills": $scope.toTestSkills,
-        }).success(function(data, status, headers, config) {
-            update_test_list();
-            $scope.name = "";
-        })
+        if ($scope.name !== undefined && $scope.name.length > 0)
+        {
+            $http.post("/professor/add_test_for_lesson/", {
+                "name": $scope.name,
+                "lesson": context.lessonId,
+                "skills": $scope.toTestSkills,
+            }).success(function(data, status, headers, config) {
+                update_test_list();
+                $scope.name = "";
+            })
+        }
     }
 
     $scope.addSkillToTest = function() {
