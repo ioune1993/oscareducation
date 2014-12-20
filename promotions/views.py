@@ -174,7 +174,7 @@ def add_test_for_lesson(request):
         )
 
         for skill_id in data["skills"]:
-            test.skills.add(Skill.objects.get(id=skill_id))
+            test.skills.add(Skill.objects.get(code=skill_id))
 
         test.save()
 

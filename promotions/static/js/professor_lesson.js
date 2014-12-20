@@ -1,13 +1,12 @@
 function createTestController($scope, $http) {
     $scope.tests = [];
     $scope.skills = [];
-    $scope.toTestSkills = [];
 
     $scope.addNewTest = function() {
         $http.post("/professor/add_test_for_lesson/", {
             "name": $scope.name,
             "lesson": context.lessonId,
-            "skills": [],
+            "skills": $scope.toTestSkills,
         }).success(function(data, status, headers, config) {
             update_test_list();
             $scope.name = "";
@@ -31,6 +30,7 @@ function createTestController($scope, $http) {
             success(function(data, status, headers, config) {
                 $scope.tests = data.tests;
                 $scope.skills = data.skills;
+                $scope.toTestSkills = [];
                 $scope.currentlySelectedSkill = data.skills[0].code;
            })
     }
