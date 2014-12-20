@@ -3,8 +3,9 @@ function createTestController($scope, $http) {
     $scope.skills = [];
 
     $scope.addNewTest = function() {
-        if ($scope.name === undefined || $scope.name.length > 0)
+        if ($scope.name === undefined || $scope.name.length == 0)
         {
+            console.log("Warning: test name is not set, abording");
             return;
         }
 
