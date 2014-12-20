@@ -23,7 +23,7 @@
 
     %h2 Ajouter un test:
 
-    %form.form{ng-submit: "addNewTest()"}
+    %form.form
       %h3 Compétences dont le test testera les dépendances:
       .form-group
         %select.form-control{ng-model: "currentlySelectedSkill"}
@@ -31,7 +31,7 @@
             {& skill.code &} - {& skill.name &}
 
       .form-group
-        %button.btn.btn-primary
+        %button.btn.btn-primary{ng-click: "addSkillToTest()"}
           Ajouter cette compétence
 
       .form-group
@@ -39,7 +39,7 @@
         %input#test_name.form-control{type: "text", ng-model: "name"}
 
       .form-group
-        %button.btn.btn-primary{type: "submit"}
+        %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
           Créer le test
 
   %h2 Élèves:
