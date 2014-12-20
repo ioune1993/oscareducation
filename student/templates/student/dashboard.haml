@@ -4,6 +4,13 @@
   %h1 Mes cours
   %hr
 
-  %ul
-    -for lesson in lessons
-      %li= lesson.name
+  -for lesson in lessons
+    .well
+      %h3= lesson.name
+      %hr
+
+      %h4 Mes tests:
+
+      %ul
+        -for test in lesson.test_set.all
+          %li= test.name
