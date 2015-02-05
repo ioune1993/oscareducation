@@ -1,7 +1,30 @@
 -extends "base.haml"
 
 -block content
+
   -for lesson in lessons
       %ul
         -for test in lesson.test_set.all
           %li= test.name
+
+  %h2 Mon empreinte:
+  %hr
+
+  -regroup user.student.skills_map by skill.level as levels
+
+  -for level in levels
+    %h5
+      Niveau {{ level.grouper }}
+
+    %table
+      -for student_skill in level.list
+        -if forloop.first
+          <tr>
+        -elif forloop.counter0|divisibleby:12
+          </tr><tr>
+        %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px; {% if student_skill.acquired %} background-color: green;{% elif student_skill.tested %} background-color: orange;{% endif %}"}
+          %a.skill{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}', href: '#'}
+            =student_skill.skill.code
+
+        -if forloop.last
+          </tr>
