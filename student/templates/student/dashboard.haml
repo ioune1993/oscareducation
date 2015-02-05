@@ -1,16 +1,7 @@
 -extends "base.haml"
 
 -block content
-  %h1 Mes cours
-  %hr
-
   -for lesson in lessons
-    .well
-      %h3= lesson.name
-      %hr
-
-      %h4 Mes tests:
-
       %ul
         -for test in lesson.test_set.all
           %li= test.name
