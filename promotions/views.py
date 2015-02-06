@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.views.decorators.http import require_POST
 from django.db import transaction
+from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
 from examinations.models import Test
@@ -152,7 +153,7 @@ def lesson_tests_and_skills(request, lesson_id):
 
     return HttpResponse(json.dumps({
         "tests": [{"name": x.name, "skills": list(x.skills.all().values("code"))} for x in lesson.test_set.all()],
-        "skills": list(Skill.objects.all().values("id", "code", "name")),
+        "skills": [x for x in Skill.objects.annotate(num_depends=Count('depends_on')).filter(num_depends__gt=0).values("id", "code", "name")],
     }, indent=4))
 
 
