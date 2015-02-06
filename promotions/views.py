@@ -12,7 +12,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test, TestStudent
+from examinations.models import Test, TestStudent, TestExercice
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
@@ -180,6 +180,23 @@ def add_test_for_lesson(request):
             TestStudent.objects.create(
                 test=test,
                 student=student,
+            )
+
+        to_test_skills = []
+
+        def recursivly_get_skills_to_test(skill):
+            for i in skill.depends_on.all():
+                if i not in to_test_skills:
+                    to_test_skills.append(i)
+                    recursivly_get_skills_to_test(i)
+
+        for skill_id in data["skills"]:
+            recursivly_get_skills_to_test(Skill.objects.get(code=skill_id))
+
+        for skill in to_test_skills:
+            TestExercice.objects.create(
+                test=test,
+                skill=skill,
             )
 
         test.save()
