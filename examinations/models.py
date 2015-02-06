@@ -32,8 +32,8 @@ class TestStudent(models.Model):
     student = models.ForeignKey("promotions.Student")
     test = models.ForeignKey(Test)
     finished = models.BooleanField(default=False)
-    started_datetime = models.DateTimeField(null=True)
-    finished_datetime = models.DateTimeField(null=True)
+    started_at = models.DateTimeField(null=True)
+    finished_at = models.DateTimeField(null=True)
 
 
 class Answer(models.Model):
