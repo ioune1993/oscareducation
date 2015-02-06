@@ -30,6 +30,16 @@ def pass_test(request, pk):
             "test_student": test_student,
         })
 
+    # check if POST
+    # if POST -> answer check, validate question(s), update student skils, then redirect to self
+    # else
+    # get all skills concerne by test
+    # get all answers
+    # remove skills that are already validated
+    # take next skill to test
+    # get its exercice (if not, try to create one)
+    # give exercice to student
+
 
 @require_POST
 @user_is_student
