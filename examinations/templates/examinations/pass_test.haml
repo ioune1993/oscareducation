@@ -6,5 +6,7 @@
   %hr
 
   %center
-    %button.btn.btn-lg.btn-primary
-      Commencer le test
+    %form{method: "POST", action: "{% url 'student_start_test' test_student.id %}"}.form-group
+      -csrf_token
+      %button.btn.btn-lg.btn-primary{type: "submit"}
+        Commencer le test
