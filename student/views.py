@@ -31,12 +31,12 @@ def pass_test(request, pk):
         })
 
     # check if POST
-    # if POST -> answer check, validate question(s), update student skils, then redirect to self
+    # if POST -> answer check, validate question(s), update answers to TestExercice, update student skills, then redirect to self
     # else
-    # get all skills concerne by test
+    # get all TestExercice concerne by test
     # get all answers
-    # remove skills that are already validated
-    # take next skill to test
+    # remove TestExercice that are already validated
+    # take next TestExercice to test
     # get its exercice (if not, try to create one)
     # give exercice to student
 
