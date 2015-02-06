@@ -21,3 +21,29 @@ class Exercice(models.Model):
     content = models.TextField()
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
+
+
+class TestExercice(models.Model):
+    test = models.ForeignKey(Test)
+    exercice = models.ForeignKey(Exercice)
+
+
+class TestStudent(models.Model):
+    student = models.ForeignKey("promotions.Student")
+    test = models.ForeignKey(Test)
+    finished = models.BooleanField(default=False)
+    started_datetime = models.DateTimeField(null=True)
+    finished_datetime = models.DateTimeField(null=True)
+
+
+class Answer(models.Model):
+    raw_answer = models.TextField()  # let's store json
+
+    # we might no know the answer if we want the teacher to correct the test by
+    # hand
+    correct = models.NullBooleanField()
+
+    test_student = models.ForeignKey(TestStudent)
+    test_exercice = models.ForeignKey(TestExercice)
+
+    answer_datetime = models.DateTimeField(auto_now_add=True)
