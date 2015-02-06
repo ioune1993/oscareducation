@@ -25,7 +25,11 @@ class Exercice(models.Model):
 
 class TestExercice(models.Model):
     test = models.ForeignKey(Test)
-    exercice = models.ForeignKey(Exercice)
+    # it can happen that we need to test something but that we don't have an
+    # exercice ready for it
+    exercice = models.ForeignKey(Exercice, null=True)
+    # therefor we need to remember which skill we are testing
+    skill = models.ForeignKey(Skill)
 
 
 class TestStudent(models.Model):
