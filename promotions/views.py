@@ -12,7 +12,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test
+from examinations.models import Test, TestStudent
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
@@ -175,6 +175,12 @@ def add_test_for_lesson(request):
 
         for skill_id in data["skills"]:
             test.skills.add(Skill.objects.get(code=skill_id))
+
+        for student in lesson.students.all():
+            TestStudent.objects.create(
+                test=test,
+                student=student,
+            )
 
         test.save()
 
