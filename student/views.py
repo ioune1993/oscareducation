@@ -23,10 +23,12 @@ def pass_test(request, pk):
     if test_student.student != request.user.student:
         raise PermissionDenied()
 
-    return render(request, "examinations/pass_test.haml", {
-        "test": test_student.test,
-        "test_student": test_student,
-    })
+    # test is not already started, ask student to start it
+    if not test_student.started_at:
+        return render(request, "examinations/pass_test.haml", {
+            "test": test_student.test,
+            "test_student": test_student,
+        })
 
 
 @require_POST
