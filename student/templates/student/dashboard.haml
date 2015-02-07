@@ -4,8 +4,9 @@
 
   %ul
     -for student_test in user.student.teststudent_set.all
-      %li
-        %a{href: "{% url 'student_pass_test' student_test.id %}"}= student_test.test.name
+      -if not student_test.finished
+        %li
+          %a{href: "{% url 'student_pass_test' student_test.id %}"}= student_test.test.name
 
   %h2 Mon empreinte:
   %hr
