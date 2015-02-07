@@ -28,26 +28,38 @@ class StudentSkill(models.Model):
     acquired = models.DateTimeField(default=None, null=True)
     # bad: doesn't support regression
 
+    def go_down_visitor(self, function):
+        def traverse(student_skill):
+            function(student_skill)
+
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all()):
+                traverse(sub_student_skill)
+
+        traverse(self)
+
+    def go_up_visitor(self, function):
+        def traverse(student_skill):
+            function(student_skill)
+
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.skill_set.all()):
+                traverse(sub_student_skill)
+
+        traverse(self)
+
     def validate(self):
-        def recursivly_validate_student_skills(student_skill):
+        def validate_student_skill(student_skill):
             student_skill.acquired = datetime.now()
             student_skill.save()
 
-            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all()):
-                recursivly_validate_student_skills(sub_student_skill)
-
-        recursivly_validate_student_skills(self)
+        self.go_down_visitor(validate_student_skill)
 
     def unvalidate(self):
-        def recursivly_unalidate_student_skills(student_skill):
+        def unvalidate_student_skill(student_skill):
             student_skill.acquired = None
             student_skill.tested = datetime.now()
             student_skill.save()
 
-            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.skill_set.all()):
-                recursivly_unalidate_student_skills(sub_student_skill)
-
-        recursivly_unalidate_student_skills(self)
+        self.go_up_visitor(unvalidate_student_skill)
 
     def default(self):
         self.acquired = None
