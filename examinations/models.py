@@ -30,6 +30,7 @@ class TestExercice(models.Model):
     exercice = models.ForeignKey(Exercice, null=True)
     # therefor we need to remember which skill we are testing
     skill = models.ForeignKey(Skill)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class TestStudent(models.Model):
