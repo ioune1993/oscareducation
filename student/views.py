@@ -2,11 +2,13 @@ from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
+from django.db import transaction
 
-from examinations.models import TestStudent
+from examinations.models import TestStudent, Answer, TestExercice
+from skills.models import StudentSkill
 
 from utils import user_is_student
 
@@ -30,18 +32,27 @@ def pass_test(request, pk):
             "test_student": test_student,
         })
 
-    if request.method == "POST":
-        # if POST -> answer check, validate question(s), update answers to TestExercice, update student skills, then redirect to self
-        return HttpResponse("answer")
-
+    if test_student.finished:
+        return render(request, "examinations/test_finished.haml", {
+            "test_student": test_student
+        })
 
     # the order_by here is used to make the order of the exercices deterministics
     # so each student will have the exercices in the same order
-    next_not_answered_test_exercice = test_student.test.testexercice_set.exclude(id__in=test_student.answer_set.all()).order_by('created_at').first()
+    next_not_answered_test_exercice = TestExercice.objects.filter(test=test_student.test).exclude(answer__in=test_student.answer_set.all()).order_by('created_at').first()
+
+    if request.method == "POST":
+        # There is normally not way for a student to answer another exercice
+        return validate_exercice(request, test_student, next_not_answered_test_exercice)
 
     if next_not_answered_test_exercice is None:
-        # TODO validate test
-        pass
+        test_student.finished = True
+        test_student.finished_at = datetime.now()
+        test_student.save()
+
+        return render(request, "examinations/test_finished.haml", {
+            "test_student": test_student
+        })
 
     if next_not_answered_test_exercice.exercice is None:
         # TODO try to grab an exercice
@@ -50,6 +61,36 @@ def pass_test(request, pk):
     return render(request, "examinations/take_exercice.haml", {
         "test_exercice": next_not_answered_test_exercice,
     })
+
+
+def validate_exercice(request, test_student, test_exercice):
+    if test_exercice.exercice is None:
+        is_correct = request.POST.get("value") == "validate"
+        raw_answer = None
+
+    else:
+        # TODO check exercice is correct
+        pass
+
+    with transaction.atomic():
+        answer = Answer.objects.create(
+            correct=is_correct,
+            raw_answer=raw_answer,
+            test_student=test_student,
+            test_exercice=test_exercice,
+        )
+
+        student_skill = StudentSkill.objects.get(student=request.user.student, skill=test_exercice.skill)
+
+        if is_correct:
+            answer.create_other_valide_answers()
+            student_skill.validate()
+        else:
+            answer.create_other_invalide_answers()
+            student_skill.unvalidate()
+
+    # update student skills, then redirect to self
+    return HttpResponseRedirect(reverse("student_pass_test", args=(test_student.id,)))
 
 
 @require_POST
