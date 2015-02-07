@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from promotions.models import Student
@@ -25,3 +27,13 @@ class StudentSkill(models.Model):
     tested = models.DateTimeField(default=None, null=True)
     acquired = models.DateTimeField(default=None, null=True)
     # bad: doesn't support regression
+
+    def validate(self):
+        def recursivly_validate_student_skills(student_skill):
+            student_skill.acquired = datetime.now()
+            student_skill.save()
+
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all()):
+                recursivly_validate_student_skills(sub_student_skill)
+
+        recursivly_validate_student_skills(self)

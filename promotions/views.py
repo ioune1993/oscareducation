@@ -98,16 +98,9 @@ def regenerate_student_password(request):
 @require_POST
 @user_is_professor
 def validate_student_skill(request, student_skill):
-    def recursivly_validate_student_skills(student_skill):
-        student_skill.acquired = datetime.now()
-        student_skill.save()
-
-        for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all()):
-            recursivly_validate_student_skills(sub_student_skill)
-
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
-    recursivly_validate_student_skills(student_skill)
+    student_skill.validate()
 
     return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
 
