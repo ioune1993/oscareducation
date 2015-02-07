@@ -66,6 +66,11 @@ class Answer(models.Model):
                 skill=student_skill.skill,
                 test=self.test_student.test,
             )
+
+            # protection to avoid creating too much answers
+            if Answer.objects.filter(test_student=self.test_student, test_exercice=test_exercice).exists():
+                return
+
             Answer.objects.create(
                 automatic=True,
                 test_student=self.test_student,
@@ -91,6 +96,10 @@ class Answer(models.Model):
             else:
                 assert test_exercice.count() == 1
                 test_exercice = test_exercice[0]
+
+            # protection to avoid creating too much answers
+            if Answer.objects.filter(test_student=self.test_student, test_exercice=test_exercice).exists():
+                return
 
             Answer.objects.create(
                 automatic=True,
