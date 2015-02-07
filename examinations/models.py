@@ -42,7 +42,7 @@ class TestStudent(models.Model):
 
 
 class Answer(models.Model):
-    raw_answer = models.TextField()  # let's store json
+    raw_answer = models.TextField(null=True, blank=True)  # let's store json
 
     # we might no know the answer if we want the teacher to correct the test by
     # hand
