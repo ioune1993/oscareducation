@@ -134,7 +134,7 @@ def lesson_tests_and_skills(request, lesson_id):
 
     return HttpResponse(json.dumps({
         "tests": [{"name": x.name, "skills": list(x.skills.all().values("code"))} for x in lesson.test_set.all()],
-        "skills": [x for x in Skill.objects.annotate(num_depends=Count('depends_on')).filter(num_depends__gt=0).values("id", "code", "name")],
+        "skills": [x for x in Skill.objects.annotate(num_depends=Count('depends_on')).filter(num_depends__gt=0).values("id", "code", "name").order_by('-code')],
     }, indent=4))
 
 
