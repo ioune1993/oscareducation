@@ -1,7 +1,7 @@
 from django.db import models
 
 from promotions.models import Lesson
-from skills.models import Skill
+from skills.models import Skill, StudentSkill
 
 
 class Test(models.Model):
@@ -55,3 +55,48 @@ class Answer(models.Model):
     test_exercice = models.ForeignKey(TestExercice)
 
     answer_datetime = models.DateTimeField(auto_now_add=True)
+
+    def create_other_valide_answers(self):
+        def add_correct_answer_to_skill(student_skill):
+            # don't re-add an answer for myself
+            if student_skill.skill == self.test_exercice.skill:
+                return
+
+            test_exercice = TestExercice.objects.get(
+                skill=student_skill.skill,
+                test=self.test_student.test,
+            )
+            Answer.objects.create(
+                automatic=True,
+                test_student=self.test_student,
+                test_exercice=test_exercice,
+                correct=True,
+            )
+
+        StudentSkill.objects.get(student=self.test_student.student, skill=self.test_exercice.skill).go_down_visitor(add_correct_answer_to_skill)
+
+    def create_other_invalide_answers(self):
+        def add_incorrect_answer_to_student_skill(student_skill):
+            # don't re-add an answer for myself
+            if student_skill.skill == self.test_exercice.skill:
+                return
+
+            test_exercice = TestExercice.objects.filter(
+                skill=student_skill.skill,
+                test=self.test_student.test,
+            )
+
+            if not test_exercice.exists():
+                return
+            else:
+                assert test_exercice.count() == 1
+                test_exercice = test_exercice[0]
+
+            Answer.objects.create(
+                automatic=True,
+                test_student=self.test_student,
+                test_exercice=test_exercice,
+                correct=False,
+            )
+
+        StudentSkill.objects.get(student=self.test_student.student, skill=self.test_exercice.skill).go_up_visitor(add_incorrect_answer_to_student_skill)
