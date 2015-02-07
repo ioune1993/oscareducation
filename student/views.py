@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 
@@ -30,15 +30,26 @@ def pass_test(request, pk):
             "test_student": test_student,
         })
 
-    # check if POST
-    # if POST -> answer check, validate question(s), update answers to TestExercice, update student skills, then redirect to self
-    # else
-    # get all TestExercice concerne by test
-    # get all answers
-    # remove TestExercice that are already validated
-    # take next TestExercice to test
-    # get its exercice (if not, try to create one)
-    # give exercice to student
+    if request.method == "POST":
+        # if POST -> answer check, validate question(s), update answers to TestExercice, update student skills, then redirect to self
+        return HttpResponse("answer")
+
+
+    # the order_by here is used to make the order of the exercices deterministics
+    # so each student will have the exercices in the same order
+    next_not_answered_test_exercice = test_student.test.testexercice_set.exclude(id__in=test_student.answer_set.all()).order_by('created_at').first()
+
+    if next_not_answered_test_exercice is None:
+        # TODO validate test
+        pass
+
+    if next_not_answered_test_exercice.exercice is None:
+        # TODO try to grab an exercice
+        pass
+
+    return render(request, "examinations/take_exercice.haml", {
+        "test_exercice": next_not_answered_test_exercice,
+    })
 
 
 @require_POST
