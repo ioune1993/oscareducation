@@ -48,6 +48,9 @@ class Answer(models.Model):
     # hand
     correct = models.NullBooleanField()
 
+    # if the answer is generated because the top skill was ok
+    automatic = models.BooleanField(default=False)
+
     test_student = models.ForeignKey(TestStudent)
     test_exercice = models.ForeignKey(TestExercice)
 
