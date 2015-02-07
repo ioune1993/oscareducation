@@ -48,3 +48,8 @@ class StudentSkill(models.Model):
                 recursivly_unalidate_student_skills(sub_student_skill)
 
         recursivly_unalidate_student_skills(self)
+
+    def default(self):
+        self.acquired = None
+        self.tested = None
+        self.save()
