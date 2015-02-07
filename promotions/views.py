@@ -108,19 +108,9 @@ def validate_student_skill(request, student_skill):
 @require_POST
 @user_is_professor
 def unvalidate_student_skill(request, student_skill):
-    def recursivly_unalidate_student_skills(student_skill):
-        student_skill.acquired = None
-        student_skill.tested = datetime.now()
-        student_skill.save()
-
-        for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.skill_set.all()):
-            recursivly_unalidate_student_skills(sub_student_skill)
-
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
-    recursivly_unalidate_student_skills(student_skill)
-
-    student_skill.save()
+    student_skill.unvalidate()
 
     return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
 
