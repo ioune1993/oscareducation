@@ -29,20 +29,30 @@ class StudentSkill(models.Model):
     # bad: doesn't support regression
 
     def go_down_visitor(self, function):
+        # protective code against loops in skill tree
+        already_done = set()
+
         def traverse(student_skill):
             function(student_skill)
 
             for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all()):
-                traverse(sub_student_skill)
+                if sub_student_skill.id not in already_done:
+                    already_done.add(sub_student_skill.id)
+                    traverse(sub_student_skill)
 
         traverse(self)
 
     def go_up_visitor(self, function):
+        # protective code against loops in skill tree
+        already_done = set()
+
         def traverse(student_skill):
             function(student_skill)
 
             for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.skill_set.all()):
-                traverse(sub_student_skill)
+                if sub_student_skill.id not in already_done:
+                    already_done.add(sub_student_skill.id)
+                    traverse(sub_student_skill)
 
         traverse(self)
 
