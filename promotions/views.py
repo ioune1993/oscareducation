@@ -1,7 +1,5 @@
 import json
 
-from datetime import datetime
-
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
