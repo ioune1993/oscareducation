@@ -6,3 +6,4 @@ git+https://github.com/tomchristie/django-pdb
 hamlpy
 werkzeug
 pyyaml
+yamlordereddictloader
