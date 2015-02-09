@@ -1,0 +1,7 @@
+"Combien y'a-t-il de triangles pour 4 carrés ? Complète la case suivante avec un nombre":
+
+  type: "text"
+
+  answers:
+
+  - "7"

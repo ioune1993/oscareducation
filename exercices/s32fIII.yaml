@@ -1,0 +1,19 @@
+"A =": 
+  type: "text"
+  answers:
+  - "15"
+
+"B =":
+  type: "text"
+  answers:
+  - "100"
+
+"C =":
+  type: "text"
+  answers:
+  - "40"
+
+"D =":
+  type: "text"
+  answers:
+  - "200"
