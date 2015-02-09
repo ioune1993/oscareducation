@@ -1,0 +1,18 @@
+-extends "base.haml"
+
+-block content
+  -if not test_exercice.exercice
+    %h1 Test de la compétence {{ test_exercice.skill.code }} mais nous n'avons pas encore d'exercice
+    %hr
+
+    %center
+      %form{method: "POST"}
+        -csrf_token
+        %button.btn.btn-success.btn-lg{type: "submit", name: "value", value: "validate"}
+          Marquer la compétence comme maitrisé
+
+        %button.btn.btn-danger.btn-lg{type: "submit", name: "value", value: "unvalidate"}
+          Marquer la compétence comme à apprendre
+
+  -else
+    %h1 Shouldn't appear for now
