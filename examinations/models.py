@@ -18,7 +18,7 @@ class Test(models.Model):
 
 
 class Exercice(models.Model):
-    content = models.TextField()
+    content = models.TextField(null=True, blank=True)
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
 
