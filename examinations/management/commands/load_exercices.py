@@ -29,7 +29,7 @@ class Command(BaseCommand):
 
             exercice.skill = skill
             exercice.answer = open("exercices/" + i).read()
-            exercice.content = open("exercices/" + file_name + ".html") if os.path.exists("exercices/" + file_name + ".html") else None,
+            exercice.content = open("exercices/" + file_name + ".html").read() if os.path.exists("exercices/" + file_name + ".html") else None
 
             exercice.save()
 
