@@ -26,6 +26,9 @@ class Exercice(models.Model):
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
 
+    def __unicode__(self):
+        return "on %s" % self.skill.code
+
     def get_questions(self):
         for number, (key, value) in enumerate(yaml.load(self.answer, Loader=yamlordereddictloader.Loader).items()):
             value["id"] = str(number)
