@@ -1,3 +1,5 @@
+import random
+
 from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
@@ -7,7 +9,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.db import transaction
 
-from examinations.models import TestStudent, Answer, TestExercice
+from examinations.models import TestStudent, Answer, TestExercice, Exercice
 from skills.models import StudentSkill
 
 from utils import user_is_student
@@ -54,9 +56,12 @@ def pass_test(request, pk):
             "test_student": test_student
         })
 
-    if next_not_answered_test_exercice.exercice is None:
-        # TODO try to grab an exercice
-        pass
+    if next_not_answered_test_exercice.exercice is None and next_not_answered_test_exercice.skill.exercice_set.all().exists():
+        with transaction.atomic():
+            count = next_not_answered_test_exercice.skill.exercice_set.count()
+            exercice = next_not_answered_test_exercice.skill.exercice_set.all()[random.choice(range(count))]
+            next_not_answered_test_exercice.exercice = exercice
+            next_not_answered_test_exercice.save()
 
     return render(request, "examinations/take_exercice.haml", {
         "test_exercice": next_not_answered_test_exercice,
