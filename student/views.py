@@ -1,3 +1,4 @@
+import json
 import random
 
 from datetime import datetime
@@ -74,8 +75,8 @@ def validate_exercice(request, test_student, test_exercice):
         raw_answer = None
 
     else:
-        # TODO check exercice is correct
-        pass
+        is_correct = test_exercice.exercice.is_valid(request.POST)
+        raw_answer = json.dumps(filter(lambda x: x[0].isdigit(), request.POST.items()), indent=4)
 
     with transaction.atomic():
         answer = Answer.objects.create(

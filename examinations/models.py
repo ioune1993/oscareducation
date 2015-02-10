@@ -28,9 +28,16 @@ class Exercice(models.Model):
 
     def get_questions(self):
         for number, (key, value) in enumerate(yaml.load(self.answer, Loader=yamlordereddictloader.Loader).items()):
-            value["id"] = number
+            value["id"] = str(number)
             yield (key, value)
 
+    def is_valid(self, answers):
+        for key, value in self.get_questions():
+            answer = answers.get(value["id"])
+            if not answer in value["answers"]:
+                return False
+
+        return True
 
 class TestExercice(models.Model):
     test = models.ForeignKey(Test)
