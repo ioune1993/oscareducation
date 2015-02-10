@@ -21,3 +21,11 @@
     -if test_exercice.exercice.content
       .well
         =test_exercice.exercice.content|safe
+
+    %form{method: "POST"}
+      -for label, question in test_exercice.exercice.get_questions
+        .form-group
+          %label{for: "{{ question.id }}"}= label
+          %input.form-control{id: "{{ question.id }}"}
+
+      %input.btn.btn-primary{type: "submit", value: "Répondre"}

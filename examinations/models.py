@@ -1,3 +1,6 @@
+import yaml
+import yamlordereddictloader
+
 from django.db import models
 
 from promotions.models import Lesson
@@ -22,6 +25,11 @@ class Exercice(models.Model):
     content = models.TextField(null=True, blank=True)
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
+
+    def get_questions(self):
+        for number, (key, value) in enumerate(yaml.load(self.answer, Loader=yamlordereddictloader.Loader).items()):
+            value["id"] = number
+            yield (key, value)
 
 
 class TestExercice(models.Model):
