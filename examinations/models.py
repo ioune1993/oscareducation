@@ -48,6 +48,9 @@ class TestExercice(models.Model):
     skill = models.ForeignKey(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return "on test %s on skill %s" % (self.test.name, self.skill.code)
+
 
 class TestStudent(models.Model):
     student = models.ForeignKey("promotions.Student")
