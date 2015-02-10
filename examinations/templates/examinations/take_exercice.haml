@@ -15,4 +15,9 @@
           Marquer la compétence comme à apprendre
 
   -else
-    %h1 Shouldn't appear for now
+    %h1 Exercice
+    %hr
+
+    -if test_exercice.exercice.content
+      .well
+        =test_exercice.exercice.content|safe
