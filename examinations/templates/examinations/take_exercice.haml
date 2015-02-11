@@ -24,9 +24,19 @@
 
     %form{method: "POST"}
       -csrf_token
-      -for label, question in test_exercice.exercice.get_questions
+      -for label, question in test_exercice.exercice.get_questions.items
         .form-group
-          %label{for: "{{ question.id }}"}= label
-          %input.form-control{id: "{{ question.id }}", name: "{{ question.id }}"}
+          %label{for: "{{ forloop.counter0 }}"}= label
+          -if question.type == "text"
+            %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
+          -elif question.type == "radio"
+            -with name=forloop.counter0
+              -for option in question.answers
+                .radio
+                  %label
+                    %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
+                    =option
+          -else
+            =question.type
 
       %input.btn.btn-primary{type: "submit", value: "Répondre"}

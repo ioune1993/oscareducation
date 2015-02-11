@@ -30,15 +30,19 @@ class Exercice(models.Model):
         return "on %s" % self.skill.code
 
     def get_questions(self):
-        for number, (key, value) in enumerate(yaml.load(self.answer, Loader=yamlordereddictloader.Loader).items()):
-            value["id"] = str(number)
-            yield (key, value)
+        return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
 
     def is_valid(self, answers):
-        for key, value in self.get_questions():
-            answer = answers.get(value["id"])
-            if not answer in value["answers"]:
-                return False
+        for number, (key, value) in enumerate(self.get_questions().items()):
+            answer = answers.get(str(number))
+            if value["type"] == "text":
+                if not answer in value["answers"]:
+                    return False
+            elif value["type"] == "radio":
+                if not value["answers"].values()[int(answers[str(number)])]:
+                    return False
+            else:
+                assert False
 
         return True
 
