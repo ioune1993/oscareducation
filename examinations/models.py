@@ -69,6 +69,17 @@ class TestStudent(models.Model):
     class Meta:
         ordering = ['test__created_at']
 
+    def get_state(self):
+        if not self.started_at:
+            return "not started"
+        elif not self.finished_at:
+            return "started"
+        else:
+            return "finished"
+
+    def __unicode__(self):
+        return "on %s (%s)" % (self.student, self.get_state())
+
 
 class Answer(models.Model):
     raw_answer = models.TextField(null=True, blank=True)  # let's store json
