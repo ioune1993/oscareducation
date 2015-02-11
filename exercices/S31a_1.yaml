@@ -3,43 +3,37 @@
   type: "radio"
 
   answers :
-  - "m": true
-  - "kg": false
-  - "l": false
-  - "sec": false
+    "m": true
+    "kg": false
+    "l": false
+    "sec": false
 
 "Un pain carré pèse environ 800...":
 
   type: "radio"
 
   answers :
-  - "l": false
-  - "m": false
-  - "g": true
-  - "min": false
+    "l": false
+    "m": false
+    "g": true
+    "min": false
 
 "Le journal télévisé dure environ 30...":
 
   type: "radio"
 
   answers :
-  - "sec": false
-  - "h": false
-  - "min": true
-  - "m": false
+    "sec": false
+    "h": false
+    "min": true
+    "m": false
 
 "Une canette de limonade remplie contient environ 33...":
 
   type: "radio"
 
   answers :
-  - "kg": false
-  - "m": false
-  - "l": false
-  - "cl": true
-
-
-
-
-
-
+    "kg": false
+    "m": false
+    "l": false
+    "cl": true

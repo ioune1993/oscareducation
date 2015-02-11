@@ -4,14 +4,14 @@
 
   answers:
 
-  - "5": true
-  - "12": false
-  - "9": false
-  - "13": true
-  - "7": true
-  - "31": true
-  - "38": false
-  - "52": false
+    "5": true
+    "12": false
+    "9": false
+    "13": true
+    "7": true
+    "31": true
+    "38": false
+    "52": false
 
 "Décompose le nombre 23 en nombre premier":
 
@@ -19,7 +19,7 @@
 
   answers:
 
-  - "5+3+11+7": false
-  - "2+3+7+11": true
-  - "2+4+6+11": false
-  - "2+10+11": false
+    "5+3+11+7": false
+    "2+3+7+11": true
+    "2+4+6+11": false
+    "2+10+11": false
