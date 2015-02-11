@@ -48,6 +48,13 @@
         %li
           %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
 
+    %h2 A passé les tests suivants:
+
+    %ul
+      -for test_student in student.teststudent_set.all
+        %li
+          =test_student.test.name
+
     %h2
       %a{name: "skills"}
       Empreinte:
