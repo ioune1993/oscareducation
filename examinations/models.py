@@ -66,6 +66,9 @@ class TestStudent(models.Model):
     started_at = models.DateTimeField(null=True)
     finished_at = models.DateTimeField(null=True)
 
+    class Meta:
+        ordering = ['test__created_at']
+
 
 class Answer(models.Model):
     raw_answer = models.TextField(null=True, blank=True)  # let's store json
