@@ -32,9 +32,9 @@
             {{ dependance.code }}: {{ dependance.name }}
   -else
     %p
-      Cette compétence n'a pas de pré-requis.
+      Cette compétence n'a pas de prérequis.
 
-  %h2 Est un pré-requis de:
+  %h2 Est un prérequis de:
 
   -if skill.skill_set.all
     %ul
@@ -44,4 +44,4 @@
             {{ dependance.code }}: {{ dependance.name }}
   -else
     %p
-      Cette compétence n'est un pré-requis pour aucune autre compétence.
+      Cette compétence n'est un prérequis pour aucune autre compétence.
