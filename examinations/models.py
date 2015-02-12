@@ -41,7 +41,7 @@ class Exercice(models.Model):
                 if not answer in value["answers"]:
                     return False
             elif value["type"] == "radio":
-                if not value["answers"].values()[int(answers[str(number)])]:
+                if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
                     return False
             elif value["type"] == "checkbox":
                 checkbox_answers = answers.getlist(str(number))
