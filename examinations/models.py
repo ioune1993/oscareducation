@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 import yaml
 import yamlordereddictloader
 
@@ -71,11 +73,11 @@ class TestStudent(models.Model):
 
     def get_state(self):
         if not self.started_at:
-            return "not started"
+            return "pas encore commencé"
         elif not self.finished_at:
-            return "started"
+            return "commencé"
         else:
-            return "finished"
+            return "fini"
 
     def __unicode__(self):
         return "on %s (%s)" % (self.student, self.get_state())

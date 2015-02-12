@@ -27,7 +27,7 @@
     %ul
       %li Nom d'utilisateur:
         =student.user.username
-      %li Email:
+      %li Courriel:
         =student.get_email
 
     %h2 authentification de l'élève
@@ -35,13 +35,13 @@
     %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
       %form{ng-submit: "askForNewPassword()"}
         %p{ng-hide: "!password"}
-          Nouveau mot de passe:
+          Générer un nouveau mot de passe pour cet élève:
           %span.label.label-default
             {& password &}
 
         %input.btn.btn-primary{type: "submit", value: "Regenerer un nouveau mot de passe pour cet élève"}
 
-    %h2 Suit les cours suivants:
+    %h2 Est dans la classe:
 
     %ul
       -for lesson in student.lesson_set.all
