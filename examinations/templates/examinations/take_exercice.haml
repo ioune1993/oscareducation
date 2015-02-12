@@ -36,6 +36,13 @@
                   %label
                     %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
                     =option
+          -elif question.type == "checkbox"
+            -with name=forloop.counter0
+              -for option in question.answers
+                .radio
+                  %label
+                    %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
+                    =option
           -else
             =question.type
 

@@ -43,6 +43,13 @@ class Exercice(models.Model):
             elif value["type"] == "radio":
                 if not value["answers"].values()[int(answers[str(number)])]:
                     return False
+            elif value["type"] == "checkbox":
+                checkbox_answers = answers.getlist(str(number))
+                for checkbox_number, is_correct in enumerate(value["answers"].values()):
+                    if is_correct and str(checkbox_number) not in checkbox_answers:
+                        return False
+                    if not is_correct and str(checkbox_number) in checkbox_answers:
+                        return False
             else:
                 assert False
 
