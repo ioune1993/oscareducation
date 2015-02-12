@@ -2,11 +2,11 @@
 
   type: "checkbox"
   answers:
-    "12 x 13": true
-    "156 x 12": false
-    "156 x 13": false
+    "12 * 13": true
+    "156 * 12": false
+    "156 * 13": false
 
-"834   655 = 179":
+"834 - 655 = 179":
   type: "checkbox"
   answers:
     "655 + 834": false

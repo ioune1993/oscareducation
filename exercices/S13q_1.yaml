@@ -1,0 +1,11 @@
+"A*B+C+D = ":
+  type: "text"
+  answers:
+  - "12,25"
+  - "12.25"
+
+"A*(B+C) + D":
+  type: "text"
+  answers:
+  - "13,75"
+  - "13.75"

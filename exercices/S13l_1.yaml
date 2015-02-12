@@ -1,0 +1,17 @@
+"3+3/3+3":
+  type: "text"
+  answers:
+  - "7"
+
+"6/6+2*0+2":
+  type: "text"
+  answers:
+  - "3"
+
+"3-4-1/2+2":
+  type: "text"
+  answers:
+  - "0,5"
+  - "0.5"
+
+

@@ -1,6 +1,6 @@
 "Coche l/les opération(s) dont le résultat est correct : ":
   type: "checkbox"
   answers:
-    "23586,32 + 36528 = 60112.32": false
-    "2578 x 6956 = 17932568": true
+    "23586,32 + 36528 = 60112,32": false
+    "2578 * 6956 = 17932568": true
     "5869,36 : 27,2 = 215,7": true

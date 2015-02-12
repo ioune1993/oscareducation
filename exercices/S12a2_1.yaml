@@ -1,0 +1,33 @@
+"0,4 + ....":
+
+  type: "text"
+
+  answers:
+
+  - "0,6"
+
+"4* ... ":
+
+  type: "text"
+
+  answers:
+
+  - "0,25"
+  - "1/4"
+
+"0,2* ... ":
+
+  type: "text"
+
+  answers:
+
+  - "5"
+
+"0,624 + ... ":
+
+
+  type: "text"
+
+  answers:
+
+  - "0,376"

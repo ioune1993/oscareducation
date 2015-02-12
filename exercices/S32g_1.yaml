@@ -1,0 +1,6 @@
+"Le tableau .... est un tableau de proportionnalité.":
+  type: "radio"
+  answers:
+    "1": false
+    "2": false
+    "3": true

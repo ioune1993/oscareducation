@@ -1,0 +1,19 @@
+"x+20 = 38":
+  type: "text"
+  answers:
+  - "18"
+
+"x * 5 = 20":
+  type: "text"
+  answers:
+  - "4"
+
+"(x+2)*5 = 20":
+  type: "text"
+  answers:
+  - "2"
+
+"3+x/5 = 23":
+  type: "text"
+  answers:
+  - "4"

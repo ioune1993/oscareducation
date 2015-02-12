@@ -5,7 +5,7 @@
     "Calculatrice": true
     "Calcul écrit": false
 
-"18,08 x 100":
+"18,08 * 100":
   type: "radio"
   answers:
     "Calcul mental": true
