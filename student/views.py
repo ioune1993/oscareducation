@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.db import transaction
 
-from examinations.models import TestStudent, Answer, TestExercice, Exercice
+from examinations.models import TestStudent, Answer, TestExercice
 from skills.models import StudentSkill
 
 from utils import user_is_student
