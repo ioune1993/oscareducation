@@ -25,7 +25,7 @@ class Student(models.Model):
 
 
 class Lesson(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField("Nom", max_length=255)
     students = models.ManyToManyField(Student, null=True, blank=True)
     professors = models.ManyToManyField(Professor, null=True, blank=True)
 
