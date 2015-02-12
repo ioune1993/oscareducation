@@ -1,0 +1,6 @@
+"Ecris ce problème sous forme mathématique où x represente le nombre d'orange que Paul a":
+  type: "text"
+  answers:
+  - "x-2=46"
+  - "x - 2 = 46"
+

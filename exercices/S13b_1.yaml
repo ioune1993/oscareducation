@@ -1,0 +1,37 @@
+"8005 - 5950,4":
+
+  type: "radio"
+  answers:
+    "environ 3900": false
+    "environ 6000": false
+    "environ 2000": true
+    "environ 1200": false
+
+"1293 x 3":
+
+  type: "radio"
+  answers:
+    "environ 3900": true
+    "environ 6000": false
+    "environ 2000": false
+    "environ 1200": false
+
+"23000 : 4":
+
+
+  type: "radio"
+  answers:
+    "environ 3900": false
+    "environ 6000": true
+    "environ 2000": false
+    "environ 1200": false
+
+"492,3 + 708,05":
+
+
+  type: "radio"
+  answers:
+    "environ 3900": false
+    "environ 6000": false
+    "environ 2000": true
+    "environ 1200": false

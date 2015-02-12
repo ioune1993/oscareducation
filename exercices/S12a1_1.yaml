@@ -1,0 +1,20 @@
+"Choisis la bonne proposition":
+
+  type: "radio"
+
+  answers:
+    "une boite de 4, de 6, de 10, de 12": false
+    "trois boites de 4 et deux boites de 12": false
+    "une boite de 4, de 6, de 8 et de 12": true
+    "2 boites de 10 et une boîte de 4": false
+
+"Ecris le calcul (par exemple 2+9+11) correspondant à la bonne proposition précedente":
+
+  type: "text"
+
+  answers:
+  - "4+6+8+12"
+  - "4+6+12+8"
+  - "4+12+6+8"
+
+

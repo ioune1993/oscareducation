@@ -1,0 +1,23 @@
+"A = ":
+  type: "text"
+  answers:
+  - "4,5"
+  - "4.5"
+
+"B = ":
+  type: "text"
+  answers:
+  - "0,35"
+  - "0.35"
+
+"C = ":
+  type: "text"
+  answers:
+  - "6,7"
+  - "6.7"
+
+"D = ":
+  type: "text"
+  answers:
+  - "11,6"
+  - "11.6"

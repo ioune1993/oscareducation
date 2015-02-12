@@ -23,7 +23,7 @@ class Command(BaseCommand):
             skill_code = real_name.split(".")[0].split("_")[0]
 
             if Exercice.objects.filter(file_name=file_name).exists():
-                print "updating", file_name, "..."
+                print "updating", file_name, "...", os.path.exists("exercices/" + file_name + ".html")
                 exercice = Exercice.objects.get(file_name=file_name)
             else:
                 print "importing", file_name, "..."

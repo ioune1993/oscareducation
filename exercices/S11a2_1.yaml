@@ -1,0 +1,7 @@
+"Combien y-a-t-il de chaises?":
+
+  type: "text"
+
+  answers:
+  - "64"
+

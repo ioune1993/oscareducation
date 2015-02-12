@@ -1,0 +1,8 @@
+"52 x 15":
+
+  type: "checkbox"
+  answers:
+    "(52 x 20) - (52 x 5)": true
+    "(52 x 10) + (52 x 5)": true
+    "((52 x 3) x 5)": true
+    "((52 x 10) + 5)": false

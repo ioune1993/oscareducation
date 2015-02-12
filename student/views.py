@@ -78,6 +78,8 @@ def validate_exercice(request, test_student, test_exercice):
         is_correct = test_exercice.exercice.is_valid(request.POST)
         raw_answer = json.dumps(filter(lambda x: x[0].isdigit(), request.POST.items()), indent=4)
 
+    print is_correct
+
     with transaction.atomic():
         answer = Answer.objects.create(
             correct=is_correct,

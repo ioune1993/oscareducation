@@ -1,0 +1,32 @@
+"475,6 x 6,7":
+
+  type: "text"
+  answers:
+  - "3186,52"
+  - "3186.52"
+
+"161,31 : 19 (jusqu'au centième)":
+
+  type: "text"
+  answers:
+  - "8.49"
+
+"0.001 x 100":
+
+  type: "text"
+  answers:
+  - "0.1"
+  - "0,1"
+
+"Martine et Tatiana ont la même somme d'argent. Martine donne 8€ à Tatiana. Combien d'euros Tatiana a-t-elle en plus que Martine ?":
+
+  type: "text"
+  answers:
+  - "16"
+  - "16€"
+  - "16 euro"
+  - "16euro"
+  - "16euros"
+  - "16 euros"
+  - "16 €"
+

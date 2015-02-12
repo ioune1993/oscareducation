@@ -1,0 +1,36 @@
+"6+13*6/5+2":
+  type: "text"
+  answers:
+  - "23,6"
+
+?
+  >
+  <!-- begin MathToWeb -->
+  <!-- (your LaTeX) $\frac{7+\frac{2}{7}}{3,1249 + 2*2,3}$ -->
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+  <mrow>
+    <mfrac linethickness="1">
+      <mrow>
+        <mn>7</mn>
+        <mo>+</mo>
+        <mfrac linethickness="1">
+          <mn>2</mn>
+          <mn>7</mn>
+        </mfrac>
+      </mrow>
+      <mrow>
+        <mn>3,1249</mn>
+        <mo>+</mo>
+        <mn>2</mn>
+        <mo>*</mo>
+        <mn>2,3</mn>
+      </mrow>
+    </mfrac>
+  </mrow>
+  </math>
+  <!-- end MathToWeb -->
+:
+  type: "text"
+  answers:
+  - "0,94"
+  - "0.94"

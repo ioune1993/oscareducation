@@ -1,0 +1,20 @@
+"3839,76 : 48,57":
+  type: "radio"
+  answers:
+    "Calcul mental": false
+    "Calculatrice": true
+    "Calcul écrit": false
+
+"18,08 x 100":
+  type: "radio"
+  answers:
+    "Calcul mental": true
+    "Calculatrice": false
+    "Calcul écrit": false
+
+"3859+8463+3788":
+  type: "radio"
+  answers:
+    "Calcul mental": false
+    "Calculatrice": false
+    "Calcul écrit": true

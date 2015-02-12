@@ -1,0 +1,31 @@
+"Tous les nombres pais sont divisibles par 4":
+
+  type: "radio"
+
+  answers:
+    "Vrai": false
+    "Faux": true
+
+"Tous les nombres divisibles par 4 sont aussi divisibles par 8.":
+
+  type: "radio"
+
+  answers:
+    "Vrai": false
+    "Faux": true
+
+"Tous les nombres divisibles par 6 sont aussi divisibles par 3.":
+
+  type: "radio"
+
+  answers:
+    "Vrai": true
+    "Faux": false
+
+"Tous les nombres divisibles par 9 ne divisibles que par 9.":
+
+  type: "radio"
+
+  answers:
+    "Vrai": false
+    "Faux": true

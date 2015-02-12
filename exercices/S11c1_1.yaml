@@ -1,0 +1,8 @@
+"Parmi ceux-ci, écris le nom de l'article dont le prix se situe entre 15€ et 25€":
+
+  type: "text"
+
+  answers:
+  - "Tshirt"
+  - "22"
+  - "22€"

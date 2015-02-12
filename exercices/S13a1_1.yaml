@@ -1,0 +1,28 @@
+"On remplace les 4 pneus de 8 voitures. Combien de pneus a-t-on remplacé?":
+
+  type: "text"
+
+  answers:
+  - "8*4"
+  - "4*8"
+
+"8 enfants se trouvent dans un bus. Au premier arrêt, 4 enfants descendent du bus. Combien reste-t-il d'enfants dans le bus?":
+
+  type: "text"
+
+  answers:
+  - "8-4"
+
+"Dans un autre bus, il y a 8 enfants. A l'arrêt suivant, 4 enfants montent dans ce bus. Combien y a-t-il d'enfants maintenant?":
+
+  type: "text"
+
+  answers:
+  - "8+4"
+
+"Un trajet coûte 4€. A la fin du parcours, le chauffeur a reçu en tout et pour tout 8€. Combien y a-t-il eu de passagers dans le bus ? ":
+
+  type: "text"
+
+  answers:
+  - "8/4"

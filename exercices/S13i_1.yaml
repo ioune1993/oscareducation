@@ -1,0 +1,10 @@
+"Coche la seule solution correcte : ":
+  type: "radio"
+  answers:
+    "(45x71) + 10": true
+    "(10+71)x45": false
+    "(3205:71) - 10": false
+    "45x71": false
+    "(45x71)-10": false
+
+

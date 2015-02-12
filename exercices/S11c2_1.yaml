@@ -1,0 +1,10 @@
+"Choisis la bonne proposition":
+
+  type: "radio"
+
+  answers:
+
+    "35,84 puis 36,2 puis 36,24 puis 36,09 puis 37": false
+    "37 puis 36,2 puis 35,84 puis 36,24 puis 36,09": false
+    "35,84 puis 36,09 puis 36,2 puis 36,24 puis 37": true
+    "37 puis 36,09 puis 36,2 puis 36,24 puis 35,84": false
