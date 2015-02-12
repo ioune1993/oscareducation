@@ -15,10 +15,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for i in filter(lambda x: x.endswith((".yaml", ".yml")), os.listdir("exercices")):
             yaml.load(open("exercices/" + i), Loader=yamlordereddictloader.Loader)
-            skill_code = i.split(".")[0].split("_")[0]
 
-            skill = Skill.objects.get(code__iexact=skill_code)
             file_name = i.split(".")[0]
+
+            real_name = file_name.replace("1_", "I_").replace("2_", "II_").replace("3_", "III_").replace("s", "S")
+
+            skill_code = real_name.split(".")[0].split("_")[0]
 
             if Exercice.objects.filter(file_name=file_name).exists():
                 print "updating", file_name, "..."
@@ -26,6 +28,8 @@ class Command(BaseCommand):
             else:
                 print "importing", file_name, "..."
                 exercice = Exercice(file_name=file_name)
+
+            skill = Skill.objects.get(code__iexact=skill_code)
 
             exercice.skill = skill
             exercice.answer = open("exercices/" + i).read()
