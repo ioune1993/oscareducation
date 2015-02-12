@@ -1,0 +1,141 @@
+<h3>Exploration</h3>
+Un tableau permet de présenter des informations de manière structurée en lignes et colonnes. Le tableau peut contenir du texte et des nombres. Les informations du même type sont placées dans la même colonne (tableau 1) ou dans la même ligne (tableau 2). Pour aider le lecteur à comprendre le contenu du tableau, on ajoute un titre à chaque colonne (1er cas) ou à chaque ligne (2ème cas).
+
+<table class="table-bordered">
+	<tr>
+		<td>Producteur</td>
+		<td>Code postal</td>
+		<td>Fromage</td>
+		<td>Type</td>
+	</tr>
+	<tr>
+		<td>Ferme de la Tourelle</td>
+		<td>1474</td>
+		<td>La Roue du Béguinage</td>
+		<td>Pâte pressée</td>
+	</tr>
+	<tr>
+		<td>Ferme de la Tourelle</td>
+		<td>1474</td>
+		<td>Les Affinés du Bailli</td>
+		<td>Chèvre affiné</td>
+	</tr>
+	<tr>
+		<td>Ferme du Vieux Moulin</td>
+		<td>4651</td>
+		<td>Herve AOP</td>
+		<td>Lait de vache cru</td>
+	</tr>
+</table>
+<div class="center">
+Tableau 1<br>
+</div>
+<br>
+
+<table class="table-bordered">
+	<tr>
+		<td>Producteur</td>
+		<td>Ferme de la Tourelle</td>
+		<td>Ferme de la Tourelle</td>
+		<td>Ferme du Vieux Moulin</td>
+	</tr>
+	<tr>
+		<td>Code postal</td>
+		<td>1474</td>
+		<td>1474</td>
+		<td>4651</td>
+	</tr>
+	<tr>
+		<td>Fromage</td>
+		<td>La Roue du Béguinage</td>
+		<td>Les Affinés du Bailli</td>
+		<td>Herve AOP</td>
+	</tr>
+	<tr>
+		<td>Type</td>
+		<td>Pâte pressée</td>
+		<td>Chèvre affiné</td>
+		<td>Lait de vache cru</td>
+	</tr>
+</table>
+<div class="center">
+Tableau 2<br>
+</div>
+<br>
+<h3>Définition</h3>
+Un tableau de proportionnalité est un tableau contient des nombres, placés sur deux lignes (ou deux colonnes), qui suivent la règle suivante:<br>
+Si les nombres du même type sont disposés sur une ligne, il faut multiplier chacun de ces nombres par un facteur constant pour obtenir les nombres de l'autre ligne.<br>
+Si les nombres du même type sont disposés sur une colonne, il faut multiplier chacun de ces nombres par un facteur constant pour obtenir les nombres de l'autre colonne.
+<br>
+<h3>Exemple</h3>
+Le tableau suivant montre le prix pour 6, 12, 18 et 30 oeufs:
+<table class="table-bordered">
+	<tr>
+		<td>Nombre d'oeufs</td>
+		<td>6</td>
+		<td>12</td>
+		<td>18</td>
+		<td>30</td>
+	</tr>
+	<tr>
+		<td>Prix [€]</td>
+		<td>1,80</td>
+		<td>3,60</td>
+		<td>5,40</td>
+		<td>9,00</td>
+	</tr>
+</table>
+<div class="center">
+Tableau 3<br>
+</div>
+<br>
+Observons la deuxième colonne: 6 oeufs coûtent 1,80 euros. Il faut multiplier 6 par:
+<math xmlns="http://www.w3.org/1998/Math/MathML"1
+      display="inline">
+<mfrac>
+  <mrow>
+    <mn>1,80</mn>
+  </mrow>
+  <mn>6</mn>
+</mfrac>
+  <mo>=</mo>
+  <mn>0,3</mn>
+</math>
+ pour obtenir 1,80 €. Cela revient à dire que chaque oeuf coûte 0,30 € (lorsqu'on en achète 6).
+
+Dans un tableau de proportionnalité, il faut multiplier chaque nombre de la première ligne (ou de la première colonne) par le même nombre (ici: 0,3) pour obtenir le nombre correspondant de la deuxième ligne (ou de la deuxième colonne).<br>
+Observons le tableau 3 et vérifions qu'il s'agit d'un tableau de proportionnalité.<br>
+<math xmlns="http://www.w3.org/1998/Math/MathML"1
+      display="inline">
+  <mrow>
+    <mn>12</mn>
+  	<mo>x</mo>
+    <mn>0,3</mn>
+  	<mo>=</mo>
+  	<mn>3,60</mn>
+  </mrow>
+</math> (ce qui est la valeur indiquée dans la deuxième ligne)<br>
+<math xmlns="http://www.w3.org/1998/Math/MathML"1
+      display="inline">
+  <mrow>
+    <mn>18</mn>
+  	<mo>x</mo>
+    <mn>0,3</mn>
+  	<mo>=</mo>
+  	<mn>5,40</mn>
+  </mrow>
+</math> (ce qui est la valeur indiquée dans la deuxième ligne)<br>
+<math xmlns="http://www.w3.org/1998/Math/MathML"1
+      display="inline">
+  <mrow>
+    <mn>30</mn>
+  	<mo>x</mo>
+    <mn>0,3</mn>
+  	<mo>=</mo>
+  	<mn>9,00</mn>
+  </mrow>
+</math> (ce qui est la valeur indiquée dans la deuxième ligne)<br>
+
+Donc il s'agit d'un tableau de proportionnalité. Le nombre par lequel il faut multiplier les nombres de la première ligne pour obtenir les nombres de la deuxième ligne est appelé coefficient de proportionnalité. Le coefficient de proportionnalité du tableau 3 vaut 0,3.
+<br>
+Voyez la <a href="http://www.youtube.Com/watch?v=Pi7vMhIYx7c" target="_blank">vidéo explicative</a>.
