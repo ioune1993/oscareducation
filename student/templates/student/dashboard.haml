@@ -25,7 +25,7 @@
           </tr><tr>
         %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px; {% if student_skill.acquired %} background-color: green;{% elif student_skill.tested %} background-color: orange;{% endif %}"}
           %a.skill{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}', href: '#'}
-            =student_skill.skill.code
+            %abbr{title: "{{ student_skill.skill.name }}", style: "cursor: default; border: none"}= student_skill.skill.code
 
         -if forloop.last
           </tr>
