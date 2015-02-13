@@ -30,7 +30,7 @@
       %li Courriel:
         =student.get_email
 
-    %h2 authentification de l'élève
+    %h2 Authentification de l'élève
 
     %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
       %form{ng-submit: "askForNewPassword()"}
