@@ -120,5 +120,6 @@ def skill_pedagogic_ressources(request, skill_code):
     skill = get_object_or_404(Skill, code=skill_code)
 
     return render(request, "student/skill_pedagogic_ressources.haml", {
+        "skill": skill,
         "template_url": "skills/ressources/%s.html" % skill.code
     })
