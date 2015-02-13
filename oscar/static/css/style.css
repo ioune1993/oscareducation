@@ -10,3 +10,15 @@
 .navbar-inverse .navbar-nav > li > a {
     color: #787878;
 }
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #F58025;
+    text-decoration: none;
+    background-color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #F58025;
+    text-decoration: none;
+    background-color: white;
+}
