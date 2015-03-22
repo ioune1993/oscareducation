@@ -28,6 +28,9 @@ class StudentSkill(models.Model):
     acquired = models.DateTimeField(default=None, null=True)
     # bad: doesn't support regression
 
+    def __unicode__(self):
+        return "%s - %s - %s" % (self.student, self.skill, "green" if self.acquired else ("orange" if self.tested else "white"))
+
     def go_down_visitor(self, function):
         # protective code against loops in skill tree
         already_done = set()
