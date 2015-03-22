@@ -69,6 +69,7 @@ def pass_test(request, pk):
     })
 
 
+# not a view
 def validate_exercice(request, test_student, test_exercice):
     if test_exercice.exercice is None:
         is_correct = request.POST.get("value") == "validate"
