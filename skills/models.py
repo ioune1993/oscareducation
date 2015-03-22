@@ -38,7 +38,7 @@ class StudentSkill(models.Model):
         def traverse(student_skill):
             function(student_skill)
 
-            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all()):
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all(), student=self.student):
                 if sub_student_skill.id not in already_done:
                     already_done.add(sub_student_skill.id)
                     traverse(sub_student_skill)
@@ -52,7 +52,7 @@ class StudentSkill(models.Model):
         def traverse(student_skill):
             function(student_skill)
 
-            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.skill_set.all()):
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.skill_set.all(), student=self.student):
                 if sub_student_skill.id not in already_done:
                     already_done.add(sub_student_skill.id)
                     traverse(sub_student_skill)
