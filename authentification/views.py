@@ -22,7 +22,7 @@ from django.contrib.sites.shortcuts import get_current_site
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
-def login(request, template_name='login.haml',
+def login(request, template_name='registration/login.haml',
           redirect_field_name=REDIRECT_FIELD_NAME,
           authentication_form=AuthenticationForm,
           current_app=None, extra_context=None):
