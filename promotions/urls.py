@@ -20,5 +20,5 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', 'lesson_tests_and_skills', name='lesson_tests_and_skills'),
     url(r'^add_test_for_lesson/$', 'add_test_for_lesson', name='add_test_for_lesson'),
 
-    url(r'^exercices/$', ListView.as_view(model=Exercice, template_name="promotions/exercice_list.haml"), name='professor_exercice_list'),
+    url(r'^exercices/$', ListView.as_view(model=Exercice, template_name="professor/exercice_list.haml"), name='professor_exercice_list'),
 )
