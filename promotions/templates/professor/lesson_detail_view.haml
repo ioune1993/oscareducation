@@ -92,7 +92,7 @@
 
             .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
               %label.control-label{for: "id_email"}
-                Courriel
+                Courriel (optionnel)
               %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email"}
 
               -for error in add_student_form.id_email.errors
