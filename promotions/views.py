@@ -10,7 +10,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test, TestStudent, TestExercice
+from examinations.models import Test, TestStudent, TestExercice, Exercice
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
@@ -181,3 +181,9 @@ def add_test_for_lesson(request):
         test.save()
 
     return HttpResponse("ok")
+
+
+def exercice_list(request):
+    return render(request, 'professor/exercice_list.haml', {
+        "object_list": Exercice.objects.all(),
+    })
