@@ -1,8 +1,13 @@
 -extends "base.haml"
 
 -block content
-  %h1 Exercice sur
+  %h1 Exercice numéro
+    =exercice.pk
+    sur
     =exercice.skill.code
+    %small
+      =exercice.skill.name
+
   %hr
 
   -if exercice.content
