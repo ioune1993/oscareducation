@@ -29,6 +29,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+try:
+    from additional_apps import ADDITIONAL_APPS
+except ImportError:
+    ADDITIONAL_APPS = []
+
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,7 +53,7 @@ INSTALLED_APPS = (
     'planification',
     'examinations',
     'student',
-)
+) + ADDITIONAL_APPS
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
