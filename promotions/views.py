@@ -209,13 +209,14 @@ def students_password_page(request, pk):
 
     students = []
 
-    for student in lesson.students.all():
-        students.append({
-            "last_name": student.user.last_name,
-            "first_name": student.user.first_name,
-            "username": student.user.username,
-            "password": student.generate_new_password(),
-        })
+    with transaction.atomic():
+        for student in lesson.students.all():
+            students.append({
+                "last_name": student.user.last_name,
+                "first_name": student.user.first_name,
+                "username": student.user.username,
+                "password": student.generate_new_password(),
+            })
 
     return render(request, "professor/students_password_page.haml", {
         "students": students
