@@ -27,7 +27,7 @@ def dashboard(request):
         return HttpResponseRedirect(reverse("professor_dashboard"))
 
     return render(request, "professor/dashboard.haml", {
-        "lessons": Lesson.objects.filter(professors=request.user.professor),
+        "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")),
         "add_lesson_form": form,
     })
 

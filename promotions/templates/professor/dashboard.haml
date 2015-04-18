@@ -10,7 +10,12 @@
   %ul
     -for lesson in lessons
       %li
-        %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
+        %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+          =lesson.name
+          -if lesson.students__count
+            \-
+            =lesson.students__count
+            élève{{ lesson.students__count|pluralize }}
 
   %h2 Ajouter une classe:
 
