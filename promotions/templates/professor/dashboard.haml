@@ -17,7 +17,7 @@
             =lesson.students__count
             élève{{ lesson.students__count|pluralize }}
 
-  %h2 Ajouter une classe:
+  %h2 Ajouter une classe :
 
   %form.form{action: "", method: "post"}
     -csrf_token
