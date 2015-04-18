@@ -11,13 +11,13 @@
     };
 
 -block content
-  %h1 Classe :
+  %h2 Classe :
     =lesson.name
 
   .row
     .col-md-6
       %div{ng-app: "oscar", ng-controller: "createTestController"}
-        %h2 Tests :
+        %h3 Tests :
 
         %ul
           %li{ng-repeat: "test in tests"}
@@ -54,7 +54,7 @@
                   Créer le test
 
     .col-md-6
-      %h2 Élèves :
+      %h3 Élèves :
 
       %ul
         -for student in lesson.students.all
