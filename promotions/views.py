@@ -186,5 +186,5 @@ def add_test_for_lesson(request):
 @user_is_professor
 def exercice_list(request):
     return render(request, 'professor/exercice_list.haml', {
-        "exercice_list": Exercice.objects.all(),
+        "exercice_list": Exercice.objects.select_related('skill'),
     })
