@@ -187,4 +187,5 @@ def add_test_for_lesson(request):
 def exercice_list(request):
     return render(request, 'professor/exercice_list.haml', {
         "exercice_list": Exercice.objects.select_related('skill'),
+        "skills_without_exercices": Skill.objects.filter(exercice__isnull=True),
     })

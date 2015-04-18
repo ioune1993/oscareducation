@@ -16,3 +16,12 @@
         %li
           Exercice numéro
           =exercice.id
+
+  %h2 Compétences sans exercices
+
+  %ul
+    -for skill in skills_without_exercices
+      %li
+        =skill.code
+        \-
+        =skill.name
