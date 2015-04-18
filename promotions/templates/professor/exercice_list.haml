@@ -14,8 +14,9 @@
     -for exercice in skill.list
       %ul
         %li
-          Exercice numéro
-          =exercice.id
+          %a{href: "{% url 'professor_exercice_detail' exercice.pk %}"}
+            Exercice numéro
+            =exercice.id
 
   %h2 Compétences sans exercices
 
