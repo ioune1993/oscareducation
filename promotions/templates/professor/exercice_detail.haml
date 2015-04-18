@@ -1,0 +1,32 @@
+-extends "base.haml"
+
+-block content
+  %h1 Exercice sur
+    =exercice.skill.code
+  %hr
+
+  -if exercice.content
+    .well
+      =exercice.content|safe
+
+  -for label, question in exercice.get_questions.items
+    .form-group
+      %label{for: "{{ forloop.counter0 }}"}= label
+      -if question.type == "text"
+        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
+      -elif question.type == "radio"
+        -with name=forloop.counter0
+          -for option in question.answers
+            .radio
+              %label
+                %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
+                =option
+      -elif question.type == "checkbox"
+        -with name=forloop.counter0
+          -for option in question.answers
+            .radio
+              %label
+                %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
+                =option
+      -else
+        =question.type
