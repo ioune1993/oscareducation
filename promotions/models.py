@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from .utils import generate_random_password
+
 
 class AuthUserManager(models.Manager):
     def get_queryset(self):
@@ -31,6 +33,12 @@ class Student(models.Model):
 
     def __unicode__(self):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
+
+    def generate_new_password(self):
+        new_password = generate_random_password(8)
+        self.user.set_password(new_password)
+        self.user.save()
+        return new_password
 
 
 class Lesson(models.Model):
