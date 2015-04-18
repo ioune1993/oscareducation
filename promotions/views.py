@@ -38,6 +38,8 @@ def lesson_detail_view(request, pk):
 
     lesson = get_object_or_404(Lesson, pk=pk)
 
+    # TODO: a professor can only see one of his lesson
+
     if form.is_valid():
         first_name = form.cleaned_data["first_name"]
         last_name = form.cleaned_data["last_name"]
@@ -70,6 +72,8 @@ def lesson_detail_view(request, pk):
 
 @user_is_professor
 def student_detail_view(request, pk):
+    # TODO: a professor can only see one of his students
+
     student = get_object_or_404(Student, pk=pk)
 
     return render(request, "professor/student_detail_view.haml", {
@@ -96,6 +100,8 @@ def regenerate_student_password(request):
 @require_POST
 @user_is_professor
 def validate_student_skill(request, student_skill):
+    # TODO: a professor can only do this on one of his students
+
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
     student_skill.validate()
@@ -106,6 +112,8 @@ def validate_student_skill(request, student_skill):
 @require_POST
 @user_is_professor
 def unvalidate_student_skill(request, student_skill):
+    # TODO: a professor can only do this on one of his students
+
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
     student_skill.unvalidate()
@@ -116,6 +124,8 @@ def unvalidate_student_skill(request, student_skill):
 @require_POST
 @user_is_professor
 def default_student_skill(request, student_skill):
+    # TODO: a professor can only do this on one of his students
+
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
     student_skill.default()
@@ -125,6 +135,8 @@ def default_student_skill(request, student_skill):
 
 @user_is_professor
 def lesson_tests_and_skills(request, lesson_id):
+    # TODO: a professor can only see one of his lesson
+
     lesson = get_object_or_404(Lesson, id=lesson_id)
 
     if request.user.professor not in lesson.professors.all():
@@ -139,6 +151,8 @@ def lesson_tests_and_skills(request, lesson_id):
 @require_POST
 @user_is_professor
 def add_test_for_lesson(request):
+    # TODO: a professor can only do this on one of his lesson
+
     data = json.load(request)
 
     lesson = get_object_or_404(Lesson, id=data["lesson"])
