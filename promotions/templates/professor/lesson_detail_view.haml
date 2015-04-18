@@ -14,75 +14,78 @@
   %h1 Classe:
     =lesson.name
 
-  %div{ng-app: "oscar", ng-controller: "createTestController"}
-    %h2 Tests:
+  .row
+    .col-md-6
+      %div{ng-app: "oscar", ng-controller: "createTestController"}
+        %h2 Tests:
 
-    %ul
-      %li{ng-repeat: "test in tests"}
-        {& test.name &}
-        %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px"}
-          {& skill.code &}
+        %ul
+          %li{ng-repeat: "test in tests"}
+            {& test.name &}
+            %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px"}
+              {& skill.code &}
 
-    %h2 Ajouter un test:
+        %h2 Ajouter un test:
 
-    %form.form
-      %h3 Compétences dont le test testera les prérequis:
-      .form-group
-        %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
-          {& skill &}
+        %form.form
+          %h3 Compétences dont le test testera les prérequis:
+          .form-group
+            %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
+              {& skill &}
 
-      .form-group
-        %select.form-control{ng-model: "currentlySelectedSkill"}
-          %option{ng-repeat: "skill in skills", value: "{& skill.code &}"}
-            {& skill.code &} - {& skill.name &}
+          .form-group
+            %select.form-control{ng-model: "currentlySelectedSkill"}
+              %option{ng-repeat: "skill in skills", value: "{& skill.code &}"}
+                {& skill.code &} - {& skill.name &}
 
-      .form-group
-        %button.btn.btn-primary{ng-click: "addSkillToTest()"}
-          Ajouter cette compétence
+          .form-group
+            %button.btn.btn-primary{ng-click: "addSkillToTest()"}
+              Ajouter cette compétence
 
-      .form-group
-        %label.control-label{for: "test_name"} Nom du test
-        %input#test_name.form-control{type: "text", ng-model: "name", required: ""}
+          .form-group
+            %label.control-label{for: "test_name"} Nom du test
+            %input#test_name.form-control{type: "text", ng-model: "name", required: ""}
 
-      .form-group
-        %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
-          Créer le test
+          .form-group
+            %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
+              Créer le test
 
-  %h2 Élèves:
+    .col-md-6
+      %h2 Élèves:
 
-  %ul
-    -for student in lesson.students.all
-      %li
-        %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+      %ul
+        -for student in lesson.students.all
+          %li
+            %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
 
-  %h2 Ajouter un élève:
+      %h2 Ajouter un élève:
 
-  %form.form{action: "", method: "post"}
-    -csrf_token
+      %form.form{action: "", method: "post"}
+        -csrf_token
 
-    .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
-      %label.control-label{for: "id_first_name"}
-        Prénom
-      %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name"}
-      -for error in add_student_form.id_first_name.errors
-        %span.help-block= error
+        .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
+          %label.control-label{for: "id_first_name"}
+            Prénom
+          %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name"}
+          -for error in add_student_form.id_first_name.errors
+            %span.help-block= error
 
-    .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
-      %label.control-label{for: "id_last_name"}
-        Nom
-      %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name"}
-      -for error in add_student_form.id_last_name.errors
-        %span.help-block= error
+        .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
+          %label.control-label{for: "id_last_name"}
+            Nom
+          %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name"}
+          -for error in add_student_form.id_last_name.errors
+            %span.help-block= error
 
-    .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
-      %label.control-label{for: "id_email"}
-        Courriel
-      %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email"}
+        .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
+          %label.control-label{for: "id_email"}
+            Courriel
+          %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email"}
 
-      -for error in add_student_form.id_email.errors
-        %span.help-block= error
+          -for error in add_student_form.id_email.errors
+            %span.help-block= error
 
-    {% buttons %}
-      %button.btn.btn-primary{type: "submit"}
-        Ajouter
-    {% endbuttons %}
+        {% buttons %}
+          %button.btn.btn-primary{type: "submit"}
+            Ajouter
+        {% endbuttons %}
