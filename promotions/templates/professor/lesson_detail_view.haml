@@ -58,34 +58,37 @@
           %li
             %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
 
-      %h2 Ajouter un élève:
+      .panel.panel-default
+        .panel-heading
+          Ajouter un élève:
 
-      %form.form{action: "", method: "post"}
-        -csrf_token
+        .panel-body
+          %form.form{action: "", method: "post"}
+            -csrf_token
 
-        .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
-          %label.control-label{for: "id_first_name"}
-            Prénom
-          %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name"}
-          -for error in add_student_form.id_first_name.errors
-            %span.help-block= error
+            .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
+              %label.control-label{for: "id_first_name"}
+                Prénom
+              %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name"}
+              -for error in add_student_form.id_first_name.errors
+                %span.help-block= error
 
-        .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
-          %label.control-label{for: "id_last_name"}
-            Nom
-          %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name"}
-          -for error in add_student_form.id_last_name.errors
-            %span.help-block= error
+            .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
+              %label.control-label{for: "id_last_name"}
+                Nom
+              %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name"}
+              -for error in add_student_form.id_last_name.errors
+                %span.help-block= error
 
-        .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
-          %label.control-label{for: "id_email"}
-            Courriel
-          %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email"}
+            .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
+              %label.control-label{for: "id_email"}
+                Courriel
+              %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email"}
 
-          -for error in add_student_form.id_email.errors
-            %span.help-block= error
+              -for error in add_student_form.id_email.errors
+                %span.help-block= error
 
-        {% buttons %}
-          %button.btn.btn-primary{type: "submit"}
-            Ajouter
-        {% endbuttons %}
+            {% buttons %}
+              %button.btn.btn-primary{type: "submit"}
+                Ajouter
+            {% endbuttons %}
