@@ -107,11 +107,15 @@
             {% endbuttons %}
 
 
-      %h3 Options :
+      %h3 Autre :
 
       %ul
         %li
-          %a{href: "{% url 'professor_students_password_page' lesson.pk %}"}
-            Générer une page à imprimer avec les informations de connections pour tous les élèves.
-          %b
-            Attention, cela modifiera le mot de passe de TOUS les élèves.
+          %form{method: "POST", action: "{% url 'professor_students_password_page' lesson.pk %}"}
+            -csrf_token
+            %p
+              Générer une page à imprimer avec les informations de connections pour tous les élèves.
+            %p
+              %b
+                Attention, cela modifiera le mot de passe de TOUS les élèves.
+            %input.btn.btn-danger{type: "submit", value: "Générer"}
