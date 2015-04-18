@@ -4,6 +4,15 @@
   %h2 Exercices list
   %hr
 
-  %ul
-    -for exercice in object_list
-      %li= exercice
+  -regroup object_list by skill as exercices_by_skills
+
+  -for skill in exercices_by_skills
+    %h3
+      =skill.grouper.code
+      %small
+        =skill.grouper.name
+    -for exercice in skill.list
+      %ul
+        %li
+          Exercice numéro
+          =exercice.id
