@@ -24,6 +24,9 @@
             {& test.name &}
             %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px"}
               {& skill.code &}
+          %p{ng-if: "tests.length == 0"}
+            %i
+              Vous n'avez pas encore de tests pour cette classe.
 
         .panel.panel-default
           .panel-heading
