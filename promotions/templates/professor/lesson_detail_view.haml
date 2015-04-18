@@ -63,6 +63,10 @@
         -for student in lesson.students.all
           %li
             %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+        -empty
+          %p
+            %i
+              Vous n'avez pas encore d'élèves dans cette classe.
 
       .panel.panel-default
         .panel-heading
