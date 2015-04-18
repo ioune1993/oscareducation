@@ -183,6 +183,7 @@ def add_test_for_lesson(request):
     return HttpResponse("ok")
 
 
+@user_is_professor
 def exercice_list(request):
     return render(request, 'professor/exercice_list.haml', {
         "object_list": Exercice.objects.all(),
