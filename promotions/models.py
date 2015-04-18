@@ -2,7 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class AuthUserManager(models.Manager):
+    def get_queryset(self):
+        return super(AuthUserManager, self).get_queryset().select_related('user')
+
+
 class Professor(models.Model):
+    objects = AuthUserManager()
+
     user = models.OneToOneField(User)
 
     def __unicode__(self):
@@ -10,6 +17,8 @@ class Professor(models.Model):
 
 
 class Student(models.Model):
+    objects = AuthUserManager()
+
     user = models.OneToOneField(User)
 
     def get_email(self):
