@@ -40,6 +40,9 @@ class Student(models.Model):
         self.user.save()
         return new_password
 
+    class Meta:
+        ordering = ['user__last_name']
+
 
 class Lesson(models.Model):
     name = models.CharField("Nom", max_length=255)
