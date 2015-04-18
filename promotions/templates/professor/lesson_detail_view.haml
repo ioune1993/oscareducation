@@ -25,30 +25,33 @@
             %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px"}
               {& skill.code &}
 
-        %h2 Ajouter un test :
+        .panel.panel-default
+          .panel-heading
+            Ajouter un test
 
-        %form.form
-          %h3 Compétences dont le test testera les prérequis:
-          .form-group
-            %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
-              {& skill &}
+          .panel-body
+            %form.form
+              %h3 Compétences dont le test testera les prérequis:
+              .form-group
+                %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
+                  {& skill &}
 
-          .form-group
-            %select.form-control{ng-model: "currentlySelectedSkill"}
-              %option{ng-repeat: "skill in skills", value: "{& skill.code &}"}
-                {& skill.code &} - {& skill.name &}
+              .form-group
+                %select.form-control{ng-model: "currentlySelectedSkill"}
+                  %option{ng-repeat: "skill in skills", value: "{& skill.code &}"}
+                    {& skill.code &} - {& skill.name &}
 
-          .form-group
-            %button.btn.btn-primary{ng-click: "addSkillToTest()"}
-              Ajouter cette compétence
+              .form-group
+                %button.btn.btn-primary{ng-click: "addSkillToTest()"}
+                  Ajouter cette compétence
 
-          .form-group
-            %label.control-label{for: "test_name"} Nom du test
-            %input#test_name.form-control{type: "text", ng-model: "name", required: ""}
+              .form-group
+                %label.control-label{for: "test_name"} Nom du test
+                %input#test_name.form-control{type: "text", ng-model: "name", required: ""}
 
-          .form-group
-            %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
-              Créer le test
+              .form-group
+                %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
+                  Créer le test
 
     .col-md-6
       %h2 Élèves :
