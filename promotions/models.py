@@ -1,7 +1,6 @@
+import random
 from django.db import models
 from django.contrib.auth.models import User
-
-from .utils import generate_random_password
 
 
 class AuthUserManager(models.Manager):
@@ -35,7 +34,7 @@ class Student(models.Model):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
 
     def generate_new_password(self):
-        new_password = generate_random_password(8)
+        new_password = "%s%s%s" % (self.user.first_name[0].lower(), self.user.last_name[0].lower(), random.randint(100, 999))
         self.user.set_password(new_password)
         self.user.save()
         return new_password
