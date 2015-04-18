@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 try:
     from additional_apps import ADDITIONAL_APPS
 except ImportError:
-    ADDITIONAL_APPS = []
+    ADDITIONAL_APPS = ()
 
 
 INSTALLED_APPS = (
