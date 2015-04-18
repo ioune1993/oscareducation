@@ -203,3 +203,13 @@ def exercice_list(request):
         "exercice_list": Exercice.objects.select_related('skill'),
         "skills_without_exercices": Skill.objects.filter(exercice__isnull=True),
     })
+
+
+@user_is_professor
+def students_password_page(request, pk):
+    # TODO: a professor can only do this on one of his student
+
+    lesson = get_object_or_404(Lesson, pk=pk)
+    return render(request, "professor/students_password_page.haml", {
+        "lesson": lesson
+    })

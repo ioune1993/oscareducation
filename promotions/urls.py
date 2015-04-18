@@ -22,4 +22,6 @@ urlpatterns = patterns('promotions.views',
 
     url(r'^exercices/$', 'exercice_list', name='professor_exercice_list'),
     url(r'^exercices/(?P<pk>\d+)/$', DetailView.as_view(model=Exercice, template_name="professor/exercice_detail.haml"), name='professor_exercice_detail'),
+
+    url(r'^lesson/(?P<pk>\d+)/students_password_page/$', 'students_password_page', name='professor_students_password_page'),
 )
