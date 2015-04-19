@@ -4,6 +4,18 @@
 -load bootstrap3
 
 -block content
+  -if form.errors
+    .alert.alert-danger
+      Le nom d'utilisateur ou le mot de passe saisi est incorrect.
+
+  -if next
+    -if user.is_authenticated
+      .alert.alert-warning
+        Votre compte n'a pas accès à cette page, veuillez vous connecter avec un compte ayant les droits adéquats pour pouvoir la voir.
+    -else
+      .alert.alert-info
+        Veuillez vous connecter pour pouvoir voir cette page.
+
   %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
     -csrf_token
 
