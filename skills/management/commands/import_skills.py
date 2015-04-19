@@ -1,8 +1,8 @@
 import csv
 from django.core.management.base import BaseCommand
 
-
 from skills.models import Skill
+
 
 class Command(BaseCommand):
     args = '<csv file>'
