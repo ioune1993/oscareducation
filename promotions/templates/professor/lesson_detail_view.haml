@@ -22,7 +22,7 @@
         %ul
           %li{ng-repeat: "test in tests"}
             {& test.name &}
-            %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px"}
+            %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px; display: inline-block;"}
               {& skill.code &}
           %p{ng-if: "tests.length == 0"}
             %i
