@@ -20,6 +20,13 @@ class Skill(models.Model):
     def __unicode__(self):
         return "%s [%s]" % (self.code, self.level)
 
+    def mermaid_graph(self):
+        for i in self.skill_set.all():
+            yield "%s-->%s" % (self.code, i.code)
+
+        for i in self.depends_on.all():
+            yield "%s-->%s" % (i.code, self.code)
+
 
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
