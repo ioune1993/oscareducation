@@ -25,7 +25,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^add_test_for_lesson/$', 'add_test_for_lesson', name='add_test_for_lesson'),
 
     url(r'^exercices/$', 'exercice_list', name='professor_exercice_list'),
-    url(r'^exercices/(?P<pk>\d+)/$', DetailView.as_view(model=Exercice, template_name="professor/exercice_detail.haml"), name='professor_exercice_detail'),
+    url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice_detail.haml")), name='professor_exercice_detail'),
 
     url(r'^test/(?P<pk>\d+)/$', DetailView.as_view(model=Test, template_name="promotions/test_detail.haml"), name='professor_test_detail'),
 
