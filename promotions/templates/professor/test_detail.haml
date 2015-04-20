@@ -1,0 +1,13 @@
+-extends "base.haml"
+
+-block content
+  %h2 Test '{{ object.name }}' pour la classe {{ object.lesson.name }}
+  %hr
+
+  %h3 Compéténces dont on test les pre-requis :
+  %ul
+    -for skill in object.skills.all
+      %li
+        =skill.code
+        \-
+        =skill.name
