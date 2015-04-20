@@ -17,3 +17,14 @@
     -for test_student in object.teststudent_set.all
       %li= test_student.student
         %span.label{class: "label-{% if test_student.get_state == 'fini' %}success{% elif test_student.get_state == 'started' %}warning{% else %}danger{% endif %}"}= test_student.get_state
+
+  %h3 Compétences testées avec l'exercice sélectionné :
+
+  %ul
+    -for test_exercice in object.testexercice_set.all
+      %li Compétence {{ test_exercice.skill.code }} testée par
+        -if test_exercice.exercice
+          l'exercice numéro {{ test_exercice.exercice.pk }}
+        -else
+          %b
+            aucun exercice car il n'y en a pas de disponible pour l'instant
