@@ -21,13 +21,25 @@ class Skill(models.Model):
         return "%s [%s]" % (self.code, self.level)
 
     def mermaid_graph(self):
-        for i in self.skill_set.all():
-            yield "%s-->%s" % (self.code, i.code)
+        def recurse_depends(skill):
+            for dependancy in skill.depends_on.all():
+                for top_dependancy in recurse_depends(dependancy):
+                    yield top_dependancy
+                yield "%s-->%s" % (dependancy.code, skill.code)
 
-        for i in self.depends_on.all():
-            yield "%s-->%s" % (i.code, self.code)
+        def recurse_is_a_dependacy_for(skill):
+            for s in skill.skill_set.all():
+                for top_dependancy in recurse_is_a_dependacy_for(s):
+                    yield top_dependancy
+                yield "%s-->%s" % (skill.code, s.code)
 
-        yield "style %s fill:#F58025,color:black;" % self.code
+        for i in recurse_is_a_dependacy_for(self):
+            yield i
+
+        for i in recurse_depends(self):
+            yield i
+
+        yield "style %s fill:#F58025;" % self.code
 
 
 class StudentSkill(models.Model):
