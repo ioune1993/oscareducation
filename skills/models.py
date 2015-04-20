@@ -27,6 +27,8 @@ class Skill(models.Model):
         for i in self.depends_on.all():
             yield "%s-->%s" % (i.code, self.code)
 
+        yield "style %s fill:#F58025,color:black;" % self.code
+
 
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
