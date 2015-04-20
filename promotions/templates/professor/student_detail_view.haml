@@ -53,7 +53,8 @@
     %ul
       -for test_student in student.teststudent_set.all
         %li
-          =test_student.test.name
+          %a{href: "{% url 'professor_test_detail' test_student.test.pk %}"}
+            =test_student.test.name
           %span.label{class: "label-{% if test_student.get_state == 'fini' %}success{% elif test_student.get_state == 'started' %}warning{% else %}danger{% endif %}"}= test_student.get_state
 
     %h2
