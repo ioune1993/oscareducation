@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from django.core.urlresolvers import reverse
 
 from promotions.models import Student
 
@@ -27,12 +28,14 @@ class Skill(models.Model):
                 for top_dependancy in recurse_depends(dependancy):
                     yield top_dependancy
                 yield "%s-->%s" % (dependancy.code, skill.code)
+                yield '%s[<a style="color: white" href="%s">%s</a>]' % (dependancy.code, reverse("professor_skill_detail_view", args=(dependancy.code,)), dependancy.code)
 
         def recurse_is_a_dependacy_for(skill):
             for s in skill.skill_set.all():
                 for top_dependancy in recurse_is_a_dependacy_for(s):
                     yield top_dependancy
                 yield "%s-->%s" % (skill.code, s.code)
+                yield '%s[<a style="color: white" href="%s">%s</a>]' % (s.code, reverse("professor_skill_detail_view", args=(s.code,)), s.code)
 
         for i in recurse_is_a_dependacy_for(self):
             if i not in to_return:
