@@ -11,3 +11,8 @@
         =skill.code
         \-
         =skill.name
+
+  %h3 Élèves inscrit à ce test :
+  %ul
+    -for test_student in object.teststudent_set.all
+      %li= test_student.student
