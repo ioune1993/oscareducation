@@ -8,7 +8,7 @@
   %ul
     -for skill in object.skills.all
       %li
-        %a{href: "{% url 'professor_skill_detail_view' skill.pk %}"}
+        %a{href: "{% url 'professor_skill_detail_view' skill.code %}"}
           =skill.code
           \-
           =skill.name
@@ -25,7 +25,7 @@
 
   %ul
     -for test_exercice in object.testexercice_set.all
-      %li Compétence <a href="{% url 'professor_skill_detail_view' test_exercice.skill.pk %}">{{ test_exercice.skill.code }}</a> testée par
+      %li Compétence <a href="{% url 'professor_skill_detail_view' test_exercice.skill.code %}">{{ test_exercice.skill.code }}</a> testée par
         -if test_exercice.exercice
           l'exercice numéro <a href="{% url 'professor_exercice_detail' test_exercice.exercice.pk %}">{{ test_exercice.exercice.pk }}</a>
         -else
