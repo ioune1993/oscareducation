@@ -56,6 +56,7 @@ class Exercice(models.Model):
 
         return True
 
+
 class TestExercice(models.Model):
     test = models.ForeignKey(Test)
     # it can happen that we need to test something but that we don't have an
