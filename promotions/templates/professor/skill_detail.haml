@@ -49,7 +49,8 @@
     %p
       Cette compétence n'est un prérequis pour aucune autre compétence.
 
-  .mermaid
-    graph TD;
-      -for i in skill.mermaid_graph
-        =i
+  -if skill.skill_set.exists or skill.depends_on.exists
+    .mermaid
+      graph BT;
+        -for i in skill.mermaid_graph
+          =i
