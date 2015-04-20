@@ -69,6 +69,9 @@ class TestExercice(models.Model):
     def __unicode__(self):
         return "on test %s on skill %s" % (self.test.name, self.skill.code)
 
+    class Meta:
+        ordering = ['-skill__code']
+
 
 class TestStudent(models.Model):
     student = models.ForeignKey("promotions.Student")
