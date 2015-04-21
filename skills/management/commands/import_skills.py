@@ -16,14 +16,20 @@ class Command(BaseCommand):
 
             rubrique = row['Rubrique'] if row['Rubrique'] else rubrique
 
-            Skill.objects.create(
-                name=row['Intitul\xc3\xa9'],
-                description=row['Commentaires'],
-                stage=row['\xc3\x89tape'],
-                code=row['Code'],
-                level=row['Niveau'],
-                section=rubrique,
-            )
+            if Skill.objects.filter(code=row["Code"]).exists():
+                skill = Skill.objects.get(code=row["Code"])
+                skill.depends_on.clear()
+            else:
+                skill = Skill()
+                skill.code = row["Code"]
+
+            skill.name=row['Intitul\xc3\xa9']
+            skill.description=row['Commentaires']
+            skill.stage=row['\xc3\x89tape']
+            skill.level=row['Niveau']
+            skill.section=rubrique
+
+            skill.save()
 
             for next_ in {row["suivant1"], row["suivant2"], row["suivant3"]}:
                 dependancies.setdefault(row["Code"], []).append(next_)
