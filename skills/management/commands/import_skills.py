@@ -33,7 +33,7 @@ class Command(BaseCommand):
 
             skill.save()
 
-            for next_ in {row["suivant1"], row["suivant2"], row["suivant3"]}:
+            for next_ in filter(lambda x: x, {row["suivant1"], row["suivant2"], row["suivant3"]}):
                 dependancies.setdefault(row["Code"], []).append(next_)
 
         for key, value in filter(lambda (x, y): y, dependancies.iteritems()):
