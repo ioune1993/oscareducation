@@ -9,8 +9,6 @@ class Command(BaseCommand):
     help = 'Import skills tree out of a csv file'
 
     def handle(self, *args, **options):
-        # Skill.objects.all().delete()
-
         dependancies = {}
         rubrique = ''
 
