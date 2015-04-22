@@ -1,0 +1,14 @@
+-extends "base.haml"
+
+-block javascript
+  %script{src: "{{ STATIC_URL }}js/mermaid.full.js"}
+
+-block content
+  %h1 Arbre des compétences
+  %hr
+
+  .mermaid
+    graph BT;
+    -for skill in skill_list
+      -for top_skill in skill.skill_set.all
+        {{ skill.code }}-->{{ top_skill.code }}
