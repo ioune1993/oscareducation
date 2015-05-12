@@ -15,6 +15,12 @@ class Test(models.Model):
     skills = models.ManyToManyField(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    type = models.CharField(max_length=255, choices=(
+        ("skills", "skills"),
+        ("dependencies", "dependencies"),
+        ("skills-dependencies", "skills-dependencies"),
+    ))
+
     def __unicode__(self):
         return self.name
 
