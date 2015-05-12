@@ -1,6 +1,7 @@
 function createTestController($scope, $http) {
     $scope.tests = [];
     $scope.skills = [];
+    $scope.testType = "skills";
 
     $scope.addNewTest = function() {
         if ($scope.name === undefined || $scope.name.length == 0)
@@ -13,6 +14,7 @@ function createTestController($scope, $http) {
             "name": $scope.name,
             "lesson": context.lessonId,
             "skills": $scope.toTestSkills,
+            "type": $scope.testType,
         }).success(function(data, status, headers, config) {
             update_test_list();
             $scope.name = "";

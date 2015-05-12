@@ -161,6 +161,7 @@ def add_test_for_lesson(request):
         test = Test.objects.create(
             lesson=lesson,
             name=data["name"],
+            type=data["type"],
         )
 
         for skill_id in data["skills"]:
