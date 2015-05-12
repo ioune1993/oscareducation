@@ -10,7 +10,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test, TestStudent, TestExercice, Exercice
+from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentForm
