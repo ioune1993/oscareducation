@@ -21,6 +21,14 @@ class Test(models.Model):
         ("skills-dependencies", "skills-dependencies"),
     ))
 
+    def display_test_type(self):
+        if self.type == "skills":
+            return "compétences"
+        if self.type == "dependencies":
+            return "prérequis"
+        if self.type == "skills-dependencies":
+            return "compétences et prérequis"
+
     def generate_skills_test(self):
         for skill in self.skills.all():
             TestExercice.objects.create(
