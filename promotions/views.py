@@ -173,22 +173,14 @@ def add_test_for_lesson(request):
                 student=student,
             )
 
-        to_test_skills = []
-
-        def recursivly_get_skills_to_test(skill):
-            for i in skill.depends_on.all():
-                if i not in to_test_skills:
-                    to_test_skills.append(i)
-                    recursivly_get_skills_to_test(i)
-
-        for skill_id in data["skills"]:
-            recursivly_get_skills_to_test(Skill.objects.get(code=skill_id))
-
-        for skill in to_test_skills:
-            TestExercice.objects.create(
-                test=test,
-                skill=skill,
-            )
+        if data["type"] == "skills":
+            test.generate_skills_test()
+        elif data["type"] == "dependencies":
+            test.generate_dependencies_test()
+        elif data["type"] == "skills-dependencies":
+            test.generate_skills_dependencies_test()
+        else:
+            raise Exception()
 
         test.save()
 

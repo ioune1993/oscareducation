@@ -21,6 +21,57 @@ class Test(models.Model):
         ("skills-dependencies", "skills-dependencies"),
     ))
 
+    def generate_skills_test(self):
+        for skill in self.skills.all():
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
+    def generate_dependencies_test(self):
+        to_test_skills = []
+
+        def recursivly_get_skills_to_test(skill):
+            for i in skill.depends_on.all():
+                if i not in to_test_skills:
+                    to_test_skills.append(i)
+                    recursivly_get_skills_to_test(i)
+
+        for skill in self.skills.all():
+            recursivly_get_skills_to_test(skill)
+
+        for skill in to_test_skills:
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
+    def generate_skills_dependencies_test(self):
+        to_test_skills = []
+
+        def recursivly_get_skills_to_test(skill):
+            for i in skill.depends_on.all():
+                if i not in to_test_skills:
+                    to_test_skills.append(i)
+                    recursivly_get_skills_to_test(i)
+
+        for skill in self.skills.all():
+            recursivly_get_skills_to_test(skill)
+
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
+        for skill in to_test_skills:
+            if TestExercice.objects.filter(skill=skill, test=self).exists():
+                continue
+
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
     def __unicode__(self):
         return self.name
 
