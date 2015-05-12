@@ -22,3 +22,7 @@
     text-decoration: none;
     background-color: white;
 }
+
+.navbar-inverse .navbar-toggle {
+    background-color: #F58025;
+}
