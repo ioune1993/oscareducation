@@ -35,6 +35,13 @@
           .panel-body
             %form.form
               .form-group
+                %label.control-label Ce test portera sur :
+                %select.form-control{ng-model: "testType"}
+                  %option{value: "skills"} les compétences sélectionnées
+                  %option{value: "dependencies"} les pre-requis des compétences sélectionnées
+                  %option{value: "skills-dependencies"} les compétences sélectionnées et de ses pre-requis
+
+              .form-group
                 %label.control-label Compétences dont le test testera les prérequis :
                 %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
                   {& skill &}
