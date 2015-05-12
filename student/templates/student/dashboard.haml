@@ -2,6 +2,10 @@
 
 -block content
 
+  -if user.student.teststudent_set.exists
+    %h2 Mes tests:
+    %hr
+
   %ul
     -for student_test in user.student.teststudent_set.all
       -if not student_test.finished
