@@ -22,12 +22,23 @@
   .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
     .navbar-inner
       .container
-        %a.brand.navbar-brand{href: "/"}
-          <span style="color: #F58025">O</span>scar
-        %ul.nav.navbar-nav.navbar-right
+        .navbar-header
+          %button.hidden-md.hidden-lg{type: "button", class: "navbar-toggle collapsed", data-toggle: "collapse", data-target: "#toCollapse"}
+            %span.sr-only Toggle navigation
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          %a.brand.navbar-brand{href: "/"}
+            <span style="color: #F58025">O</span>scar
+        %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
           %li
             %a{href: "{% url 'logout' %}"}
               Déconnexion
+        #toCollapse.collapse.navbar-collapse
+          %ul.nav.navbar-nav.hidden-md.hidden-lg
+            %li
+              %a{href: "{% url 'logout' %}"}
+                Déconnexion
 
 
   .container
