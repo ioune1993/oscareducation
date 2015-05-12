@@ -21,7 +21,8 @@
 
         %ul{ng-if: "tests.length != 0"}
           %li{ng-repeat: "test in tests"}
-            {& test.name &}
+            %a{href: "/professor/test/{& test.id &}/"}
+              {& test.name &}
             %i
               {& test.type &}
             %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px; display: inline-block;"}

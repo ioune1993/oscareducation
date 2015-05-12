@@ -140,7 +140,7 @@ def lesson_tests_and_skills(request, lesson_id):
         raise PermissionDenied()
 
     return HttpResponse(json.dumps({
-        "tests": [{"name": x.name, "skills": list(x.skills.all().values("code")), "type": x.display_test_type()} for x in lesson.test_set.all()],
+        "tests": [{"name": x.name, "skills": list(x.skills.all().values("code")), "type": x.display_test_type(), "id": x.id} for x in lesson.test_set.all()],
         "skills": [x for x in Skill.objects.annotate(num_depends=Count('depends_on')).filter(num_depends__gt=0).values("id", "code", "name").order_by('-code')],
     }, indent=4))
 
