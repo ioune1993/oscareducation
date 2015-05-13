@@ -3,7 +3,7 @@
   answers:
   - "7"
 
-"6:6 + 2 x 0 + 2":
+"6 : 6 + 2 * 0 + 2":
   type: "text"
   answers:
   - "3"
