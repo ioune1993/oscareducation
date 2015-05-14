@@ -1,21 +1,21 @@
 "<p>Ton pote t'annonce que la moyenne des tailles dans cette classe vaut 165 cm.</p>":
   type: radio
-  answers: 
-  - "Il s'est certainement planté dans ses calculs.": false
-  - "C'est possible, mais tu aimerais vérifier ce qu'il a fait.": true
-  - "C'est correct: 165 cm est juste au milieu entre 150 cm et 18O cm.": false
-  - "C'est probablement incorrect: il y a 4 personnes qui mesurent entre 1,76 m et 1,8 m.": false
-  
+  answers:
+    "Il s'est certainement planté dans ses calculs.": false
+    "C'est possible, mais tu aimerais vérifier ce qu'il a fait.": true
+    "C'est correct: 165 cm est juste au milieu entre 150 cm et 18O cm.": false
+    "C'est probablement incorrect: il y a 4 personnes qui mesurent entre 1,76 m et 1,8 m.": false
+
 "<p>D'après les calculs, le mode vaut 9.</p>":
   type: radio
   answers:
-  - "C'est possible. Il y a 9 élèves qui ont la même taille, et c'est certainement le plus grand groupe d'élèves de même taille.": false
-  - "C'est impossible; le mode doit être compris entre 1,5 m et 1,8 m.": true
-  
+    "C'est possible. Il y a 9 élèves qui ont la même taille, et c'est certainement le plus grand groupe d'élèves de même taille.": false
+    "C'est impossible; le mode doit être compris entre 1,5 m et 1,8 m.": true
+
 "<p>Ton pote t'annonce que la médiane vaut 165 cm.</p>":
   type: radio
   answers:
-  - "Il s'est certainement planté dans ses calculs.": false
-  - "C'est impossible: par ordre croissant de taille, la 8ème élève mesur 167 cm.": true
-  - "C'est correct: 165 cm est juste au milieu entre 150 cm et 18O cm.": false
-  - "C'est probablement incorrect: il y a 4 personnes qui mesurent entre 1,76 m et 1,8 m.": false
+    "Il s'est certainement planté dans ses calculs.": false
+    "C'est impossible: par ordre croissant de taille, la 8ème élève mesur 167 cm.": true
+    "C'est correct: 165 cm est juste au milieu entre 150 cm et 18O cm.": false
+    "C'est probablement incorrect: il y a 4 personnes qui mesurent entre 1,76 m et 1,8 m.": false
