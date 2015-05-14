@@ -18,6 +18,9 @@ class Skill(models.Model):
 
     depends_on = models.ManyToManyField('Skill')
 
+    class Meta:
+        ordering = ['code']
+
     def __unicode__(self):
         return "%s [%s]" % (self.code, self.level)
 
