@@ -1,0 +1,14 @@
+"Quel est l’effectif de cet ensemble de données ?":
+  type: text
+  answers:
+    - 12
+
+"Quel est le mode de cet ensemble de données ?":
+  type: text
+  answers:
+    - 37
+
+"Quelle est l’étendue de cet ensemble de données ?":
+  type: text
+  answers:
+    - 4
