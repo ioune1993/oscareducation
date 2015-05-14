@@ -1,0 +1,6 @@
+"<p>Ton pote t'annonce que la moyenne des tailles dans cette classe vaut 165 cm.</p>":
+  type: radio
+  answers: 
+  - "Il s'est certainement planté dans ses calculs.": false
+  - "C'est possible, mais tu aimerais vérifier les calculs.": true
+  - "C'est correct: 165 cm est au milieu entre 150 cm et 18O cm.": false
