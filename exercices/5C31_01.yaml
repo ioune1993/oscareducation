@@ -3,7 +3,7 @@
   answers:
     "Il s'est certainement planté dans ses calculs.": false
     "C'est possible, mais tu aimerais vérifier ce qu'il a fait.": true
-    "C'est correct: 165 cm est juste au milieu entre 150 cm et 18O cm.": false
+    "C'est correct: 165 cm est juste au milieu entre 150 cm et 180 cm.": false
     "C'est probablement incorrect: il y a 4 personnes qui mesurent entre 1,76 m et 1,8 m.": false
 
 "<p>D'après les calculs, le mode vaut 9.</p>":
@@ -17,5 +17,5 @@
   answers:
     "Il s'est certainement planté dans ses calculs.": false
     "C'est impossible: par ordre croissant de taille, la 8ème élève mesur 167 cm.": true
-    "C'est correct: 165 cm est juste au milieu entre 150 cm et 18O cm.": false
+    "C'est correct: 165 cm est juste au milieu entre 150 cm et 180 cm.": false
     "C'est probablement incorrect: il y a 4 personnes qui mesurent entre 1,76 m et 1,8 m.": false
