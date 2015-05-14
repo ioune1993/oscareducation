@@ -103,7 +103,7 @@ class Exercice(models.Model):
     def is_valid(self, answers):
         for number, (key, value) in enumerate(self.get_questions().items()):
             answer = answers.get(str(number))
-            answer.strip().replace(" ", "")
+            answer = answer.strip().replace(" ", "") if isinstance(answer, basestring) else answer
             if value["type"] == "text":
                 if not answer in value["answers"]:
                     return False
