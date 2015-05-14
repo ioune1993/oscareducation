@@ -47,3 +47,11 @@
   %p
     %a{href: "{% url 'professor_exercice_list' %}"}
       Voir tous les exercices
+
+  %p
+    -if exercice.content
+      %a{href: "https://github.com/Psycojoker/oscar/blob/master/exercices/{{ exercice.file_name }}.html"}
+        html
+      \-
+    %a{href: "https://github.com/Psycojoker/oscar/blob/master/exercices/{{ exercice.file_name }}.yaml"}
+      yaml
