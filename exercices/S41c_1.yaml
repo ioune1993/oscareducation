@@ -1,0 +1,15 @@
+"Écris le nombre d’élèves de cette classe :":
+  type: text
+  answers:
+    - 25
+
+"Écris le nombre d’élèves qui chaussent au plus du 39 :":
+  type: text
+
+  answers:
+    - 17
+
+"Écris le nombre d’élèves qui chaussent plus de 40 :":
+  type: text
+  answers:
+    - 5
