@@ -18,7 +18,7 @@ class Command(BaseCommand):
 
             file_name = i.split(".")[0]
 
-            if file_name.startswith("S"):
+            if file_name.startswith(("S", "s")):
                 real_name = file_name.replace("1_", "I_").replace("2_", "II_").replace("3_", "III_").replace("s", "S")
             else:
                 real_name = file_name
