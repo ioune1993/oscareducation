@@ -1,4 +1,4 @@
-"Ton opération. Utilise les opérateurs mathématiques appropriés ":
+"Ton opération. Utilise les opérateurs mathématiques appropriés":
 
   type: "text"
 
@@ -6,7 +6,7 @@
   - "14*4"
   - "4*14"
 
-"Combien y-a-t-il de chaises?":
+"Combien y-a-t-il de chaises ?":
 
   type: "text"
   answers:
