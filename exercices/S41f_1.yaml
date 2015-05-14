@@ -1,0 +1,19 @@
+"Lorsqu'on jette un dé à 6 faces, à quelle fréquence apparait un nombre pair ?":
+  type: text
+  answers:
+  - "1/2"
+  - "3/6"
+  
+"Dans un jeu complet de 52 cartes, à quelle fréquence apparait les cartes carreau?
+Note: Il y a quatre "couleurs" dans un jeu complet: coeur, carreau, pique et trèfle.":
+  type: text
+  answers:
+  - "1/4"
+  - "13/52"
+  
+"Dans un jeu complet de 52 cartes, à quelle fréquence apparait le roi?
+Note: Il y a quatre "couleurs" dans un jeu complet: coeur, carreau, pique et trèfle.":
+  type: text
+  answers:
+  - "1/13"
+  - "4/52"
