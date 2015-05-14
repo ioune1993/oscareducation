@@ -2,6 +2,7 @@
 
 -block content
   %h2 Test '{{ object.name }}' pour la classe {{ object.lesson.name }}
+    %small= object.display_test_type
   %hr
 
   %h3 Compéténces dont on test les pre-requis :
