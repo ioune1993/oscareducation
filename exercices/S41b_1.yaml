@@ -1,0 +1,4 @@
+"Écris le nombre d’élèves qui chaussent du 38 :":
+  type: text
+  answers:
+    - 3
