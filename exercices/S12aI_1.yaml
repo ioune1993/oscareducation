@@ -8,11 +8,11 @@
     "une boite de 4, de 6, de 8 et de 12": true
     "2 boites de 10 et une boîte de 4": false
 
-"Ecris le calcul (par exemple 2+9+11) correspondant à la bonne proposition précedente":
+"Ecris le calcul (par exemple 2 + 9 + 11) correspondant à la bonne proposition précedente":
 
   type: "text"
 
   answers:
-  - "4+6+8+12"
-  - "4+6+12+8"
-  - "4+12+6+8"
+  - "4 + 6 + 8 + 12"
+  - "4 + 6 + 12 + 8"
+  - "4 + 12 + 6 + 8"
