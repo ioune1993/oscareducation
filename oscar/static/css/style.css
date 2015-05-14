@@ -26,3 +26,7 @@
 .navbar-inverse .navbar-toggle {
     background-color: #F58025;
 }
+
+.well {
+    padding-bottom: 9px;
+}
