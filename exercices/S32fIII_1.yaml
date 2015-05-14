@@ -1,0 +1,7 @@
+"La quantité de farine nécessaire pour 3 personnes est ... grammes":
+  type: "radio"
+  answers:
+    "130": false
+    "140": false
+    "150": true
+    "160": false
