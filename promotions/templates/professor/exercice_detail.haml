@@ -33,11 +33,12 @@
                 =option
       -elif question.type == "checkbox"
         -with name=forloop.counter0
-          -for option in question.answers
+          -for option, valid in question.answers.items
             .radio
               %label
                 %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-                =option
+                %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
+                  =option
       -else
         =question.type
 
