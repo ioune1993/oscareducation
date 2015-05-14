@@ -1,0 +1,19 @@
+"0,67 =":
+  type: text
+  answers:
+  - "67%"
+  
+"8,2 =":
+  type: text
+  answers:
+  - "820%"
+  
+"3 : 4 =":
+  type: text
+  answers:
+  - "75%"
+
+"3,429 =":
+  type: text
+  answers:
+  - "342,9%"
