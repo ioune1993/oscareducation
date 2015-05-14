@@ -1,7 +1,5 @@
 "La hauteur d'une porte mesure environ 2...":
-
   type: "radio"
-
   answers :
     "m": true
     "kg": false
@@ -9,9 +7,7 @@
     "sec": false
 
 "Un pain carré pèse environ 800...":
-
   type: "radio"
-
   answers :
     "l": false
     "m": false
@@ -19,9 +15,7 @@
     "min": false
 
 "Le journal télévisé dure environ 30...":
-
   type: "radio"
-
   answers :
     "sec": false
     "h": false
@@ -29,9 +23,7 @@
     "m": false
 
 "Une canette de limonade remplie contient environ 33...":
-
   type: "radio"
-
   answers :
     "kg": false
     "m": false

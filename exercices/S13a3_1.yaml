@@ -1,12 +1,9 @@
-"Combien de graines contiendra un petit pot ? ":
-
+"Combien de graines contiendra un petit pot ?":
   type: "text"
   answers:
   - "3"
 
-"Combien de graines contiendra un grand pot ? ":
-
+"Combien de graines contiendra un grand pot ?":
   type: "text"
   answers:
   - "6"
-

@@ -1,5 +1,4 @@
 "156 : 12 = 13":
-
   type: "checkbox"
   answers:
     "12 x 13": true

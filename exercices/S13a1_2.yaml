@@ -1,31 +1,24 @@
 "60 : 2 ":
-
   type: "text"
-
   answers:
   - "30"
 
 "82 - 18":
-
   type: "text"
   answers:
   - "64"
 
-"3 * 7":
-
+"3 x 7":
   type: "text"
   answers:
   - "21"
 
-"0 * 3":
-
+"0 x 3":
   type: "text"
   answers:
   - "0"
 
 "34 + 30":
-
   type: "text"
   answers:
   - "64"
-

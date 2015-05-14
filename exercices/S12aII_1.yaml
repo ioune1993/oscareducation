@@ -1,33 +1,21 @@
 "0,4 + ....":
-
   type: "text"
-
   answers:
-
   - "0,6"
 
-"4x ... ":
-
+"4 x ... ":
   type: "text"
-
   answers:
-
   - "0,25"
   - "1/4"
+  - "1:4"
 
-"0,2x ... ":
-
+"0,2 x ... ":
   type: "text"
-
   answers:
-
   - "5"
 
 "0,624 + ... ":
-
-
   type: "text"
-
   answers:
-
   - "0,376"

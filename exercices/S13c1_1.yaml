@@ -1,19 +1,14 @@
 "A = ":
-
   type: "text"
   answers:
   - "5"
 
 "B = ":
-
   type: "text"
   answers:
   - "9"
 
 "C = ":
-
   type: "text"
   answers:
   - "11"
-
-

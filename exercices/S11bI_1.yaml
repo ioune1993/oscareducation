@@ -1,50 +1,29 @@
 "quarante-cinq":
-
   type: "text"
-
   answers:
-
   - "45"
 
 "douze":
-
   type: "text"
-
   answers:
-
   - "12"
 
 "nonante-et-un":
-
   type: "text"
-
   answers:
-
   - "91"
 
 "six dizaines sept unités":
-
   type: "text"
-
   answers:
-
   - "67"
 
 "sept dizaines":
-
   type: "text"
-
   answers:
-
   - "70"
 
 "une centaine":
-
   type: "text"
-
   answers:
-
   - "100"
-
-
-

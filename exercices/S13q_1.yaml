@@ -1,10 +1,10 @@
-"A*B+C+D = ":
+"A x B + C + D = ":
   type: "text"
   answers:
   - "12,25"
   - "12.25"
 
-"A*(B+C) + D":
+"A x (B + C) + D":
   type: "text"
   answers:
   - "13,75"

@@ -5,14 +5,14 @@
     "Calculatrice": true
     "Calcul écrit": false
 
-"18,08 * 100":
+"18,08 x 100":
   type: "radio"
   answers:
     "Calcul mental": true
     "Calculatrice": false
     "Calcul écrit": false
 
-"3859+8463+3788":
+"3859 + 8463 + 3788":
   type: "radio"
   answers:
     "Calcul mental": false

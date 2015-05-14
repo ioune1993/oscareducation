@@ -1,8 +1,8 @@
-"Coche la seule solution correcte : ":
+"Coche la seule solution correcte :":
   type: "radio"
   answers:
-    "(45*71) + 10": true
-    "(10+71)*45": false
-    "(3205:71) - 10": false
-    "45*71": false
-    "(45*71)-10": false
+    "(45 x 71) + 10": true
+    "(10 + 71) x 45": false
+    "(3205 : 71) - 10": false
+    "45 x 71": false
+    "(45 x 71) - 10": false
