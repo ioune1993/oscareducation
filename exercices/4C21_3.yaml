@@ -1,6 +1,5 @@
 # CE1D 2014 - qu. 22 - item 28
-"<p>(CE1D 2014 - qu. 22 - item 28)</p>
-<p>Lors d’un jeu, Jean perd 10 % de ses 500 cartes puis regagne 10 % de ce qui lui reste. Détermine le nombre de cartes qu’il possède à la fin du jeu. Écris tous tes calculs. Nombre de cartes que Jean possède à la fin du jeu :</p>":
+"<p>(CE1D 2014 - qu. 22 - item 28)</p><p>Lors d’un jeu, Jean perd 10 % de ses 500 cartes puis regagne 10 % de ce qui lui reste. Détermine le nombre de cartes qu’il possède à la fin du jeu. Écris tous tes calculs. Nombre de cartes que Jean possède à la fin du jeu :</p>":
   type: text
   answers:
   - "495"
