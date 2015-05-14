@@ -1,0 +1,14 @@
+"Quel est la moyenne de cet ensemble de données ?":
+  type: text
+  answers:
+    - 38
+
+
+"Quelle est la fréquence de la pointure 37 ?":
+  type: text
+  answers:
+    - "1/4"
+    - "1:4"
+    - "0,25"
+    - "0.25"
+    - "25%"
