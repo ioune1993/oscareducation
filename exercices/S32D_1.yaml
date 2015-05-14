@@ -1,5 +1,0 @@
-"Quel est le pourcentage de fruits dans ce plat ?":
-  type: "text"
-  answers:
-  - "10"
-  - "10%"
