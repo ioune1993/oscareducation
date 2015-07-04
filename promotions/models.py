@@ -45,8 +45,8 @@ class Student(models.Model):
 
 class Lesson(models.Model):
     name = models.CharField("Nom", max_length=255)
-    students = models.ManyToManyField(Student, null=True, blank=True)
-    professors = models.ManyToManyField(Professor, null=True, blank=True)
+    students = models.ManyToManyField(Student)
+    professors = models.ManyToManyField(Professor)
 
     def __unicode__(self):
         return self.name
