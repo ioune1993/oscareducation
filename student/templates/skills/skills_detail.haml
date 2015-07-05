@@ -11,3 +11,14 @@
     %hr
 
     =object.oscar_synthese|default:""
+
+  .well
+    %h3 Vidéos
+    %hr
+
+    %ul
+      -for video in object.videoskill_set.all
+        %li= video
+
+    %button.btn.btn-primary
+      Ajouter une vidéo
