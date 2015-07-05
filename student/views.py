@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 
 from examinations.models import TestStudent, Answer, TestExercice
-from skills.models import StudentSkill, Skill
+from skills.models import StudentSkill
 
 from utils import user_is_student
 
@@ -114,13 +114,3 @@ def start_test(request, pk):
     test_student.save()
 
     return HttpResponseRedirect(reverse('student_pass_test', args=(test_student.pk,)))
-
-
-@user_is_student
-def skill_pedagogic_ressources(request, skill_code):
-    skill = get_object_or_404(Skill, code=skill_code)
-
-    return render(request, "student/skill_pedagogic_ressources.haml", {
-        "skill": skill,
-        "template_url": "skills/ressources/%s.html" % skill.code
-    })
