@@ -64,6 +64,16 @@ class VideoSkill(models.Model):
     skill = models.ForeignKey(Skill)
 
 
+class ExerciceSkill(models.Model):
+    title = models.CharField(max_length=255)
+    duration = models.CharField(max_length=10)
+    difficulty = models.PositiveSmallIntegerField()
+    questions = models.FileField(upload_to="/pedagogique_ressources/exercices/questions/")
+    answers = models.FileField(upload_to="/pedagogique_ressources/exercices/answers/")
+
+    skill = models.ForeignKey(Skill)
+
+
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
     skill = models.ForeignKey(Skill)
