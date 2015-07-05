@@ -33,3 +33,14 @@
 
     %button.btn.btn-primary
       Ajouter un exercice
+
+  .well
+    %h3 Liens externes
+    %hr
+
+    %ul
+      -for external_link in object.externallinkskill_set.all
+        %li= external_link
+
+    %button.btn.btn-primary
+      Ajouter un lien externe
