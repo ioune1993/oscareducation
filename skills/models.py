@@ -55,23 +55,24 @@ class Skill(models.Model):
         return to_return
 
 
-class VideoSkill(models.Model):
-    title = models.CharField(max_length=255)
-    url = models.URLField()
-    duration = models.CharField(max_length=10)
-    difficulty = models.PositiveSmallIntegerField()
-
+class PedagogicalRessource(models.Model):
     skill = models.ForeignKey(Skill)
 
-
-class ExerciceSkill(models.Model):
     title = models.CharField(max_length=255)
     duration = models.CharField(max_length=10)
     difficulty = models.PositiveSmallIntegerField()
+
+    class Meta:
+        abstract = True
+
+
+class VideoSkill(PedagogicalRessource):
+    url = models.URLField()
+
+
+class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="/pedagogique_ressources/exercices/questions/")
     answers = models.FileField(upload_to="/pedagogique_ressources/exercices/answers/")
-
-    skill = models.ForeignKey(Skill)
 
 
 class StudentSkill(models.Model):
