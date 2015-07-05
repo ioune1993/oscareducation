@@ -18,6 +18,8 @@ class Skill(models.Model):
 
     depends_on = models.ManyToManyField('Skill')
 
+    oscar_synthese = models.TextField(null=True, blank=True)
+
     class Meta:
         ordering = ['code']
 
