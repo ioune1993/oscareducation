@@ -55,6 +55,15 @@ class Skill(models.Model):
         return to_return
 
 
+class VideoSkill(models.Model):
+    title = models.CharField(max_length=255)
+    url = models.URLField()
+    duration = models.CharField(max_length=10)
+    difficulty = models.PositiveSmallIntegerField()
+
+    skill = models.ForeignKey(Skill)
+
+
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
     skill = models.ForeignKey(Skill)
