@@ -75,6 +75,10 @@ class ExerciceSkill(PedagogicalRessource):
     answers = models.FileField(upload_to="/pedagogique_ressources/exercices/answers/")
 
 
+class ExternalLinkSkill(PedagogicalRessource):
+    url = models.URLField()
+
+
 class StudentSkill(models.Model):
     student = models.ForeignKey(Student)
     skill = models.ForeignKey(Skill)
