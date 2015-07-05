@@ -22,3 +22,14 @@
 
     %button.btn.btn-primary
       Ajouter une vidéo
+
+  .well
+    %h3 Exercices
+    %hr
+
+    %ul
+      -for exercice in object.exerciceskill_set.all
+        %li= exercice
+
+    %button.btn.btn-primary
+      Ajouter un exercice
