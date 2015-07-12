@@ -20,9 +20,6 @@
       -for video in object.videoskill_set.all
         %li= video
 
-    %button.btn.btn-primary
-      Ajouter une vidéo
-
   .well
     %h3 Exercices
     %hr
@@ -31,9 +28,6 @@
       -for exercice in object.exerciceskill_set.all
         %li= exercice
 
-    %button.btn.btn-primary
-      Ajouter un exercice
-
   .well
     %h3 Liens externes
     %hr
@@ -41,6 +35,3 @@
     %ul
       -for external_link in object.externallinkskill_set.all
         %li= external_link
-
-    %button.btn.btn-primary
-      Ajouter un lien externe
