@@ -236,3 +236,8 @@ def edit_pedagogical_ressources(request, slug):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skills_edit_professor.haml", {
+            "video_skill_form": form,
+            "object": skill,
+        })
