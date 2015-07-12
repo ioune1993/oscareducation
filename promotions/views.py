@@ -215,3 +215,13 @@ def students_password_page(request, pk):
     return render(request, "professor/students_password_page.haml", {
         "students": students
     })
+
+
+@user_is_professor
+def edit_pedagogical_ressources(request, slug):
+    skill = get_object_or_404(Skill, code=slug)
+
+    if request.method == "GET":
+        return render(request, "professor/skills_edit_professor.haml", {
+            "object": skill,
+        })

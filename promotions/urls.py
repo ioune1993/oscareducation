@@ -16,6 +16,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='professor_regenerate_student_password'),
 
     url(r'^skill/(?P<slug>\w+)/$', user_is_professor(DetailView.as_view(model=Skill, slug_field="code", template_name="professor/skill_detail.haml")), name='professor_skill_detail_view'),
+    url(r'^pedagogical/(?P<slug>\w+)/$', 'edit_pedagogical_ressources', name='professor_skill_edit_pedagogical_ressources'),
     url(r'^skill_tree/$', user_is_professor(ListView.as_view(model=Skill, template_name="professor/skill_tree.haml")), name='professor_skill_tree'),
 
     url(r'^validate_skill/(?P<student_skill>\d+)/$', 'validate_student_skill', name='professor_validate_student_skill'),
