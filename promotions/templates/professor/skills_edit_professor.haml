@@ -27,7 +27,7 @@
           difficulté:
           =video.difficulty
 
-    %form#video-form{method: "POST"}
+    %form#video-form{method: "POST", style: "display: none"}
       -csrf_token
 
       %input{type: "hidden", value: "video_skill", name: "form_type"}
@@ -79,7 +79,7 @@
 
       %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    %button.btn.btn-primary{data-target: "#video-form"}
+    %button.show-form.btn.btn-primary{data-target: "#video-form"}
       Ajouter une vidéo
 
   .well
@@ -90,7 +90,7 @@
       -for exercice in object.exerciceskill_set.all
         %li= exercice
 
-    %button.btn.btn-primary{data-target: "#exercice-form"}
+    %button.show-form.btn.btn-primary{data-target: "#exercice-form"}
       Ajouter un exercice
 
   .well
@@ -101,5 +101,12 @@
       -for external_link in object.externallinkskill_set.all
         %li= external_link
 
-    %button.btn.btn-primary{data-target: "#external-link-form"}
+    %button.show-form.btn.btn-primary{data-target: "#external-link-form"}
       Ajouter un lien externe
+
+-block javascript
+  :javascript
+    $(".show-form").click(function(event) {
+      $(event.currentTarget).hide();
+      $(event.currentTarget.attributes["data-target"].value).show();
+    })
