@@ -226,3 +226,13 @@ def edit_pedagogical_ressources(request, slug):
             "video_skill_form": VideoSkillForm(),
             "object": skill,
         })
+
+    assert request.method == "POST"
+
+    print request.POST
+
+    if request.POST["form_type"] == "video_skill":
+        form = VideoSkillForm(request.POST, initial={"skill": skill})
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
