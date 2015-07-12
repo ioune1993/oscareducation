@@ -95,11 +95,17 @@
 
   .well
     %h3 Liens externes
-    %hr
 
     %ul
       -for external_link in object.externallinkskill_set.all
-        %li= external_link
+        %li
+          %a{href: "{{ external_link.url }}"}
+            =external_link.title
+          \-
+          =external_link.duration
+          \-
+          difficulté:
+          =external_link.difficulty
 
     %form#external-link-form{method: "POST", style: "display: none"}
       -csrf_token
