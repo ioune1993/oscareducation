@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentForm
+from .forms import LessonForm, StudentForm, VideoSkillForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -223,5 +223,6 @@ def edit_pedagogical_ressources(request, slug):
 
     if request.method == "GET":
         return render(request, "professor/skills_edit_professor.haml", {
+            "video_skill_form": VideoSkillForm(),
             "object": skill,
         })
