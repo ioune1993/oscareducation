@@ -101,6 +101,58 @@
       -for external_link in object.externallinkskill_set.all
         %li= external_link
 
+    %form#external-link-form{method: "POST", style: "display: none"}
+      -csrf_token
+
+      %input{type: "hidden", value: "external_link_skill", name: "form_type"}
+      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if external_link_skill_form.title.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.title %}has-success{% endif %}"}
+            %label.control-label{for: "id_title"}
+              Titre
+            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: '{{ external_link_skill_form.title.value|default:"" }}'}
+            -for error in external_link_skill_form.title.errors
+              %span.help-block= error
+
+        .col-md-6
+          %div{class: "form-group {% if external_link_skill_form.url.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.url %}has-success{% endif %}"}
+            %label.control-label{for: "id_url"}
+              Url
+            %input#id_url.form-control{type: "text", required: "", placeholder: "Url", name: "url", value: '{{ external_link_skill_form.url.value|default:"" }}'}
+            -for error in external_link_skill_form.url.errors
+              %span.help-block= error
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if external_link_skill_form.duration.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.duration %}has-success{% endif %}"}
+            %label.control-label{for: "id_duration"}
+              Durée estimée pour comprendre le lien (en minute)
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: '{{ external_link_skill_form.duration.value|default:"" }}'}
+            -for error in external_link_skill_form.duration.errors
+              %span.help-block= error
+
+        .col-md-6
+          .form-group{class: "{% if external_link_skill_form.difficulty.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.difficulty %}has-success{% endif %}"}
+            %label.control-label{for: "id_difficulty"}
+              Difficulté
+
+            %br
+
+            %label.radio-inline
+              <input type="radio" required="required" name="difficulty" value="1" {% if external_link_skill_form.difficulty.data == "1" %}checked="checked"{% endif %}>1</input>
+            %label.radio-inline
+              <input type="radio" required="required" name="difficulty" value="2" {% if external_link_skill_form.difficulty.data == "2" %}checked="checked"{% endif %}>2</input>
+            %label.radio-inline
+              <input type="radio" required="required" name="difficulty" value="3" {% if external_link_skill_form.difficulty.data == "3" %}checked="checked"{% endif %}>3</input>
+
+            -for error in external_link_skill_form.difficulty.errors
+              %span.help-block= error
+
+
+      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
     %button.show-form.btn.btn-primary{data-target: "#external-link-form"}
       Ajouter un lien externe
 
