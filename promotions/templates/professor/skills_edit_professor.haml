@@ -1,0 +1,47 @@
+-extends "base.haml"
+-load bootstrap3
+
+-block content
+  %h2 Compétence
+    =object.code
+    %small= object.name
+  %hr
+
+  .well
+    %h3 Synthèse <span style="color: #F58025">O</span>scar
+    %hr
+
+    =object.oscar_synthese|default:""
+
+  .well
+    %h3 Vidéos
+    %hr
+
+    %ul
+      -for video in object.videoskill_set.all
+        %li= video
+
+    %button.btn.btn-primary{data-target: "#video-form"}
+      Ajouter une vidéo
+
+  .well
+    %h3 Exercices
+    %hr
+
+    %ul
+      -for exercice in object.exerciceskill_set.all
+        %li= exercice
+
+    %button.btn.btn-primary{data-target: "#exercice-form"}
+      Ajouter un exercice
+
+  .well
+    %h3 Liens externes
+    %hr
+
+    %ul
+      -for external_link in object.externallinkskill_set.all
+        %li= external_link
+
+    %button.btn.btn-primary{data-target: "#external-link-form"}
+      Ajouter un lien externe
