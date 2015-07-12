@@ -15,11 +15,17 @@
 
   .well
     %h3 Vidéos
-    %hr
 
     %ul
       -for video in object.videoskill_set.all
-        %li= video
+        %li
+          %a{href: "{{ video.url }}"}
+            =video.title
+          \-
+          =video.duration
+          \-
+          difficulté:
+          =video.difficulty
 
     %form#video-form{method: "POST"}
       -csrf_token
