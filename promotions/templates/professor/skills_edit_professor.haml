@@ -38,7 +38,7 @@
           .form-group{class: "{% if video_skill_form.title.errors %}has-error{% elif video_skill_form.data and video_skill_form.title %}has-success{% endif %}"}
             %label.control-label{for: "id_title"}
               Titre
-            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: "{{ video_skill_form.title.value }}"}
+            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: '{{ video_skill_form.title.value|default:"" }}'}
             -for error in video_skill_form.title.errors
               %span.help-block= error
 
@@ -46,7 +46,7 @@
           %div{class: "form-group {% if video_skill_form.url.errors %}has-error{% elif video_skill_form.data and video_skill_form.url %}has-success{% endif %}"}
             %label.control-label{for: "id_url"}
               Url de la vidéo
-            %input#id_url.form-control{type: "text", required: "", placeholder: "Url de la vidéo", name: "url", value: "{{ video_skill_form.url.value }}"}
+            %input#id_url.form-control{type: "text", required: "", placeholder: "Url de la vidéo", name: "url", value: '{{ video_skill_form.url.value|default:"" }}'}
             -for error in video_skill_form.url.errors
               %span.help-block= error
 
@@ -55,7 +55,7 @@
           .form-group{class: "{% if video_skill_form.duration.errors %}has-error{% elif video_skill_form.data and video_skill_form.duration %}has-success{% endif %}"}
             %label.control-label{for: "id_duration"}
               Durée (en minute)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: "{{ video_skill_form.duration.value }}"}
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: '{{ video_skill_form.duration.value|default:"" }}'}
             -for error in video_skill_form.duration.errors
               %span.help-block= error
 
