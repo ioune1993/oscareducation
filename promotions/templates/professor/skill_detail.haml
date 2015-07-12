@@ -51,6 +51,11 @@
         %p
           Cette compétence n'est un prérequis pour aucune autre compétence.
 
+      %h2 Matériel pédagogique
+
+      %a.btn.btn-primary{href: "{% url 'professor_skill_edit_pedagogical_ressources' skill.code %}"}
+        Voir et éditer le matriel pédagogique pour cette compétence
+
     .col-md-3
       -if skill.skill_set.exists or skill.depends_on.exists
         .mermaid
