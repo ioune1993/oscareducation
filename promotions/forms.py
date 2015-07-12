@@ -4,6 +4,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
+from skills.models import VideoSkill
+
 from .models import Lesson
 
 
@@ -47,3 +49,9 @@ class StudentForm(forms.Form):
 
         # hack, django enforce an email usage, let's use @example.com for "I don't have an email"
         return username + "@example.com"
+
+
+class VideoSkillForm(forms.ModelForm):
+    class Meta:
+        model = VideoSkill
+        fields = ['skill', 'title', 'duration', 'difficulty', 'url']
