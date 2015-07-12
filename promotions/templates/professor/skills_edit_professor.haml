@@ -21,6 +21,57 @@
       -for video in object.videoskill_set.all
         %li= video
 
+    %form#video-form{method: "POST"}
+      -csrf_token
+
+      %input{type: "hidden", value: "video_skill", name: "form_type"}
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if video_skill_form.title.errors %}has-error{% elif video_skill_form.data and video_skill_form.title %}has-success{% endif %}"}
+            %label.control-label{for: "id_title"}
+              Titre
+            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: ""}
+            -for error in video_skill_form.title.errors
+              %span.help-block= error
+
+        .col-md-6
+          .form-group{class: "{% if video_form_skill.url.errors %}has-error{% elif video_form_skill.data and video_form_skill.url %}has-success{% endif %}"}
+            %label.control-label{for: "id_url"}
+              Url de la vidéo
+            %input#id_url.form-control{type: "text", required: "", placeholder: "Url de la vidéo", name: "url", value: ""}
+            -for error in video_form_skill.url.errors
+              %span.help-block= error
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if video_skill_form.duration.errors %}has-error{% elif video_skill_form.data and video_skill_form.duration %}has-success{% endif %}"}
+            %label.control-label{for: "id_duration"}
+              Durée (en minute)
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: ""}
+            -for error in video_skill_form.duration.errors
+              %span.help-block= error
+
+        .col-md-6
+          .form-group{class: "{% if video_form_skill.difficulty.errors %}has-error{% elif video_form_skill.data and video_form_skill.difficulty %}has-success{% endif %}"}
+            %label.control-label{for: "id_difficulty"}
+              Difficulté
+
+            %br
+
+            %label.radio-inline
+              %input{type: "radio", name: "id_difficulty", value: "1"} 1
+            %label.radio-inline
+              %input{type: "radio", name: "id_difficulty", value: "2"} 2
+            %label.radio-inline
+              %input{type: "radio", name: "id_difficulty", value: "3"} 3
+
+            -for error in video_form_skill.difficulty.errors
+              %span.help-block= error
+
+
+      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
     %button.btn.btn-primary{data-target: "#video-form"}
       Ajouter une vidéo
 
