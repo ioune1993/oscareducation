@@ -25,6 +25,7 @@
       -csrf_token
 
       %input{type: "hidden", value: "video_skill", name: "form_type"}
+      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
       .row
         .col-md-6
