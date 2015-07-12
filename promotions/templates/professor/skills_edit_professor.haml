@@ -61,11 +61,11 @@
             %br
 
             %label.radio-inline
-              %input{type: "radio", name: "id_difficulty", value: "1"} 1
+              %input{type: "radio", required: "required", name: "difficulty", value: "1"} 1
             %label.radio-inline
-              %input{type: "radio", name: "id_difficulty", value: "2"} 2
+              %input{type: "radio", required: "required", name: "difficulty", value: "2"} 2
             %label.radio-inline
-              %input{type: "radio", name: "id_difficulty", value: "3"} 3
+              %input{type: "radio", required: "required", name: "difficulty", value: "3"} 3
 
             -for error in video_form_skill.difficulty.errors
               %span.help-block= error
