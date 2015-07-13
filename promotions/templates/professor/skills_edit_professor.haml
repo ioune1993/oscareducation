@@ -88,7 +88,18 @@
 
     %ul
       -for exercice in object.exerciceskill_set.all
-        %li= exercice
+        %li
+          %a{href: "{{ MEDIA_URL }}{{ exercice.questions }}"}
+            =exercice.title
+          \-
+          =exercice.duration
+          \-
+          difficulté:
+          =exercice.difficulty
+          -if exercice.answers
+            \-
+            %a{href: "{{ MEDIA_URL }}{{ exercice.answers }}"}
+              réponses
 
     %form#exercice-form{method: "POST", style: "display: none", enctype: "multipart/form-data"}
       -csrf_token
