@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-from skills.models import VideoSkill, ExternalLinkSkill
+from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill
 
 from .models import Lesson
 
@@ -55,6 +55,12 @@ class VideoSkillForm(forms.ModelForm):
     class Meta:
         model = VideoSkill
         fields = ['skill', 'title', 'duration', 'difficulty', 'url']
+
+
+class ExerciceSkillForm(forms.ModelForm):
+    class Meta:
+        model = ExerciceSkill
+        fields = ['skill', 'title', 'duration', 'difficulty', 'questions', 'answers']
 
 
 class ExternalLinkSkillForm(forms.ModelForm):
