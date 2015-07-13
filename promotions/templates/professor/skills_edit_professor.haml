@@ -10,7 +10,7 @@
   .well
     %h3 Synthèse <span style="color: #F58025">O</span>scar
 
-    %form#synthese-form{method: "POST"}
+    %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}"}
       -csrf_token
 
       %input{type: "hidden", value: "synthese_form", name: "form_type"}
@@ -25,11 +25,12 @@
 
       %input.btn.btn-primary{type: "submit", value: "Sauver"}
 
-    .synthese
-      =object.oscar_synthese|default:""
+    %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
+      .synthese
+        =object.oscar_synthese|default:""
 
-    %button.show-synthese-form.btn.btn-primary{data-target: "#synthese-form"}
-      Modifier
+      %button.show-synthese-form.btn.btn-primary{data-target: "#synthese-form"}
+        Modifier
 
   .well
     %h3 Vidéos
@@ -45,7 +46,7 @@
           difficulté:
           =video.difficulty
 
-    %form#video-form{method: "POST", style: "display: none"}
+    %form#video-form{method: "POST", style: "{% if not video_skill_form.errors %}display: none{% endif %}"}
       -csrf_token
 
       %input{type: "hidden", value: "video_skill", name: "form_type"}
@@ -97,7 +98,7 @@
 
       %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    %button.show-form.btn.btn-primary{data-target: "#video-form"}
+    %button.show-form.btn.btn-primary{data-target: "#video-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
       Ajouter une vidéo
 
   .well
@@ -119,7 +120,7 @@
             %a{href: "{{ MEDIA_URL }}{{ exercice.answers }}"}
               réponses
 
-    %form#exercice-form{method: "POST", style: "display: none", enctype: "multipart/form-data"}
+    %form#exercice-form{method: "POST", style: "{% if not exercice_skill_form.errors %}display: none{% endif %}", enctype: "multipart/form-data"}
       -csrf_token
 
       %input{type: "hidden", value: "exercice_skill", name: "form_type"}
@@ -167,7 +168,7 @@
 
       %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    %button.show-form.btn.btn-primary{data-target: "#exercice-form"}
+    %button.show-form.btn.btn-primary{data-target: "#exercice-form", style: "{% if exercice_skill_form.errors %}display: none{% endif %}"}
       Ajouter un exercice
 
   .well
@@ -184,7 +185,7 @@
           difficulté:
           =external_link.difficulty
 
-    %form#external-link-form{method: "POST", style: "display: none"}
+    %form#external-link-form{method: "POST", style: "{% if not external_link_skill_form.errors %}display: none{% endif %}"}
       -csrf_token
 
       %input{type: "hidden", value: "external_link_skill", name: "form_type"}
@@ -236,7 +237,7 @@
 
       %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    %button.show-form.btn.btn-primary{data-target: "#external-link-form"}
+    %button.show-form.btn.btn-primary{data-target: "#external-link-form", style: "{% if external_link_skill_form.errors %}display: none{% endif %}"}
       Ajouter un lien externe
 
 -block javascript
