@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm
+from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -224,6 +224,7 @@ def edit_pedagogical_ressources(request, slug):
     if request.method == "GET":
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": VideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
             "object": skill,
         })
@@ -240,10 +241,23 @@ def edit_pedagogical_ressources(request, slug):
 
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": form,
+            "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
             "object": skill,
         })
 
+    elif request.POST["form_type"] == "exercice_skill":
+        form = ExerciceSkillForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skills_edit_professor.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "exercice_skill_form": form,
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "object": skill,
+        })
     elif request.POST["form_type"] == "external_link_skill":
         form = ExternalLinkSkillForm(request.POST)
         if form.is_valid():
@@ -252,6 +266,7 @@ def edit_pedagogical_ressources(request, slug):
 
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": VideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": form,
             "object": skill,
         })
