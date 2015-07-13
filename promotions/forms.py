@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill
+from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill, Skill
 
 from .models import Lesson
 
@@ -67,3 +67,7 @@ class ExternalLinkSkillForm(forms.ModelForm):
     class Meta:
         model = ExternalLinkSkill
         fields = ['skill', 'title', 'duration', 'difficulty', 'url']
+
+
+class SyntheseForm(forms.Form):
+    synthese = forms.CharField()
