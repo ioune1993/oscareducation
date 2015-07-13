@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm
+from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -226,6 +226,7 @@ def edit_pedagogical_ressources(request, slug):
             "video_skill_form": VideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
             "object": skill,
         })
 
@@ -243,6 +244,7 @@ def edit_pedagogical_ressources(request, slug):
             "video_skill_form": form,
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
             "object": skill,
         })
 
@@ -256,6 +258,7 @@ def edit_pedagogical_ressources(request, slug):
             "video_skill_form": VideoSkillForm(),
             "exercice_skill_form": form,
             "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
             "object": skill,
         })
     elif request.POST["form_type"] == "external_link_skill":
@@ -268,5 +271,20 @@ def edit_pedagogical_ressources(request, slug):
             "video_skill_form": VideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": form,
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+    elif request.POST["form_type"] == "synthese_form":
+        form = SyntheseForm(request.POST)
+        if form.is_valid():
+            skill.oscar_synthese = form.cleaned_data["synthese"]
+            skill.save()
+            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skills_edit_professor.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": form,
             "object": skill,
         })
