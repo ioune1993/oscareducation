@@ -90,6 +90,54 @@
       -for exercice in object.exerciceskill_set.all
         %li= exercice
 
+    %form#exercice-form{method: "POST", style: "display: none", enctype: "multipart/form-data"}
+      -csrf_token
+
+      %input{type: "hidden", value: "exercice_skill", name: "form_type"}
+      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if exercice_skill_form.title.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.title %}has-success{% endif %}"}
+            %label.control-label{for: "id_title"}
+              Titre
+            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: '{{ exercice_skill_form.title.value|default:"" }}'}
+            -for error in exercice_skill_form.title.errors
+              %span.help-block= error
+
+        .col-md-6
+          -bootstrap_field exercice_skill_form.questions
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if exercice_skill_form.duration.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.duration %}has-success{% endif %}"}
+            %label.control-label{for: "id_duration"}
+              Durée (en minute)
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: '{{ exercice_skill_form.duration.value|default:"" }}'}
+            -for error in exercice_skill_form.duration.errors
+              %span.help-block= error
+
+        .col-md-6
+          -bootstrap_field exercice_skill_form.answers
+
+      .form-group{class: "{% if exercice_skill_form.difficulty.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.difficulty %}has-success{% endif %}"}
+        %label.control-label{for: "id_difficulty"}
+          Difficulté
+
+        %br
+
+        %label.radio-inline
+          <input type="radio" required="required" name="difficulty" value="1" {% if exercice_skill_form.difficulty.data == "1" %}checked="checked"{% endif %}>1</input>
+        %label.radio-inline
+          <input type="radio" required="required" name="difficulty" value="2" {% if exercice_skill_form.difficulty.data == "2" %}checked="checked"{% endif %}>2</input>
+        %label.radio-inline
+          <input type="radio" required="required" name="difficulty" value="3" {% if exercice_skill_form.difficulty.data == "3" %}checked="checked"{% endif %}>3</input>
+
+        -for error in exercice_skill_form.difficulty.errors
+          %span.help-block= error
+
+      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
     %button.show-form.btn.btn-primary{data-target: "#exercice-form"}
       Ajouter un exercice
 
