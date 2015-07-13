@@ -9,9 +9,27 @@
 
   .well
     %h3 Synthèse <span style="color: #F58025">O</span>scar
-    %hr
 
-    =object.oscar_synthese|default:""
+    %form#synthese-form{method: "POST"}
+      -csrf_token
+
+      %input{type: "hidden", value: "synthese_form", name: "form_type"}
+
+      .form-group{class: "{% if synthese_form.synthese.errors %}has-error{% elif synthese_form.data and synthese_form.synthese %}has-success{% endif %}"}
+        %label.control-label{for: "id_synthese"}
+          Synthèse :
+        %textarea#id_synthese.form-control{placeholder: "Synthèse", name: "synthese", rows: "10"}= object.oscar_synthese|default:""
+
+        -for error in synthese_form.synthese.errors
+          %span.help-block= error
+
+      %input.btn.btn-primary{type: "submit", value: "Sauver"}
+
+    .synthese
+      =object.oscar_synthese|default:""
+
+    %button.show-synthese-form.btn.btn-primary{data-target: "#synthese-form"}
+      Modifier
 
   .well
     %h3 Vidéos
@@ -225,5 +243,10 @@
   :javascript
     $(".show-form").click(function(event) {
       $(event.currentTarget).hide();
+      $(event.currentTarget.attributes["data-target"].value).show();
+    })
+    $(".show-synthese-form").click(function(event) {
+      $(event.currentTarget).hide();
+      $(".synthese").hide();
       $(event.currentTarget.attributes["data-target"].value).show();
     })
