@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 from datetime import datetime
 
 from django.db import models
@@ -72,7 +74,7 @@ class VideoSkill(PedagogicalRessource):
 
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="/pedagogique_ressources/exercices/questions/")
-    answers = models.FileField(upload_to="/pedagogique_ressources/exercices/answers/", blank=True, null=True)
+    answers = models.FileField(upload_to="/pedagogique_ressources/exercices/answers/", blank=True, null=True, verbose_name=u"Réponses (optionnel)")
 
 
 class ExternalLinkSkill(PedagogicalRessource):
