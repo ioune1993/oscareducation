@@ -64,8 +64,8 @@
         .col-md-6
           %div{class: "form-group {% if video_skill_form.url.errors %}has-error{% elif video_skill_form.data and video_skill_form.url %}has-success{% endif %}"}
             %label.control-label{for: "id_url"}
-              Url de la vidéo
-            %input#id_url.form-control{type: "text", required: "", placeholder: "Url de la vidéo", name: "url", value: '{{ video_skill_form.url.value|default:"" }}'}
+              Page de la vidéo
+            %input#id_url.form-control{type: "text", required: "", placeholder: "Page de la vidéo", name: "url", value: '{{ video_skill_form.url.value|default:"" }}'}
             -for error in video_skill_form.url.errors
               %span.help-block= error
 
@@ -73,8 +73,8 @@
         .col-md-6
           .form-group{class: "{% if video_skill_form.duration.errors %}has-error{% elif video_skill_form.data and video_skill_form.duration %}has-success{% endif %}"}
             %label.control-label{for: "id_duration"}
-              Durée (en minute)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: '{{ video_skill_form.duration.value|default:"" }}'}
+              Durée (en minutes)
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minutes)", name: "duration", value: '{{ video_skill_form.duration.value|default:"" }}'}
             -for error in video_skill_form.duration.errors
               %span.help-block= error
 
@@ -103,7 +103,6 @@
 
   .well
     %h3 Exercices
-    %hr
 
     %ul
       -for exercice in object.exerciceskill_set.all
@@ -142,8 +141,8 @@
         .col-md-6
           .form-group{class: "{% if exercice_skill_form.duration.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.duration %}has-success{% endif %}"}
             %label.control-label{for: "id_duration"}
-              Durée (en minute)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: '{{ exercice_skill_form.duration.value|default:"" }}'}
+              Durée (en minutes)
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minutes)", name: "duration", value: '{{ exercice_skill_form.duration.value|default:"" }}'}
             -for error in exercice_skill_form.duration.errors
               %span.help-block= error
 
@@ -203,8 +202,8 @@
         .col-md-6
           %div{class: "form-group {% if external_link_skill_form.url.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.url %}has-success{% endif %}"}
             %label.control-label{for: "id_url"}
-              Url
-            %input#id_url.form-control{type: "text", required: "", placeholder: "Url", name: "url", value: '{{ external_link_skill_form.url.value|default:"" }}'}
+              Adresse
+            %input#id_url.form-control{type: "text", required: "", placeholder: "Adresse", name: "url", value: '{{ external_link_skill_form.url.value|default:"" }}'}
             -for error in external_link_skill_form.url.errors
               %span.help-block= error
 
@@ -212,8 +211,8 @@
         .col-md-6
           .form-group{class: "{% if external_link_skill_form.duration.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.duration %}has-success{% endif %}"}
             %label.control-label{for: "id_duration"}
-              Durée estimée pour comprendre le lien (en minute)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minute)", name: "duration", value: '{{ external_link_skill_form.duration.value|default:"" }}'}
+              Durée estimée (en minutes)
+            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minutes)", name: "duration", value: '{{ external_link_skill_form.duration.value|default:"" }}'}
             -for error in external_link_skill_form.duration.errors
               %span.help-block= error
 
