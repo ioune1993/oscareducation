@@ -39,7 +39,7 @@
           %span.label.label-default
             {& password &}
 
-        %input.btn.btn-primary{type: "submit", value: "Regenerer un nouveau mot de passe pour cet élève"}
+        %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}
 
     %h2 Est dans la classe:
 
@@ -48,7 +48,7 @@
         %li
           %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
 
-    %h2 A passé les tests suivants:
+    %h2 A passé (ou aurait dû passer) les tests suivants:
 
     %ul
       -for test_student in student.teststudent_set.all
@@ -62,7 +62,7 @@
 
     %h2
       %a{name: "skills"}
-      Empreinte:
+      Vue synthétique:
 
     -regroup student.skills_map by skill.stage as levels
 
@@ -90,11 +90,11 @@
                   %p
                     %form{action: "{% url 'professor_unvalidate_student_skill' student_skill.id %}", method: "post"}
                       -csrf_token
-                      %input.btn.btn-warning{type: "submit", value: "Marquer comme non-acquise"}
+                      %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
                   %p
                     %form{action: "{% url 'professor_default_student_skill' student_skill.id %}", method: "post"}
                       -csrf_token
-                      %input.btn.btn-default{type: "submit", value: "Marquer comme inconnu"}
+                      %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
 
           -if forloop.last
             </tr>
