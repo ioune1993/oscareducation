@@ -1,19 +1,19 @@
-"X + 20 = 38":
+"x + 20 = 38":
   type: "text"
   answers:
   - "18"
 
-"X x 5 = 20":
+"5.x = 20":
   type: "text"
   answers:
   - "4"
 
-"(X + 2) x 5 = 20":
+"(x + 2) . 5 = 20":
   type: "text"
   answers:
   - "2"
 
-"3 + X : 5 = 23":
+"3 + x : 5 = 20":
   type: "text"
   answers:
-  - "4"
+  - "85"
