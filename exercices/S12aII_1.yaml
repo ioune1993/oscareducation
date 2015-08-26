@@ -2,11 +2,13 @@
   type: "text"
   answers:
   - "0,6"
+  - "0.6"
 
 "4 x ... ":
   type: "text"
   answers:
   - "0,25"
+  - "0.25"
   - "1/4"
   - "1:4"
 
@@ -19,3 +21,4 @@
   type: "text"
   answers:
   - "0,376"
+  - "0.376"
