@@ -1,10 +1,10 @@
-"Dans 95,12      le 9 représente les ... ":
+"Dans 905,12      le 9 représente les ... ":
   type: "text"
   answers:
   - "centaines"
   - "centaine"
 
-"Dans 748,94    le 9 représente les ... ":
+"Dans 748,94     le 9 représente les ... ":
   type: "text"
   answers:
   - "dixieme"
