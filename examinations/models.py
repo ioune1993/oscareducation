@@ -158,7 +158,7 @@ class TestStudent(models.Model):
             return "fini"
 
     def __unicode__(self):
-        return "on %s (%s)" % (self.student, self.get_state())
+        return u"on %s (%s)" % (self.student, self.get_state())
 
 
 class Answer(models.Model):
