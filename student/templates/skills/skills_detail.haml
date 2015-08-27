@@ -18,7 +18,14 @@
 
     %ul
       -for video in object.videoskill_set.all
-        %li= video
+        %li
+          %a{href: "{{ video.url }}"}
+            =video.title
+          \-
+          =video.duration
+          \-
+          difficulté:
+          =video.difficulty
 
   .well
     %h3 Exercices
@@ -26,7 +33,18 @@
 
     %ul
       -for exercice in object.exerciceskill_set.all
-        %li= exercice
+        %li
+          %a{href: "{{ MEDIA_URL }}{{ exercice.questions }}"}
+            =exercice.title
+          \-
+          =exercice.duration
+          \-
+          difficulté:
+          =exercice.difficulty
+          -if exercice.answers
+            \-
+            %a{href: "{{ MEDIA_URL }}{{ exercice.answers }}"}
+              réponses
 
   .well
     %h3 Liens externes
@@ -34,4 +52,11 @@
 
     %ul
       -for external_link in object.externallinkskill_set.all
-        %li= external_link
+        %li
+          %a{href: "{{ external_link.url }}"}
+            =external_link.title
+          \-
+          =external_link.duration
+          \-
+          difficulté:
+          =external_link.difficulty
