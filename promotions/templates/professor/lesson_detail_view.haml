@@ -29,7 +29,7 @@
               {& skill.code &}
         %p{ng-if: "tests.length == 0"}
           %i
-            Vous n'avez pas encore de tests pour cette classe.
+            Vous n'avez pas encore de test pour cette classe.
 
         .panel.panel-default
           .panel-heading
@@ -41,11 +41,11 @@
                 %label.control-label Ce test portera sur :
                 %select.form-control{ng-model: "testType"}
                   %option{value: "skills"} les compétences sélectionnées
-                  %option{value: "dependencies"} les pre-requis des compétences sélectionnées
-                  %option{value: "skills-dependencies"} les compétences sélectionnées et de ses pre-requis
+                  %option{value: "dependencies"} les prérequis des compétences sélectionnées
+                  %option{value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
 
               .form-group
-                %label.control-label Compétences dont le test testera les prérequis :
+                %label.control-label Compétences sélectionnées :
                 %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
                   {& skill &}
 
@@ -91,7 +91,7 @@
                 .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
                   %label.control-label{for: "id_last_name"}
                     Nom
-                  %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name"}
+                  %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name"}
                   -for error in add_student_form.id_last_name.errors
                     %span.help-block= error
 
@@ -124,8 +124,8 @@
           %form{method: "POST", action: "{% url 'professor_students_password_page' lesson.pk %}"}
             -csrf_token
             %p
-              Générer une page à imprimer avec les informations de connections pour tous les élèves.
+              Générer une page à imprimer avec les informations de connexion pour tous les élèves.
             %p
               %b
-                Attention, cela modifiera le mot de passe de TOUS les élèves.
+                Attention! Cela modifiera le mot de passe de TOUS les élèves.
             %input.btn.btn-danger{type: "submit", value: "Générer"}
