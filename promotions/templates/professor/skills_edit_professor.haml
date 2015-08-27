@@ -27,7 +27,7 @@
 
     %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
       .synthese
-        =object.oscar_synthese|default:""
+        =object.oscar_synthese|default:""|safe
 
       %button.show-synthese-form.btn.btn-primary{data-target: "#synthese-form"}
         Modifier
