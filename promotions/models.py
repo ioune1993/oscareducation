@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 import random
 from django.db import models
 from django.contrib.auth.models import User
@@ -55,7 +57,7 @@ class Lesson(models.Model):
     students = models.ManyToManyField(Student)
     professors = models.ManyToManyField(Professor)
 
-    stage = models.ForeignKey(Stage)
+    stage = models.ForeignKey(Stage, verbose_name=u"Année")
 
     def __unicode__(self):
         return self.name
