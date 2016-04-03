@@ -30,3 +30,16 @@
 .well {
     padding-bottom: 9px;
 }
+
+.legend + .legend {
+    margin-top: 10px;
+}
+
+.legend div {
+    width: 75px;
+}
+
+.legend-list {
+    list-style-type: none;
+    padding-left: 0;
+}

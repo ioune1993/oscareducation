@@ -12,6 +12,42 @@
         %li
           %a{href: "{% url 'student_pass_test' student_test.id %}"}= student_test.test.name
 
+  %h5 Légende
+
+  .row
+    .col-md-6
+      %ul.legend-list
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-plus-square
+          nombres
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-cube
+          solides et figures
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-arrows-v
+          grandeurs
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-bar-chart
+          traitement de données
+    .col-md-6
+      %ul.legend-list
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-area-chart
+          fonctions
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-pie-chart
+          probabilités et statistiques
+        %li.legend
+          .btn.btn-default
+            %i.fa.fa-gears
+          compétences transversales
+
   %h2 Mon empreinte:
   %hr
 
