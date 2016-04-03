@@ -74,6 +74,12 @@ class VideoSkill(PedagogicalRessource):
     url = models.URLField()
 
 
+class KhanAcademyVideoSkill(models.Model):
+    skill = models.ForeignKey(Skill)
+    youtube_id = models.CharField(max_length=25)
+    url = models.URLField()
+
+
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")
     answers = models.FileField(upload_to="pedagogique_ressources/exercices/answers/", blank=True, null=True, verbose_name=u"Réponses (optionnel)")

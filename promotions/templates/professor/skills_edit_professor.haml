@@ -33,6 +33,43 @@
         Modifier
 
   .well
+    %h3 KhanAcademy
+
+    %ul
+      -for video in object.khanacademyvideoskill_set.all
+        %li
+          %a{href: "{{ video.url }}"}
+            =video.url
+
+    %form#video-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
+      -csrf_token
+
+      %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
+      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+
+      .row
+        .col-md-6
+          .form-group{class: "{% if khanacademy_skill_form.url.errors %}has-error{% elif khanacademy_skill_form.data and khanacademy_skill_form.url %}has-success{% endif %}"}
+            %label.control-label{for: "id_url"}
+              URL chez KhanAcademy
+            %input#id_url.form-control{type: "text", required: "", placeholder: "Titre", name: "url", value: '{{ khanacademy_skill_form.url.value|default:"" }}'}
+            -for error in khanacademy_skill_form.url.errors
+              %span.help-block= error
+
+        .col-md-6
+          %div{class: "form-group {% if khanacademy_skill_form.youtube_id.errors %}has-error{% elif khanacademy_skill_form.data and khanacademy_skill_form.youtube_id %}has-success{% endif %}"}
+            %label.control-label{for: "id_youtube_id"}
+              <b>id</b> de la vidéo youtube
+            %input#id_youtube_id.form-control{type: "text", required: "", placeholder: "Page de la vidéo", name: "youtube_id", value: '{{ khanacademy_skill_form.youtube_id.value|default:"" }}'}
+            -for error in khanacademy_skill_form.youtube_id.errors
+              %span.help-block= error
+
+      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
+    %button.show-form.btn.btn-primary{data-target: "#video-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
+      Ajouter une vidéo
+
+  .well
     %h3 Vidéos
 
     %ul

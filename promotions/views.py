@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm
+from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -232,6 +232,7 @@ def edit_pedagogical_ressources(request, slug):
     if request.method == "GET":
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
             "synthese_form": SyntheseForm(),
@@ -250,6 +251,22 @@ def edit_pedagogical_ressources(request, slug):
 
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": form,
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+
+    elif request.POST["form_type"] == "khanacademy_skill":
+        form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skills_edit_professor.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": form,
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
             "synthese_form": SyntheseForm(),
@@ -264,11 +281,13 @@ def edit_pedagogical_ressources(request, slug):
 
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": form,
             "external_link_skill_form": ExternalLinkSkillForm(),
             "synthese_form": SyntheseForm(),
             "object": skill,
         })
+
     elif request.POST["form_type"] == "external_link_skill":
         form = ExternalLinkSkillForm(request.POST)
         if form.is_valid():
@@ -277,6 +296,7 @@ def edit_pedagogical_ressources(request, slug):
 
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": form,
             "synthese_form": SyntheseForm(),
@@ -291,6 +311,7 @@ def edit_pedagogical_ressources(request, slug):
 
         return render(request, "professor/skills_edit_professor.haml", {
             "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
             "external_link_skill_form": ExternalLinkSkillForm(),
             "synthese_form": form,

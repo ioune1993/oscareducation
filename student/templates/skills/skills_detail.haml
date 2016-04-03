@@ -12,15 +12,17 @@
 
     =object.oscar_synthese|default:""|safe
 
-  .well{style: "background-color: white; border-color: #9FB73B"}
-    %img{src: "{{ STATIC_URL }}img/khanacademy-logo.png", width: "143px"}
+  -if object.khanacademyvideoskill_set.exists
+    .well{style: "background-color: white; border-color: #9FB73B"}
+      %img{src: "{{ STATIC_URL }}img/khanacademy-logo.png", width: "143px"}
 
-    %center
-      %p
-        <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/qAI4SptgdBo?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;origin=https://fr.khanacademy.org" data-translatedyoutubelang="fr" data-translatedyoutubeid="qAI4SptgdBo" data-youtubeid="qAI4SptgdBo" type="text/html" class="player" id="iframePlayer_view39"></iframe>
+      -for video in object.khanacademyvideoskill_set.all
+        %center
+          %p
+            <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ object.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ object.youtube_id }}" data-youtubeid="{{ object.youtube_id }}" type="text/html" class="player"></iframe>
 
-      %a{href: "https://fr.khanacademy.org/math/algebra-basics/core-algebra-foundations/core-algebra-foundations-negative-numbers/v/ordering-negative-numbers", style: "color: #9FB73B; font-weight: bold"}
-        Voir sur la KhanAcademy
+          %a{href: "{{ video.url }}", style: "color: #9FB73B; font-weight: bold"}
+            Voir sur la KhanAcademy
 
   .well
     %h3 Vidéos
