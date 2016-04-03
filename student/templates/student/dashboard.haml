@@ -27,9 +27,9 @@
           <tr>
         -elif forloop.counter0|divisibleby:12
           </tr><tr>
-        %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px; {% if student_skill.acquired %} background-color: green;{% elif student_skill.tested %} background-color: orange;{% endif %}"}
-          %a.skill{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
-            %abbr{title: "{{ student_skill.skill.name }}", style: "cursor: pointer; border: none"}= student_skill.skill.code
+        %td{style: "text-align: center; width: 100px; padding: 10px;"}
+          %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
+            %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
 
         -if forloop.last
           </tr>
