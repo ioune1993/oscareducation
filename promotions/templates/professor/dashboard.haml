@@ -12,6 +12,8 @@
       %li
         %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
           =lesson.name
+          \-
+          =lesson.stage
           -if lesson.students__count
             \-
             =lesson.students__count
