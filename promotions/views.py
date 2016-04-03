@@ -56,11 +56,19 @@ def lesson_detail_view(request, pk):
         student.lesson_set.add(lesson)
         # TODO send email to student here if email doesn't end in @example.com
 
-        for skill in Skill.objects.all():
-            StudentSkill.objects.create(
-                student=student,
-                skill=skill,
-            )
+        skills_to_handle = list(lesson.stage.skill_set.all())
+        handled_skills = []
+        with transaction.atomic():
+            while skills_to_handle:
+                skill = skills_to_handle.pop()
+
+                StudentSkill.objects.create(
+                    student=student,
+                    skill=skill,
+                )
+
+                handled_skills.append(skill)
+                skills_to_handle.extend(list(filter(lambda x: x not in handled_skills, skill.depends_on.all())))
 
         return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
