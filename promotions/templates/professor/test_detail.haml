@@ -5,7 +5,7 @@
     %small= object.display_test_type
   %hr
 
-  %h3 Compétences dont on teste les prérequis :
+  %h3 Compétences sélectionnées :
   %ul
     -for skill in object.skills.all
       %li
@@ -22,7 +22,7 @@
           =test_student.student
         %span.label{class: "label-{% if test_student.get_state == 'fini' %}success{% elif test_student.get_state == 'started' %}warning{% else %}danger{% endif %}"}= test_student.get_state
 
-  %h3 Compétences testées avec l'exercice sélectionné :
+  %h3 Compétences testées dans ce test :
 
   %ul
     -for test_exercice in object.testexercice_set.all
