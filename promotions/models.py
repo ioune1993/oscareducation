@@ -43,10 +43,19 @@ class Student(models.Model):
         ordering = ['user__last_name']
 
 
+class Stage(models.Model):
+    name = models.CharField("Nom", max_length=255, unique=True)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Lesson(models.Model):
     name = models.CharField("Nom", max_length=255)
     students = models.ManyToManyField(Student)
     professors = models.ManyToManyField(Professor)
+
+    stage = models.ForeignKey(Stage)
 
     def __unicode__(self):
         return self.name

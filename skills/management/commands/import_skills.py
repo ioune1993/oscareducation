@@ -2,6 +2,7 @@ import csv
 from django.core.management.base import BaseCommand
 
 from skills.models import Skill
+from promotions.models import Stage
 
 
 class Command(BaseCommand):
@@ -25,9 +26,14 @@ class Command(BaseCommand):
                 print "create", row["Code"]
                 skill.code = row["Code"]
 
+            if Stage.objects.filter(name=row['\xc3\x89tape']).exists():
+                stage = Stage.objects.get(name=row['\xc3\x89tape'])
+            else:
+                stage = Stage.objects.create(name=row['\xc3\x89tape'])
+
             skill.name=row['Intitul\xc3\xa9']
             skill.description=row['Commentaires']
-            skill.stage=row['\xc3\x89tape']
+            skill.stage=stage
             skill.level=row['Niveau']
             skill.section=rubrique
             skill.image=row["Image FontAwesome"]

@@ -15,7 +15,7 @@ class Skill(models.Model):
     description = models.CharField(max_length=255)
 
     level = models.PositiveIntegerField(db_index=True)
-    stage = models.CharField(max_length=255)
+    stage = models.ForeignKey("promotions.Stage")
     section = models.CharField(max_length=255)
 
     depends_on = models.ManyToManyField('Skill')
