@@ -20,6 +20,8 @@ class Skill(models.Model):
 
     depends_on = models.ManyToManyField('Skill')
 
+    image = models.CharField(max_length=255, null=True, blank=True)
+
     oscar_synthese = models.TextField(null=True, blank=True)
 
     class Meta:

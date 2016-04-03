@@ -30,6 +30,7 @@ class Command(BaseCommand):
             skill.stage=row['\xc3\x89tape']
             skill.level=row['Niveau']
             skill.section=rubrique
+            skill.image=row["Image FontAwesome"]
 
             skill.save()
 
