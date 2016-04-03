@@ -27,7 +27,7 @@
       %p
         =skill.description
 
-      %h2 Liens de dépendances:
+      %h2 Compétence(s) prérequise(s):
 
       -if skill.depends_on.all
         %ul
@@ -39,7 +39,7 @@
         %p
           Cette compétence n'a pas de prérequis.
 
-      %h2 Est un prérequis de:
+      %h2 Compétence(s) dépendante(s):
 
       -if skill.skill_set.all
         %ul
@@ -49,12 +49,12 @@
                 {{ dependance.code }}: {{ dependance.name }}
       -else
         %p
-          Cette compétence n'est un prérequis pour aucune autre compétence.
+          Aucune compétence ne dépend de celle-ci.
 
-      %h2 Matériel pédagogique
+      %h2 Matériel éducatif
 
       %a.btn.btn-primary{href: "{% url 'professor_skill_edit_pedagogical_ressources' skill.code %}"}
-        Voir et éditer le matriel pédagogique pour cette compétence
+        Voir et éditer le matériel éducatif pour cette compétence
 
     .col-md-3
       -if skill.skill_set.exists or skill.depends_on.exists
