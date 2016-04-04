@@ -29,12 +29,10 @@ class Command(BaseCommand):
             if Stage.objects.filter(name=row['\xc3\x89tape']).exists():
                 stage = Stage.objects.get(name=row['\xc3\x89tape'])
             else:
-                stage = Stage.objects.create(name=row['\xc3\x89tape'])
-
+                stage = Stage.objects.create(name=row['\xc3\x89tape'], level=row['Niveau'])
             skill.name=row['Intitul\xc3\xa9']
             skill.description=row['Commentaires']
             skill.stage=stage
-            skill.level=row['Niveau']
             skill.section=rubrique
             skill.image=row["Image FontAwesome"]
 

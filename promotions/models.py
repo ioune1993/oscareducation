@@ -30,7 +30,7 @@ class Student(models.Model):
         return self.user.email
 
     def skills_map(self):
-        return self.studentskill_set.all().select_related("skill").order_by('-skill__level', '-skill__code')
+        return self.studentskill_set.all().select_related("skill").order_by('-skill__stage__level', '-skill__code')
 
     def __unicode__(self):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
@@ -47,9 +47,13 @@ class Student(models.Model):
 
 class Stage(models.Model):
     name = models.CharField("Nom", max_length=255, unique=True)
+    level = models.PositiveSmallIntegerField("Niveau", unique=True)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        unique_together = ('name', 'level')
 
 
 class Lesson(models.Model):
