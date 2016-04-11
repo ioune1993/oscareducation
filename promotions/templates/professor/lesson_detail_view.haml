@@ -57,14 +57,12 @@
 
                 .form-group
                   %select.form-control{ng-model: "currentlySelectedSkill1"}
-                    {% regroup skills by stage as stage_skills %}
-                    {% for stage in stage_skills %}
-                    %optgroup{label: "{{ stage.grouper }}"}
-                      {% for skill in stage.list %}
-                      %option{value: "{{ skill.code }}"}
-                        {{ skill.code }} - {{ skill.name }}
-                      {% endfor %}
-                    {% endfor %}
+                    -regroup skills by stage as stage_skills
+                    -for stage in stage_skills
+                      %optgroup{label: "{{ stage.grouper }}"}
+                        -for skill in stage.list
+                          %option{value: "{{ skill.code }}"}
+                            {{ skill.code }} - {{ skill.name }}
 
                 .form-group
                   %button.btn.btn-primary{ng-click: "addSkillToTest(1)"}
@@ -77,15 +75,13 @@
                     %label.control-label Socle de compétences :
                     .form-group
                       %select.form-control{ng-model: "currentlySelectedSkill1"}
-                        {% regroup skills by stage as stage_skills %}
-                        {% for stage in stage_skills %}
+                        -regroup skills by stage as stage_skills
+                        -for stage in stage_skills
                           -if stage.grouper.level < 4
                             %optgroup{label: "{{ stage.grouper }}"}
-                              {% for skill in stage.list %}
+                              -for skill in stage.list
                               %option{value: "{{ skill.code }}"}
                                 {{ skill.code }} - {{ skill.name }}
-                              {% endfor %}
-                        {% endfor %}
 
                     .form-group
                       %button.btn.btn-primary{ng-click: "addSkillToTest(1)"}
@@ -96,15 +92,13 @@
 
                     .form-group
                       %select.form-control{ng-model: "currentlySelectedSkill2"}
-                        {% regroup skills by stage as stage_skills %}
-                        {% for stage in stage_skills %}
+                        -regroup skills by stage as stage_skills
+                        -for stage in stage_skills
                           -if stage.grouper.level >= 4
                             %optgroup{label: "{{ stage.grouper }}"}
-                              {% for skill in stage.list %}
+                              -for skill in stage.list
                               %option{value: "{{ skill.code }}"}
                                 {{ skill.code }} - {{ skill.name }}
-                              {% endfor %}
-                        {% endfor %}
 
                     .form-group
                       %button.btn.btn-primary{ng-click: "addSkillToTest(2)"}
