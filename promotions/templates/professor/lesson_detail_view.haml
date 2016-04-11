@@ -39,10 +39,15 @@
             %form.form
               .form-group
                 %label.control-label Ce test portera sur :
-                %select.form-control{ng-model: "testType"}
-                  %option{value: "skills"} les compétences sélectionnées
-                  %option{value: "dependencies"} les prérequis des compétences sélectionnées
-                  %option{value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
+                .radio
+                  %label
+                    %input{ng-model: "testType", type: "radio", value: "skills"} les compétences sélectionnées
+                .radio
+                  %label
+                    %input{ng-model: "testType", type: "radio", value: "dependencies"} les prérequis des compétences sélectionnées
+                .radio
+                  %label
+                    %input{ng-model: "testType", type: "radio", value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
 
               .form-group
                 %label.control-label Compétences sélectionnées :
