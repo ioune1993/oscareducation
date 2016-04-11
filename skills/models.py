@@ -27,7 +27,7 @@ class Skill(models.Model):
         ordering = ['code']
 
     def __unicode__(self):
-        return "%s [%s]" % (self.code, self.level)
+        return "%s [%s]" % (self.code, self.stage)
 
     def mermaid_graph(self):
         to_return = []
