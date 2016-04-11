@@ -68,6 +68,7 @@ def lesson_detail_view(request, pk):
 
     return render(request, "professor/lesson_detail_view.haml", {
         "lesson": lesson,
+        "skills": Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage"),
         "add_student_form": form,
     })
 
@@ -143,7 +144,7 @@ def lesson_tests_and_skills(request, lesson_id):
 
     return HttpResponse(json.dumps({
         "tests": [{"name": x.name, "skills": list(x.skills.all().values("code")), "type": x.display_test_type(), "id": x.id} for x in lesson.test_set.all()],
-        "skills": [x for x in Skill.objects.values("id", "code", "name").order_by('-code')],
+        "skills": [x for x in Skill.objects.filter(stage__level__lte=lesson.stage.level).values("id", "code", "name").order_by('-stage__level', '-code')],
     }, indent=4))
 
 
