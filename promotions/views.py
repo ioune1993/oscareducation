@@ -144,7 +144,8 @@ def lesson_tests_and_skills(request, lesson_id):
 
     return HttpResponse(json.dumps({
         "tests": [{"name": x.name, "skills": list(x.skills.all().values("code")), "type": x.display_test_type(), "id": x.id} for x in lesson.test_set.all()],
-        "skills": [x for x in Skill.objects.filter(stage__level__lte=lesson.stage.level).values("id", "code", "name").order_by('-stage__level', '-code')],
+        "skills1": [x for x in Skill.objects.filter(stage__level__lte=min(lesson.stage.level, 3)).values("id", "code", "name").order_by('-stage__level', '-code')],
+        "skills2": [x for x in Skill.objects.filter(stage__level__lte=lesson.stage.level, stage__level__gt=3).values("id", "code", "name").order_by('-stage__level', '-code')] if lesson.stage.level > 3 else [],
     }, indent=4))
 
 
