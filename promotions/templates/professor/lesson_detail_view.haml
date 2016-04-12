@@ -80,8 +80,8 @@
                           -if stage.grouper.level < 4
                             %optgroup{label: "{{ stage.grouper }}"}
                               -for skill in stage.list
-                              %option{value: "{{ skill.code }}"}
-                                {{ skill.code }} - {{ skill.name }}
+                                %option{value: "{{ skill.code }}"}
+                                  {{ skill.code }} - {{ skill.name }}
 
                     .form-group
                       %button.btn.btn-primary{ng-click: "addSkillToTest(1)"}
@@ -97,8 +97,8 @@
                           -if stage.grouper.level >= 4
                             %optgroup{label: "{{ stage.grouper }}"}
                               -for skill in stage.list
-                              %option{value: "{{ skill.code }}"}
-                                {{ skill.code }} - {{ skill.name }}
+                                %option{value: "{{ skill.code }}"}
+                                  {{ skill.code }} - {{ skill.name }}
 
                     .form-group
                       %button.btn.btn-primary{ng-click: "addSkillToTest(2)"}
