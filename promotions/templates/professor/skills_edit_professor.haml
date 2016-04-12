@@ -42,7 +42,7 @@
           %a{href: "{{ video.url }}"}
             =video.url
 
-    %form#video-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
+    %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
       -csrf_token
 
       %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
@@ -68,7 +68,7 @@
       %p
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    %button.show-form.btn.btn-primary{data-target: "#video-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
+    %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
       Ajouter une vidéo
 
   .well
