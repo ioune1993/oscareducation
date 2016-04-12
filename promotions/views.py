@@ -153,6 +153,7 @@ def lesson_tests_and_skills(request, lesson_id):
 @user_is_professor
 def add_test_for_lesson(request):
     # TODO: a professor can only do this on one of his lesson
+    # TODO: use django form
 
     data = json.load(request)
 
