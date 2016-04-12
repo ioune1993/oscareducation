@@ -30,7 +30,7 @@ class Student(models.Model):
         return self.user.email
 
     def skills_map(self):
-        return self.studentskill_set.all().select_related("skill", "skill__stage").order_by('-skill__stage__level', '-skill__code')
+        return self.studentskill_set.all().select_related("skill", "skill__stage").order_by('-skill__stage__level', '-skill__code').prefetch_related("skill__depends_on")
 
     def __unicode__(self):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username

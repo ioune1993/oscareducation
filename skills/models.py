@@ -145,3 +145,14 @@ class StudentSkill(models.Model):
         self.acquired = None
         self.tested = None
         self.save()
+
+    def recommanded_to_learn(self):
+        if self.acquired or not self.tested:
+            return False
+
+        for skill in self.skill.depends_on.all():
+            skill = StudentSkill.objects.get(student=self.student, skill=skill)
+            if not skill.acquired and skill.tested:
+                return False
+
+        return True
