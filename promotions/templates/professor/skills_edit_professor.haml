@@ -23,7 +23,8 @@
         -for error in synthese_form.synthese.errors
           %span.help-block= error
 
-      %input.btn.btn-primary{type: "submit", value: "Sauver"}
+      %p
+        %input.btn.btn-primary{type: "submit", value: "Sauver"}
 
     %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
       .synthese
@@ -64,7 +65,8 @@
             -for error in khanacademy_skill_form.youtube_id.errors
               %span.help-block= error
 
-      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+      %p
+        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
     %button.show-form.btn.btn-primary{data-target: "#video-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
       Ajouter une vidéo
@@ -133,7 +135,8 @@
               %span.help-block= error
 
 
-      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+      %p
+        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
     %button.show-form.btn.btn-primary{data-target: "#video-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
       Ajouter une vidéo
@@ -202,7 +205,8 @@
         -for error in exercice_skill_form.difficulty.errors
           %span.help-block= error
 
-      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+      %p
+        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
     %button.show-form.btn.btn-primary{data-target: "#exercice-form", style: "{% if exercice_skill_form.errors %}display: none{% endif %}"}
       Ajouter un exercice
@@ -271,7 +275,8 @@
               %span.help-block= error
 
 
-      %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+      %p
+        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
     %button.show-form.btn.btn-primary{data-target: "#external-link-form", style: "{% if external_link_skill_form.errors %}display: none{% endif %}"}
       Ajouter un lien externe
