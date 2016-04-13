@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Professor, Student, Lesson
+from .models import Professor, Student, Lesson, Stage
 
 
 class ProfessorAdmin(admin.ModelAdmin):
@@ -19,3 +19,9 @@ class LessonAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Lesson, LessonAdmin)
+
+
+class StageAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Stage, StageAdmin)
