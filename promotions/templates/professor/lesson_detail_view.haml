@@ -11,6 +11,12 @@
     };
 
 -block content
+  %ol.breadcrumb
+    %li= lesson.stage.name
+    %li.active
+      Classe
+      =lesson.name
+
   %h2 Classe :
     =lesson.name
 

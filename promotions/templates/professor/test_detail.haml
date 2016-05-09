@@ -1,6 +1,16 @@
 -extends "base.haml"
 
 -block content
+  %ol.breadcrumb
+    %li= object.lesson.stage.name
+    %li
+      %a{href: "{% url 'professor_lesson_detail_view' object.lesson.id %}"}
+        Classe
+        =object.lesson.name
+    %li.active
+      Test
+      =object.name
+
   %h2 Test '{{ object.name }}' pour la classe {{ object.lesson.name }}
     %small= object.display_test_type
   %hr

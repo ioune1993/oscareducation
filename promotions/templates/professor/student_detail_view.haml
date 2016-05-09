@@ -18,6 +18,19 @@
 
 -block content
   %div{ng-app: "oscar"}
+
+    %ol.breadcrumb
+      -with lesson=student.lesson_set.first
+        %li= lesson.stage.name
+        %li
+          %a{href: "{% url 'professor_lesson_detail_view' lesson.id %}"}
+            Classe
+            =lesson.name
+      %li.active
+        Élève
+        =student.user.first_name
+        =student.user.last_name
+
     %h1
       =student.user.first_name|title
       =student.user.last_name|title
