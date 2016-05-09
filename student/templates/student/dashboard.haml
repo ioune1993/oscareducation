@@ -1,6 +1,12 @@
 -extends "base.haml"
 
 -block content
+  %ol.breadcrumb
+    -with lesson=user.student.lesson_set.first
+      %li= lesson.stage.name
+      %li.active
+        Classe
+        = lesson.name
 
   -if user.student.teststudent_set.exists
     %h2 Mes tests:
