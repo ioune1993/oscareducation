@@ -11,7 +11,7 @@
       })
 
       $('.skill').each(function(index, node) {
-        node.setAttribute("data-content", node.nextSibling.innerHTML);
+        node.setAttribute("data-content", node.nextSibling.nextSibling.innerHTML);
       })
     })
 
@@ -68,7 +68,7 @@
 
     -for level in levels
       %h5
-        {{ level.grouper }}
+        Niveau {{ level.grouper }}
 
       %table
         -for student_skill in level.list
@@ -76,25 +76,25 @@
             <tr>
           -elif forloop.counter0|divisibleby:12
             </tr><tr>
-          %td{style: "border: solid #D3D3D3 1px; width: 100px; padding: 10px; {% if student_skill.acquired %} background-color: green;{% elif student_skill.tested %} background-color: orange;{% endif %}"}
-            %a.skill{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "Modification de la compétence", data-content: '', style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}', title: ""}
+          %td{style: "text-align: center; width: 100px; padding: 10px;"}
+            %a{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "", data-content: '', style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
               %abbr{title: "{{ student_skill.skill.name }}", style: "cursor: default; border: none"}= student_skill.skill.code
-              %div{style: "display: none"}
-                %center
-                  %p
-                    %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
-                  %p
-                    %form{action: "{% url 'professor_validate_student_skill' student_skill.id %}", method: "post"}
-                      -csrf_token
-                      %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
-                  %p
-                    %form{action: "{% url 'professor_unvalidate_student_skill' student_skill.id %}", method: "post"}
-                      -csrf_token
-                      %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
-                  %p
-                    %form{action: "{% url 'professor_default_student_skill' student_skill.id %}", method: "post"}
-                      -csrf_token
-                      %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
+            %div{style: "display: none"}
+              %center
+                %p
+                  %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
+                %p
+                  %form{action: "{% url 'professor_validate_student_skill' student_skill.id %}", method: "post"}
+                    -csrf_token
+                    %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
+                %p
+                  %form{action: "{% url 'professor_unvalidate_student_skill' student_skill.id %}", method: "post"}
+                    -csrf_token
+                    %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
+                %p
+                  %form{action: "{% url 'professor_default_student_skill' student_skill.id %}", method: "post"}
+                    -csrf_token
+                    %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
 
           -if forloop.last
             </tr>
