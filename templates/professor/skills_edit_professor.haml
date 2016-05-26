@@ -1,4 +1,5 @@
 -extends "base.haml"
+-load static
 -load bootstrap3
 
 -block content
@@ -34,7 +35,7 @@
         Modifier
 
   .well
-    %img{src: "{{ STATIC_URL }}img/khanacademy-logo.png", width: "143px"}
+    %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
 
     %ul
       -for video in object.khanacademyvideoskill_set.all

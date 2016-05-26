@@ -1,9 +1,10 @@
 -extends "base.haml"
+-load static
 
 -load bootstrap3
 
 -block head
-  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/professor_lesson.js"}
+  %script{type: "text/javascript", src: "{% static 'js/professor_lesson.js' %}"}
 
   :javascript
     context = {

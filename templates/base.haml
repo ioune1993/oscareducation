@@ -1,17 +1,18 @@
 -extends "bootstrap3/bootstrap3.html"
+-load static
 
 -block bootstrap3_title
   Oscar
 
 -block bootstrap3_extra_head
-  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/angular.js"}
-  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/angular-cookies.js"}
-  %script{type: "text/javascript", src: "{{ STATIC_URL }}js/base.js"}
+  %script{type: "text/javascript", src: "{% static 'js/angular.js' %}"}
+  %script{type: "text/javascript", src: "{% static 'js/angular-cookies.js' %}"}
+  %script{type: "text/javascript", src: "{% static 'js/base.js' %}"}
 
-  %link{href: "{{ STATIC_URL }}/css/style.css", rel: "stylesheet"}
+  %link{href: "{% static 'css/style.css' %}", rel: "stylesheet"}
   %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", rel: "stylesheet"}
 
-  %link{rel: "icon", type: "image/png", href: "{{ STATIC_URL }}img/favicon.png"}
+  %link{rel: "icon", type: "image/png", href: "{% static 'img/favicon.png' %}"}
 
   :css
     body {

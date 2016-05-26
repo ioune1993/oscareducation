@@ -22,8 +22,6 @@ SECRET_KEY = '*zz(eb9rfi-m)ke!*zsii9t3+xh5dpvf8p0gyj=i0ul5pw9$)!'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
-
 DEBUG_PROPAGATE_EXCEPTIONS = False
 
 
@@ -70,12 +68,25 @@ MIDDLEWARE_CLASSES = (
 )
 
 
-TEMPLATE_LOADERS = (
-    'hamlpy.template.loaders.HamlPyFilesystemLoader',
-    'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+TEMPLATES = [{
+    "BACKEND": "django.template.backends.django.DjangoTemplates",
+    "DIRS": [os.path.join(BASE_DIR, "templates")],
+    "OPTIONS": {
+        "debug": DEBUG,
+        'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+        ],
+        "loaders": (
+            'hamlpy.template.loaders.HamlPyFilesystemLoader',
+            'hamlpy.template.loaders.HamlPyAppDirectoriesLoader',
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+        ),
+    },
+}]
 
 ROOT_URLCONF = 'oscar.urls'
 
