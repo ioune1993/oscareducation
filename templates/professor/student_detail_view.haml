@@ -67,6 +67,8 @@
     %ul
       -for test_student in student.teststudent_set.all
         %li
+          %i.fa.fa-desktop{aria-hidden: "true"}
+          \-
           %a{href: "{% url 'professor_test_detail' test_student.test.pk %}"}
             =test_student.test.name
           -if test_student.test.display_test_type
