@@ -41,6 +41,12 @@ class Student(models.Model):
         self.user.save()
         return new_password
 
+    def done_tests(self):
+        return self.teststudent_set.filter(finished_at__isnull=False)
+
+    def todo_tests(self):
+        return self.teststudent_set.filter(started_at__isnull=True)
+
     class Meta:
         ordering = ['user__last_name']
 

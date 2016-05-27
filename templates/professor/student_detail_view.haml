@@ -64,17 +64,37 @@
 
     %h2 Tests soumis à l'élève:
 
+    %h4 Test passé :
+
     %ul
-      -for test_student in student.teststudent_set.all
+      -for test_student in student.done_tests
         %li
           %i.fa.fa-desktop{aria-hidden: "true"}
+          -if test_student.finished_at
+            =test_student.finished_at|date:"d/m/Y"
           \-
           %a{href: "{% url 'professor_test_detail' test_student.test.pk %}"}
             =test_student.test.name
           -if test_student.test.display_test_type
             %i
               =test_student.test.display_test_type
-          %span.label{class: "label-{% if test_student.get_state == 'fini' %}success{% elif test_student.get_state == 'started' %}warning{% else %}danger{% endif %}"}= test_student.get_state
+
+    %h4 Test à passé :
+
+    %ul
+      -for test_student in student.todo_tests
+        %li
+          %i.fa.fa-desktop{aria-hidden: "true"}
+          -if test_student.finished_at
+            =test_student.finished_at|date:"d/m/Y"
+          \-
+          %a{href: "{% url 'professor_test_detail' test_student.test.pk %}"}
+            =test_student.test.name
+          -if test_student.test.display_test_type
+            %i
+              =test_student.test.display_test_type
+          -if test_student.get_state == 'started'
+            %span.label{class: "label-warning"}= test_student.get_state
 
     %h2
       %a{name: "skills"}
