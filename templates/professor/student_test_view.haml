@@ -15,9 +15,21 @@
           Réponse attendu
       %tbody
         -for i in student_test.answer_set.all
-          %tr
+          %tr{class: "{% if i.correct %}success{% elif i.correct == False %}warning{% endif %}"}
             %td
-              =i
+              -if not i.automatic
+                =i.test_exercice.exercice.file_name|default:"[pas d'exercice]"
+                sur la compétence
+                =i.test_exercice.skill
+              -else
+                Inféré depuis les autres réponses sur la compétence
+                =i.test_exercice.skill
+            %td
+              -if i.raw_answer
+                =i.raw_answer
+            %td
+              -if i.test_exercice.exercice.content
+                =i.test_exercice.exercice.content
 
   -else
     %p L'élève n'a pas encore commencé le test.
