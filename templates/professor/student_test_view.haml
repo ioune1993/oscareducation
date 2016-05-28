@@ -1,0 +1,23 @@
+-extends "base.haml"
+
+-block content
+  %h1 Réponse de <i>{{ student }}</i> au test <i>{{ student_test.test }}</i> de type <i>{{ student_test.test.display_test_type }}</i>
+  %hr
+
+  -if test_student.started_at
+    %table.table
+      %thead
+        %th
+          Exercice
+        %th
+          Réponse de l'élève
+        %th
+          Réponse attendu
+      %tbody
+        -for i in student_test.answer_set.all
+          %tr
+            %td
+              =i
+
+  -else
+    %p L'élève n'a pas encore commencé le test.
