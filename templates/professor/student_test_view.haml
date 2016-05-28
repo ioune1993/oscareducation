@@ -4,7 +4,7 @@
   %h1 Réponse de <a href="{% url 'professor_student_detail_view' student.pk %}">{{ student }}</a> au test <a href="{% url 'professor_test_detail' student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
   %hr
 
-  -if test_student.started_at
+  -if student_test.started_at
     %table.table
       %thead
         %th
