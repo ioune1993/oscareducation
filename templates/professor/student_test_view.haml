@@ -33,7 +33,7 @@
                 -for question, answer in i.get_answers.items
                   %tr
                     %td{colspan: 2}
-                      .panel.panel-default
+                      .panel{class: "{% if answer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
                         .panel-heading
                           =question|safe
                         .panel-body.answers-panel
