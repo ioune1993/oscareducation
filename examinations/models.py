@@ -97,7 +97,6 @@ class Exercice(models.Model):
         return "on %s" % self.skill.code
 
     def get_questions(self):
-        print yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
         return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
 
     def is_valid(self, answers):
