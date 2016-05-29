@@ -33,14 +33,16 @@
                 -for question, answer in i.get_answers.items
                   %tr
                     %td{colspan: 2}
-                      %b.center= question|safe
-                  %tr
-                    %td{width: "50%"}
-                      %ul
-                        %li= answer.answer
-                    %td{width: "50%"}
-                      %ul
-                        %li= answer.correct
+                      .panel.panel-default
+                        .panel-heading
+                          =question|safe
+                        .panel-body.answers-panel
+                          %table.answers-table
+                            %tr
+                              %td.right-border{width: "50%"}
+                                =answer.answer
+                              %td{width: "50%"}
+                                =answer.correct
 
 
   -else

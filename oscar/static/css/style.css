@@ -51,3 +51,19 @@
 .center {
     text-align: center;
 }
+
+.answers-table {
+    width: 100%;
+}
+
+.answers-table td {
+    padding: 10px;
+}
+
+.answers-panel {
+    padding: 0px;
+}
+
+.right-border {
+    border-right: 1px #ddd solid;
+}
