@@ -27,7 +27,7 @@
               -if not i.test_exercice.exercice.file_name and not i.automatic
                 %i pas d'exercice disponible
               -elif not i.automatic
-                %table
+                %table.full-width
                   %tr
                     %td{colspan: 2}
                       -if i.test_exercice.exercice.content

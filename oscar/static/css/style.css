@@ -67,3 +67,7 @@
 .right-border {
     border-right: 1px #ddd solid;
 }
+
+.full-width {
+    width: 100%;
+}
