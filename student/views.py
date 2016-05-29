@@ -76,8 +76,15 @@ def validate_exercice(request, test_student, test_exercice):
         raw_answer = None
 
     else:
+        raw_answer = []
+        for number, (question, data) in enumerate(test_exercice.exercice.get_questions().items()):
+            if data["type"] == "checkbox":
+                raw_answer.append([str(number), request.POST.getlist(str(number))])
+            else:
+                raw_answer.append([str(number), request.POST[str(number)]])
+
         is_correct = test_exercice.exercice.is_valid(request.POST)
-        raw_answer = json.dumps(filter(lambda x: x[0].isdigit(), request.POST.items()), indent=4)
+        raw_answer = json.dumps(raw_answer, indent=4)
 
     print is_correct
 
