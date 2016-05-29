@@ -182,20 +182,11 @@ class Answer(models.Model):
         """
         Here student_answers is in this form:
 
-            [["1", "1"], ["0", "1"], ["2", "0"]]
+            {"1": 1, "0": "some text", "2": [1, 2]}
 
-        It's a json list of list where:
-
-        * the first item of the list of list is the question number
-        * the second one is the student answer
-
-        This format sucks and should probably be modified to something like:
-
-            [1, 1, 0]
-
-        Or:
-
-            {1: 1, 0: 1, 2: 0}
+        * key is the sub question number
+        * value is student answer
+        * json saves key as strings, otherwises they would be ints
 
         Questions is in this form:
 
