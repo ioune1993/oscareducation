@@ -8,41 +8,45 @@
     %table.table.table-bordered
       %thead
         %th
-          Exercice
+          Compétence / exercice
         %th
           Réponse de l'élève
         %th
           Réponse attendu
       %tbody
         -for i in student_test.answer_set.all
-          %tr{class: "{% if i.correct %}success{% elif i.correct == False %}warning{% endif %}"}
-            %td
-              -if not i.automatic
-                =i.test_exercice.exercice.file_name|default:"[pas d'exercice]"
-                sur la compétence
+          %tr
+            %td{class: "{% if i.correct %}success{% elif i.correct == False %}warning{% endif %}"}
+              %p
+                %b Compétence :
                 =i.test_exercice.skill
-              -else
-                Inféré depuis les autres réponses sur la compétence
-                =i.test_exercice.skill
+                %br
+                %b Exercice :
+                =i.test_exercice.exercice.file_name|default:"pas d'exercice disponible"
             %td{colspan: 2}
-              %table
-                %tr
-                  %td{colspan: 2}
-                    -if i.test_exercice.exercice.content
-                      %i= i.test_exercice.exercice.content|safe
-                -for question, answer in i.get_answers.items
+              -if not i.test_exercice.exercice.file_name and not i.automatic
+                %i pas d'exercice disponible
+              -elif not i.automatic
+                %table
                   %tr
                     %td{colspan: 2}
-                      .panel{class: "{% if answer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
-                        .panel-heading
-                          =question|safe
-                        .panel-body.answers-panel
-                          %table.answers-table
-                            %tr
-                              %td.right-border{width: "50%"}
-                                =answer.answer
-                              %td{width: "50%"}
-                                =answer.correct
+                      -if i.test_exercice.exercice.content
+                        %i= i.test_exercice.exercice.content|safe
+                  -for question, answer in i.get_answers.items
+                    %tr
+                      %td{colspan: 2}
+                        .panel{class: "{% if answer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
+                          .panel-heading
+                            =question|safe
+                          .panel-body.answers-panel
+                            %table.answers-table
+                              %tr
+                                %td.right-border{width: "50%"}
+                                  =answer.answer
+                                %td{width: "50%"}
+                                  =answer.correct
+              -else
+                %i Déduit depuis les autres réponses
 
 
   -else
