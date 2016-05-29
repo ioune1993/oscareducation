@@ -222,7 +222,8 @@ class Answer(models.Model):
             student_answer = int(student_answers[str(number)])
             result[question] = {
                 "type": answers["type"],
-                "answer": answers["answers"].items()[student_answer][0]
+                "answer": answers["answers"].items()[student_answer][0],
+                "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
            }
 
         return result

@@ -30,34 +30,18 @@
                   %td{colspan: 2}
                     -if i.test_exercice.exercice.content
                       %i= i.test_exercice.exercice.content|safe
-                %tr
-                  %td{width: "50%"}
-                    -for question, answer in i.get_answers.items
-                      %b= question|safe
+                -for question, answer in i.get_answers.items
+                  %tr
+                    %td{colspan: 2}
+                      %b.center= question|safe
+                  %tr
+                    %td{width: "50%"}
                       %ul
                         %li= answer.answer
+                    %td{width: "50%"}
+                      %ul
+                        %li= answer.correct
 
-
-                  %td{width: "50%"}
-                    -for label, question in i.test_exercice.exercice.get_questions.items
-                        %b= label|safe
-                        -if question.type == "text"
-                          %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
-                        -elif question.type == "radio"
-                          -with name=forloop.counter0
-                            -for option, valid in question.answers.items
-                              -if valid
-                                %ul
-                                  %li= option
-                        -elif question.type == "checkbox"
-                          -with name=forloop.counter0
-                            -for option in question.answers
-                              .radio
-                                %label
-                                  %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
-                                  =option
-                        -else
-                          =question.type
 
   -else
     %p L'élève n'a pas encore commencé le test.
