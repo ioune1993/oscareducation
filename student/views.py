@@ -79,7 +79,7 @@ def validate_exercice(request, test_student, test_exercice):
         raw_answer = {}
         for number, (question, data) in enumerate(test_exercice.exercice.get_questions().items()):
             if data["type"] == "checkbox":
-                raw_answer[number] = int(request.POST.getlist(str(number)))
+                raw_answer[number] = list(map(int, request.POST.getlist(str(number))))
             elif data["type"] == "radio":
                 raw_answer[number] = int(request.POST[str(number)])
             else:
