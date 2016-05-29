@@ -206,17 +206,34 @@ class Answer(models.Model):
 
         result = OrderedDict()
         questions = yaml.load(self.test_exercice.exercice.answer, Loader=yamlordereddictloader.Loader)
-        student_answers = dict(json.loads(self.raw_answer))
+        student_answers = json.loads(self.raw_answer)
 
         for number, (question, answers) in enumerate(questions.items()):
-            # XXX do all types
-            student_answer = int(student_answers[str(number)])
-            result[question] = {
-                "type": answers["type"],
-                "answer": answers["answers"].items()[student_answer][0],
-                "is_correct": answers["answers"].items()[student_answer][1],
-                "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
-           }
+            student_answer = student_answers[str(number)]
+
+            if answers["type"] == "radio":
+                result[question] = {
+                    "type": answers["type"],
+                    "answer": answers["answers"].items()[student_answer][0],
+                    "is_correct": answers["answers"].items()[student_answer][1],
+                    "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
+               }
+            elif answers["type"] == "text":
+                result[question] = {
+                    "type": answers["type"],
+                    "answer": student_answer,
+                    "is_correct": student_answer in answers["answers"],
+                    "correct": answers["answers"],
+               }
+            elif answers["type"] == "checkbox":
+                result[question] = {
+                    "type": answers["type"],
+                    "answer": [answers["answers"].items()[int(x)][0] for x in student_answer],
+                    "is_correct": [x[0] for x in enumerate(answers["answers"].items()) if x[1][1]] == student_answer,
+                    "correct": [x[0] for x in answers["answers"].items() if x[1]],
+               }
+            else:
+                print "Warning: unknown question type:", question, answers, self, self.test_exercice.exercice
 
         return result
 
