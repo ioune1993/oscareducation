@@ -35,16 +35,35 @@
                   -for question, answer in i.get_answers.items
                     %tr
                       %td{colspan: 2}
-                        .panel{class: "{% if answer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
+                        .answers-panel.panel{class: "{% if answer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
                           .panel-heading
                             =question|safe
                           .panel-body.answers-panel
                             %table.answers-table
-                              %tr
-                                %td.right-border{width: "50%"}
-                                  =answer.answer
-                                %td{width: "50%"}
-                                  =answer.correct
+                              -if answer.type == "checkbox"
+                                %tr
+                                  %td.right-border{width: "50%"}
+                                    %ul
+                                      -for j in answer.answer
+                                        %li= j
+                                  %td{width: "50%"}
+                                    %ul
+                                      -for j in answer.correct
+                                        %li= j
+                              -elif answer.type == "text"
+                                %tr
+                                  %td.right-border{width: "50%"}
+                                    =answer.answer
+                                  %td{width: "50%"}
+                                    %ul
+                                      -for j in answer.correct
+                                        %li= j
+                              -else
+                                %tr
+                                  %td.right-border{width: "50%"}
+                                    =answer.answer
+                                  %td{width: "50%"}
+                                    =answer.correct
               -else
                 %i Déduit depuis les autres réponses
 
