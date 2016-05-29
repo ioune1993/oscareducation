@@ -1,7 +1,10 @@
 # encoding: utf-8
 
+import json
 import yaml
 import yamlordereddictloader
+
+from collections import OrderedDict
 
 from django.db import models
 
@@ -174,6 +177,55 @@ class Answer(models.Model):
     test_exercice = models.ForeignKey(TestExercice)
 
     answer_datetime = models.DateTimeField(auto_now_add=True)
+
+    def get_answers(self):
+        """
+        Here student_answers is in this form:
+
+            [["1", "1"], ["0", "1"], ["2", "0"]]
+
+        It's a json list of list where:
+
+        * the first item of the list of list is the question number
+        * the second one is the student answer
+
+        This format sucks and should probably be modified to something like:
+
+            [1, 1, 0]
+
+        Or:
+
+            {1: 1, 0: 1, 2: 0}
+
+        Questions is in this form:
+
+            OrderedDict({
+                "this is the question summary" : {
+                    "type": "question_type",
+                    "answers": OrderedDict({
+                        "questions 1 (right answer)": True,
+                        "questions 2 (bad answer)": False,
+                    })
+                }
+            })
+        """
+
+        if not self.test_exercice.exercice:
+            return []
+
+        result = OrderedDict()
+        questions = yaml.load(self.test_exercice.exercice.answer, Loader=yamlordereddictloader.Loader)
+        student_answers = dict(json.loads(self.raw_answer))
+
+        for number, (question, answers) in enumerate(questions.items()):
+            # XXX do all types
+            student_answer = int(student_answers[str(number)])
+            result[question] = {
+                "type": answers["type"],
+                "answer": answers["answers"].items()[student_answer][0]
+           }
+
+        return result
 
     def create_other_valide_answers(self):
         def add_correct_answer_to_skill(student_skill):
