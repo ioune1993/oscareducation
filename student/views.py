@@ -76,12 +76,14 @@ def validate_exercice(request, test_student, test_exercice):
         raw_answer = None
 
     else:
-        raw_answer = []
+        raw_answer = {}
         for number, (question, data) in enumerate(test_exercice.exercice.get_questions().items()):
             if data["type"] == "checkbox":
-                raw_answer.append([str(number), request.POST.getlist(str(number))])
+                raw_answer[number] = int(request.POST.getlist(str(number)))
+            elif data["type"] == "radio":
+                raw_answer[number] = int(request.POST[str(number)])
             else:
-                raw_answer.append([str(number), request.POST[str(number)]])
+                raw_answer[number] = request.POST[str(number)]
 
         is_correct = test_exercice.exercice.is_valid(request.POST)
         raw_answer = json.dumps(raw_answer, indent=4)
