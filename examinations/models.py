@@ -296,3 +296,6 @@ class Answer(models.Model):
             )
 
         StudentSkill.objects.get(student=self.test_student.student, skill=self.test_exercice.skill).go_up_visitor(add_incorrect_answer_to_student_skill)
+
+    class Meta:
+        ordering = ["-test_exercice__skill__code"]
