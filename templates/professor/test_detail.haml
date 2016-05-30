@@ -42,3 +42,19 @@
         -else
           %b
             aucun exercice disponible pour l'instant
+
+  %h3 Réponse des élèves :
+
+  %table.table.table-bordered
+    %thead
+      %th{width: "20%"}
+        Élève / Compétences
+      -for i in object.testexercice_set.all
+        %th
+          =i.skill.code
+    -for test_student in object.teststudent_set.all
+      %tr
+        %td
+          =test_student.student
+        -for answer in test_student.answer_set.all
+          %td{class: "{% if answer.correct %}success{% else %}danger{% endif %}"}
