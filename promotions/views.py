@@ -106,7 +106,7 @@ def lesson_detail_view(request, pk):
 def lesson_skill_detail_view(request, lesson_pk, skill_code):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)
-    student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by("student__last_name", "student__first_name")
+    student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by("student__user__last_name", "student__user__first_name")
 
     return render(request, "professor/lesson_skill_detail_view.haml", {
         "lesson": lesson,

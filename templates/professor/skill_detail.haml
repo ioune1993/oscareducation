@@ -57,6 +57,10 @@
       %a.btn.btn-primary{href: "{% url 'professor_skill_edit_pedagogical_ressources' skill.code %}"}
         Voir et éditer le matériel éducatif pour cette compétence
 
+      %hr
+
+      -block after
+
     .col-md-3
       -if skill.skill_set.exists or skill.depends_on.exists
         .mermaid

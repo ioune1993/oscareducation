@@ -1,4 +1,40 @@
--extends "base.haml"
+-extends "professor/skill_detail.haml"
 
--block content
-  %p plop
+-block after
+  %table.table.table-bordered
+    %colgroup
+      %col{span: 1, style: "width: 25%"}
+    %tr
+      %th
+        =skill.code
+        \-
+        =skill.name
+      %th.center.success
+        Maitrisé
+      %th.center.warning
+        Non maitrisé
+      %th.center
+        None testé
+
+    -for student_skill in student_skills
+      %tr
+        %td= student_skill.student
+        -if student_skill.acquired
+          %td.success
+          %td
+          %td
+        -elif student_skill.tested
+          %td
+          %td.warning
+          %td
+        -else
+          %td
+          %td
+          %td
+
+    %tr
+      %td
+        %b Total
+      %td
+      %td
+      %td
