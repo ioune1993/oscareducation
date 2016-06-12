@@ -40,13 +40,13 @@
           <tr>
         -elif forloop.counter0|divisibleby:12
           </tr><tr>
-        %td{style: "text-align: center; width: 100px; padding: 10px;"}
+        %td.skill_box
           -if number_of_students == 0
             %a.btn.btn-default.skill{type: "button"}
               %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
           -else
-            %a.btn.btn-default.skill{type: "button"}
+            %a.btn.btn-default.skill{type: "button", class: "{{ skill.heatmap_class }}"}
               %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
         -if forloop.last

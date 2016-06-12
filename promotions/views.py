@@ -66,10 +66,39 @@ def lesson_detail_view(request, pk):
 
         return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
+    number_of_students = Lesson.objects.first().students.count()
+
+    skill_to_student_skill = {}
+    for student_skill in StudentSkill.objects.filter(student__lesson=lesson).select_related("skill"):
+        skill_to_student_skill.setdefault(student_skill.skill, list()).append(student_skill)
+
+    skills = Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage")
+    for skill in skills:
+        mastered = len([x for x in skill_to_student_skill[skill] if x.acquired])
+        not_mastered = len([x for x in skill_to_student_skill[skill] if not x.acquired and x.tested])
+        total = mastered + not_mastered
+
+        # normally number_of_students will never be equal to 0 in this loop
+        if (float(total) / number_of_students) < 0.75:
+            skill.heatmap_class = "mastered_not_enough"
+            continue
+
+        percentage = float(mastered) / total if total else 0
+
+        if percentage < 0.25:
+            skill.heatmap_class = "mastered_25"
+        elif percentage < 0.5:
+            skill.heatmap_class = "mastered_50"
+        elif percentage < 0.75:
+            skill.heatmap_class = "mastered_75"
+        else:
+            skill.heatmap_class = "mastered_100"
+
+
     return render(request, "professor/lesson_detail_view.haml", {
         "lesson": lesson,
-        "number_of_students": Lesson.objects.first().students.count(),
-        "skills": Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage"),
+        "number_of_students": number_of_students,
+        "skills": skills,
         "add_student_form": form,
     })
 

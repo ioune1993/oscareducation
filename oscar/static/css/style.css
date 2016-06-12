@@ -75,3 +75,29 @@
 .skill {
     width: 100%;
 }
+
+.skill_box {
+    width: 100px;
+    padding: 10px;
+    text-align: center;
+}
+
+.mastered_not_enough {
+    background-color: #9E9E9E;
+}
+
+.mastered_25 {
+    background-color: #F58025;
+}
+
+.mastered_50 {
+    background-color: #D4B05C;
+}
+
+.mastered_75 {
+    background-color: #81984C;
+}
+
+.mastered_100 {
+    background-color: #008000;
+}
