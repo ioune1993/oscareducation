@@ -108,10 +108,18 @@ def lesson_skill_detail_view(request, lesson_pk, skill_code):
     skill = get_object_or_404(Skill, code=skill_code)
     student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by("student__user__last_name", "student__user__first_name")
 
+    number_of_students = student_skills.count()
+    number_acquired = student_skills.filter(acquired__isnull=False).count()
+    number_not_acquired = student_skills.filter(acquired__isnull=True, tested__isnull=False).count()
+
     return render(request, "professor/lesson_skill_detail_view.haml", {
         "lesson": lesson,
         "skill": skill,
         "student_skills": student_skills,
+        "number_of_students": number_of_students,
+        "number_acquired": number_acquired,
+        "number_not_acquired": number_not_acquired,
+        "number_not_tested": number_of_students - number_acquired - number_not_acquired,
     })
 
 
