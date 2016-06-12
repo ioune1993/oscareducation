@@ -1,0 +1,53 @@
+-if number_of_students == 1
+  -with the_student=lesson.students.first
+    %h3 Vue Synthétique de {{ the_student }}
+
+    -regroup the_student.skills_map by skill.stage as levels
+
+    -for level in levels
+      %h5
+        Niveau {{ level.grouper }}
+
+      %table
+        -for student_skill in level.list
+          -if forloop.first
+            <tr>
+          -elif forloop.counter0|divisibleby:12
+            </tr><tr>
+          %td{style: "text-align: center; width: 100px; padding: 10px;"}
+            %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; {% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
+              %abbr{title: "{{ student_skill.skill.name }}", style: "cursor: default; border: none"}= student_skill.skill.code
+
+          -if forloop.last
+            </tr>
+
+    %br
+    %br
+    %br
+
+-else
+  %h3 Vue Synthétique
+
+  -regroup skills by stage as levels
+
+  -for level in levels
+    %h5
+      Niveau {{ level.grouper }}
+
+    %table
+      -for skill in level.list
+        -if forloop.first
+          <tr>
+        -elif forloop.counter0|divisibleby:12
+          </tr><tr>
+        %td{style: "text-align: center; width: 100px; padding: 10px;"}
+          -if number_of_students == 0
+            %a.btn.btn-default.skill{type: "button"}
+              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+          -else
+            %a.btn.btn-default.skill{type: "button"}
+              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+        -if forloop.last
+          </tr>

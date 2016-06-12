@@ -68,6 +68,7 @@ def lesson_detail_view(request, pk):
 
     return render(request, "professor/lesson_detail_view.haml", {
         "lesson": lesson,
+        "number_of_students": Lesson.objects.first().students.count(),
         "skills": Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage"),
         "add_student_form": form,
     })
