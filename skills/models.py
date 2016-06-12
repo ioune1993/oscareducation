@@ -96,7 +96,7 @@ class StudentSkill(models.Model):
     # bad: doesn't support regression
 
     def __unicode__(self):
-        return "%s - %s - %s" % (self.student, self.skill, "green" if self.acquired else ("orange" if self.tested else "white"))
+        return u"%s - %s - %s" % (self.student, self.skill, "green" if self.acquired else ("orange" if self.tested else "white"))
 
     def go_down_visitor(self, function):
         # protective code against loops in skill tree
