@@ -32,7 +32,7 @@
               {& test.name &}
             %i
               {& test.type &}
-            %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px; display: inline-block;"}
+            %span.label.label-info{ng-repeat: "skill in test.skills", style: "margin-right: 3px; display: inline-block;", title: "{& skill.name &}"}
               {& skill.code &}
         %p{ng-if: "tests.length == 0"}
           %i
@@ -59,7 +59,7 @@
               .form-group
               -if lesson.stage.level < 4
                 %label.control-label Socle de compétences :
-                %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
+                %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}"}
                   {& skill &}
 
                 .form-group
@@ -112,7 +112,7 @@
                         Ajouter cette compétence
 
                 %p
-                  %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px"}
+                  %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}" }
                     {& skill &}
 
 
