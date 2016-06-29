@@ -1,0 +1,79 @@
+-extends "base.haml"
+
+-block content
+  %h2 Compétence
+    =object.code
+    %small= object.name
+  %hr
+
+  .well
+    %h3 Synthèse <span style="color: #F58025">O</span>scar
+    %hr
+
+    =object.oscar_synthese|default:""|safe
+
+  -if object.khanacademyvideoskill_set.exists
+    .well{style: "background-color: white; border-color: #9FB73B"}
+      %img{src: "{{ STATIC_URL }}img/khanacademy-logo.png", width: "143px"}
+
+      -for video in object.khanacademyvideoskill_set.all
+        %center
+          %p
+            <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ object.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ object.youtube_id }}" data-youtubeid="{{ object.youtube_id }}" type="text/html" class="player"></iframe>
+
+          %a{href: "{{ video.url }}", style: "color: #9FB73B; font-weight: bold"}
+            Voir sur la KhanAcademy
+
+  .well
+    %h3 Vidéos
+    %hr
+
+    %ul
+      -for video in object.videoskill_set.all
+        %li
+          %a{href: "{{ video.url }}"}
+            =video.title
+          \-
+          =video.duration
+          \-
+          difficulté:
+          =video.difficulty
+
+  .well
+    %h3 Exercices
+    %hr
+
+    %ul
+      -for exercice in object.exerciceskill_set.all
+        %li
+          %a{href: "{{ MEDIA_URL }}{{ exercice.questions }}"}
+            =exercice.title
+          \-
+          =exercice.duration
+          \-
+          difficulté:
+          =exercice.difficulty
+          -if exercice.answers
+            \-
+            %a{href: "{{ MEDIA_URL }}{{ exercice.answers }}"}
+              réponses
+
+  .well
+    %h3 Liens externes
+    %hr
+
+    %ul
+      -for external_link in object.externallinkskill_set.all
+        %li
+          %a{href: "{{ external_link.url }}"}
+            =external_link.title
+          \-
+          =external_link.duration
+          \-
+          difficulté:
+          =external_link.difficulty
+
+  :css
+    h3 {
+      margin-top: 5px;
+    }
