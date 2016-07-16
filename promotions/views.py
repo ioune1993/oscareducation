@@ -33,6 +33,20 @@ def dashboard(request):
 
 
 @user_is_professor
+def lesson_add_view(request):
+    form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
+
+    if form.is_valid():
+        lesson = form.save()
+        lesson.professors.add(request.user.professor)
+        return HttpResponseRedirect(reverse("professor_dashboard"))
+
+    return render(request, "professor/lesson/lesson_create.haml", {
+        "add_lesson_form": form,
+    })
+
+
+@user_is_professor
 def lesson_detail_view(request, pk):
     form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
 
