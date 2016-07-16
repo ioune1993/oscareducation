@@ -128,6 +128,16 @@ def lesson_modify(request, pk):
 
 
 @user_is_professor
+def lesson_test_list(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    return render(request, "professor/lesson/test_list.haml", {
+        "lesson": lesson,
+        "tests": lesson.test_set.all(),
+    })
+
+
+@user_is_professor
 def lesson_test_add(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 

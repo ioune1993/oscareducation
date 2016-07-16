@@ -1,0 +1,24 @@
+-extends "base.haml"
+
+-block content
+  %ol.breadcrumb
+    %li= lesson.stage.name
+    %li
+      %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+        Classe
+        =lesson.name
+    %li.active
+      Liste des tests
+
+  %h3 Tests pour la classe {{ lesson.name }}
+
+  -if tests.exists
+    %table.table.table-bordered.table-striped
+      -for test in tests
+        %tr
+          %td
+            =test
+
+  -else
+    %p
+      Cette classe ne comporte pas encore de tests.
