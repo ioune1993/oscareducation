@@ -18,14 +18,6 @@
       Classe
       =lesson.name
 
-  %h2 Classe :
-    =lesson.name
-
-  .row
-    .col-md-6
-      -include "professor/lesson/lesson_detail_tests.haml"
-
-    .col-md-6
-      -include "professor/lesson/lesson_detail_students.haml"
+  -include "professor/lesson/lesson_detail_students.haml"
 
   -include "professor/lesson/lesson_detail_heatmap.haml"
