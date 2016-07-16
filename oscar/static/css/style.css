@@ -73,13 +73,8 @@
 }
 
 .skill {
-    width: 100%;
-}
-
-.skill_box {
-    width: 100px;
-    padding: 10px;
-    text-align: center;
+    width: 77px;
+    margin: 5px;
 }
 
 .mastered_not_enough {
@@ -102,4 +97,9 @@
 
 .mastered_100 {
     background-color: #FFED25;
+}
+
+.heatmap-list {
+    list-style-type: none;
+    padding-left: 0px;
 }
