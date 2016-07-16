@@ -11,37 +11,8 @@
       Test
       =object.name
 
-  %h2 Test '{{ object.name }}' pour la classe {{ object.lesson.name }}
-    %small= object.display_test_type
+  %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor_lesson_detail_view' object.lesson.pk %}">{{ object.lesson.name }}</a>
   %hr
-
-  %h3 Compétences sélectionnées :
-  %ul
-    -for skill in object.skills.all
-      %li
-        %a{href: "{% url 'professor_skill_detail_view' skill.code %}"}
-          =skill.code
-          \-
-          =skill.name
-
-  %h3 Élèves inscrits à ce test :
-  %ul
-    -for test_student in object.teststudent_set.all
-      %li
-        %a{href: "{% url 'professor_student_detail_view' test_student.student.pk %}"}
-          =test_student.student
-        %span.label{class: "label-{% if test_student.get_state == 'fini' %}success{% elif test_student.get_state == 'started' %}warning{% else %}danger{% endif %}"}= test_student.get_state
-
-  %h3 Compétences testées dans ce test :
-
-  %ul
-    -for test_exercice in object.testexercice_set.all
-      %li Compétence <a href="{% url 'professor_skill_detail_view' test_exercice.skill.code %}">{{ test_exercice.skill.code }}</a> testée par
-        -if test_exercice.exercice
-          l'exercice numéro <a href="{% url 'professor_exercice_detail' test_exercice.exercice.pk %}">{{ test_exercice.exercice.pk }}</a>
-        -else
-          %b
-            aucun exercice disponible pour l'instant
 
   %h3 Réponse des élèves :
 
@@ -59,3 +30,12 @@
             =test_student.student
         -for answer in test_student.answer_set.all
           %td{class: "{% if answer.correct %}success{% else %}danger{% endif %}"}
+
+  %h3 Compétences sélectionnées :
+  %ul
+    -for skill in object.skills.all
+      %li
+        %a{href: "{% url 'professor_skill_detail_view' skill.code %}"}
+          =skill.code
+          \-
+          =skill.name
