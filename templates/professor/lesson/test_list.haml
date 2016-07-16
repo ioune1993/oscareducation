@@ -13,11 +13,25 @@
   %h3 Tests pour la classe {{ lesson.name }}
 
   -if tests.exists
-    %table.table.table-bordered.table-striped
+    %table.table
       -for test in tests
         %tr
+          %td{width: "30px"}
+            =test.created_at|date:"d/m/Y"
+          %td{width: "8px"}
+            %i.fa.fa-desktop
           %td
-            =test
+            %a{href: "{% url 'professor_test_detail' test.pk %}"}
+              =test
+          %td.center{width: "20px"}
+            %a.btn.btn-sm.btn-default
+              Clôturer
+          %td.center{width: "20px"}
+            %a.btn.btn-sm.btn-default
+              Éditer
+          %td.center{width: "20px"}
+            %a.btn.btn-sm.btn-default
+              Effacer
 
   -else
     %p
