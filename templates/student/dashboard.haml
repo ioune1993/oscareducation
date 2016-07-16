@@ -47,18 +47,31 @@
     %h5
       Niveau {{ level.grouper }}
 
-    %table
-      -for student_skill in level.list|strip_untested_skills:forloop.first
-        -if forloop.first
-          <tr>
-        -elif forloop.counter0|divisibleby:12
-          </tr><tr>
-        %td{style: "text-align: center; width: 100px; padding: 10px;"}
-          %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
-            %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+    -if forloop.first
+      -regroup level.list by skill.section as sections
+      -for section in sections
+        %h5= section.grouper
 
-        -if forloop.last
-          </tr>
+        %ul.legend-list
+          -for student_skill in section.list
+            %li.legend
+              %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 75px{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
+                %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+              %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
+                {{ student_skill.skill.name }}
+    -else
+      %table
+        -for student_skill in level.list|strip_untested_skills
+          -if forloop.first
+            <tr>
+          -elif forloop.counter0|divisibleby:12
+            </tr><tr>
+          %td{style: "text-align: center; width: 100px; padding: 10px;"}
+            %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
+              %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+
+          -if forloop.last
+            </tr>
 
   %hr
   %h5 Légende
