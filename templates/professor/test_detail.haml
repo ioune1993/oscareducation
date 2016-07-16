@@ -32,10 +32,10 @@
           %td{class: "{% if answer.correct %}success{% else %}danger{% endif %}"}
 
   %h3 Compétences sélectionnées :
-  %ul
+  %ul.heatmap-list
     -for skill in object.skills.all
       %li
-        %a{href: "{% url 'professor_skill_detail_view' skill.code %}"}
-          =skill.code
-          \-
-          =skill.name
+        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor_lesson_skill_detail_view' object.lesson.pk skill.code %}"}
+          %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+        =skill.name
