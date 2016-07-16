@@ -56,10 +56,23 @@
             %i.fa.fa-gears
           compétences transversales
 
-  %h2 Mon empreinte:
+  -regroup user.student.skills_map by skill.stage as levels
+
+  %h2 Compétences recommandées:
   %hr
 
-  -regroup user.student.skills_map by skill.stage as levels
+  -for level in levels
+    -for student_skill in level.list
+      -if student_skill.recommanded_to_learn
+        %ul.legend-list
+          %li.legend
+            %a{type: "button", style: "width: 75px; border: black solid;", href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-warning"}
+              %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+            %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
+              {{ student_skill.skill.name }}
+
+  %h2 Mon empreinte:
+  %hr
 
   -for level in levels
     %h5
