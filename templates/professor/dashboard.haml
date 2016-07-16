@@ -5,6 +5,9 @@
 -block content
   %h2 Mes classes
 
+    %a.btn.btn-primary.pull-right{href: ""}
+      Ajouter une nouvelle classe
+
   %table.table.table-bordered
     -for lesson in lessons
       %tr
@@ -21,20 +24,14 @@
           -else
             pas encore d'élèves
         %td.center
-          %a.btn.btn-primary{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+          %a.btn.btn-default{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
             Vue Globale
         %td.center
-          %a.btn.btn-primary
+          %a.btn.btn-default
             Liste des tests
         %td.center
-          %a.btn.btn-primary
+          %a.btn.btn-default
             Création d'un test
-
-  %hr
-
-  .center
-    %a.btn.btn-primary{href: ""}
-      Ajouter une nouvelle classe
 
   -#
     %h2 Ajouter une classe :
