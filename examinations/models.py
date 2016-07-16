@@ -24,6 +24,11 @@ class Test(models.Model):
         ("skills-dependencies", "skills-dependencies"),
     ))
 
+    def prerequisistes(self):
+        selected_skills = self.skills.all()
+
+        return [x.skill for x in self.testexercice_set.exclude(skill__in=selected_skills).order_by('-skill__stage__level', '-skill__code')]
+
     def display_test_type(self):
         if self.type == "skills":
             return "compétences"
