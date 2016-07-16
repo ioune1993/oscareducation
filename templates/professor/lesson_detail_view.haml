@@ -3,14 +3,6 @@
 
 -load bootstrap3
 
--block head
-  %script{type: "text/javascript", src: "{% static 'js/professor_lesson.js' %}"}
-
-  :javascript
-    context = {
-      lessonId: {{ lesson.id }}
-    };
-
 -block content
   %ol.breadcrumb
     %li= lesson.stage.name
@@ -18,14 +10,6 @@
       Classe
       =lesson.name
 
-  %h2 Classe :
-    =lesson.name
-
-  .row
-    .col-md-6
-      -include "professor/lesson/lesson_detail_tests.haml"
-
-    .col-md-6
-      -include "professor/lesson/lesson_detail_students.haml"
+  -include "professor/lesson/lesson_detail_students.haml"
 
   -include "professor/lesson/lesson_detail_heatmap.haml"

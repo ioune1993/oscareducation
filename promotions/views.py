@@ -33,6 +33,20 @@ def dashboard(request):
 
 
 @user_is_professor
+def lesson_add_view(request):
+    form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
+
+    if form.is_valid():
+        lesson = form.save()
+        lesson.professors.add(request.user.professor)
+        return HttpResponseRedirect(reverse("professor_dashboard"))
+
+    return render(request, "professor/lesson/lesson_create.haml", {
+        "add_lesson_form": form,
+    })
+
+
+@user_is_professor
 def lesson_detail_view(request, pk):
     form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
 
@@ -102,6 +116,18 @@ def lesson_detail_view(request, pk):
         "number_of_students": number_of_students,
         "skills": skills,
         "add_student_form": form,
+    })
+
+
+@user_is_professor
+def lesson_test_add(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    skills = Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage")
+
+    return render(request, "professor/lesson/lesson_detail_add_test.haml", {
+        "lesson": lesson,
+        "skills": skills,
     })
 
 

@@ -19,6 +19,7 @@ function createTestController($scope, $http) {
         }).success(function(data, status, headers, config) {
             update_test_list();
             $scope.name = "";
+            $("#alerts").html('<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Le test a correctement été rajouté</div>');
         })
     }
 
