@@ -3,8 +3,6 @@
 -load bootstrap3
 
 -block content
-  %h1 Tableau de bord
-
   %h2 Mes classes
 
   %ul
@@ -28,13 +26,3 @@
       %button.btn.btn-primary{type: "submit"}
         Ajouter
     {% endbuttons %}
-
-  %h2 Autres liens
-
-  %ul
-    %li
-      %a{href: "{% url 'professor_exercice_list' %}"}
-        Voir tous les exercices disponibles
-    %li
-      %a{href: "{% url 'professor_skill_tree' %}"}
-        Voir l'arbre des compétences
