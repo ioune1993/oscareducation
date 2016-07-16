@@ -5,6 +5,8 @@
     %a.btn.btn-primary
       modifier la classe
     %a.btn.btn-primary
+      liste des tests
+    %a.btn.btn-primary{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
       ajouter un test
 
 -if lesson.students.count

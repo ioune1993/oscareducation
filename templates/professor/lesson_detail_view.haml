@@ -3,14 +3,6 @@
 
 -load bootstrap3
 
--block head
-  %script{type: "text/javascript", src: "{% static 'js/professor_lesson.js' %}"}
-
-  :javascript
-    context = {
-      lessonId: {{ lesson.id }}
-    };
-
 -block content
   %ol.breadcrumb
     %li= lesson.stage.name

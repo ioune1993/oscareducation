@@ -119,6 +119,18 @@ def lesson_detail_view(request, pk):
     })
 
 
+@user_is_professor
+def lesson_test_add(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    skills = Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage")
+
+    return render(request, "professor/lesson/lesson_detail_add_test.haml", {
+        "lesson": lesson,
+        "skills": skills,
+    })
+
+
 def lesson_skill_detail_view(request, lesson_pk, skill_code):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)
