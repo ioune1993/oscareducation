@@ -17,12 +17,19 @@
             =lesson.students__count
             élève{{ lesson.students__count|pluralize }}
 
-  %h2 Ajouter une classe :
+  %hr
 
-  %form.form{action: "", method: "post"}
-    -csrf_token
-    -bootstrap_form add_lesson_form
-    {% buttons %}
-      %button.btn.btn-primary{type: "submit"}
-        Ajouter
-    {% endbuttons %}
+  .center
+    %a.btn.btn-primary{href: ""}
+      Ajouter une nouvelle classe
+
+  -#
+    %h2 Ajouter une classe :
+
+    %form.form{action: "", method: "post"}
+      -csrf_token
+      -bootstrap_form add_lesson_form
+      {% buttons %}
+        %button.btn.btn-primary{type: "submit"}
+          Ajouter
+      {% endbuttons %}
