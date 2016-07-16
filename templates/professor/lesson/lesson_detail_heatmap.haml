@@ -31,23 +31,24 @@
   -regroup skills by stage as levels
 
   -for level in levels
-    %h5
+    %h4
       Niveau {{ level.grouper }}
 
-    %table
-      -for skill in level.list
-        -if forloop.first
-          <tr>
-        -elif forloop.counter0|divisibleby:12
-          </tr><tr>
-        %td.skill_box
-          -if number_of_students == 0
-            %a.btn.btn-default.skill{type: "button", href: "{% url 'professor_lesson_skill_detail_view' lesson.pk skill.code %}"}
-              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+    -regroup level.list by section as sections
 
-          -else
-            %a.btn.btn-default.skill{type: "button", class: "{{ skill.heatmap_class }}", href: "{% url 'professor_lesson_skill_detail_view' lesson.pk skill.code %}"}
-              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
-        -if forloop.last
-          </tr>
+    -for section in sections
+      %h5= section.grouper
+
+      %ul.heatmap-list
+        -for skill in section.list
+          %li
+            -if number_of_students == 0
+              %a.btn.btn-default.skill{type: "button", href: "{% url 'professor_lesson_skill_detail_view' lesson.pk skill.code %}"}
+                %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+            -else
+              %a.btn.btn-default.skill{type: "button", class: "{{ skill.heatmap_class }}", href: "{% url 'professor_lesson_skill_detail_view' lesson.pk skill.code %}"}
+                %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+            =skill.name

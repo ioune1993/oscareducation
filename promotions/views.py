@@ -48,37 +48,7 @@ def lesson_add_view(request):
 
 @user_is_professor
 def lesson_detail_view(request, pk):
-    form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
-
     lesson = get_object_or_404(Lesson, pk=pk)
-
-    # TODO: a professor can only see one of his lesson
-
-    if form.is_valid():
-        first_name = form.cleaned_data["first_name"]
-        last_name = form.cleaned_data["last_name"]
-        username = form.generate_student_username()
-        email = form.generate_email(username)
-
-        user = User.objects.create_user(username=username,
-                                        email=email,
-                                        password=generate_random_password(15),
-                                        first_name=first_name,
-                                        last_name=last_name)
-
-        student = Student.objects.create(user=user)
-        student.lesson_set.add(lesson)
-        # TODO send email to student here if email doesn't end in @example.com
-
-        with transaction.atomic():
-            for skill in Skill.objects.filter(stage__level__lte=lesson.stage.level):
-                StudentSkill.objects.create(
-                    student=student,
-                    skill=skill,
-                )
-
-
-        return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
     number_of_students = Lesson.objects.first().students.count()
 
@@ -115,7 +85,55 @@ def lesson_detail_view(request, pk):
         "lesson": lesson,
         "number_of_students": number_of_students,
         "skills": skills,
+    })
+
+
+@user_is_professor
+def lesson_modify(request, pk):
+    form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
+
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    # TODO: a professor can only see one of his lesson
+
+    if form.is_valid():
+        first_name = form.cleaned_data["first_name"]
+        last_name = form.cleaned_data["last_name"]
+        username = form.generate_student_username()
+        email = form.generate_email(username)
+
+        user = User.objects.create_user(username=username,
+                                        email=email,
+                                        password=generate_random_password(15),
+                                        first_name=first_name,
+                                        last_name=last_name)
+
+        student = Student.objects.create(user=user)
+        student.lesson_set.add(lesson)
+        # TODO send email to student here if email doesn't end in @example.com
+
+        with transaction.atomic():
+            for skill in Skill.objects.filter(stage__level__lte=lesson.stage.level):
+                StudentSkill.objects.create(
+                    student=student,
+                    skill=skill,
+                )
+
+        return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
+
+    return render(request, "professor/lesson/lesson_detail_students.haml", {
+        "lesson": lesson,
         "add_student_form": form,
+    })
+
+
+@user_is_professor
+def lesson_test_list(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    return render(request, "professor/lesson/test_list.haml", {
+        "lesson": lesson,
+        "tests": lesson.test_set.all(),
     })
 
 
