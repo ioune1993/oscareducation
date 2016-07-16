@@ -9,8 +9,9 @@
     -for lesson in lessons
       %tr
         %td
-          %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
-            =lesson.name
+          %h5
+            %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+              =lesson.name|capfirst
         %td
           =lesson.stage
         %td
@@ -19,6 +20,15 @@
             élève{{ lesson.students__count|pluralize }}
           -else
             pas encore d'élèves
+        %td.center
+          %a.btn.btn-primary{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+            Vue Globale
+        %td.center
+          %a.btn.btn-primary
+            Liste des tests
+        %td.center
+          %a.btn.btn-primary
+            Création d'un test
 
   %hr
 
