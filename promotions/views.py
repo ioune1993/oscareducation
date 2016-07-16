@@ -65,7 +65,7 @@ def lesson_detail_view(request, pk):
             total = mastered + not_mastered
 
             # normally number_of_students will never be equal to 0 in this loop
-            if (float(total) / number_of_students) < 0.75:
+            if total == 0:
                 skill.heatmap_class = "mastered_not_enough"
                 continue
 
@@ -133,7 +133,7 @@ def lesson_test_list(request, pk):
 
     return render(request, "professor/lesson/test_list.haml", {
         "lesson": lesson,
-        "tests": lesson.test_set.all(),
+        "tests": lesson.test_set.order_by('-created_at'),
     })
 
 
