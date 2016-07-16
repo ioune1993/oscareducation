@@ -5,17 +5,20 @@
 -block content
   %h2 Mes classes
 
-  %ul
+  %table.table.table-bordered
     -for lesson in lessons
-      %li
-        %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
-          =lesson.name
-          \-
+      %tr
+        %td
+          %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+            =lesson.name
+        %td
           =lesson.stage
+        %td
           -if lesson.students__count
-            \-
             =lesson.students__count
             élève{{ lesson.students__count|pluralize }}
+          -else
+            pas encore d'élèves
 
   %hr
 
