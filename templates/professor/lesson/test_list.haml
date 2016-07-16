@@ -11,6 +11,8 @@
       Liste des tests
 
   %h3 Tests pour la classe {{ lesson.name }}
+    %a.btn.btn-primary.pull-right{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
+      Ajouter un test
 
   -if tests.exists
     %table.table
