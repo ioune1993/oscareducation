@@ -14,7 +14,7 @@
   %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor_lesson_detail_view' object.lesson.pk %}">{{ object.lesson.name }}</a>
   %hr
 
-  %h3 Compétences sélectionnées :
+  %h3 Compétences sélectionnées
   %ul.heatmap-list
     -for skill in object.skills.all
       %li
@@ -23,7 +23,7 @@
 
         =skill.name
 
-  %h3 Réponse des élèves :
+  %h3 Réponse des élèves
 
   %table.table.table-bordered
     %thead
