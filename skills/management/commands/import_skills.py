@@ -13,7 +13,7 @@ class Command(BaseCommand):
         dependancies = {}
         rubrique = ''
 
-        for row in csv.DictReader(open(args[0], "r"), delimiter=",", quotechar='"'):
+        for row in csv.DictReader(open(args[0], "r"), delimiter=";", quotechar='"'):
 
             rubrique = row['Rubrique'] if row['Rubrique'] else rubrique
 
@@ -26,10 +26,12 @@ class Command(BaseCommand):
                 print "create", row["Code"]
                 skill.code = row["Code"]
 
-            if Stage.objects.filter(name=row['\xc3\x89tape']).exists():
-                stage = Stage.objects.get(name=row['\xc3\x89tape'])
+            if Stage.objects.filter(level=row['Niveau']).exists():
+                stage = Stage.objects.get(level=row['Niveau'])
+                stage.name = row['\xc3\x89tape']
             else:
                 stage = Stage.objects.create(name=row['\xc3\x89tape'], level=row['Niveau'])
+
             skill.name=row['Intitul\xc3\xa9']
             skill.description=row['Commentaires']
             skill.stage=stage
