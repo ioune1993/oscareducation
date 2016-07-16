@@ -10,6 +10,29 @@
       Classe
       =lesson.name
 
-  -include "professor/lesson/lesson_detail_students.haml"
+  %h3 Élèves :
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor_lesson_modify' lesson.pk %}"}
+        modifier la classe
+      %a.btn.btn-primary
+        liste des tests
+      %a.btn.btn-primary{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
+        ajouter un test
+
+  -if lesson.students.count
+    %table.table.table-bordered.table-striped
+      -for student in lesson.students.all
+        %tr
+          %td
+            %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+          %td
+            status du dernier test
+            %span.label.label-warning
+              pas commencé
+
+  -else
+    %p
+      %i
+        Vous n'avez pas encore d'élèves dans cette classe.
 
   -include "professor/lesson/lesson_detail_heatmap.haml"

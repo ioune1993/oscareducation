@@ -11,6 +11,7 @@ urlpatterns = patterns('promotions.views',
 
     url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail_view', name='professor_lesson_detail_view'),
     url(r'^lesson/add/$', 'lesson_add_view', name='professor_lesson_add_view'),
+    url(r'^lesson/(?P<pk>\d+)/modify/$', 'lesson_modify', name='professor_lesson_modify'),
     url(r'^lesson/(?P<pk>\d+)/test/add/$', 'lesson_test_add', name='professor_lesson_test_add'),
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail_view', name='professor_lesson_skill_detail_view'),
 
