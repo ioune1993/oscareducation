@@ -1,5 +1,7 @@
 -extends "base.haml"
 
+-load student_tags
+
 -block content
   %ol.breadcrumb
     -with lesson=user.student.lesson_set.first
@@ -64,7 +66,7 @@
       Niveau {{ level.grouper }}
 
     %table
-      -for student_skill in level.list
+      -for student_skill in level.list|strip_untested_skills:forloop.first
         -if forloop.first
           <tr>
         -elif forloop.counter0|divisibleby:12
