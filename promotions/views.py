@@ -133,7 +133,7 @@ def lesson_test_list(request, pk):
 
     return render(request, "professor/lesson/test_list.haml", {
         "lesson": lesson,
-        "tests": lesson.test_set.order_by('-date'),
+        "tests": lesson.test_set.order_by('-created_at'),
     })
 
 
