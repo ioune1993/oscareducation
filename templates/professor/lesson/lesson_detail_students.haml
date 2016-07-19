@@ -3,6 +3,8 @@
 
 -block content
   %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor_dashboard' %}"} Oscar
     %li= lesson.stage.name
     %li
       %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
