@@ -121,7 +121,7 @@ def lesson_modify(request, pk):
 
         return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
-    return render(request, "professor/lesson/lesson_detail_students.haml", {
+    return render(request, "professor/lesson/lesson_add_students.haml", {
         "lesson": lesson,
         "add_student_form": form,
     })
