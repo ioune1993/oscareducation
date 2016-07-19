@@ -81,7 +81,7 @@ def lesson_detail_view(request, pk):
                 skill.heatmap_class = "mastered_100"
 
 
-    return render(request, "professor/lesson_detail_view.haml", {
+    return render(request, "professor/lesson/lesson_detail_view.haml", {
         "lesson": lesson,
         "number_of_students": number_of_students,
         "skills": skills,
