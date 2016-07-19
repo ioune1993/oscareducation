@@ -3,20 +3,26 @@
 
   -regroup skills by stage as levels
 
-  -for level in levels
-    %h4
-      Niveau {{ level.grouper }}
+  #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
+    -for level in levels
+      .panel.panel-default
+        .panel-heading{role: "tab", id: "heading{{ level.grouper|slugify }}"}
+          %h4.panel-title
+            %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ level.grouper|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ level.grouper|slugify }}"}
+              Niveau {{ level.grouper }}
 
-    -regroup level.list by section as sections
+        -regroup level.list by section as sections
 
 
-    -for section in sections
-      %h5= section.grouper
+        .panel-collapse.collapse{id: "collapse{{ level.grouper|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ level.grouper|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
+          .panel-body
+            -for section in sections
+              %h5= section.grouper
 
-      %ul.heatmap-list
-        -for skill in section.list
-          %li
-            %a.btn.btn-default.skill{type: "button", class: "{{ skill.heatmap_class }}", href: "{% url 'professor_lesson_skill_detail_view' lesson.pk skill.code %}"}
-              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+              %ul.heatmap-list
+                -for skill in section.list
+                  %li
+                    %a.btn.btn-default.skill{type: "button", class: "{{ skill.heatmap_class }}", href: "{% url 'professor_lesson_skill_detail_view' lesson.pk skill.code %}"}
+                      %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
-            =skill.name
+                    =skill.name
