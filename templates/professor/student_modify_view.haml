@@ -1,0 +1,23 @@
+-extends "base.haml"
+
+-block head
+  %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
+
+-block content
+  %div{ng-app: "oscar"}
+    %ul
+      %li Nom d'utilisateur:
+        =student.user.username
+      %li Courriel:
+        =student.get_email
+
+    %h2 Authentification de l'élève
+
+    %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
+      %form{ng-submit: "askForNewPassword()"}
+        %p{ng-hide: "!password"}
+          Générer un nouveau mot de passe pour cet élève:
+          %span.label.label-default
+            {& password &}
+
+        %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}

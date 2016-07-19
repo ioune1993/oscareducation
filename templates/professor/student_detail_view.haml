@@ -18,8 +18,6 @@
 
 
 -block content
-  %div{ng-app: "oscar"}
-
     %ol.breadcrumb
       -with lesson=student.lesson_set.first
         %li
@@ -37,25 +35,11 @@
     %h1
       =student.user.first_name|title
       =student.user.last_name|title
+      .pull-right
+        %a.btn.btn-primary
+          modifier l'élève
 
     %hr
-
-    %ul
-      %li Nom d'utilisateur:
-        =student.user.username
-      %li Courriel:
-        =student.get_email
-
-    %h2 Authentification de l'élève
-
-    %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
-      %form{ng-submit: "askForNewPassword()"}
-        %p{ng-hide: "!password"}
-          Générer un nouveau mot de passe pour cet élève:
-          %span.label.label-default
-            {& password &}
-
-        %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}
 
     %h2 Tests soumis à l'élève:
 
