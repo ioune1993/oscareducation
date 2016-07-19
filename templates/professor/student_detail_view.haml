@@ -57,13 +57,6 @@
 
         %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}
 
-    %h2 Classe:
-
-    %ul
-      -for lesson in student.lesson_set.all
-        %li
-          %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}= lesson.name
-
     %h2 Tests soumis à l'élève:
 
     %h4 Test passé :
