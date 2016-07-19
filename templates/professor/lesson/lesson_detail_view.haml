@@ -14,6 +14,8 @@
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor_lesson_modify' lesson.pk %}"}
         modifier la classe
+      %a.btn.btn-primary
+        gérer mes élèves
       %a.btn.btn-primary{href: "{% url 'professor_lesson_test_list' lesson.pk %}"}
         liste des tests
       %a.btn.btn-primary{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
