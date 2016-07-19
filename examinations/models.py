@@ -158,11 +158,11 @@ class TestStudent(models.Model):
 
     def get_state(self):
         if not self.started_at:
-            return "pas encore commencé"
+            return u"pas encore commencé"
         elif not self.finished_at:
-            return "commencé"
+            return u"commencé"
         else:
-            return "fini"
+            return u"fini"
 
     def __unicode__(self):
         return u"on %s (%s)" % (self.student, self.get_state())
