@@ -181,6 +181,17 @@ def student_detail_view(request, pk):
 
 
 @user_is_professor
+def student_modify_view(request, pk):
+    # TODO: a professor can only modify one of his students
+
+    student = get_object_or_404(Student, pk=pk)
+
+    return render(request, "professor/student_modify_view.haml", {
+        "student": student,
+    })
+
+
+@user_is_professor
 def student_test_view(request, pk, test_pk):
     # TODO: a professor can only see one of his students
 
