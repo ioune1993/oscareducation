@@ -32,14 +32,3 @@
         %td.center
           %a.btn.btn-default{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
             Création d'un test
-
-  -#
-    %h2 Ajouter une classe :
-
-    %form.form{action: "", method: "post"}
-      -csrf_token
-      -bootstrap_form add_lesson_form
-      {% buttons %}
-        %button.btn.btn-primary{type: "submit"}
-          Ajouter
-      {% endbuttons %}
