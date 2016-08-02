@@ -1,0 +1,41 @@
+-extends "base.haml"
+-load static
+
+-load bootstrap3
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor_dashboard' %}"} Oscar
+    %li= lesson.stage.name
+    %li
+      Classe
+      %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+        =lesson.name
+    %li Gérer mes élèves
+
+  %h3 Élèves de {{ lesson.name }}
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor_lesson_modify' lesson.pk %}"}
+        ajouter un élève
+
+  -if lesson.students.count
+    %table.table.table-bordered.table-striped
+      -for student in lesson.students.all
+        %tr
+          %td
+            %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+          %td.center
+            %a.btn.btn-default{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+              vue détaillée
+          %td.center
+            %a.btn.btn-default
+              modifier
+          %td.center
+            %a.btn.btn-default
+              supprimer
+
+  -else
+    %p
+      %i
+        Vous n'avez pas encore d'élèves dans cette classe.
