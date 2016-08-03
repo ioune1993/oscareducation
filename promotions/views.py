@@ -41,7 +41,7 @@ def lesson_add_view(request):
         lesson.professors.add(request.user.professor)
         return HttpResponseRedirect(reverse("professor_dashboard"))
 
-    return render(request, "professor/lesson/lesson_create.haml", {
+    return render(request, "professor/lesson/create.haml", {
         "add_lesson_form": form,
     })
 
@@ -81,7 +81,7 @@ def lesson_detail_view(request, pk):
                 skill.heatmap_class = "mastered_100"
 
 
-    return render(request, "professor/lesson/lesson_detail_view.haml", {
+    return render(request, "professor/lesson/detail.haml", {
         "lesson": lesson,
         "number_of_students": number_of_students,
         "skills": skills,
@@ -121,7 +121,7 @@ def lesson_add_student(request, pk):
 
         return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
 
-    return render(request, "professor/lesson/lesson_add_students.haml", {
+    return render(request, "professor/lesson/student/add.haml", {
         "lesson": lesson,
         "add_student_form": form,
     })
@@ -131,7 +131,7 @@ def lesson_add_student(request, pk):
 def lesson_test_list(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
-    return render(request, "professor/lesson/test_list.haml", {
+    return render(request, "professor/lesson/test/list.haml", {
         "lesson": lesson,
         "tests": lesson.test_set.order_by('-created_at'),
     })
@@ -143,7 +143,7 @@ def lesson_test_add(request, pk):
 
     skills = Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage")
 
-    return render(request, "professor/lesson/lesson_detail_add_test.haml", {
+    return render(request, "professor/lesson/test/add.haml", {
         "lesson": lesson,
         "skills": skills,
     })
@@ -158,7 +158,7 @@ def lesson_skill_detail_view(request, lesson_pk, skill_code):
     number_acquired = student_skills.filter(acquired__isnull=False).count()
     number_not_acquired = student_skills.filter(acquired__isnull=True, tested__isnull=False).count()
 
-    return render(request, "professor/lesson_skill_detail_view.haml", {
+    return render(request, "professor/lesson/skill/detail.haml", {
         "lesson": lesson,
         "skill": skill,
         "student_skills": student_skills,
@@ -175,7 +175,7 @@ def student_detail_view(request, pk):
 
     student = get_object_or_404(Student, pk=pk)
 
-    return render(request, "professor/student_detail_view.haml", {
+    return render(request, "professor/lesson/student/detail.haml", {
         "student": student,
     })
 
@@ -186,7 +186,7 @@ def student_modify_view(request, pk):
 
     student = get_object_or_404(Student, pk=pk)
 
-    return render(request, "professor/student_modify_view.haml", {
+    return render(request, "professor/lesson/student/update.haml", {
         "student": student,
     })
 
@@ -198,7 +198,7 @@ def student_test_view(request, pk, test_pk):
     student = get_object_or_404(Student, pk=pk)
     student_test = get_object_or_404(TestStudent, pk=test_pk)
 
-    return render(request, "professor/student_test_view.haml", {
+    return render(request, "professor/lesson/student/test/detail.haml", {
         "student": student,
         "student_test": student_test,
     })
@@ -314,7 +314,7 @@ def add_test_for_lesson(request):
 
 @user_is_professor
 def exercice_list(request):
-    return render(request, 'professor/exercice_list.haml', {
+    return render(request, 'professor/exercice/list.haml', {
         "exercice_list": Exercice.objects.select_related('skill'),
         "skills_without_exercices": Skill.objects.filter(exercice__isnull=True),
     })
@@ -337,7 +337,7 @@ def students_password_page(request, pk):
                 "password": student.generate_new_password(),
             })
 
-    return render(request, "professor/students_password_page.haml", {
+    return render(request, "professor/lesson/student/password_page.haml", {
         "students": students
     })
 
@@ -347,7 +347,7 @@ def edit_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
     if request.method == "GET":
-        return render(request, "professor/skills_edit_professor.haml", {
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
             "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
@@ -366,7 +366,7 @@ def edit_pedagogical_ressources(request, slug):
             form.save()
             return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skills_edit_professor.haml", {
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": form,
             "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
@@ -381,7 +381,7 @@ def edit_pedagogical_ressources(request, slug):
             form.save()
             return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skills_edit_professor.haml", {
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
             "khanacademy_skill_form": form,
             "exercice_skill_form": ExerciceSkillForm(),
@@ -396,7 +396,7 @@ def edit_pedagogical_ressources(request, slug):
             form.save()
             return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skills_edit_professor.haml", {
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
             "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": form,
@@ -411,7 +411,7 @@ def edit_pedagogical_ressources(request, slug):
             form.save()
             return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skills_edit_professor.haml", {
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
             "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),
@@ -426,7 +426,7 @@ def edit_pedagogical_ressources(request, slug):
             skill.save()
             return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skills_edit_professor.haml", {
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
             "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
             "exercice_skill_form": ExerciceSkillForm(),

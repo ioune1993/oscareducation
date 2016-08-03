@@ -34,7 +34,7 @@
         %ul
           -for dependance in skill.depends_on.all
             %li
-              %a{href: "{% url 'professor_skill_detail_view' dependance.code %}"}
+              %a{href: "{% url 'professor:skill_detail' dependance.code %}"}
                 {{ dependance.code }}: {{ dependance.name }}
       -else
         %p
@@ -46,7 +46,7 @@
         %ul
           -for dependance in skill.skill_set.all
             %li
-              %a{href: "{% url 'professor_skill_detail_view' dependance.code %}"}
+              %a{href: "{% url 'professor:skill_detail' dependance.code %}"}
                 {{ dependance.code }}: {{ dependance.name }}
       -else
         %p
@@ -54,7 +54,7 @@
 
       %h2 Matériel éducatif
 
-      %a.btn.btn-primary{href: "{% url 'professor_skill_edit_pedagogical_ressources' skill.code %}"}
+      %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
         Voir et éditer le matériel éducatif pour cette compétence
 
       %hr

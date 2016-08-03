@@ -19,7 +19,7 @@
     -for student_skill in student_skills
       %tr
         %td
-          %a{href: "{% url 'professor_student_detail_view' student_skill.student.pk %}"}= student_skill.student
+          %a{href: "{% url 'professor:student_detail' student_skill.student.pk %}"}= student_skill.student
         -if student_skill.acquired
           %td.success
           %td
