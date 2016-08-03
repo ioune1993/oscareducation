@@ -89,7 +89,7 @@ def lesson_detail_view(request, pk):
 
 
 @user_is_professor
-def lesson_modify(request, pk):
+def lesson_add_student(request, pk):
     form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
 
     lesson = get_object_or_404(Lesson, pk=pk)

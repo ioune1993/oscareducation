@@ -16,7 +16,7 @@
 
   %h3 Élèves de {{ lesson.name }}
     .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor_lesson_modify' lesson.pk %}"}
+      %a.btn.btn-primary{href: "{% url 'professor_lesson_add_student' lesson.pk %}"}
         ajouter un élève
 
   -if lesson.students.count
