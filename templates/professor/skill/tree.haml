@@ -11,6 +11,6 @@
   .mermaid
     graph BT;
     -for skill in skill_list
-      {{ skill.code }}[<a href="{% url 'professor_skill_detail_view' skill.code %}" style="color: white">{{ skill.code }}</a>]
+      {{ skill.code }}[<a href="{% url 'professor:skill_detail' skill.code %}" style="color: white">{{ skill.code }}</a>]
       -for top_skill in skill.skill_set.all
         {{ skill.code }}-->{{ top_skill.code }}

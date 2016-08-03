@@ -6,17 +6,17 @@
 -block content
   %ol.breadcrumb
     %li
-      %a{href: "{% url 'professor_dashboard' %}"} Oscar
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li= lesson.stage.name
     %li
       Classe
-      %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
         =lesson.name
     %li Gérer mes élèves
 
   %h3 Élèves de {{ lesson.name }}
     .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor_lesson_add_student' lesson.pk %}"}
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
         ajouter un élève
 
   -if lesson.students.count
@@ -24,9 +24,9 @@
       -for student in lesson.students.all
         %tr
           %td
-            %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+            %a{href: "{% url 'professor:student_detail' student.pk %}"}= student
           %td.center
-            %a.btn.btn-default{href: "{% url 'professor_student_detail_view' student.pk %}"}
+            %a.btn.btn-default{href: "{% url 'professor:student_detail' student.pk %}"}
               vue détaillée
           %td.center
             %a.btn.btn-default

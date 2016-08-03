@@ -6,7 +6,7 @@
 -block content
   %ol.breadcrumb
     %li
-      %a{href: "{% url 'professor_dashboard' %}"} Oscar
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li= lesson.stage.name
     %li.active
       Classe
@@ -16,11 +16,11 @@
     .pull-right
       %a.btn.btn-primary
         modifier la classe
-      %a.btn.btn-primary{href: "{% url 'professor_lesson_student_list' lesson.pk %}"}
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
         gérer mes élèves
-      %a.btn.btn-primary{href: "{% url 'professor_lesson_test_list' lesson.pk %}"}
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
         liste des tests
-      %a.btn.btn-primary{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
         ajouter un test
 
   -if lesson.students.count
@@ -28,7 +28,7 @@
       -for student in lesson.students.all
         %tr
           %td
-            %a{href: "{% url 'professor_student_detail_view' student.pk %}"}= student
+            %a{href: "{% url 'professor:student_detail' student.pk %}"}= student
           %td
             status du dernier test
             %span.label.label-warning

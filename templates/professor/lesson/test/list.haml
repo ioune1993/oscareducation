@@ -3,17 +3,17 @@
 -block content
   %ol.breadcrumb
     %li
-      %a{href: "{% url 'professor_dashboard' %}"} Oscar
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li= lesson.stage.name
     %li
-      %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
         Classe
         =lesson.name
     %li.active
       Liste des tests
 
   %h3 Tests pour la classe {{ lesson.name }}
-    %a.btn.btn-primary.pull-right{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
+    %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
       Ajouter un test
 
   -if tests.exists
@@ -25,7 +25,7 @@
           %td{width: "8px"}
             %i.fa.fa-desktop
           %td
-            %a{href: "{% url 'professor_test_detail' test.pk %}"}
+            %a{href: "{% url 'professor:test_detail' test.pk %}"}
               =test
           %td.center{width: "20px"}
             %a.btn.btn-sm.btn-default

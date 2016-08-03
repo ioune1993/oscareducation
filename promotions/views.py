@@ -24,7 +24,7 @@ def dashboard(request):
     if form.is_valid():
         lesson = form.save()
         lesson.professors.add(request.user.professor)
-        return HttpResponseRedirect(reverse("professor_dashboard"))
+        return HttpResponseRedirect(reverse("professor:dashboard"))
 
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")),
@@ -39,7 +39,7 @@ def lesson_add_view(request):
     if form.is_valid():
         lesson = form.save()
         lesson.professors.add(request.user.professor)
-        return HttpResponseRedirect(reverse("professor_dashboard"))
+        return HttpResponseRedirect(reverse("professor:dashboard"))
 
     return render(request, "professor/lesson/create.haml", {
         "add_lesson_form": form,
@@ -119,7 +119,7 @@ def lesson_add_student(request, pk):
                     skill=skill,
                 )
 
-        return HttpResponseRedirect(reverse("professor_lesson_detail_view", args=(lesson.pk,)))
+        return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
 
     return render(request, "professor/lesson/student/add.haml", {
         "lesson": lesson,
@@ -226,7 +226,7 @@ def validate_student_skill(request, student_skill):
 
     student_skill.validate()
 
-    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:student_detail', args=(student_skill.student.id,)) + "#skills")
 
 
 @require_POST
@@ -238,7 +238,7 @@ def unvalidate_student_skill(request, student_skill):
 
     student_skill.unvalidate()
 
-    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:student_detail', args=(student_skill.student.id,)) + "#skills")
 
 
 @require_POST
@@ -250,7 +250,7 @@ def default_student_skill(request, student_skill):
 
     student_skill.default()
 
-    return HttpResponseRedirect(reverse('professor_student_detail_view', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:student_detail', args=(student_skill.student.id,)) + "#skills")
 
 
 @user_is_professor
@@ -364,7 +364,7 @@ def edit_pedagogical_ressources(request, slug):
         form = VideoSkillForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": form,
@@ -379,7 +379,7 @@ def edit_pedagogical_ressources(request, slug):
         form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
@@ -394,7 +394,7 @@ def edit_pedagogical_ressources(request, slug):
         form = ExerciceSkillForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
@@ -409,7 +409,7 @@ def edit_pedagogical_ressources(request, slug):
         form = ExternalLinkSkillForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),
@@ -424,7 +424,7 @@ def edit_pedagogical_ressources(request, slug):
         if form.is_valid():
             skill.oscar_synthese = form.cleaned_data["synthese"]
             skill.save()
-            return HttpResponseRedirect(reverse('professor_skill_edit_pedagogical_ressources', args=(skill.code,)))
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": VideoSkillForm(),

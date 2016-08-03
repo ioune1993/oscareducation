@@ -21,10 +21,10 @@
     %ol.breadcrumb
       -with lesson=student.lesson_set.first
         %li
-          %a{href: "{% url 'professor_dashboard' %}"} Oscar
+          %a{href: "{% url 'professor:dashboard' %}"} Oscar
         %li= lesson.stage.name
         %li
-          %a{href: "{% url 'professor_lesson_detail_view' lesson.id %}"}
+          %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
             Classe
             =lesson.name
       %li.active
@@ -36,7 +36,7 @@
       =student.user.first_name|title
       =student.user.last_name|title
       .pull-right
-        %a.btn.btn-primary{href: "{% url 'professor_student_modify_view' student.pk %}"}
+        %a.btn.btn-primary{href: "{% url 'professor:student_update' student.pk %}"}
           modifier l'élève
 
     %hr
@@ -52,7 +52,7 @@
           -if test_student.finished_at
             =test_student.finished_at|date:"d/m/Y"
           \-
-          %a{href: "{% url 'professor_student_test_view' student.pk test_student.pk %}"}
+          %a{href: "{% url 'professor:student_test' student.pk test_student.pk %}"}
             =test_student.test.name
           -if test_student.test.display_test_type
             %i
@@ -67,7 +67,7 @@
           -if test_student.finished_at
             =test_student.finished_at|date:"d/m/Y"
           \-
-          %a{href: "{% url 'professor_student_test_view' student.pk test_student.pk %}"}
+          %a{href: "{% url 'professor:student_test' student.pk test_student.pk %}"}
             =test_student.test.name
           -if test_student.test.display_test_type
             %i
@@ -97,17 +97,17 @@
             %div{style: "display: none"}
               %center
                 %p
-                  %a{href: "{% url 'professor_skill_detail_view' student_skill.skill.code %}"} Détails de la compétence
+                  %a{href: "{% url 'professor:skill_detail' student_skill.skill.code %}"} Détails de la compétence
                 %p
-                  %form{action: "{% url 'professor_validate_student_skill' student_skill.id %}", method: "post"}
+                  %form{action: "{% url 'professor:validate_student_skill' student_skill.id %}", method: "post"}
                     -csrf_token
                     %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
                 %p
-                  %form{action: "{% url 'professor_unvalidate_student_skill' student_skill.id %}", method: "post"}
+                  %form{action: "{% url 'professor:unvalidate_student_skill' student_skill.id %}", method: "post"}
                     -csrf_token
                     %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
                 %p
-                  %form{action: "{% url 'professor_default_student_skill' student_skill.id %}", method: "post"}
+                  %form{action: "{% url 'professor:default_student_skill' student_skill.id %}", method: "post"}
                     -csrf_token
                     %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
 

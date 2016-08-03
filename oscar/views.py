@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 
 def root_redirection(request):
     if hasattr(request.user, "professor"):
-        return HttpResponseRedirect(reverse("professor_dashboard"))
+        return HttpResponseRedirect(reverse("professor:dashboard"))
 
     if hasattr(request.user, "student"):
         return HttpResponseRedirect(reverse("student_dashboard"))

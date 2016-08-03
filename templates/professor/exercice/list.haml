@@ -14,7 +14,7 @@
     -for exercice in skill.list
       %ul
         %li
-          %a{href: "{% url 'professor_exercice_detail' exercice.pk %}"}
+          %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
             Exercice numéro
             =exercice.id
 

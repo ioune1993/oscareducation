@@ -4,21 +4,21 @@
   %ol.breadcrumb
     %li= object.lesson.stage.name
     %li
-      %a{href: "{% url 'professor_lesson_detail_view' object.lesson.id %}"}
+      %a{href: "{% url 'professor:lesson_detail' object.lesson.id %}"}
         Classe
         =object.lesson.name
     %li.active
       Test
       =object.name
 
-  %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor_lesson_detail_view' object.lesson.pk %}">{{ object.lesson.name }}</a>
+  %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
   %hr
 
   %h3 Compétences sélectionnées
   %ul.heatmap-list
     -for skill in object.skills.all
       %li
-        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor_lesson_skill_detail_view' object.lesson.pk skill.code %}"}
+        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
           %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
         =skill.name
@@ -28,7 +28,7 @@
     %ul.heatmap-list
       -for skill in object.prerequisistes
         %li
-          %a.btn.btn-default.skill{type: "button", href: "{% url 'professor_lesson_skill_detail_view' object.lesson.pk skill.code %}"}
+          %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
             %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
           =skill.name
@@ -45,7 +45,7 @@
     -for test_student in object.teststudent_set.all
       %tr
         %td
-          %a{href: "{% url 'professor_student_test_view' test_student.student.pk test_student.pk %}"}
+          %a{href: "{% url 'professor:student_test' test_student.student.pk test_student.pk %}"}
             =test_student.student
         -for answer in test_student.answer_set.all
           %td{class: "{% if answer.correct %}success{% else %}danger{% endif %}"}

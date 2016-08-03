@@ -5,7 +5,7 @@
 -block content
   %h2 Mes classes
 
-    %a.btn.btn-primary.pull-right{href: "{% url 'professor_lesson_add_view' %}"}
+    %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_add' %}"}
       Ajouter une nouvelle classe
 
   %table.table.table-bordered
@@ -13,7 +13,7 @@
       %tr
         %td
           %h5
-            %a{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+            %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
               =lesson.name|capfirst
         %td
           =lesson.stage
@@ -24,11 +24,11 @@
           -else
             pas encore d'élèves
         %td.center
-          %a.btn.btn-default{href: "{% url 'professor_lesson_detail_view' lesson.pk %}"}
+          %a.btn.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
             Vue Globale
         %td.center
-          %a.btn.btn-default{href: "{% url 'professor_lesson_test_list' lesson.pk %}"}
+          %a.btn.btn-default{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
             Liste des tests
         %td.center
-          %a.btn.btn-default{href: "{% url 'professor_lesson_test_add' lesson.pk %}"}
+          %a.btn.btn-default{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
             Création d'un test
