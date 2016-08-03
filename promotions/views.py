@@ -33,7 +33,7 @@ def dashboard(request):
 
 
 @user_is_professor
-def lesson_add_view(request):
+def lesson_add(request):
     form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
 
     if form.is_valid():
@@ -47,7 +47,7 @@ def lesson_add_view(request):
 
 
 @user_is_professor
-def lesson_detail_view(request, pk):
+def lesson_detail(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
     number_of_students = Lesson.objects.first().students.count()
@@ -89,7 +89,7 @@ def lesson_detail_view(request, pk):
 
 
 @user_is_professor
-def lesson_add_student(request, pk):
+def lesson_student_add(request, pk):
     form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
 
     lesson = get_object_or_404(Lesson, pk=pk)
@@ -149,7 +149,7 @@ def lesson_test_add(request, pk):
     })
 
 
-def lesson_skill_detail_view(request, lesson_pk, skill_code):
+def lesson_skill_detail(request, lesson_pk, skill_code):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)
     student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by("student__user__last_name", "student__user__first_name")
@@ -170,7 +170,7 @@ def lesson_skill_detail_view(request, lesson_pk, skill_code):
 
 
 @user_is_professor
-def student_detail_view(request, pk):
+def student_detail(request, pk):
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -181,7 +181,7 @@ def student_detail_view(request, pk):
 
 
 @user_is_professor
-def student_modify_view(request, pk):
+def student_update(request, pk):
     # TODO: a professor can only modify one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -192,7 +192,7 @@ def student_modify_view(request, pk):
 
 
 @user_is_professor
-def student_test_view(request, pk, test_pk):
+def student_test(request, pk, test_pk):
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -271,7 +271,7 @@ def lesson_tests_and_skills(request, lesson_id):
 
 @require_POST
 @user_is_professor
-def add_test_for_lesson(request):
+def lesson_test_add_json(request):
     # TODO: a professor can only do this on one of his lesson
     # TODO: use django form
 
@@ -343,7 +343,7 @@ def students_password_page(request, pk):
 
 
 @user_is_professor
-def edit_pedagogical_ressources(request, slug):
+def update_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
     if request.method == "GET":

@@ -10,25 +10,25 @@ from .utils import user_is_professor
 urlpatterns = patterns('promotions.views',
     url(r'^dashboard/$', 'dashboard', name='dashboard'),
 
-    url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail_view', name='lesson_detail'),
-    url(r'^lesson/add/$', 'lesson_add_view', name='lesson_add'),
+    url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail', name='lesson_detail'),
+    url(r'^lesson/add/$', 'lesson_add', name='lesson_add'),
 
     url(r'^lesson/(?P<pk>\d+)/student/$', DetailView.as_view(model=Lesson, template_name="professor/lesson/student/list.haml"), name='lesson_student_list'),
-    url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_add_student', name='lesson_student_add'),
+    url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_student_add', name='lesson_student_add'),
 
     url(r'^lesson/(?P<pk>\d+)/test/$', 'lesson_test_list', name='lesson_test_list'),
     url(r'^lesson/(?P<pk>\d+)/test/add/$', 'lesson_test_add', name='lesson_test_add'),
 
-    url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail_view', name='lesson_skill_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
 
-    url(r'^student/(?P<pk>\d+)/$', 'student_detail_view', name='student_detail'),
-    url(r'^student/(?P<pk>\d+)/modify/$', 'student_modify_view', name='student_update'),
-    url(r'^student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'student_test_view', name='student_test'),
+    url(r'^student/(?P<pk>\d+)/$', 'student_detail', name='student_detail'),
+    url(r'^student/(?P<pk>\d+)/update/$', 'student_update', name='student_update'),
+    url(r'^student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'student_test', name='student_test'),
 
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='regenerate_student_password'),
 
     url(r'^skill/(?P<slug>\w+)/$', user_is_professor(DetailView.as_view(model=Skill, slug_field="code", template_name="professor/skill/detail.haml")), name='skill_detail'),
-    url(r'^pedagogical/(?P<slug>\w+)/$', 'edit_pedagogical_ressources', name='skill_update_pedagogical_ressources'),
+    url(r'^pedagogical/(?P<slug>\w+)/$', 'update_pedagogical_ressources', name='skill_update_pedagogical_ressources'),
     url(r'^skill_tree/$', user_is_professor(ListView.as_view(model=Skill, template_name="professor/skill/tree.haml")), name='skill_tree'),
 
     url(r'^validate_skill/(?P<student_skill>\d+)/$', 'validate_student_skill', name='validate_student_skill'),
@@ -36,7 +36,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^default_skill/(?P<student_skill>\d+)/$', 'default_student_skill', name='default_student_skill'),
 
     url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', 'lesson_tests_and_skills', name='lesson_tests_and_skills'),
-    url(r'^add_test_for_lesson/$', 'add_test_for_lesson', name='lesson_test_add'),
+    url(r'^add_test_for_lesson/$', 'lesson_test_add_json', name='lesson_test_add'),
 
     url(r'^exercices/$', 'exercice_list', name='exercice_list'),
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
