@@ -5,10 +5,13 @@ from .models import Lesson, Student
 
 
 class LessonMixin(object):
+    def get_lesson(self):
+        return get_object_or_404(Lesson, pk=self.kwargs["lesson_pk"])
+
     def get_context_data(self, **kwargs):
         context = super(LessonMixin, self).get_context_data(**kwargs)
 
-        context["lesson"] = get_object_or_404(Lesson, pk=self.kwargs["lesson_pk"])
+        context["lesson"] = self.get_lesson()
 
         # TODO check professor can only see a student in his lesson
 
