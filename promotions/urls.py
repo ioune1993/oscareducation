@@ -17,9 +17,9 @@ urlpatterns = patterns('promotions.views',
 
     url(r'^lesson/(?P<pk>\d+)/student/$', LessonStudentListView.as_view(), name='lesson_student_list'),
     url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_student_add', name='lesson_student_add'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/$', 'student_detail', name='student_detail'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/update/$', 'student_update', name='student_update'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'student_test_detail', name='student_test'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/$', 'lesson_student_detail', name='student_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/update/$', 'lesson_student_update', name='student_update'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'lesson_student_test_detail', name='student_test'),
 
     url(r'^lesson/(?P<pk>\d+)/test/$', 'lesson_test_list', name='lesson_test_list'),
     url(r'^lesson/(?P<pk>\d+)/test/add/$', 'lesson_test_add', name='lesson_test_add'),

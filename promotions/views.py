@@ -128,7 +128,7 @@ def lesson_student_add(request, pk):
 
 
 @user_is_professor
-def student_detail(request, lesson_pk, pk):
+def lesson_student_detail(request, lesson_pk, pk):
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -140,7 +140,7 @@ def student_detail(request, lesson_pk, pk):
 
 
 @user_is_professor
-def student_update(request, lesson_pk, pk):
+def lesson_student_update(request, lesson_pk, pk):
     # TODO: a professor can only modify one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -152,7 +152,7 @@ def student_update(request, lesson_pk, pk):
 
 
 @user_is_professor
-def student_test_detail(request, pk, lesson_pk, test_pk):
+def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
