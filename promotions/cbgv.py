@@ -8,7 +8,7 @@ class LessonMixin(object):
     def get_context_data(self, **kwargs):
         context = super(LessonMixin, self).get_context_data(**kwargs)
 
-        context["lesson"] = get_object_or_404(Lesson, pk=kwargs["lesson_pk"])
+        context["lesson"] = get_object_or_404(Lesson, pk=self.kwargs["lesson_pk"])
 
         return context
 
