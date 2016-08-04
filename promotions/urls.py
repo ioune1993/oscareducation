@@ -1,11 +1,13 @@
 from django.conf.urls import patterns, url
 from django.views.generic import DetailView, ListView
 
-from .models import Lesson
 from skills.models import Skill
 from examinations.models import Exercice, Test
 
 from .utils import user_is_professor
+
+from .cbgv import LessonStudentListView
+
 
 urlpatterns = patterns('promotions.views',
     url(r'^dashboard/$', 'dashboard', name='dashboard'),
@@ -13,8 +15,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail', name='lesson_detail'),
     url(r'^lesson/add/$', 'lesson_add', name='lesson_add'),
 
-    # XXX this next line will fail because lesson isn't injected into the context
-    url(r'^lesson/(?P<pk>\d+)/student/$', DetailView.as_view(model=Lesson, template_name="professor/lesson/student/list.haml"), name='lesson_student_list'),
+    url(r'^lesson/(?P<pk>\d+)/student/$', LessonStudentListView.as_view(), name='lesson_student_list'),
     url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_student_add', name='lesson_student_add'),
     url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/$', 'student_detail', name='student_detail'),
     url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/update/$', 'student_update', name='student_update'),
