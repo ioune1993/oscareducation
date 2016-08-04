@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm
+from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -90,7 +90,7 @@ def lesson_add(request):
 
 @user_is_professor
 def lesson_student_add(request, pk):
-    form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
+    form = StudentAddForm(request.POST) if request.method == "POST" else StudentAddForm()
 
     lesson = get_object_or_404(Lesson, pk=pk)
 

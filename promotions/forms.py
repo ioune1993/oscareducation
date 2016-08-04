@@ -15,7 +15,7 @@ class LessonForm(forms.ModelForm):
         fields = ['name', 'stage']
 
 
-class StudentForm(forms.Form):
+class StudentAddForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
     email = forms.EmailField(required=False)
