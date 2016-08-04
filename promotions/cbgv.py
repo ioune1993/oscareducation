@@ -1,7 +1,7 @@
-from django.views.generic import DetailView
+from django.views.generic import DetailView, UpdateView
 from django.shortcuts import get_object_or_404
 
-from .models import Lesson
+from .models import Lesson, Student
 
 
 class LessonMixin(object):
@@ -17,3 +17,9 @@ class LessonStudentListView(DetailView):
     model = Lesson
     template_name = "professor/lesson/student/list.haml"
     context_object_name = "lesson"
+
+
+class LessonStudentUpdateView(LessonMixin, UpdateView):
+    model = Student
+    template_name = "professor/lesson/student/update.haml"
+    fields = ('user',)

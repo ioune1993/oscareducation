@@ -6,7 +6,7 @@ from examinations.models import Exercice, Test
 
 from .utils import user_is_professor
 
-from .cbgv import LessonStudentListView
+from .cbgv import LessonStudentListView, LessonStudentUpdateView
 
 
 urlpatterns = patterns('promotions.views',
@@ -18,7 +18,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<pk>\d+)/student/$', LessonStudentListView.as_view(), name='lesson_student_list'),
     url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_student_add', name='lesson_student_add'),
     url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/$', 'lesson_student_detail', name='student_detail'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/update/$', 'lesson_student_update', name='student_update'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/update/$', LessonStudentUpdateView.as_view(), name='student_update'),
     url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'lesson_student_test_detail', name='student_test'),
 
     url(r'^lesson/(?P<pk>\d+)/test/$', 'lesson_test_list', name='lesson_test_list'),
