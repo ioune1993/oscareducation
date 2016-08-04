@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm
+from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm, StudentUpdateForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -136,6 +136,26 @@ def lesson_student_detail(request, lesson_pk, pk):
     return render(request, "professor/lesson/student/detail.haml", {
         "lesson": get_object_or_404(Lesson, pk=lesson_pk),
         "student": student,
+    })
+
+
+@user_is_professor
+def lesson_student_update(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    student = get_object_or_404(Student, pk=pk)
+
+    form = StudentUpdateForm(request.POST, instance=student.user) if request.method == "POST" else StudentUpdateForm(instance=student.user)
+
+    # TODO: a professor can only see one of his lesson
+
+    if form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse("professor:student_update", args=(lesson.pk, pk)))
+
+    return render(request, "professor/lesson/student/update.haml", {
+        "lesson": lesson,
+        "student": student,
+        "form": form,
     })
 
 

@@ -51,6 +51,12 @@ class StudentAddForm(forms.Form):
         return username + "@example.com"
 
 
+class StudentUpdateForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name')
+
+
 class VideoSkillForm(forms.ModelForm):
     class Meta:
         model = VideoSkill

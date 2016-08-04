@@ -1,5 +1,6 @@
 -extends "base.haml"
 -load static
+-load bootstrap3
 
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
@@ -11,7 +12,7 @@
         %a{href: "{% url 'professor:dashboard' %}"} Oscar
       %li= lesson.stage.name
       %li
-        %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
+        %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
           Classe
           =lesson.name
     %li
@@ -20,7 +21,7 @@
         =student.user.first_name
         =student.user.last_name
     %li.active
-      modification
+      modifier l'élève
 
   %h1
     =student.user.first_name|title
@@ -28,13 +29,16 @@
 
   %hr
 
-  %div{ng-app: "oscar"}
-    %ul
-      %li Nom d'utilisateur:
-        =student.user.username
-      %li Courriel:
-        =student.get_email
+  %form.form{action: "", method: "post"}
+    -csrf_token
+    -bootstrap_form form
 
+    {% buttons %}
+      %button.btn.btn-primary{type: "submit"}
+        Modifier
+    {% endbuttons %}
+
+  %div{ng-app: "oscar"}
     %h2 Authentification de l'élève
 
     %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
