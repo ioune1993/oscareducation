@@ -38,6 +38,8 @@
       .pull-right
         %a.btn.btn-primary{href: "{% url 'professor:student_update' lesson.pk student.pk %}"}
           modifier l'élève
+        %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
+          gérer mes élèves
 
     %hr
 
