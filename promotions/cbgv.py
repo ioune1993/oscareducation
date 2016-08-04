@@ -1,8 +1,6 @@
 from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, DeleteView
 from django.shortcuts import get_object_or_404
-
-from django.contrib.auth.models import User
 
 from .models import Lesson, Student
 
@@ -25,3 +23,11 @@ class LessonStudentListView(DetailView):
     model = Lesson
     template_name = "professor/lesson/student/list.haml"
     context_object_name = "lesson"
+
+
+class StudentDelete(LessonMixin, DeleteView):
+    model = Student
+    template_name = "professor/lesson/student/delete.haml"
+
+    def get_success_url(self):
+        return reverse('professor:lesson_student_list', args=(self.get_lesson().pk,))
