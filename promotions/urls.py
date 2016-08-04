@@ -13,17 +13,17 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail', name='lesson_detail'),
     url(r'^lesson/add/$', 'lesson_add', name='lesson_add'),
 
+    # XXX this next line will fail because lesson isn't injected into the context
     url(r'^lesson/(?P<pk>\d+)/student/$', DetailView.as_view(model=Lesson, template_name="professor/lesson/student/list.haml"), name='lesson_student_list'),
     url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_student_add', name='lesson_student_add'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/$', 'student_detail', name='student_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/update/$', 'student_update', name='student_update'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'student_test_detail', name='student_test'),
 
     url(r'^lesson/(?P<pk>\d+)/test/$', 'lesson_test_list', name='lesson_test_list'),
     url(r'^lesson/(?P<pk>\d+)/test/add/$', 'lesson_test_add', name='lesson_test_add'),
 
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
-
-    url(r'^student/(?P<pk>\d+)/$', 'student_detail', name='student_detail'),
-    url(r'^student/(?P<pk>\d+)/update/$', 'student_update', name='student_update'),
-    url(r'^student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', 'student_test', name='student_test'),
 
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='regenerate_student_password'),
 

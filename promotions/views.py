@@ -170,35 +170,38 @@ def lesson_skill_detail(request, lesson_pk, skill_code):
 
 
 @user_is_professor
-def student_detail(request, pk):
+def student_detail(request, lesson_pk, pk):
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
 
     return render(request, "professor/lesson/student/detail.haml", {
+        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
         "student": student,
     })
 
 
 @user_is_professor
-def student_update(request, pk):
+def student_update(request, lesson_pk, pk):
     # TODO: a professor can only modify one of his students
 
     student = get_object_or_404(Student, pk=pk)
 
     return render(request, "professor/lesson/student/update.haml", {
+        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
         "student": student,
     })
 
 
 @user_is_professor
-def student_test(request, pk, test_pk):
+def student_test_detail(request, pk, lesson_pk, test_pk):
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
     student_test = get_object_or_404(TestStudent, pk=test_pk)
 
     return render(request, "professor/lesson/student/test/detail.haml", {
+        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
         "student": student,
         "student_test": student_test,
     })

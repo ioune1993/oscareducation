@@ -24,12 +24,12 @@
       -for student in lesson.students.all
         %tr
           %td
-            %a{href: "{% url 'professor:student_detail' student.pk %}"}= student
+            %a{href: "{% url 'professor:student_detail' lesson.pk student.pk %}"}= student
           %td.center
-            %a.btn.btn-default{href: "{% url 'professor:student_detail' student.pk %}"}
+            %a.btn.btn-default{href: "{% url 'professor:student_detail' lesson.pk student.pk %}"}
               vue détaillée
           %td.center
-            %a.btn.btn-default
+            %a.btn.btn-default{href: "{% url 'professor:student_update' lesson.pk student.pk %}"}
               modifier
           %td.center
             %a.btn.btn-default

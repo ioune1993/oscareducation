@@ -28,7 +28,7 @@
       -for student in lesson.students.all
         %tr
           %td
-            %a{href: "{% url 'professor:student_detail' student.pk %}"}= student
+            %a{href: "{% url 'professor:student_detail' lesson.pk student.pk %}"}= student
           %td
             status du dernier test
             %span.label.label-warning

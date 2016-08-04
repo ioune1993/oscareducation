@@ -36,7 +36,7 @@
       =student.user.first_name|title
       =student.user.last_name|title
       .pull-right
-        %a.btn.btn-primary{href: "{% url 'professor:student_update' student.pk %}"}
+        %a.btn.btn-primary{href: "{% url 'professor:student_update' lesson.pk student.pk %}"}
           modifier l'élève
 
     %hr
@@ -52,7 +52,7 @@
           -if test_student.finished_at
             =test_student.finished_at|date:"d/m/Y"
           \-
-          %a{href: "{% url 'professor:student_test' student.pk test_student.pk %}"}
+          %a{href: "{% url 'professor:student_test' lesson.pk student.pk test_student.pk %}"}
             =test_student.test.name
           -if test_student.test.display_test_type
             %i
@@ -67,7 +67,7 @@
           -if test_student.finished_at
             =test_student.finished_at|date:"d/m/Y"
           \-
-          %a{href: "{% url 'professor:student_test' student.pk test_student.pk %}"}
+          %a{href: "{% url 'professor:student_test' lesson.pk student.pk test_student.pk %}"}
             =test_student.test.name
           -if test_student.test.display_test_type
             %i
