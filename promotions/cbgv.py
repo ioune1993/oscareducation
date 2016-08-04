@@ -10,6 +10,8 @@ class LessonMixin(object):
 
         context["lesson"] = get_object_or_404(Lesson, pk=self.kwargs["lesson_pk"])
 
+        # TODO check professor can only see a student in his lesson
+
         return context
 
 
