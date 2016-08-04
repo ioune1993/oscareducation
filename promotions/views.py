@@ -33,20 +33,6 @@ def dashboard(request):
 
 
 @user_is_professor
-def lesson_add(request):
-    form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
-
-    if form.is_valid():
-        lesson = form.save()
-        lesson.professors.add(request.user.professor)
-        return HttpResponseRedirect(reverse("professor:dashboard"))
-
-    return render(request, "professor/lesson/create.haml", {
-        "add_lesson_form": form,
-    })
-
-
-@user_is_professor
 def lesson_detail(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -89,6 +75,20 @@ def lesson_detail(request, pk):
 
 
 @user_is_professor
+def lesson_add(request):
+    form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
+
+    if form.is_valid():
+        lesson = form.save()
+        lesson.professors.add(request.user.professor)
+        return HttpResponseRedirect(reverse("professor:dashboard"))
+
+    return render(request, "professor/lesson/create.haml", {
+        "add_lesson_form": form,
+    })
+
+
+@user_is_professor
 def lesson_student_add(request, pk):
     form = StudentForm(request.POST) if request.method == "POST" else StudentForm()
 
@@ -124,6 +124,44 @@ def lesson_student_add(request, pk):
     return render(request, "professor/lesson/student/add.haml", {
         "lesson": lesson,
         "add_student_form": form,
+    })
+
+
+@user_is_professor
+def student_detail(request, lesson_pk, pk):
+    # TODO: a professor can only see one of his students
+
+    student = get_object_or_404(Student, pk=pk)
+
+    return render(request, "professor/lesson/student/detail.haml", {
+        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
+        "student": student,
+    })
+
+
+@user_is_professor
+def student_update(request, lesson_pk, pk):
+    # TODO: a professor can only modify one of his students
+
+    student = get_object_or_404(Student, pk=pk)
+
+    return render(request, "professor/lesson/student/update.haml", {
+        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
+        "student": student,
+    })
+
+
+@user_is_professor
+def student_test_detail(request, pk, lesson_pk, test_pk):
+    # TODO: a professor can only see one of his students
+
+    student = get_object_or_404(Student, pk=pk)
+    student_test = get_object_or_404(TestStudent, pk=test_pk)
+
+    return render(request, "professor/lesson/student/test/detail.haml", {
+        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
+        "student": student,
+        "student_test": student_test,
     })
 
 
@@ -169,44 +207,6 @@ def lesson_skill_detail(request, lesson_pk, skill_code):
     })
 
 
-@user_is_professor
-def student_detail(request, lesson_pk, pk):
-    # TODO: a professor can only see one of his students
-
-    student = get_object_or_404(Student, pk=pk)
-
-    return render(request, "professor/lesson/student/detail.haml", {
-        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
-        "student": student,
-    })
-
-
-@user_is_professor
-def student_update(request, lesson_pk, pk):
-    # TODO: a professor can only modify one of his students
-
-    student = get_object_or_404(Student, pk=pk)
-
-    return render(request, "professor/lesson/student/update.haml", {
-        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
-        "student": student,
-    })
-
-
-@user_is_professor
-def student_test_detail(request, pk, lesson_pk, test_pk):
-    # TODO: a professor can only see one of his students
-
-    student = get_object_or_404(Student, pk=pk)
-    student_test = get_object_or_404(TestStudent, pk=test_pk)
-
-    return render(request, "professor/lesson/student/test/detail.haml", {
-        "lesson": get_object_or_404(Lesson, pk=lesson_pk),
-        "student": student,
-        "student_test": student_test,
-    })
-
-
 @require_POST
 @user_is_professor
 def regenerate_student_password(request):
@@ -220,6 +220,98 @@ def regenerate_student_password(request):
     return HttpResponse(new_password)
 
 
+@user_is_professor
+def update_pedagogical_ressources(request, slug):
+    skill = get_object_or_404(Skill, code=slug)
+
+    if request.method == "GET":
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+
+    assert request.method == "POST"
+
+    print request.POST
+
+    if request.POST["form_type"] == "video_skill":
+        form = VideoSkillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "video_skill_form": form,
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+
+    elif request.POST["form_type"] == "khanacademy_skill":
+        form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": form,
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+
+    elif request.POST["form_type"] == "exercice_skill":
+        form = ExerciceSkillForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
+            "exercice_skill_form": form,
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+
+    elif request.POST["form_type"] == "external_link_skill":
+        form = ExternalLinkSkillForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": form,
+            "synthese_form": SyntheseForm(),
+            "object": skill,
+        })
+    elif request.POST["form_type"] == "synthese_form":
+        form = SyntheseForm(request.POST)
+        if form.is_valid():
+            skill.oscar_synthese = form.cleaned_data["synthese"]
+            skill.save()
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "video_skill_form": VideoSkillForm(),
+            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
+            "exercice_skill_form": ExerciceSkillForm(),
+            "external_link_skill_form": ExternalLinkSkillForm(),
+            "synthese_form": form,
+            "object": skill,
+        })
 @require_POST
 @user_is_professor
 def validate_student_skill(request, student_skill):
@@ -345,95 +437,3 @@ def students_password_page(request, pk):
     })
 
 
-@user_is_professor
-def update_pedagogical_ressources(request, slug):
-    skill = get_object_or_404(Skill, code=slug)
-
-    if request.method == "GET":
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
-
-    assert request.method == "POST"
-
-    print request.POST
-
-    if request.POST["form_type"] == "video_skill":
-        form = VideoSkillForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": form,
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
-
-    elif request.POST["form_type"] == "khanacademy_skill":
-        form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": form,
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
-
-    elif request.POST["form_type"] == "exercice_skill":
-        form = ExerciceSkillForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": form,
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
-
-    elif request.POST["form_type"] == "external_link_skill":
-        form = ExternalLinkSkillForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": form,
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
-    elif request.POST["form_type"] == "synthese_form":
-        form = SyntheseForm(request.POST)
-        if form.is_valid():
-            skill.oscar_synthese = form.cleaned_data["synthese"]
-            skill.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": form,
-            "object": skill,
-        })
