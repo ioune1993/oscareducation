@@ -34,7 +34,7 @@
             %a.btn.btn-sm.btn-default
               Éditer
           %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-danger
+            %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
               Effacer
 
   -else

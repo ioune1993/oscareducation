@@ -6,7 +6,7 @@ from examinations.models import Exercice, Test
 
 from .utils import user_is_professor
 
-from .cbgv import LessonStudentListView, StudentDelete, LessonDelete
+from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, TestDelete
 
 
 urlpatterns = patterns('promotions.views',
@@ -27,6 +27,10 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<pk>\d+)/test/$', 'lesson_test_list', name='lesson_test_list'),
     url(r'^lesson/(?P<pk>\d+)/test/add/$', 'lesson_test_add', name='lesson_test_add'),
 
+    # TODO: professor can only see his tests
+    url(r'^test/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Test, template_name="professor/lesson/test/detail.haml")), name='test_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/delete/$', user_is_professor(TestDelete.as_view()), name='lesson_test_delete'),
+
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
 
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='regenerate_student_password'),
@@ -44,9 +48,6 @@ urlpatterns = patterns('promotions.views',
 
     url(r'^exercices/$', 'exercice_list', name='exercice_list'),
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
-
-    # TODO: professor can only see his tests
-    url(r'^test/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Test, template_name="professor/lesson/test/detail.haml")), name='test_detail'),
 
     url(r'^lesson/(?P<pk>\d+)/students_password_page/$', 'students_password_page', name='lesson_student_password_page'),
 )
