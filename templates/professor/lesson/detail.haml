@@ -14,7 +14,7 @@
 
   %h3 Élèves de {{ lesson.name }}
     .pull-right
-      %a.btn.btn-primary
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
         modifier la classe
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
         gérer mes élèves

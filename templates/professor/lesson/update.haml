@@ -1,0 +1,25 @@
+-extends "base.haml"
+
+-load bootstrap3
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li= lesson.stage.name
+    %li
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Classe
+        =lesson.name
+    %li.active
+      Modifier
+
+  %h2 Modifier la classe <i>{{ lesson.name }}</i>
+
+  %form.form{action: "", method: "post"}
+    -csrf_token
+    -bootstrap_form form
+    {% buttons %}
+      %button.btn.btn-primary{type: "submit"}
+        Modifier
+    {% endbuttons %}

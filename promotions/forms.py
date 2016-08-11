@@ -15,6 +15,12 @@ class LessonForm(forms.ModelForm):
         fields = ['name', 'stage']
 
 
+class LessonUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Lesson
+        fields = ['name']
+
+
 class StudentAddForm(forms.Form):
     first_name = forms.CharField()
     last_name = forms.CharField()
