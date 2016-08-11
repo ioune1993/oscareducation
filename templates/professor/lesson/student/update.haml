@@ -36,6 +36,8 @@
     {% buttons %}
       %button.btn.btn-primary{type: "submit"}
         Modifier
+      %a.btn.btn-default{href: "{% url 'professor:student_detail' lesson.pk student.pk %}"}
+        Annuler
     {% endbuttons %}
 
   %div{ng-app: "oscar"}
