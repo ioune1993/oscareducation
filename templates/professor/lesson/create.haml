@@ -3,6 +3,12 @@
 -load bootstrap3
 
 -block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li.active
+      Ajouter une classe
+
   %h2 Ajouter une nouvelle classe
 
   %form.form{action: "", method: "post"}
