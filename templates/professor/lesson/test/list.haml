@@ -31,7 +31,7 @@
             %a.btn.btn-sm.btn-default
               Clôturer
           %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-default
+            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
               Éditer
           %td.center{width: "20px"}
             %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}

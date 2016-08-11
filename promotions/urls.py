@@ -29,6 +29,7 @@ urlpatterns = patterns('promotions.views',
 
     # TODO: professor can only see his tests
     url(r'^test/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Test, template_name="professor/lesson/test/detail.haml")), name='test_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/update/$', 'lesson_test_update', name='lesson_test_update'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/delete/$', user_is_professor(TestDelete.as_view()), name='lesson_test_delete'),
 
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
