@@ -15,7 +15,7 @@
         Classe
         =lesson.name
     %li
-      %a{href: "{% url 'professor:test_detail' test.pk %}"}
+      %a{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
         Test
         =lesson.name
     %li.active
@@ -34,5 +34,5 @@
           =test
 
     %p
-      %a.btn.btn-lg.btn-default{href: "{% url 'professor:test_detail' test.pk %}"}
+      %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
         Annuler

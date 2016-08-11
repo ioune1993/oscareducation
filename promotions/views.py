@@ -220,7 +220,7 @@ def lesson_test_update(request, lesson_pk, pk):
 
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse("professor:test_detail", args=(test.pk,)))
+        return HttpResponseRedirect(reverse("professor:lesson_test_detail", args=(lesson.pk, test.pk,)))
 
     return render(request, "professor/lesson/test/update.haml", {
         "lesson": lesson,

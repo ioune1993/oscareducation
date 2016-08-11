@@ -43,6 +43,11 @@ class LessonDelete(DeleteView):
         return reverse('professor:dashboard')
 
 
+class TestDetailView(LessonMixin, DetailView):
+    model = Test
+    template_name = "professor/lesson/test/detail.haml"
+
+
 class TestDelete(LessonMixin, DeleteView):
     model = Test
     template_name = "professor/lesson/test/delete.haml"

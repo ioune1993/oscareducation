@@ -2,11 +2,11 @@ from django.conf.urls import patterns, url
 from django.views.generic import DetailView, ListView
 
 from skills.models import Skill
-from examinations.models import Exercice, Test
+from examinations.models import Exercice
 
 from .utils import user_is_professor
 
-from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, TestDelete
+from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, TestDelete, TestDetailView
 
 
 urlpatterns = patterns('promotions.views',
@@ -28,7 +28,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<pk>\d+)/test/add/$', 'lesson_test_add', name='lesson_test_add'),
 
     # TODO: professor can only see his tests
-    url(r'^test/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Test, template_name="professor/lesson/test/detail.haml")), name='test_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/$', user_is_professor(TestDetailView.as_view()), name='lesson_test_detail'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/update/$', 'lesson_test_update', name='lesson_test_update'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/delete/$', user_is_professor(TestDelete.as_view()), name='lesson_test_delete'),
 

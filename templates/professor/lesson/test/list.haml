@@ -25,7 +25,7 @@
           %td{width: "8px"}
             %i.fa.fa-desktop
           %td
-            %a{href: "{% url 'professor:test_detail' test.pk %}"}
+            %a{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
               =test
           %td.center{width: "20px"}
             %a.btn.btn-sm.btn-default
