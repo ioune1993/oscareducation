@@ -40,6 +40,8 @@
           modifier l'élève
         %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
           gérer mes élèves
+        %a.btn.btn-danger{href: "{% url 'professor:student_delete' lesson.pk student.pk %}"}
+          supprimer l'élève
 
     %hr
 
