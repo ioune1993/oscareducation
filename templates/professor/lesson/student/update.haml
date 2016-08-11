@@ -16,7 +16,7 @@
           Classe
           =lesson.name
     %li
-      %a{href: "{% url 'professor:student_detail' lesson.pk student.pk %}"}
+      %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
         Élève
         =student.user.first_name
         =student.user.last_name

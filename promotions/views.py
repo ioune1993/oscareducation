@@ -166,7 +166,7 @@ def lesson_student_update(request, lesson_pk, pk):
 
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse("professor:student_update", args=(lesson.pk, pk)))
+        return HttpResponseRedirect(reverse("professor:lesson_student_update", args=(lesson.pk, pk)))
 
     return render(request, "professor/lesson/student/update.haml", {
         "lesson": lesson,
@@ -363,7 +363,7 @@ def validate_student_skill(request, student_skill):
 
     student_skill.validate()
 
-    return HttpResponseRedirect(reverse('professor:student_detail', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(student_skill.student.id,)) + "#skills")
 
 
 @require_POST
@@ -375,7 +375,7 @@ def unvalidate_student_skill(request, student_skill):
 
     student_skill.unvalidate()
 
-    return HttpResponseRedirect(reverse('professor:student_detail', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(student_skill.student.id,)) + "#skills")
 
 
 @require_POST
@@ -387,7 +387,7 @@ def default_student_skill(request, student_skill):
 
     student_skill.default()
 
-    return HttpResponseRedirect(reverse('professor:student_detail', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(student_skill.student.id,)) + "#skills")
 
 
 @user_is_professor

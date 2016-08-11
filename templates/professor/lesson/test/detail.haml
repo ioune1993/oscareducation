@@ -56,7 +56,7 @@
     -for test_student in object.teststudent_set.all
       %tr
         %td
-          %a{href: "{% url 'professor:student_test' lesson.pk test_student.student.pk test_student.pk %}"}
+          %a{href: "{% url 'professor:lesson_student_test' lesson.pk test_student.student.pk test_student.pk %}"}
             =test_student.student
         -for answer in test_student.answer_set.all
           %td{class: "{% if answer.correct %}success{% else %}danger{% endif %}"}
