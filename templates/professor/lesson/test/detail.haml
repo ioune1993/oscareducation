@@ -12,6 +12,17 @@
       =object.name
 
   %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+    .pull-right
+      %td.center{width: "20px"}
+        %a.btn.btn-default
+          Clôturer
+      %td.center{width: "20px"}
+        %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
+          modifier
+      %td.center{width: "20px"}
+        %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
+          Effacer
+
   %hr
 
   %h3 Compétences sélectionnées
