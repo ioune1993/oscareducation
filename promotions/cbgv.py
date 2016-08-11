@@ -31,3 +31,12 @@ class StudentDelete(LessonMixin, DeleteView):
 
     def get_success_url(self):
         return reverse('professor:lesson_student_list', args=(self.get_lesson().pk,))
+
+
+class LessonDelete(DeleteView):
+    model = Lesson
+    template_name = "professor/lesson/delete.haml"
+    context_object_name = "lesson"
+
+    def get_success_url(self):
+        return reverse('professor:dashboard')

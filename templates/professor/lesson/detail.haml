@@ -22,6 +22,8 @@
         liste des tests
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
         ajouter un test
+      %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
+        supprimer la classe
 
   -if lesson.students.count
     %table.table.table-bordered.table-striped

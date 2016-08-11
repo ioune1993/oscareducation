@@ -1,0 +1,34 @@
+-extends "base.haml"
+-load static
+-load bootstrap3
+
+-block head
+  %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li= lesson.stage.name
+    %li
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Classe
+        =lesson.name
+    %li.active
+      supprimer la classe
+
+  %h1
+
+  %hr
+
+  .center
+    %form.form{method: "POST", action: ""}
+      -csrf_token
+      %p
+        %button.btn.btn-danger.btn-lg{type: "submit"}
+          Supprimer la classe
+          =lesson.name
+
+    %p
+      %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_detail' lesson.id %}"}
+        Annuler
