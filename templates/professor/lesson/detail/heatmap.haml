@@ -1,5 +1,41 @@
 -if number_of_students >= 2
   %h3 Vue Synthétique
+    .pull-right
+      %a#legend.btn.btn-primary{type: "button", data-toggle: "popover", title: "Légende", data-placement: "left"}
+        Légende
+      %div{style: "display: none"}
+        %table.table
+          %tr
+            %td
+              %a.btn.btn-default.skill.mastered_100{type: "button", href: "#"}
+                %abbr{title: "", style: "cursor: default; border: none"} 100%
+            %td
+              des élèves qui ont été testé maitrisent cette compétence
+          %tr
+            %td
+              %a.btn.btn-default.skill.mastered_75{type: "button", href: "#"}
+                %abbr{title: "", style: "cursor: default; border: none"} 75%
+            %td
+              des élèves qui ont été testé maitrisent cette compétence
+          %tr
+            %td
+              %a.btn.btn-default.skill.mastered_50{type: "button", href: "#"}
+                %abbr{title: "", style: "cursor: default; border: none"} 50%
+            %td
+              des élèves qui ont été testé maitrisent cette compétence
+          %tr
+            %td
+              %a.btn.btn-default.skill.mastered_25{type: "button", href: "#"}
+                %abbr{title: "", style: "cursor: default; border: none"} 25%
+            %td
+              des élèves qui ont été testé maitrisent cette compétence
+          %tr
+            %td
+              %a.btn.btn-default.skill.mastered_not_enough{type: "button", href: "#"}
+                %abbr{title: "", style: "cursor: default; border: none"} -
+            %td
+              Il n'y a pas assez d'élèves qui ont été testé
+      %hr
 
   -regroup skills by stage as levels
 

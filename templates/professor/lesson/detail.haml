@@ -43,3 +43,15 @@
         Vous n'avez pas encore d'élèves dans cette classe.
 
   -include "professor/lesson/detail/heatmap.haml"
+
+-block javascript
+  :javascript
+    $(function () {
+      $('[data-toggle="popover"]').popover({
+        html: true
+      })
+
+      $('#legend').each(function(index, node) {
+        node.setAttribute("data-content", node.nextSibling.nextSibling.innerHTML);
+      })
+    })
