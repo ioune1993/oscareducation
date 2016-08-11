@@ -15,15 +15,16 @@
   %h3 Élèves de {{ lesson.name }}
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
-        modifier la classe
+        Modifier
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
-        gérer mes élèves
+        Gérer mes élèves
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-        liste des tests
+        Tests
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-        ajouter un test
+        Ajouter un test
       %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
-        supprimer la classe
+        Supprimer
+  %hr
 
   -if lesson.students.count
     %table.table.table-bordered.table-striped
