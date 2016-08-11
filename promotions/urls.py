@@ -12,8 +12,8 @@ from .cbgv import LessonStudentListView, StudentDelete
 urlpatterns = patterns('promotions.views',
     url(r'^dashboard/$', 'dashboard', name='dashboard'),
 
-    url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail', name='lesson_detail'),
     url(r'^lesson/add/$', 'lesson_add', name='lesson_add'),
+    url(r'^lesson/(?P<pk>\d+)/$', 'lesson_detail', name='lesson_detail'),
 
     url(r'^lesson/(?P<pk>\d+)/student/$', LessonStudentListView.as_view(), name='lesson_student_list'),
     url(r'^lesson/(?P<pk>\d+)/student/add/$', 'lesson_student_add', name='lesson_student_add'),
