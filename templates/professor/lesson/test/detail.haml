@@ -14,10 +14,19 @@
       =object.name
 
   %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+    %small
+      -if not test.running
+        %span.label.label-danger
+          Clôturé
     .pull-right
       %td.center{width: "20px"}
-        %a.btn.btn-default
-          Clôturer
+        %form.inline{action: "{% url 'professor:lesson_test_close_open' lesson.pk test.pk %}", method: "post"}
+          -csrf_token
+          %button.btn.btn-default{type: "submit"}
+            -if test.running
+              Clôturer
+            -else
+              Rendre disponible
       %td.center{width: "20px"}
         %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
           modifier
