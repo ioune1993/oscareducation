@@ -31,6 +31,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/$', user_is_professor(TestDetailView.as_view()), name='lesson_test_detail'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/update/$', 'lesson_test_update', name='lesson_test_update'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/delete/$', user_is_professor(TestDelete.as_view()), name='lesson_test_delete'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/close/$', 'lesson_test_close_open', name='lesson_test_close_open'),
 
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
 

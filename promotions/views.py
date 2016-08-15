@@ -229,6 +229,18 @@ def lesson_test_update(request, lesson_pk, pk):
     })
 
 
+@user_is_professor
+@require_POST
+def lesson_test_close_open(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test = get_object_or_404(Test, pk=pk)
+
+    test.running = not test.running
+    test.save()
+
+    return HttpResponseRedirect(reverse("professor:lesson_test_list", args=(lesson.pk,)))
+
+
 def lesson_skill_detail(request, lesson_pk, skill_code):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)

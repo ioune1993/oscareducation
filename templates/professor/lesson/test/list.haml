@@ -27,9 +27,17 @@
           %td
             %a{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
               =test
+            -if not test.running
+              %span.label.label-danger
+                Clôturé
           %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-default
-              Clôturer
+            %form{action: "{% url 'professor:lesson_test_close_open' lesson.pk test.pk %}", method: "post"}
+              -csrf_token
+              %button.btn.btn-sm.btn-default{type: "submit"}
+                -if test.running
+                  Clôturer
+                -else
+                  Rendre disponible
           %td.center{width: "20px"}
             %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
               Éditer
