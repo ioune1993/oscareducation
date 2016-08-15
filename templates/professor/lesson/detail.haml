@@ -33,9 +33,12 @@
           %td
             %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
           %td
-            status du dernier test
-            %span.label.label-warning
-              pas commencé
+            -with student_test=student.get_last_test
+              =student_test.test
+              <span class="label {% if not student_test.started_at %}label-warning{% elif not student_test.finished_at %}label-success{% else %}label-info{% endif %}">{{ student_test.get_state }}</span> 
+              -if not student_test.test.running
+                %span.label.label-danger
+                  clôturé
 
   -else
     %p

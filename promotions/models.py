@@ -47,6 +47,9 @@ class Student(models.Model):
     def todo_tests(self):
         return self.teststudent_set.filter(started_at__isnull=True)
 
+    def get_last_test(self):
+        return self.teststudent_set.order_by('-test__created_at').first()
+
     class Meta:
         ordering = ['user__last_name']
 
