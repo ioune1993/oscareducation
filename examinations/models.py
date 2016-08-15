@@ -18,7 +18,7 @@ class Test(models.Model):
     skills = models.ManyToManyField(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    running = models.BooleanField(default=False)
+    running = models.BooleanField(default=True)
 
     type = models.CharField(max_length=255, choices=(
         ("skills", "skills"),
