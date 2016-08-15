@@ -35,6 +35,8 @@
     %h1
       =student.user.first_name|title
       =student.user.last_name|title
+      %small
+        =student.user.username
       .pull-right
         %a.btn.btn-primary{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
           modifier l'élève
