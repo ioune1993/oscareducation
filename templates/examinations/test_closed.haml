@@ -1,0 +1,6 @@
+-extends "base.haml"
+
+-block content
+  %h1 Le test <i>{{ test }}</i> a été clôturé, vous ne pouvez plus le passer
+
+  %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil

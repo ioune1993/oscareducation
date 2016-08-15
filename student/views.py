@@ -28,6 +28,12 @@ def pass_test(request, pk):
     if test_student.student != request.user.student:
         raise PermissionDenied()
 
+    if not test_student.test.running:
+        return render(request, "examinations/test_closed.haml", {
+            "test": test_student.test,
+            "test_student": test_student,
+        })
+
     # test is not already started, ask student to start it
     if not test_student.started_at:
         return render(request, "examinations/pass_test.haml", {
@@ -121,6 +127,12 @@ def start_test(request, pk):
 
     if test_student.student != request.user.student:
         raise PermissionDenied()
+
+    if not test_student.test.running:
+        return render(request, "examinations/test_closed.haml", {
+            "test": test_student.test,
+            "test_student": test_student,
+        })
 
     test_student.started_at = datetime.now()
     test_student.save()
