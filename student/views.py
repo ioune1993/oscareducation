@@ -81,7 +81,10 @@ def validate_exercice(request, test_student, test_exercice):
             if data["type"] == "checkbox":
                 raw_answer[number] = list(map(int, request.POST.getlist(str(number))))
             elif data["type"] == "radio":
-                raw_answer[number] = int(request.POST[str(number)])
+                if str(number) in request.POST:
+                    raw_answer[number] = int(request.POST[str(number)])
+                else:
+                    raw_answer[number] = None
             else:
                 raw_answer[number] = request.POST[str(number)]
 
