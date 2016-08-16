@@ -221,8 +221,8 @@ class Answer(models.Model):
             if answers["type"] == "radio":
                 result[question] = {
                     "type": answers["type"],
-                    "answer": answers["answers"].items()[student_answer][0],
-                    "is_correct": answers["answers"].items()[student_answer][1],
+                    "answer": answers["answers"].items()[student_answer][0] if student_answer is not None else "",
+                    "is_correct": answers["answers"].items()[student_answer][1] if student_answer is not None else False,
                     "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
                }
             elif answers["type"] == "text":
