@@ -206,11 +206,9 @@ def lesson_test_list(request, pk):
 def lesson_test_add(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
-    skills = Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage")
-
     return render(request, "professor/lesson/test/add.haml", {
         "lesson": lesson,
-        "skills": skills,
+        "stages": lesson.stages_in_unchronological_order(),
     })
 
 
