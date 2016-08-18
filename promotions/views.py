@@ -129,11 +129,12 @@ def lesson_student_add(request, pk):
         # TODO send email to student here if email doesn't end in @example.com
 
         with transaction.atomic():
-            for skill in Skill.objects.filter(stage__level__lte=lesson.stage.level):
-                StudentSkill.objects.create(
-                    student=student,
-                    skill=skill,
-                )
+            for stage in lesson.stages_in_unchronological_order():
+                for skill in stage.skills.all():
+                    StudentSkill.objects.create(
+                        student=student,
+                        skill=skill,
+                    )
 
         return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
 
