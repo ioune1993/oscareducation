@@ -57,6 +57,9 @@ class Student(models.Model):
 class Stage(models.Model):
     name = models.CharField("Nom", max_length=255, unique=True)
     level = models.PositiveSmallIntegerField("Niveau", unique=True)
+    previous_stage = models.ForeignKey("promotions.Stage", null=True, blank=True)
+
+    skills = models.ManyToManyField("skills.Skill")
 
     def __unicode__(self):
         return self.name
