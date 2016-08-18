@@ -1,5 +1,6 @@
 -extends "base.haml"
 -load static
+-load lesson_tags
 
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
@@ -85,14 +86,13 @@
       %a{name: "skills"}
       Vue synthétique:
 
-    -regroup student.skills_map by skill.stage as levels
-
-    -for level in levels
+    -for stage in lesson.stages_in_unchronological_order
       %h5
-        Niveau {{ level.grouper }}
+        Niveau {{ stage.name }}
 
       %table
-        -for student_skill in level.list
+        -get_students_skills of student at stage as "student_skills"
+        -for student_skill in student_skills
           -if forloop.first
             <tr>
           -elif forloop.counter0|divisibleby:12
