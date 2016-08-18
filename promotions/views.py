@@ -42,7 +42,9 @@ def lesson_detail(request, pk):
     for student_skill in StudentSkill.objects.filter(student__lesson=lesson).select_related("skill"):
         skill_to_student_skill.setdefault(student_skill.skill, list()).append(student_skill)
 
-    skills = Skill.objects.filter(stage__level__lte=lesson.stage.level).order_by('-stage__level', '-code').select_related("stage")
+    skills = []
+    for stage in lesson.stages_in_unchronological_order():
+        skills.extend([x for x in stage.skills.all().order_by('-code')])
 
     if lesson.students.count():
         for skill in skills:
