@@ -37,20 +37,18 @@
               Il n'y a pas assez d'élèves qui ont été testé
       %hr
 
-  -regroup skills by stage as levels
-
   #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
-    -for level in levels
+    -for stage in lesson.stages_in_unchronological_order
       .panel.panel-default
-        .panel-heading{role: "tab", id: "heading{{ level.grouper|slugify }}"}
+        .panel-heading{role: "tab", id: "heading{{ stage.name|slugify }}"}
           %h4.panel-title
-            %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ level.grouper|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ level.grouper|slugify }}"}
-              Niveau {{ level.grouper }}
+            %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.name|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.name|slugify }}"}
+              Niveau {{ stage.name }}
 
-        -regroup level.list by section as sections
+        -regroup stage.skills.all by section as sections
 
 
-        .panel-collapse.collapse{id: "collapse{{ level.grouper|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ level.grouper|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
+        .panel-collapse.collapse{id: "collapse{{ stage.name|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ stage.name|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
           .panel-body
             -for section in sections
               %h5= section.grouper

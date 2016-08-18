@@ -75,5 +75,16 @@ class Lesson(models.Model):
 
     stage = models.ForeignKey(Stage, verbose_name=u"Année")
 
+    def stages_in_unchronological_order(self):
+        stage = self.stage
+
+        stages = [stage]
+
+        while stage.previous_stage is not None:
+            stage = stage.previous_stage
+            stages.append(stage)
+
+        return stages
+
     def __unicode__(self):
         return self.name
