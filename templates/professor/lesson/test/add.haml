@@ -48,6 +48,14 @@
                   %label
                     %input{ng-model: "testType", type: "radio", value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
 
+              %p
+                %b
+                  Compétences sélectionnées :
+
+              .well
+                %span.label.label-primary{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}" }
+                  {& skill &}
+
             .col-md-6
               %h
               -for stage in stages
@@ -63,11 +71,15 @@
                   %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})"}
                     Ajouter cette compétence
 
-          %p
-            %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}" }
-              {& skill &}
-
-
           .form-group
             %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
               Créer le test
+
+  :css
+    .label {
+      display: inline-block;
+    }
+
+    .well {
+      padding-bottom: 19px;
+    }
