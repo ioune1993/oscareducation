@@ -21,8 +21,6 @@ function createTestController($scope, $http) {
             "skills": $scope.toTestSkills,
             "type": $scope.testType,
         }).success(function(data, status, headers, config) {
-            update_test_list();
-            $scope.name = "";
             // TODO: don't do that in javascript
             window.location.href = "..";
         })
