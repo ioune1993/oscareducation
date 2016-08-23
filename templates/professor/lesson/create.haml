@@ -13,7 +13,21 @@
 
   %form.form{action: "", method: "post"}
     -csrf_token
-    -bootstrap_form add_lesson_form
+    .form-group{class: "{% if form.name.errors %}has-error{% elif form.data and form.name %}has-success{% endif %}"}
+      %label.control-label{for: "id_name"}
+        Nom de la classe
+      %input#id_name.form-control{type: "text", required: "", placeholder: "Nom de la classe", name: "name", value: '{{ form.name.value|default:"" }}'}
+      -for error in form.name.errors
+        %span.help-block= error
+
+    .form-group{class: "{% if form.stage.errors %}has-error{% elif form.data and form.stage %}has-success{% endif %}"}
+      %label.control-label Année :
+      -for stage in form.fields.stage.queryset
+        -if stage.name
+          .radio
+            %label
+              %input{type: "radio", name: "stage", value: "{{ stage.id }}"}= stage
+
     {% buttons %}
       %button.btn.btn-primary{type: "submit"}
         Ajouter

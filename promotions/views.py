@@ -86,7 +86,7 @@ def lesson_add(request):
         return HttpResponseRedirect(reverse("professor:dashboard"))
 
     return render(request, "professor/lesson/create.haml", {
-        "add_lesson_form": form,
+        "form": form,
     })
 
 
