@@ -26,7 +26,6 @@ function createTestController($scope, $http) {
     }
 
     $scope.addSkillToTest = function(stage_id) {
-        console.log(stage_id);
         var skill = $scope["stage" + stage_id + "SelectedSkill"];
         $scope.toTestSkills.push(skill);
 
@@ -37,7 +36,6 @@ function createTestController($scope, $http) {
                 toRemoveIndex = index;
             }
         }
-        console.log("Index: " + toRemoveIndex);
         $scope.stages[stage_id].splice(toRemoveIndex, 1);
         $scope["stage" + stage_id + "SelectedSkill"] = $scope.stages[stage_id][0].code;
         $("#" + skill).remove();
