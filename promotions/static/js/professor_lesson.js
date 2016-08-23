@@ -26,6 +26,9 @@ function createTestController($scope, $http) {
     }
 
     $scope.addSkillToTest = function(stage_id) {
+        if ($scope.stages[stage_id].length == 0)
+            return;
+
         var skill = $scope["stage" + stage_id + "SelectedSkill"];
         $scope.toTestSkills.push(skill);
 
@@ -37,7 +40,13 @@ function createTestController($scope, $http) {
             }
         }
         $scope.stages[stage_id].splice(toRemoveIndex, 1);
-        $scope["stage" + stage_id + "SelectedSkill"] = $scope.stages[stage_id][0].code;
+
+        if ($scope.stages[stage_id].length > 0) {
+            $scope["stage" + stage_id + "SelectedSkill"] = $scope.stages[stage_id][0].code;
+        } else {
+            $scope["stage" + stage_id + "SelectedSkill"] = "";
+        }
+
         $("#" + skill).remove();
     }
 
