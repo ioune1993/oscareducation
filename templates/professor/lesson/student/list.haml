@@ -18,6 +18,8 @@
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
         ajouter un élève
+      %a.btn.btn-danger{href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
+        générer les mots de passe pour toute la classe
 
   -if lesson.students.count
     %table.table.table-bordered.table-striped
