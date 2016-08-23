@@ -45,6 +45,7 @@ function createTestController($scope, $http) {
             $scope["stage" + stage_id + "SelectedSkill"] = $scope.stages[stage_id][0].code;
         } else {
             $scope["stage" + stage_id + "SelectedSkill"] = "";
+            $("#addSkillToTestButtonForStage" + stage_id).addClass("disabled");
         }
 
         $("#" + skill).remove();

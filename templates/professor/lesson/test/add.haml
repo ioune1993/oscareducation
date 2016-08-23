@@ -68,7 +68,7 @@
                           {{ skill.code }} - {{ skill.name }}
 
                 .form-group
-                  %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})"}
+                  %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})", id: "addSkillToTestButtonForStage{{ stage.id }}"}
                     Ajouter cette compétence
 
           .form-group
