@@ -7,7 +7,12 @@ function createTestController($scope, $http) {
     $scope.addNewTest = function() {
         if ($scope.name === undefined || $scope.name.length == 0)
         {
-            console.log("Warning: test name is not set, abording");
+            $("#alerts").html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Vous devez donner un nom à votre test.</div>');
+            return;
+        }
+
+        if ($scope.toTestSkills.length == 0) {
+            $("#alerts").html('<div class="alert alert-warning alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>Vous devez sélectionner des compétences pour votre test.</div>');
             return;
         }
 
