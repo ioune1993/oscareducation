@@ -64,7 +64,7 @@
                   .form-group
                     %select.form-control{ng-model: "stage{{ stage.id }}SelectedSkill"}
                       -for skill in stage.skills.all reversed
-                        %option{value: "{{ skill.code }}"}
+                        %option{value: "{{ skill.code }}", id: "{{ skill.code }}"}
                           {{ skill.code }} - {{ skill.name }}
 
                 .form-group
