@@ -53,7 +53,7 @@
                   Compétences sélectionnées :
 
               .well
-                %span.label.label-primary{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}" }
+                %span.btn.btn-primary.selected-skill{ng-repeat: "skill in toTestSkills", title: "{& skill.name &}" }
                   {& skill &}
 
             .col-md-6
@@ -76,10 +76,17 @@
               Créer le test
 
   :css
-    .label {
-      display: inline-block;
-    }
-
     .well {
       padding-bottom: 19px;
+    }
+
+    .selected-skill {
+      margin-right: 3px;
+      margin-bottom: 3px;
+    }
+
+    .selected-skill:hover {
+      background-color: #337ab7;
+      border-color: #2e6da4;
+      cursor: default;
     }
