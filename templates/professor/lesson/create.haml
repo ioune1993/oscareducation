@@ -24,11 +24,99 @@
       %label.control-label Année :
       -for stage in form.fields.stage.queryset
         -if stage.name
-          .radio
-            %label
-              %input{type: "radio", name: "stage", value: "{{ stage.id }}"}= stage
+          -if stage.level == 4 or stage.level == 5
+            %b= stage.name
+            %ul
+              %li
+                .radio
+                  %label
+                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
+              %li
+                enseignement technique
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
+              %li
+                .radio
+                  %label
+                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement de transition
+          -elif stage.level == 6 or stage.level == 7
+            %b= stage.name
+            %ul
+              %li
+                .radio
+                  %label
+                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
+              %li
+                enseignement technique
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
+                  %li
+                    4 périodes par semaine
+                    %ul
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} agronomie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} construction
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} économie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie orientation électrotechnique
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} sciences appliquées
+              %li
+                enseignement de transition
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques de base
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques générales
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques pour scientifiques
+          -else
+            .radio
+              %label
+                %input{type: "radio", name: "stage", value: "{{ stage.id }}"}= stage
 
     {% buttons %}
       %button.btn.btn-primary{type: "submit"}
         Ajouter
     {% endbuttons %}
+
+  :css
+    li {
+      list-style-type: none;
+    }
+
+    ul {
+      padding-left: 30px;
+    }
