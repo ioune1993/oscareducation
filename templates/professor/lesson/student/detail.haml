@@ -105,15 +105,15 @@
                 %p
                   %a{href: "{% url 'professor:skill_detail' student_skill.skill.code %}"} Détails de la compétence
                 %p
-                  %form{action: "{% url 'professor:validate_student_skill' student_skill.id %}", method: "post"}
+                  %form{action: "{% url 'professor:validate_student_skill' lesson.pk student_skill.id %}", method: "post"}
                     -csrf_token
                     %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
                 %p
-                  %form{action: "{% url 'professor:unvalidate_student_skill' student_skill.id %}", method: "post"}
+                  %form{action: "{% url 'professor:unvalidate_student_skill' lesson.pk student_skill.id %}", method: "post"}
                     -csrf_token
                     %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
                 %p
-                  %form{action: "{% url 'professor:default_student_skill' student_skill.id %}", method: "post"}
+                  %form{action: "{% url 'professor:default_student_skill' lesson.pk student_skill.id %}", method: "post"}
                     -csrf_token
                     %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
 

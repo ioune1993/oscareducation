@@ -369,38 +369,41 @@ def update_pedagogical_ressources(request, slug):
         })
 @require_POST
 @user_is_professor
-def validate_student_skill(request, student_skill):
+def validate_student_skill(request, lesson_pk, student_skill):
     # TODO: a professor can only do this on one of his students
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
 
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
     student_skill.validate()
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
 
 
 @require_POST
 @user_is_professor
-def unvalidate_student_skill(request, student_skill):
+def unvalidate_student_skill(request, lesson_pk, student_skill):
     # TODO: a professor can only do this on one of his students
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
 
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
     student_skill.unvalidate()
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
 
 
 @require_POST
 @user_is_professor
-def default_student_skill(request, student_skill):
+def default_student_skill(request, lesson_pk, student_skill):
     # TODO: a professor can only do this on one of his students
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
 
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
     student_skill.default()
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
 
 
 @user_is_professor

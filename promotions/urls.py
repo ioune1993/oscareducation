@@ -41,9 +41,9 @@ urlpatterns = patterns('promotions.views',
     url(r'^pedagogical/(?P<slug>\w+)/$', 'update_pedagogical_ressources', name='skill_update_pedagogical_ressources'),
     url(r'^skill_tree/$', user_is_professor(ListView.as_view(model=Skill, template_name="professor/skill/tree.haml")), name='skill_tree'),
 
-    url(r'^validate_skill/(?P<student_skill>\d+)/$', 'validate_student_skill', name='validate_student_skill'),
-    url(r'^unvalidate_skill/(?P<student_skill>\d+)/$', 'unvalidate_student_skill', name='unvalidate_student_skill'),
-    url(r'^default_skill/(?P<student_skill>\d+)/$', 'default_student_skill', name='default_student_skill'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/validate_skill/(?P<student_skill>\d+)/$', 'validate_student_skill', name='validate_student_skill'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/unvalidate_skill/(?P<student_skill>\d+)/$', 'unvalidate_student_skill', name='unvalidate_student_skill'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/default_skill/(?P<student_skill>\d+)/$', 'default_student_skill', name='default_student_skill'),
 
     url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', 'lesson_tests_and_skills', name='lesson_tests_and_skills'),
     url(r'^add_test_for_lesson/$', 'lesson_test_add_json', name='lesson_test_add'),
