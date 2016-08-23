@@ -59,6 +59,17 @@
             .col-md-6
               %h
               -for stage in stages
+                -if forloop.counter == 3
+                  <div class="panel panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Compétences ultérieures</a>
+                        </h4>
+                      </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body">
+
                 .form-group
                   %label.control-label= stage.name
                   .form-group
@@ -70,6 +81,11 @@
                 .form-group
                   %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})", id: "addSkillToTestButtonForStage{{ stage.id }}"}
                     Ajouter cette compétence
+
+                -if forloop.last and forloop.counter >= 3
+                  </div>
+                  </div>
+                  </div>
 
           .form-group
             %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
