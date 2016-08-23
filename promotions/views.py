@@ -493,5 +493,3 @@ def students_password_page(request, pk):
     return render(request, "professor/lesson/student/password_page.haml", {
         "students": students
     })
-
-
