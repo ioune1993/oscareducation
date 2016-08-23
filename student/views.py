@@ -91,7 +91,7 @@ def validate_exercice(request, test_student, test_exercice):
                     raw_answer[number] = int(request.POST[str(number)])
                 else:
                     raw_answer[number] = None
-            else:
+            else: # text
                 raw_answer[number] = request.POST[str(number)]
 
         is_correct = test_exercice.exercice.is_valid(request.POST)
