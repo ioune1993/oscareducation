@@ -412,10 +412,14 @@ def lesson_tests_and_skills(request, lesson_id):
     if request.user.professor not in lesson.professors.all():
         raise PermissionDenied()
 
+    stages = {}
+
+    for stage in lesson.stages_in_unchronological_order():
+        stages[stage.id] = [x for x in stage.skills.all().values("id", "code", "name").order_by("-code")]
+
     return HttpResponse(json.dumps({
         "tests": [{"name": x.name, "skills": list(x.skills.all().values("code")), "type": x.display_test_type(), "id": x.id} for x in lesson.test_set.all()],
-        "skills1": [x for x in Skill.objects.filter(stage__level__lte=min(lesson.stage.level, 3)).values("id", "code", "name").order_by('-stage__level', '-code')],
-        "skills2": [x for x in Skill.objects.filter(stage__level__lte=lesson.stage.level, stage__level__gt=3).values("id", "code", "name").order_by('-stage__level', '-code')] if lesson.stage.level > 3 else [],
+        "stages": stages,
     }, indent=4))
 
 

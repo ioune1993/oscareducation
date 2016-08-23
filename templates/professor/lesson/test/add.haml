@@ -33,6 +33,10 @@
           .row
             .col-md-6
               .form-group
+                %label.control-label{for: "test_name"} Nom du test
+                %input#test_name.form-control{type: "text", ng-model: "name"}
+
+              .form-group
                 %label.control-label Ce test portera sur :
                 .radio
                   %label
@@ -45,28 +49,24 @@
                     %input{ng-model: "testType", type: "radio", value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
 
             .col-md-6
-              .form-group
-                %label.control-label Socle de compétences :
+              %h
+              -for stage in stages
                 .form-group
-                  %select.form-control{ng-model: "currentlySelectedSkill1"}
-                    -for stage in stages
-                      %optgroup{label: "{{ stage.name }}"}
-                        -for skill in stage.skills.all
-                          %option{value: "{{ skill.code }}"}
-                            {{ skill.code }} - {{ skill.name }}
+                  %label.control-label= stage.name
+                  .form-group
+                    %select.form-control{ng-model: "stage{{ stage.id }}SelectedSkill"}
+                      -for skill in stage.skills.all reversed
+                        %option{value: "{{ skill.code }}"}
+                          {{ skill.code }} - {{ skill.name }}
 
                 .form-group
-                  %button.btn.btn-primary{ng-click: "addSkillToTest(1)"}
+                  %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})"}
                     Ajouter cette compétence
 
           %p
             %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}" }
               {& skill &}
 
-
-          .form-group
-            %label.control-label{for: "test_name"} Nom du test
-            %input#test_name.form-control{type: "text", ng-model: "name"}
 
           .form-group
             %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}

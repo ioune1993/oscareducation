@@ -1,7 +1,6 @@
 function createTestController($scope, $http) {
     $scope.tests = [];
-    $scope.skills1 = [];
-    $scope.skills2 = [];  // for skills greater than level 4
+    $scope.stages = [];
     $scope.testType = "skills";
 
     $scope.addNewTest = function() {
@@ -29,29 +28,31 @@ function createTestController($scope, $http) {
         })
     }
 
-    $scope.addSkillToTest = function(skills_list_number) {
-        $scope.toTestSkills.push($scope["currentlySelectedSkill" + skills_list_number]);
+    $scope.addSkillToTest = function(stage_id) {
+        console.log(stage_id);
+        $scope.toTestSkills.push($scope["stage" + stage_id + "SelectedSkill"]);
+
         var toRemoveIndex;
-        for (var index = 0; index < $scope["skills" + skills_list_number].length; index++) {
-            if ($scope["skills" + skills_list_number][index].code == $scope.currentlySelectedSkill) {
+
+        for (var index = 0; index < $scope.stages[stage_id].length; index++) {
+            if ($scope.stages[stage_id][index].code == $scope["stage" + stage_id + "SelectedSkill"]) {
                 toRemoveIndex = index;
             }
         }
-        $scope["skills" + skills_list_number].splice(toRemoveIndex, 1);
-        $scope["currentlySelectedSkill" + skills_list_number] = $scope["skills" + skills_list_number][0].code;
+        console.log("Index: " + toRemoveIndex);
+        $scope.stages[stage_id].splice(toRemoveIndex, 1);
+        $scope["stage" + stage_id + "SelectedSkill"] = $scope.stages[stage_id][0].code;
     }
 
     update_test_list = function () {
         $http.get("/professor/lesson_tests_and_skills/" + context.lessonId + ".json").
             success(function(data, status, headers, config) {
                 $scope.tests = data.tests;
-                $scope.skills1 = data.skills1;
-                $scope.skills2 = data.skills2;
+                $scope.stages = data.stages;
                 $scope.toTestSkills = [];
-                $scope.currentlySelectedSkill1 = data.skills1[0].code;
 
-                if (data.skills2.length > 0) {
-                    $scope.currentlySelectedSkill2 = data.skills2[0].code;
+                for (i in $scope.stages) {
+                    $scope["stage" + i + "SelectedSkill"] = $scope.stages[i][0].code;
                 }
            })
     }
