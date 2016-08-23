@@ -47,9 +47,6 @@
             .col-md-6
               .form-group
                 %label.control-label Socle de compétences :
-                %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}"}
-                  {& skill &}
-
                 .form-group
                   %select.form-control{ng-model: "currentlySelectedSkill1"}
                     -for stage in stages
