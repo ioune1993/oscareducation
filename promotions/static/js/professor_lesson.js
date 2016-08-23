@@ -1,5 +1,4 @@
 function createTestController($scope, $http) {
-    $scope.tests = [];
     $scope.stages = [];
     $scope.testType = "skills";
 
@@ -45,7 +44,6 @@ function createTestController($scope, $http) {
     update_test_list = function () {
         $http.get("/professor/lesson_tests_and_skills/" + context.lessonId + ".json").
             success(function(data, status, headers, config) {
-                $scope.tests = data.tests;
                 $scope.stages = data.stages;
                 $scope.toTestSkills = [];
 

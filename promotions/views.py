@@ -418,7 +418,6 @@ def lesson_tests_and_skills(request, lesson_id):
         stages[stage.id] = [x for x in stage.skills.all().values("id", "code", "name").order_by("-code")]
 
     return HttpResponse(json.dumps({
-        "tests": [{"name": x.name, "skills": list(x.skills.all().values("code")), "type": x.display_test_type(), "id": x.id} for x in lesson.test_set.all()],
         "stages": stages,
     }, indent=4))
 
