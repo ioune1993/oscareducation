@@ -30,68 +30,36 @@
 
       .panel-body
         %form.form
-          .form-group
-            %label.control-label Ce test portera sur :
-            .radio
-              %label
-                %input{ng-model: "testType", type: "radio", value: "skills"} les compétences sélectionnées
-            .radio
-              %label
-                %input{ng-model: "testType", type: "radio", value: "dependencies"} les prérequis des compétences sélectionnées
-            .radio
-              %label
-                %input{ng-model: "testType", type: "radio", value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
+          .row
+            .col-md-6
+              .form-group
+                %label.control-label Ce test portera sur :
+                .radio
+                  %label
+                    %input{ng-model: "testType", type: "radio", value: "skills"} les compétences sélectionnées
+                .radio
+                  %label
+                    %input{ng-model: "testType", type: "radio", value: "dependencies"} les prérequis des compétences sélectionnées
+                .radio
+                  %label
+                    %input{ng-model: "testType", type: "radio", value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
 
-          .form-group
-          -if lesson.stage.level < 4
-            %label.control-label Socle de compétences :
-            %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}"}
-              {& skill &}
-
-            .form-group
-              %select.form-control{ng-model: "currentlySelectedSkill1"}
-                -for stage in stages
-                  %optgroup{label: "{{ stage.name }}"}
-                    -for skill in stage.skills.all
-                      %option{value: "{{ skill.code }}"}
-                        {{ skill.code }} - {{ skill.name }}
-
-            .form-group
-              %button.btn.btn-primary{ng-click: "addSkillToTest(1)"}
-                Ajouter cette compétence
-
-
-          -else
-            .row
-              .col-md-6
+            .col-md-6
+              .form-group
                 %label.control-label Socle de compétences :
+                %span.label.label-info{ng-repeat: "skill in toTestSkills", style: "margin-right: 3px", title: "{& skill.name &}"}
+                  {& skill &}
+
                 .form-group
                   %select.form-control{ng-model: "currentlySelectedSkill1"}
                     -for stage in stages
-                      -if stage.level < 4
-                        %optgroup{label: "{{ stage.name }}"}
-                          -for skill in stage.skills.all
-                            %option{value: "{{ skill.code }}"}
-                              {{ skill.code }} - {{ skill.name }}
+                      %optgroup{label: "{{ stage.name }}"}
+                        -for skill in stage.skills.all
+                          %option{value: "{{ skill.code }}"}
+                            {{ skill.code }} - {{ skill.name }}
 
                 .form-group
                   %button.btn.btn-primary{ng-click: "addSkillToTest(1)"}
-                    Ajouter cette compétence
-
-              .col-md-6
-                %label.control-label Compétences ultérieures :
-
-                .form-group
-                  %select.form-control{ng-model: "currentlySelectedSkill2"}
-                    -for stage in stages
-                      -if stage.level >= 4
-                        %optgroup{label: "{{ stage.name }}"}
-                          -for skill in stage.skills.all
-                            %option{value: "{{ skill.code }}"}
-                              {{ skill.code }} - {{ skill.name }}
-
-                .form-group
-                  %button.btn.btn-primary{ng-click: "addSkillToTest(2)"}
                     Ajouter cette compétence
 
             %p
