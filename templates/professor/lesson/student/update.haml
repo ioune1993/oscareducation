@@ -31,7 +31,22 @@
 
   %form.form{action: "", method: "post"}
     -csrf_token
-    -bootstrap_form form
+    .row
+      .col-md-6
+        .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
+          %label.control-label{for: "id_last_name"}
+            Nom
+          %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name", value: "{{ form.last_name.value }}"}
+          -for error in add_student_form.id_last_name.errors
+            %span.help-block= error
+
+      .col-md-6
+        .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
+          %label.control-label{for: "id_first_name"}
+            Prénom
+          %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "{{ form.first_name.value }}"}
+          -for error in add_student_form.id_first_name.errors
+            %span.help-block= error
 
     {% buttons %}
       %button.btn.btn-primary{type: "submit"}
