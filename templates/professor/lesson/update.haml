@@ -14,14 +14,16 @@
     %li.active
       Modifier
 
-  %h2 Modifier la classe <i>{{ lesson.name }}</i>
+  .panel.panel-default
+    .panel-heading Modifier la classe <i>{{ lesson.name }}</i>
 
-  %form.form{action: "", method: "post"}
-    -csrf_token
-    -bootstrap_form form
-    {% buttons %}
-      %button.btn.btn-primary{type: "submit"}
-        Modifier
-      %a.btn.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-        Annuler
-    {% endbuttons %}
+    .panel-body
+      %form.form{action: "", method: "post"}
+        -csrf_token
+        -bootstrap_form form
+        {% buttons %}
+          %button.btn.btn-primary{type: "submit"}
+            Modifier
+          %a.btn.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+            Annuler
+        {% endbuttons %}
