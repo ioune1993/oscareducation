@@ -1,7 +1,14 @@
 -extends "base.haml"
 
 -block content
-  %h1 Test:
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'student_dashboard' %}"} Oscar
+    %li.active
+      Test
+      =test_student.test
+
+  %h3 Test:
     =test.name
   %hr
 
