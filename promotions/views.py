@@ -169,7 +169,7 @@ def lesson_student_update(request, lesson_pk, pk):
 
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse("professor:lesson_student_update", args=(lesson.pk, pk)))
+        return HttpResponseRedirect(reverse("professor:lesson_student_detail", args=(lesson.pk, pk)))
 
     return render(request, "professor/lesson/student/update.haml", {
         "lesson": lesson,
