@@ -8,7 +8,7 @@
     %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_add' %}"}
       Ajouter une nouvelle classe
 
-  %table.table.table-bordered
+  %table.table
     -for lesson in lessons
       %tr
         %td
@@ -23,12 +23,12 @@
             élève{{ lesson.students__count|pluralize }}
           -else
             pas encore d'élèves
-        %td.center
-          %a.btn.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        %td.center{width: "20px"}
+          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
             Vue Globale
-        %td.center
-          %a.btn.btn-default{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
+        %td.center{width: "20px"}
+          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
             Liste des tests
-        %td.center
-          %a.btn.btn-default{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+        %td.center{width: "20px"}
+          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
             Création d'un test
