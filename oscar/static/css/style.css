@@ -107,3 +107,15 @@
 .inline {
     display: inline;
 }
+
+.badge-warning {
+    background-color: #f0ad4e;
+}
+
+.badge-success {
+    background-color: #5CB85C;
+}
+
+.right-space {
+    margin-right: 4px;
+}
