@@ -32,7 +32,8 @@
                   {{ student_skill.skill.name }}
 
     -if user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
-      %hr
+      -if user.student.has_recommanded_skills
+        %hr
       .panel.panel-default
         .panel-heading Test{{ user.student.teststudent_set.all|keep_unfinished_tests|pluralize }} à passer
 
