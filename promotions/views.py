@@ -138,7 +138,7 @@ def lesson_student_add(request, pk):
                         skill=skill,
                     )
 
-        return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
+        return HttpResponseRedirect(reverse("professor:lesson_student_list", args=(lesson.pk,)))
 
     return render(request, "professor/lesson/student/add.haml", {
         "lesson": lesson,
