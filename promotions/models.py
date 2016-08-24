@@ -47,6 +47,13 @@ class Student(models.Model):
     def get_last_test(self):
         return self.teststudent_set.order_by('-test__created_at').first()
 
+    def has_recommanded_skills(self):
+        for student_skill in self.studentskill_set.all():
+            if student_skill.recommanded_to_learn():
+                return True
+
+        return False
+
     class Meta:
         ordering = ['user__last_name']
 
