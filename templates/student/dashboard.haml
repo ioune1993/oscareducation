@@ -11,13 +11,14 @@
         Classe
         =lesson.name
 
-    %div.pull-right
-      %a.btn.btn-info{href: "{% url 'student_test_finished' %}"}
-        Voir les anciens tests
+    %h2 <span style="color: #F58025">O</span>scar
+      .pull-right
+        %a.btn.btn-info{href: "{% url 'student_test_finished' %}"}
+          Voir les anciens tests
+    %hr
 
     -if user.student.has_recommanded_skills
       %h3 Compétences recommandées
-      %hr
 
       -for stage in lesson.stages_in_unchronological_order
         -get_students_skills of user.student at stage as "student_skills"
