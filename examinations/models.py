@@ -13,7 +13,7 @@ from skills.models import Skill, StudentSkill
 
 
 class Test(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, verbose_name="Nom")
     lesson = models.ForeignKey(Lesson)
     skills = models.ManyToManyField(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
