@@ -86,7 +86,7 @@ def lesson_add(request):
     if form.is_valid():
         lesson = form.save()
         lesson.professors.add(request.user.professor)
-        return HttpResponseRedirect(reverse("professor:dashboard"))
+        return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
 
     return render(request, "professor/lesson/create.haml", {
         "form": form,
