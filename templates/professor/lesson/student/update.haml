@@ -23,46 +23,49 @@
     %li.active
       modifier l'élève
 
-  %h1
-    =student.user.first_name|title
-    =student.user.last_name|title
+  .panel.panel-default
+    .panel-heading
+      =student.user.first_name|title
+      =student.user.last_name|title
+      %small
+        =student.user.username
 
-  %hr
+    .panel-body
+      %form.form{action: "", method: "post"}
+        -csrf_token
+        .row
+          .col-md-6
+            .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
+              %label.control-label{for: "id_last_name"}
+                Nom
+              %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name", value: "{{ form.last_name.value }}"}
+              -for error in add_student_form.id_last_name.errors
+                %span.help-block= error
 
-  %form.form{action: "", method: "post"}
-    -csrf_token
-    .row
-      .col-md-6
-        .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
-          %label.control-label{for: "id_last_name"}
-            Nom
-          %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name", value: "{{ form.last_name.value }}"}
-          -for error in add_student_form.id_last_name.errors
-            %span.help-block= error
+          .col-md-6
+            .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
+              %label.control-label{for: "id_first_name"}
+                Prénom
+              %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "{{ form.first_name.value }}"}
+              -for error in add_student_form.id_first_name.errors
+                %span.help-block= error
 
-      .col-md-6
-        .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
-          %label.control-label{for: "id_first_name"}
-            Prénom
-          %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "{{ form.first_name.value }}"}
-          -for error in add_student_form.id_first_name.errors
-            %span.help-block= error
+        {% buttons %}
+          %button.btn.btn-primary{type: "submit"}
+            Modifier
+          %a.btn.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
+            Annuler
+        {% endbuttons %}
 
-    {% buttons %}
-      %button.btn.btn-primary{type: "submit"}
-        Modifier
-      %a.btn.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
-        Annuler
-    {% endbuttons %}
+  .panel.panel-default{ng-app: "oscar"}
+    .panel-heading Authentification de l'élève
 
-  %div{ng-app: "oscar"}
-    %h2 Authentification de l'élève
+    .panel-body
+      %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
+        %form{ng-submit: "askForNewPassword()"}
+          %p{ng-hide: "!password"}
+            Nouveau mot de passe :
+            %span.label.label-default
+              {& password &}
 
-    %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
-      %form{ng-submit: "askForNewPassword()"}
-        %p{ng-hide: "!password"}
-          Générer un nouveau mot de passe pour cet élève:
-          %span.label.label-default
-            {& password &}
-
-        %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}
+          %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}
