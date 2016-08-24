@@ -42,7 +42,7 @@ class Student(models.Model):
         return self.teststudent_set.filter(finished_at__isnull=False)
 
     def todo_tests(self):
-        return self.teststudent_set.filter(started_at__isnull=True)
+        return self.teststudent_set.filter(finished_at__isnull=True)
 
     def get_last_test(self):
         return self.teststudent_set.order_by('-test__created_at').first()
