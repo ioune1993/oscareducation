@@ -1,6 +1,13 @@
 -extends "base.haml"
 
 -block content
-  %h1 Félicitation, vous avez terminé le test "{{ test_student.test.name }}" !
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'student_dashboard' %}"} Oscar
+    %li.active
+      Test
+      =test_student.test
+
+  %h2 Félicitation, vous avez terminé le test "{{ test_student.test.name }}" !
 
   %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil
