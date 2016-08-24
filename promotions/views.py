@@ -42,12 +42,13 @@ def lesson_detail(request, pk):
     for student_skill in StudentSkill.objects.filter(student__lesson=lesson).select_related("skill"):
         skill_to_student_skill.setdefault(student_skill.skill, list()).append(student_skill)
 
+    skills_to_heatmap_class = {}
+
     if lesson.students.count():
         skills = []
         for stage in lesson.stages_in_unchronological_order():
             skills.extend([x for x in stage.skills.all().order_by('-code')])
 
-        skills_to_heatmap_class = {}
         for skill in skills:
             mastered = len([x for x in skill_to_student_skill[skill] if x.acquired])
             not_mastered = len([x for x in skill_to_student_skill[skill] if not x.acquired and x.tested])
