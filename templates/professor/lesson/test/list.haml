@@ -48,3 +48,6 @@
   -else
     %p
       Cette classe ne comporte pas encore de tests.
+      %a{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+        Ajouter un test
+      .
