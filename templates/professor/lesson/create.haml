@@ -9,108 +9,111 @@
     %li.active
       Ajouter une classe
 
-  %h2 Ajouter une nouvelle classe
+  .panel.panel-default
+    .panel-heading
+      Ajouter une nouvelle classe
 
-  %form.form{action: "", method: "post"}
-    -csrf_token
-    .form-group{class: "{% if form.name.errors %}has-error{% elif form.data and form.name %}has-success{% endif %}"}
-      %label.control-label{for: "id_name"}
-        Nom de la classe
-      %input#id_name.form-control{type: "text", required: "", placeholder: "Nom de la classe", name: "name", value: '{{ form.name.value|default:"" }}'}
-      -for error in form.name.errors
-        %span.help-block= error
+    .panel-body
+      %form.form{action: "", method: "post"}
+        -csrf_token
+        .form-group{class: "{% if form.name.errors %}has-error{% elif form.data and form.name %}has-success{% endif %}"}
+          %label.control-label{for: "id_name"}
+            Nom de la classe
+          %input#id_name.form-control{type: "text", required: "", placeholder: "Nom de la classe", name: "name", value: '{{ form.name.value|default:"" }}'}
+          -for error in form.name.errors
+            %span.help-block= error
 
-    .form-group{class: "{% if form.stage.errors %}has-error{% elif form.data and form.stage %}has-success{% endif %}"}
-      %label.control-label Année :
-      -for stage in form.fields.stage.queryset
-        -if stage.name
-          -if stage.level == 4 or stage.level == 5
-            %b= stage.name
-            %ul
-              %li
-                .radio
-                  %label
-                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
-              %li
-                enseignement technique
+        .form-group{class: "{% if form.stage.errors %}has-error{% elif form.data and form.stage %}has-success{% endif %}"}
+          %label.control-label Année :
+          -for stage in form.fields.stage.queryset
+            -if stage.name
+              -if stage.level == 4 or stage.level == 5
+                %b= stage.name
                 %ul
                   %li
                     .radio
                       %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
                   %li
-                    .radio
-                      %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
-              %li
-                .radio
-                  %label
-                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement de transition
-          -elif stage.level == 6 or stage.level == 7
-            %b= stage.name
-            %ul
-              %li
-                .radio
-                  %label
-                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
-              %li
-                enseignement technique
-                %ul
-                  %li
-                    .radio
-                      %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
-                  %li
-                    4 périodes par semaine
+                    enseignement technique
                     %ul
                       %li
                         .radio
                           %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} agronomie
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
                       %li
                         .radio
                           %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} construction
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} économie
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie orientation électrotechnique
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} sciences appliquées
-              %li
-                enseignement de transition
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement de transition
+              -elif stage.level == 6 or stage.level == 7
+                %b= stage.name
                 %ul
                   %li
                     .radio
                       %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques de base
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
                   %li
-                    .radio
-                      %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques générales
+                    enseignement technique
+                    %ul
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
+                      %li
+                        4 périodes par semaine
+                        %ul
+                          %li
+                            .radio
+                              %label
+                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} agronomie
+                          %li
+                            .radio
+                              %label
+                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} construction
+                          %li
+                            .radio
+                              %label
+                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} économie
+                          %li
+                            .radio
+                              %label
+                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie
+                          %li
+                            .radio
+                              %label
+                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie orientation électrotechnique
+                          %li
+                            .radio
+                              %label
+                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} sciences appliquées
                   %li
-                    .radio
-                      %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques pour scientifiques
-          -else
-            .radio
-              %label
-                %input{type: "radio", name: "stage", value: "{{ stage.id }}"}= stage
+                    enseignement de transition
+                    %ul
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques de base
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques générales
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques pour scientifiques
+              -else
+                .radio
+                  %label
+                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"}= stage
 
-    {% buttons %}
-      %button.btn.btn-primary{type: "submit"}
-        Ajouter
-    {% endbuttons %}
+        {% buttons %}
+          %button.btn.btn-primary{type: "submit"}
+            Ajouter
+        {% endbuttons %}
 
   :css
     li {
