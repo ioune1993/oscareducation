@@ -5,22 +5,16 @@
   %script{src: "{% static 'js/mermaid.full.js' %}"}
 
 -block content
-  %h1
-    =skill.code
-    \-
+  %h2
     =skill.name
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+        Matériel éducatif
+
   %hr
 
   .row
     .col-md-9
-      %p
-        %b Niveau:
-        =skill.level
-
-      %p
-        %b Étape:
-        =skill.stage
-
       %p
         %b Rubrique:
         =skill.section
@@ -28,36 +22,34 @@
       %p
         =skill.description
 
-      %h2 Compétence(s) prérequise(s):
+      .row
+        .col-md-6
+          .panel.panel-default
+            .panel-heading
+              Compétence(s) prérequise(s)
 
-      -if skill.depends_on.all
-        %ul
-          -for dependance in skill.depends_on.all
-            %li
-              %a{href: "{% url 'professor:skill_detail' dependance.code %}"}
-                {{ dependance.code }}: {{ dependance.name }}
-      -else
-        %p
-          Cette compétence n'a pas de prérequis.
+            -if skill.depends_on.all
+              .list-group
+                -for dependance in skill.depends_on.all
+                  %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
+                    {{ dependance.code }} - {{ dependance.name }}
+            -else
+              .panel-body
+                Cette compétence n'a pas de prérequis.
 
-      %h2 Compétence(s) dépendante(s):
+        .col-md-6
+          .panel.panel-default
+            .panel-heading
+              Compétence(s) dépendante(s)
 
-      -if skill.skill_set.all
-        %ul
-          -for dependance in skill.skill_set.all
-            %li
-              %a{href: "{% url 'professor:skill_detail' dependance.code %}"}
-                {{ dependance.code }}: {{ dependance.name }}
-      -else
-        %p
-          Aucune compétence ne dépend de celle-ci.
-
-      %h2 Matériel éducatif
-
-      %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-        Voir et éditer le matériel éducatif pour cette compétence
-
-      %hr
+            -if skill.skill_set.all
+              .list-group
+                -for dependance in skill.skill_set.all
+                  %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
+                    {{ dependance.code }} - {{ dependance.name }}
+            -else
+              .panel-body
+                Aucune compétence ne dépend de celle-ci.
 
       -block after
 
