@@ -51,6 +51,9 @@
     %p
       %i
         Vous n'avez pas encore d'élèves dans cette classe.
+      %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
+        Ajouter un élève
+      .
 
   -include "professor/lesson/detail/heatmap.haml"
 
