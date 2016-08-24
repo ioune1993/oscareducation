@@ -33,7 +33,7 @@
         =student.user.first_name
         =student.user.last_name
 
-    %h1
+    %h2
       =student.user.first_name|title
       =student.user.last_name|title
       %small
@@ -95,7 +95,7 @@
                     %i
                       =test_student.test.display_test_type
 
-    %h2 Compétences recommandées
+    %h3 Compétences recommandées
     %hr
 
     -for stage in lesson.stages_in_unchronological_order
@@ -109,7 +109,7 @@
               %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
                 {{ student_skill.skill.name }}
 
-    %h2
+    %h3
       %a{name: "skills"}
       Vue synthétique
 
