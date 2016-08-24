@@ -26,7 +26,10 @@
         .col-md-6
           .panel.panel-default
             .panel-heading
-              Compétence(s) prérequise(s)
+              -if skill.depends_on.count
+                Compétence{{ skill.depends_on.count|pluralize }} prérequise{{ skill.depends_on.count|pluralize }}
+              -else
+                Compétence prérequise
 
             -if skill.depends_on.all
               .list-group
@@ -40,7 +43,10 @@
         .col-md-6
           .panel.panel-default
             .panel-heading
-              Compétence(s) dépendante(s)
+              -if skill.skill_set.count
+                Compétence{{ skill.skill_set.count|pluralize }} dépendante{{ skill.skill_set.count|pluralize }}
+              -else
+                Compétence dépendante
 
             -if skill.skill_set.all
               .list-group
