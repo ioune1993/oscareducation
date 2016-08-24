@@ -3,6 +3,13 @@
 -load bootstrap3
 
 -block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li.active
+      Compétence
+      =object.code
+
   %h2 Compétence
     =object.code
     %small= object.name
