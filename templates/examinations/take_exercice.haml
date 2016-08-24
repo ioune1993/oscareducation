@@ -1,6 +1,13 @@
 -extends "base.haml"
 
 -block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'student_dashboard' %}"} Oscar
+    %li.active
+      Test
+      =test_exercice.test
+
   -if not test_exercice.exercice
     %h1 Test de la compétence {{ test_exercice.skill.code }} mais nous n'avons pas encore d'exercice
     %hr
