@@ -15,19 +15,8 @@
       %a.btn.btn-info{href: "{% url 'student_test_finished' %}"}
         Voir les anciens tests
 
-    -if user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
-      %h2 Test{{ user.student.teststudent_set.all|keep_unfinished_tests|pluralize }} à passer
-      %hr
-
-    %ul
-      -for student_test in user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
-        -if not student_test.finished
-          %li
-            {{ student_test.test.created_at|date:"d/m/Y" }}
-            %a{href: "{% url 'student_pass_test' student_test.id %}"}= student_test.test.name
-
     -if user.student.has_recommanded_skills
-      %h2 Compétences recommandées
+      %h3 Compétences recommandées
       %hr
 
       -for stage in lesson.stages_in_unchronological_order
@@ -41,8 +30,19 @@
                 %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
                   {{ student_skill.skill.name }}
 
-    %h2 Mon empreinte
-    %hr
+    -if user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
+      %hr
+      .panel.panel-default
+        .panel-heading Test{{ user.student.teststudent_set.all|keep_unfinished_tests|pluralize }} à passer
+
+        %ul.list-group
+          -for student_test in user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
+            -if not student_test.finished
+              %li.list-group-item
+                %span.badge= student_test.test.created_at|date:"d/m/Y"
+                %a{href: "{% url 'student_pass_test' student_test.id %}"}= student_test.test.name
+
+    %h3 Mon empreinte
 
     -for stage in lesson.stages_in_unchronological_order
       .panel.panel-default
@@ -78,39 +78,39 @@
                   </tr>
 
     %hr
-    %h5 Légende
+    %h3 Légende
 
     .row
       .col-md-6
         %ul.legend-list
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-plus-square
             nombres
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-cube
             solides et figures
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-arrows-v
             grandeurs
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-bar-chart
             traitement de données
       .col-md-6
         %ul.legend-list
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-area-chart
             fonctions
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-pie-chart
             probabilités et statistiques
           %li.legend
-            .btn.btn-default
+            .btn.btn-default.right-space
               %i.fa.fa-gears
             compétences transversales
 
