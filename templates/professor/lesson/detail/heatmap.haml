@@ -1,3 +1,5 @@
+-load lesson_tags
+
 -if number_of_students >= 2
   %h3 Vue Synthétique
     .pull-right
@@ -56,7 +58,7 @@
               %ul.heatmap-list
                 -for skill in section.list
                   %li
-                    %a.btn.btn-default.skill{type: "button", class: "{{ skill.heatmap_class }}", href: "{% url 'professor:lesson_skill_detail' lesson.pk skill.code %}"}
+                    %a.btn.btn-default.skill{type: "button", class: "{% get_skill_heatmap_class skills_to_heatmap_class skill %}", href: "{% url 'professor:lesson_skill_detail' lesson.pk skill.code %}"}
                       %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
                     =skill.name

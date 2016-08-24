@@ -42,11 +42,12 @@ def lesson_detail(request, pk):
     for student_skill in StudentSkill.objects.filter(student__lesson=lesson).select_related("skill"):
         skill_to_student_skill.setdefault(student_skill.skill, list()).append(student_skill)
 
-    skills = []
-    for stage in lesson.stages_in_unchronological_order():
-        skills.extend([x for x in stage.skills.all().order_by('-code')])
-
     if lesson.students.count():
+        skills = []
+        for stage in lesson.stages_in_unchronological_order():
+            skills.extend([x for x in stage.skills.all().order_by('-code')])
+
+        skills_to_heatmap_class = {}
         for skill in skills:
             mastered = len([x for x in skill_to_student_skill[skill] if x.acquired])
             not_mastered = len([x for x in skill_to_student_skill[skill] if not x.acquired and x.tested])
@@ -57,22 +58,23 @@ def lesson_detail(request, pk):
                 skill.heatmap_class = "mastered_not_enough"
                 continue
 
+
             percentage = float(mastered) / total if total else 0
 
             if percentage < 0.25:
-                skill.heatmap_class = "mastered_25"
+                skills_to_heatmap_class[skill] = "mastered_25"
             elif percentage < 0.5:
-                skill.heatmap_class = "mastered_50"
+                skills_to_heatmap_class[skill] = "mastered_50"
             elif percentage < 0.75:
-                skill.heatmap_class = "mastered_75"
+                skills_to_heatmap_class[skill] = "mastered_75"
             else:
-                skill.heatmap_class = "mastered_100"
+                skills_to_heatmap_class[skill] = "mastered_100"
 
 
     return render(request, "professor/lesson/detail.haml", {
         "lesson": lesson,
         "number_of_students": number_of_students,
-        "skills": skills,
+        "skills_to_heatmap_class": skills_to_heatmap_class,
     })
 
 
