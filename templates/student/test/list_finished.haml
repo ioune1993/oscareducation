@@ -15,7 +15,7 @@
     %hr
 
     %ul
-      -for student_test in user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
+      -for student_test in user.student.teststudent_set.all
         -if student_test.finished
           %li
             {{ student_test.test.created_at|date:"d/m/Y" }}
