@@ -34,8 +34,12 @@
             -if skill.depends_on.all
               .list-group
                 -for dependance in skill.depends_on.all
-                  %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
-                    {{ dependance.code }} - {{ dependance.name }}
+                  -if lesson
+                    %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
+                      {{ dependance.code }} - {{ dependance.name }}
+                  -else
+                    %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
+                      {{ dependance.code }} - {{ dependance.name }}
             -else
               .panel-body
                 Cette compétence n'a pas de prérequis.
@@ -51,8 +55,12 @@
             -if skill.skill_set.all
               .list-group
                 -for dependance in skill.skill_set.all
-                  %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
-                    {{ dependance.code }} - {{ dependance.name }}
+                  -if lesson
+                    %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
+                      {{ dependance.code }} - {{ dependance.name }}
+                  -else
+                    %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
+                      {{ dependance.code }} - {{ dependance.name }}
             -else
               .panel-body
                 Aucune compétence ne dépend de celle-ci.
