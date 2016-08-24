@@ -12,9 +12,8 @@
     -for lesson in lessons
       %tr
         %td
-          %h5
-            %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-              =lesson.name|capfirst
+          %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+            =lesson.name|capfirst
         %td
           =lesson.stage
         %td
