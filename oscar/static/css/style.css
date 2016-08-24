@@ -73,29 +73,33 @@
 }
 
 .skill {
-    width: 77px;
+    width: 93px;
     margin: 5px;
 }
 
-.mastered_not_enough {
+.skill:hover {
+    cursor: default;
+}
+
+.mastered_not_enough, .mastered_not_enough:hover {
     background-color: white;
 }
 
-.mastered_25 {
+.mastered_25, .mastered_25:hover {
     background-color: #BB1225;
     color: white;
 }
 
-.mastered_50 {
+.mastered_50, .mastered_50:hover {
     background-color: #F25B25;
     color: white;
 }
 
-.mastered_75 {
+.mastered_75, .mastered_75:hover {
     background-color: #FAA425;
 }
 
-.mastered_100 {
+.mastered_100, .mastered_100:hover {
     background-color: #FFED25;
 }
 
