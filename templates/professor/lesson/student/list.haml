@@ -22,20 +22,20 @@
         générer les mots de passe pour toute la classe
 
   -if lesson.students.count
-    %table.table.table-bordered.table-striped
+    %table.table
       -for student in lesson.students.all
         %tr
           %td
             %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
-          %td.center
-            %a.btn.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
-              vue détaillée
-          %td.center
-            %a.btn.btn-default{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
-              modifier
-          %td.center
-            %a.btn.btn-default{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
-              supprimer
+          %td.center{width: "20px"}
+            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
+              Vue détaillée
+          %td.center{width: "20px"}
+            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
+              Modifier
+          %td.center{width: "20px"}
+            %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+              Supprimer
 
   -else
     %p

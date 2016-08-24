@@ -40,10 +40,10 @@
                   Rendre disponible
           %td.center{width: "20px"}
             %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
-              Éditer
+              Modifier
           %td.center{width: "20px"}
             %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
-              Effacer
+              Supprimer
 
   -else
     %p
