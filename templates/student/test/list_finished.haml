@@ -1,0 +1,22 @@
+-extends "base.haml"
+
+-load student_tags
+
+-block content
+  -with lesson=user.student.lesson_set.first
+    %ol.breadcrumb
+      %li= lesson.stage.name
+      %li.active
+        %a{href: "{% url 'student_dashboard' %}"}
+          Classe
+          =lesson.name
+
+    %h2 Tests passés
+    %hr
+
+    %ul
+      -for student_test in user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
+        -if student_test.finished
+          %li
+            {{ student_test.test.created_at|date:"d/m/Y" }}
+            = student_test.test.name
