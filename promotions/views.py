@@ -2,6 +2,7 @@
 
 import json
 import yaml
+import yamlordereddictloader
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.exceptions import PermissionDenied
@@ -509,7 +510,8 @@ def students_password_page(request, pk):
 @user_is_professor
 def exercice_validation_form_validate_exercice(request):
     try:
-        exercice = yaml.safe_load(request.POST.get("yaml", ""))
+        yaml.safe_load(request.POST.get("yaml", ""))
+        exercice = yaml.load(request.POST.get("yaml", ""), Loader=yamlordereddictloader.Loader)
     except Exception as e:
         return HttpResponse(json.dumps({
             "yaml": {
