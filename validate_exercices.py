@@ -32,7 +32,7 @@ def validate_exercice_yaml_structure(name, exercice):
 
     for i in exercice.keys():
         if not isinstance(i, basestring):
-            print (u"Erreur: le premier niveau d'indentation (zero) 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':' or '%s' n'est pas une chaîne de caractères" % (name, i)).encode("Utf-8")
+            print (u"Erreur: le premier niveau d'indentation (zero) de 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':' or '%s' n'est pas une chaîne de caractères" % (name, i)).encode("Utf-8")
             return False
 
     for question, data in exercice.items():
