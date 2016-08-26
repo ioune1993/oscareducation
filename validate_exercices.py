@@ -99,6 +99,9 @@ def validate_exercice_yaml_structure(name, exercice):
                 print (u"Erreur: le contenu des réponses d'une question de type text doit être une série de chaînes de caractères précédé par '- ' (une liste), or dans 'exercice/%s' les réponses de la question '%s' ne sont pas sous forme d'une liste" % (name, question)).encode("Utf-8")
                 return False
 
+            if len(data["answers"]) < 1:
+                print (u"Erreur: dans 'exercice/%s' la question '%s' ne possède pas de réponses possibles" % (name, question)).encode("Utf-8")
+                return False
 
     return True
 
