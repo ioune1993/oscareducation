@@ -2,6 +2,9 @@
 
 -block content
   %h2 Exercices
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form_validate_exercice' %}"}
+        valider le format d'un exercice
   %hr
 
   -regroup exercice_list by skill as exercices_by_skills
