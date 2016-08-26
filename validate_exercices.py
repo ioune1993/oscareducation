@@ -33,6 +33,11 @@ def validate_exercice_yaml_structure(name, exercice):
             print "Error: le premier niveau d'indentation (zero) 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':' or '%s' n'est pas une chaîne de caractères" % (name, i)
             return False
 
+    for question, data in exercice.items():
+        if "type" not in data:
+            print "Error: chaque question doit avoir un type, or dans 'exercice/%s' la question '%s' n'a pas de type" % (name, i)
+            return False
+
     return True
 
 
