@@ -16,6 +16,10 @@
 
     .panel-body
       .form-group
+        %label Fichier HTML
+        %textarea#exercice-html.form-control{rows: 10}
+
+      .form-group
         %label Fichier YAML
         %textarea#exercice-yaml.form-control{rows: 16}
 
@@ -48,12 +52,18 @@
           if (data.yaml.result == "error") {
             $("#yaml-validation-result")
               .html('<div class="alert alert-danger"> <b>Erreur:</b> ' + data.yaml.message + '</b></div>');
+            $("#exercice-rendering-panel").hide();
           } else {
             $("#yaml-validation-result")
               .html('<div class="alert alert-success">' + data.yaml.message + '</b></div>');
 
             $("#exercice-rendering-panel").show();
             $("#exercice-rendering-yaml").html(data.rendering);
+            var html = $("#exercice-html").val()
+            if (html) {
+              $("#exercice-rendering-html").html(html);
+              $("#exercice-rendering-html").show();
+            }
           }
           })
       })
