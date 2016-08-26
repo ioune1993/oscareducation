@@ -103,6 +103,9 @@ def validate_exercice_yaml_structure(name, exercice):
                 print (u"Erreur: dans 'exercice/%s' la question '%s' ne possède pas de réponses possibles" % (name, question)).encode("Utf-8")
                 return False
 
+        else:
+            raise Exception("This case shouldn't happen as all possible questions type have been checked before")
+
     return True
 
 
