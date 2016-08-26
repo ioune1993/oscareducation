@@ -29,7 +29,11 @@
         .panel-heading
           Rendu de l'exercice
 
-        #exercice-rendering.panel-body
+        .panel-body
+
+          #exercice-rendering-html.well{style: "display: none"}
+
+          #exercice-rendering-yaml
 
   %b Exemple d'un exercice
   <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>
@@ -49,7 +53,7 @@
               .html('<div class="alert alert-success">' + data.yaml.message + '</b></div>');
 
             $("#exercice-rendering-panel").show();
-            $("#exercice-rendering").html(data.rendering);
+            $("#exercice-rendering-yaml").html(data.rendering);
           }
           })
       })
