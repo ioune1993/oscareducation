@@ -36,6 +36,10 @@ def validate_exercice_yaml_structure(name, exercice):
             return False
 
     for question, data in exercice.items():
+        if not isinstance(data, dict):
+            print "Error: lecontenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, i)
+            return False
+
         if "type" not in data:
             print "Error: chaque question doit avoir un type, or dans 'exercice/%s' la question '%s' n'a pas de type" % (name, i)
             return False
