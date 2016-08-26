@@ -19,10 +19,11 @@
         %label Fichier YAML
         %textarea#exercice-yaml.form-control{rows: 16}
 
-      #yaml-validation-result
+      .form-group
+        %button#validate-yaml.btn.btn-primary
+          Vérifier
 
-      %button#validate-yaml.btn.btn-primary
-        Vérifier
+      #yaml-validation-result
 
   %b Exemple d'un exercice
   <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>
