@@ -14,6 +14,7 @@ from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
 from examinations.models import Test, TestStudent, Exercice
+from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student
 from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm
@@ -508,12 +509,22 @@ def students_password_page(request, pk):
 @user_is_professor
 def exercice_validation_form_validate_exercice(request):
     try:
-        yaml.safe_load(request.POST.get("yaml", ""))
+        exercice = yaml.safe_load(request.POST.get("yaml", ""))
     except Exception as e:
         return HttpResponse(json.dumps({
             "yaml": {
                 "result": "danger",
                 "message": "Le format yaml n'est pas respecté: %s" % e,
+            }
+        }, indent=4), content_type="application/json")
+
+    result = validate_exercice_yaml_structure(exercice)
+
+    if result is not True:
+        return HttpResponse(json.dumps({
+            "yaml": {
+                "result": "danger",
+                "message": result,
             }
         }, indent=4), content_type="application/json")
 
