@@ -37,7 +37,7 @@ def validate_exercice_yaml_structure(name, exercice):
 
     for question, data in exercice.items():
         if not isinstance(data, dict):
-            print (u"Erreur: lecontenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, i)).encode("Utf-8")
+            print (u"Erreur: le contenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, i)).encode("Utf-8")
             return False
 
         if "type" not in data:
