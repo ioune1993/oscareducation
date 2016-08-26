@@ -66,6 +66,10 @@ def validate_exercice_yaml_structure(name, exercice):
                 print(u"Erreur: une question de type radio doit avoir au moins une réponse de correcte, or la question '%s' dans 'exercice/%s' n'a pas de réponse correcte possible" % (question, name)).encode("Utf-8")
                 return False
 
+            if number_of_true != 1:
+                print(u"Erreur: une question de type radio ne doit avoir qu'une seul réponse de correcte, or la question '%s' dans 'exercice/%s' a %s réponses correcte possible. Passez au type 'checkbox' ou retirer une réponse correcte." % (question, name, number_of_true)).encode("Utf-8")
+                return False
+
     return True
 
 
