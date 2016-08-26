@@ -17,7 +17,9 @@ def main():
             failed = True
             continue
 
-        if not validate_exercice_yaml_structure("exercices/" + yaml_file, exercice):
+        result = validate_exercice_yaml_structure(exercice)
+        if result is not True:
+            print("Error dans 'exercices/%s': %s" % result)
             failed = True
 
     if not failed:
