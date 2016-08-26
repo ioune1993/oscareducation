@@ -75,6 +75,25 @@ def validate_exercice_yaml_structure(name, exercice):
                 print(u"Erreur: une question de type radio ne doit avoir qu'une seul réponse de correcte, or la question '%s' dans 'exercice/%s' a %s réponses correcte possible. Passez au type 'checkbox' ou retirer une réponse correcte." % (question, name, number_of_true)).encode("Utf-8")
                 return False
 
+        elif data["type"] == "checkbox":
+            if not isinstance(data["answers"], dict):
+                print (u"Erreur: le contenu des réponses d'une question de type checkbox doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' les réponses de la question '%s' n'est pas sous forme d'un dictionnaire" % (name, question)).encode("Utf-8")
+                return False
+
+            for i in data["answers"].values():
+                if i not in (True, False):
+                    print (u"Erreur: le contenu des réponses d'une question de type checkbox ne peuvent être que 'true' ou 'false' or dans 'exercice/%s' la question '%s' possède une réponse qui est '%s' qui n'est pas 'true' ou 'false'" % (name, question, i)).encode("Utf-8")
+                    return False
+
+            number_of_true = 0
+            for i in data["answers"].values():
+                if i is True:
+                    number_of_true += 1
+
+            if number_of_true == 0:
+                print(u"Erreur: une question de type checkbox doit avoir au moins une réponse de correcte, or la question '%s' dans 'exercice/%s' n'a pas de réponse correcte possible" % (question, name)).encode("Utf-8")
+                return False
+
     return True
 
 
