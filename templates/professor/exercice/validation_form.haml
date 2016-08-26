@@ -59,6 +59,7 @@
 
             $("#exercice-rendering-panel").show();
             $("#exercice-rendering-yaml").html(data.rendering);
+            $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
             var html = $("#exercice-html").val()
             if (html) {
               $("#exercice-rendering-html").html(html);
