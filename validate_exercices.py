@@ -9,7 +9,7 @@ def main():
         try:
             yaml.safe_load(open(os.path.join("exercices", yaml_file)))
         except Exception as e:
-            print "Error: failed to load yaml exercice file 'exercice/%s' because the yaml is invalide: %s" % (yaml_file, e)
+            print "Erreur: impossible de charger 'exercice/%s' car la syntaxe yaml n'est pas respectée: %s" % (yaml_file, e)
             failed = True
 
     if not failed:
