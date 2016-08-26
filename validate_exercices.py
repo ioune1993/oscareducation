@@ -57,6 +57,11 @@ def validate_exercice_yaml_structure(name, exercice):
                 print (u"Erreur: le contenu des réponses d'une question de type radio doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' les réponses de la question '%s' n'est pas sous forme d'un dictionnaire" % (name, question)).encode("Utf-8")
                 return False
 
+            for i in data["answers"].values():
+                if i not in (True, False):
+                    print (u"Erreur: le contenu des réponses d'une question de type radio ne peuvent être que 'true' ou 'false' or dans 'exercice/%s' la question '%s' possède une réponse qui est '%s' qui n'est pas 'true' ou 'false'" % (name, question, i)).encode("Utf-8")
+                    return False
+
             number_of_true = 0
             for i in data["answers"].values():
                 if i is True:
