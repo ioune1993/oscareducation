@@ -513,7 +513,7 @@ def exercice_validation_form_validate_exercice(request):
     except Exception as e:
         return HttpResponse(json.dumps({
             "yaml": {
-                "result": "danger",
+                "result": "error",
                 "message": "Le format yaml n'est pas respecté: %s" % e,
             }
         }, indent=4), content_type="application/json")
@@ -523,14 +523,20 @@ def exercice_validation_form_validate_exercice(request):
     if result is not True:
         return HttpResponse(json.dumps({
             "yaml": {
-                "result": "danger",
+                "result": "error",
                 "message": result,
             }
         }, indent=4), content_type="application/json")
+
+    rendering = render(request, "examinations/exercice_rendering.haml", {
+        "content": "",
+        "questions": exercice,
+    })
 
     return HttpResponse(json.dumps({
         "yaml": {
             "result": "success",
             "message": "L'exercice semble valide",
-        }
+        },
+        "rendering": rendering.content,
     }, indent=4), content_type="application/json")

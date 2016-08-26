@@ -41,8 +41,16 @@
         var content = $("#exercice-yaml").val();
         $.post("{% url 'professor:exercice_validation_form_validate_exercice' %}", {"yaml": content})
           .success(function(data) {
+          if (data.yaml.result == "error") {
             $("#yaml-validation-result")
-              .html('<div class="alert alert-' + data.yaml.result + '">' + data.yaml.message + '</b></div>');
+              .html('<div class="alert alert-danger"> <b>Erreur:</b> ' + data.yaml.message + '</b></div>');
+          } else {
+            $("#yaml-validation-result")
+              .html('<div class="alert alert-success">' + data.yaml.message + '</b></div>');
+
+            $("#exercice-rendering-panel").show();
+            $("#exercice-rendering").html(data.rendering);
+          }
           })
       })
     })
