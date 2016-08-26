@@ -1,4 +1,7 @@
+# encoding: utf-8
+
 import json
+import yaml
 
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.exceptions import PermissionDenied
@@ -499,3 +502,24 @@ def students_password_page(request, pk):
     return render(request, "professor/lesson/student/password_page.haml", {
         "students": students
     })
+
+
+@require_POST
+@user_is_professor
+def exercice_validation_form_validate_exercice(request):
+    try:
+        yaml.safe_load(request.POST.get("yaml", ""))
+    except Exception as e:
+        return HttpResponse(json.dumps({
+            "yaml": {
+                "result": "danger",
+                "message": "Le format yaml n'est pas respecté: %s" % e,
+            }
+        }, indent=4), content_type="application/json")
+
+    return HttpResponse(json.dumps({
+        "yaml": {
+            "result": "success",
+            "message": "L'exercice semble valide",
+        }
+    }, indent=4), content_type="application/json")

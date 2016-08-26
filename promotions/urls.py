@@ -51,6 +51,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^exercices/$', 'exercice_list', name='exercice_list'),
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
     url(r'^exercices/validation_form/$', user_is_professor(TemplateView.as_view(template_name="professor/exercice/validation_form.haml")), name='exercice_validation_form'),
+    url(r'^exercices/validation_form/validate/$', 'exercice_validation_form_validate_exercice', name='exercice_validation_form_validate_exercice'),
 
     url(r'^lesson/(?P<pk>\d+)/students_password_page/$', 'students_password_page', name='lesson_student_password_page'),
 )

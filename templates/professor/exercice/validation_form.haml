@@ -19,5 +19,23 @@
         %label Fichier YAML
         %textarea#exercice-yaml.form-control{rows: 16}
 
+      #yaml-validation-result
+
+      %button#validate-yaml.btn.btn-primary
+        Vérifier
+
   %b Exemple d'un exercice
   <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>
+
+-block javascript
+  :javascript
+    $(function() {
+      $("#validate-yaml").on("click", function() {
+        var content = $("#exercice-yaml").val();
+        $.post("{% url 'professor:exercice_validation_form_validate_exercice' %}", {"yaml": content})
+          .success(function(data) {
+            $("#yaml-validation-result")
+              .html('<div class="alert alert-' + data.yaml.result + '">' + data.yaml.message + '</b></div>');
+          })
+      })
+    })
