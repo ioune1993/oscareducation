@@ -27,25 +27,25 @@ def main():
 
 def validate_exercice_yaml_structure(name, exercice):
     if not isinstance(exercice, dict):
-        print "Error: le premier niveau d'indentation (zero) 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':'" % (name)
+        print (u"Erreur: le premier niveau d'indentation (zero) 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire)" % (name)).encode("Utf-8")
         return False
 
     for i in exercice.keys():
         if not isinstance(i, basestring):
-            print "Error: le premier niveau d'indentation (zero) 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':' or '%s' n'est pas une chaîne de caractères" % (name, i)
+            print (u"Erreur: le premier niveau d'indentation (zero) 'exercice/%s' doit être une série de chaînes de caractères se terminant par des ':' or '%s' n'est pas une chaîne de caractères" % (name, i)).encode("Utf-8")
             return False
 
     for question, data in exercice.items():
         if not isinstance(data, dict):
-            print "Error: lecontenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, i)
+            print (u"Erreur: lecontenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, i)).encode("Utf-8")
             return False
 
         if "type" not in data:
-            print "Error: chaque question doit avoir un type, or dans 'exercice/%s' la question '%s' n'a pas de type" % (name, i)
+            print (u"Erreur: chaque question doit avoir un type, or dans 'exercice/%s' la question '%s' n'a pas de type" % (name, i)).encode("Utf-8")
             return False
 
         if data["type"] not in ("radio", "text", "checkbox"):
-            print "Error: dans 'exercice/%s' la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox' et 'radio' " % (name, i, data["type"])
+            print (u"Erreur: dans 'exercice/%s' la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox' et 'radio' " % (name, i, data["type"])).encode("Utf-8")
             return False
 
     return True
