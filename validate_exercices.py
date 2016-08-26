@@ -37,15 +37,15 @@ def validate_exercice_yaml_structure(name, exercice):
 
     for question, data in exercice.items():
         if not isinstance(data, dict):
-            print (u"Erreur: le contenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, i)).encode("Utf-8")
+            print (u"Erreur: le contenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' la question '%s' n'est pas un dictionnaire" % (name, question)).encode("Utf-8")
             return False
 
         if "type" not in data:
-            print (u"Erreur: chaque question doit avoir un type, or dans 'exercice/%s' la question '%s' n'a pas de type" % (name, i)).encode("Utf-8")
+            print (u"Erreur: chaque question doit avoir un type, or dans 'exercice/%s' la question '%s' n'a pas de type" % (name, question)).encode("Utf-8")
             return False
 
         if data["type"] not in ("radio", "text", "checkbox"):
-            print (u"Erreur: dans 'exercice/%s' la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox' et 'radio' " % (name, i, data["type"])).encode("Utf-8")
+            print (u"Erreur: dans 'exercice/%s' la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox' et 'radio' " % (name, question, data["type"])).encode("Utf-8")
             return False
 
         if "answers" not in data:
@@ -54,7 +54,7 @@ def validate_exercice_yaml_structure(name, exercice):
 
         if data["type"] == "radio":
             if not isinstance(data["answers"], dict):
-                print (u"Erreur: le contenu des réponses d'une question de type radio doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' les réponses de la question '%s' n'est pas sous forme d'un dictionnaire" % (name, i)).encode("Utf-8")
+                print (u"Erreur: le contenu des réponses d'une question de type radio doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire), or dans 'exercice/%s' les réponses de la question '%s' n'est pas sous forme d'un dictionnaire" % (name, question)).encode("Utf-8")
                 return False
 
             number_of_true = 0
