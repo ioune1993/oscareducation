@@ -48,6 +48,10 @@ def validate_exercice_yaml_structure(name, exercice):
             print (u"Erreur: dans 'exercice/%s' la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox' et 'radio' " % (name, i, data["type"])).encode("Utf-8")
             return False
 
+        if "answers" not in data:
+            print (u"Erreur: chaque question doit avoir une section 'answer' contenant les réponses, or la question '%s' dans 'exercices/%s' ne contient pas cette section" % (question, name)).encode("Utf-8")
+            return False
+
     return True
 
 
