@@ -1,0 +1,23 @@
+-extends "base.haml"
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li
+      %a{href: "{% url 'professor:exercice_list' %}"}
+        Exercices
+    %li.active
+      Formulaire de validation du format d'un exercice
+
+  .panel.panel-default
+    .panel-heading
+      Formulaire pour valider un exercice
+
+    .panel-body
+      .form-group
+        %label Fichier YAML
+        %textarea#exercice-yaml.form-control{rows: 16}
+
+  %b Exemple d'un exercice
+  <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>

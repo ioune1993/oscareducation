@@ -1,0 +1,25 @@
+"Première question qui est un choix unique parmis plusieurs questions":
+  type: radio
+  answers:
+    "mauvaise réponse": false
+    "bonne réponse": true
+    "une autre mauvaise réponse": false
+    "encore une": false
+
+"Autre question avec plusieurs bonnes réponses possibles":
+  type: checkbox
+  answers:
+    "une mauvaise réponse": false
+    "une bonne réponse": true
+    "une autre bonne réponse": true
+    "une autre mauvaise réponse": false
+
+"Une question à réponse ouverte (il est bien de préciser le format attendu entre parenthèses à la fin, par exemple: 'la réponse devra être sous la forme &lt;i&gt;'a/b&lt;/i&gt;":
+  type: text
+  answers:
+    - "réponse possible correcte"
+    - "autre réponse"
+    - "etc..."
+    - "il est important de lister toutes les réponses possibles de la part des élèves"
+    - "par exemple en utilisant un . ou une , pour les nombres de type: 1.5 ou 1,5"
+    - "Oscar retire automatiquement les espaces des réponses donc il n'y a pas besoin de gérer les cas avec et sans espaces"
