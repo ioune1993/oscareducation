@@ -589,11 +589,11 @@ def exercice_validation_form_pull_request(request):
             "branch": base_name}),
             auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
 
-    requests.post("https://api.github.com/repos/psycojoker/oscar/pulls", data=json.dumps({
+    answer = requests.post("https://api.github.com/repos/psycojoker/oscar/pulls", data=json.dumps({
         "title": "New exercice for %s by %s" % (skill_code, request.user.username),
         "head": "oscardemo:%s" % base_name,
         "base": "master",
     }),
-            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)).json()
 
-    return HttpResponse("ok")
+    return HttpResponse(answer["html_url"])

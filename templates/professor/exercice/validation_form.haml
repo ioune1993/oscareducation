@@ -102,6 +102,9 @@
 
         $.post("{% url 'professor:exercice_validation_form_pull_request' %}", {"yaml": yaml, "html": html, "skill_code": skill_code})
           .success(function(data) {
+            $("#yaml-validation-result")
+              .html('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
+          })
           })
       })
     })
