@@ -96,6 +96,8 @@
         var html = $("#exercice-html").val()
         var skill_code = $("#skill-code").val()
 
+        $("#submit-pull-request").addClass("disabled");
+
         // TODO: complain if no yaml or no skill code
 
         $.post("{% url 'professor:exercice_validation_form_pull_request' %}", {"yaml": yaml, "html": html, "skill_code": skill_code})
