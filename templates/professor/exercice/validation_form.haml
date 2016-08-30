@@ -105,6 +105,8 @@
             $("#yaml-validation-result")
               .html('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
           })
+          .always(function() {
+            $("#submit-pull-request").removeClass("disabled");
           })
       })
     })
