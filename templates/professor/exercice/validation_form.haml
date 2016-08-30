@@ -68,6 +68,10 @@
       $("#validate-yaml").on("click", function() {
         var content = $("#exercice-yaml").val();
         $.post("{% url 'professor:exercice_validation_form_validate_exercice' %}", {"yaml": content})
+          .error(function() {
+            $("#yaml-validation-result")
+              .html('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
+          })
           .success(function(data) {
           if (data.yaml.result == "error") {
             $("#yaml-validation-result")
@@ -104,6 +108,10 @@
           .success(function(data) {
             $("#yaml-validation-result")
               .html('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
+          })
+          .error(function() {
+            $("#yaml-validation-result")
+              .html('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
           })
           .always(function() {
             $("#submit-pull-request").removeClass("disabled");
