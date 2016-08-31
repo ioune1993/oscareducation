@@ -20,7 +20,7 @@
       -for video in object.khanacademyvideoskill_set.all
         %center
           %p
-            <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ object.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ object.youtube_id }}" data-youtubeid="{{ object.youtube_id }}" type="text/html" class="player"></iframe>
+            <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ object.youtube_id }}" data-youtubeid="{{ object.youtube_id }}" type="text/html" class="player"></iframe>
 
           %a{href: "{{ video.url }}", style: "color: #9FB73B; font-weight: bold"}
             Voir sur la KhanAcademy
