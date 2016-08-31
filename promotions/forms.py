@@ -50,7 +50,7 @@ class StudentAddForm(forms.Form):
 
         return self.cleaned_data["email"]
 
-    def generate_email(self, username):
+    def get_or_generate_email(self, username):
         if self.cleaned_data["email"]:
             return self.cleaned_data["email"]
 

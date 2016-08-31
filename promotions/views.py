@@ -132,7 +132,7 @@ def lesson_student_add(request, pk):
         first_name = form.cleaned_data["first_name"]
         last_name = form.cleaned_data["last_name"]
         username = form.generate_student_username()
-        email = form.generate_email(username)
+        email = form.get_or_generate_email(username)
 
         user = User.objects.create_user(username=username,
                                         email=email,
