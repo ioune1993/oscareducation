@@ -30,7 +30,7 @@
                 Nom
               %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name", value: "add_student_form.last_name.value"}
               -for error in add_student_form.last_name.errors
-                %span.help-block= error
+                %span.help-block{style: "color: red"}= error
 
           .col-md-6
             .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
@@ -38,7 +38,7 @@
                 Prénom
               %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "add_student_form.first_name.value"}
               -for error in add_student_form.first_name.errors
-                %span.help-block= error
+                %span.help-block{style: "color: red"}= error
 
         .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
           %label.control-label{for: "id_email"}
@@ -46,7 +46,7 @@
           %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email", value: "add_student_form.email.value"}
 
           -for error in add_student_form.email.errors
-            %span.help-block= error
+            %span.help-block{style: "color: red"}= error
 
         {% buttons %}
           %button.btn.btn-primary{type: "submit"}
