@@ -7,3 +7,4 @@ hamlpy
 werkzeug
 pyyaml
 yamlordereddictloader
+requests
