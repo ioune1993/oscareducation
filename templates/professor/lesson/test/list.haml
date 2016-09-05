@@ -16,33 +16,34 @@
     %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
       Ajouter un test
 
-  -if tests.exists
+  -if all_tests.exists
     %table.table
-      -for test in tests
+      -for basetest in all_tests
         %tr
           %td{width: "30px"}
-            =test.created_at|date:"d/m/Y"
+            =basetest.created_at|date:"d/m/Y"
           %td{width: "8px"}
             %i.fa.fa-desktop
           %td
-            %a{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
-              =test
-            -if not test.running
+            %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
+              =basetest
+            -if basetest.test and not basetest.test.running
               %span.label.label-danger
                 Clôturé
           %td.center{width: "20px"}
-            %form{action: "{% url 'professor:lesson_test_close_open' lesson.pk test.pk %}", method: "post"}
-              -csrf_token
-              %button.btn.btn-sm.btn-default{type: "submit"}
-                -if test.running
-                  Clôturer
-                -else
-                  Rendre disponible
+            -if basetest.test
+              %form{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
+                -csrf_token
+                %button.btn.btn-sm.btn-default{type: "submit"}
+                  -if basetest.test.running
+                    Clôturer
+                  -else
+                    Rendre disponible
           %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
+            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk basetest.pk %}"}
               Modifier
           %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
+            %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk basetest.pk %}"}
               Supprimer
 
   -else

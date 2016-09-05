@@ -19,7 +19,7 @@
       Test
       =student_test.test.name
 
-  %h2 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
+  %h2 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
   %hr
 
   -if student_test.started_at

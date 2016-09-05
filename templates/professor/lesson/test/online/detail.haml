@@ -20,7 +20,7 @@
           Clôturé
     .pull-right
       %td.center{width: "20px"}
-        %form.inline{action: "{% url 'professor:lesson_test_close_open' lesson.pk test.pk %}", method: "post"}
+        %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk test.pk %}", method: "post"}
           -csrf_token
           %button.btn.btn-default{type: "submit"}
             -if test.running
@@ -28,10 +28,10 @@
             -else
               Rendre disponible
       %td.center{width: "20px"}
-        %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
+        %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk test.pk %}"}
           modifier
       %td.center{width: "20px"}
-        %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
+        %a.btn.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk test.pk %}"}
           Effacer
 
   %hr

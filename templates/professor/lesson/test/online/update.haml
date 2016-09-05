@@ -12,7 +12,7 @@
         Classe
         =lesson.name
     %li
-      %a{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
+      %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
         Test
         =test.name
     %li.active
@@ -29,6 +29,6 @@
         {% buttons %}
           %button.btn.btn-primary{type: "submit"}
             Modifier
-          %a.btn.btn-default{href: "{% url 'professor:lesson_test_detail' lesson.pk test.pk %}"}
+          %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
             Annuler
         {% endbuttons %}

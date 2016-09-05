@@ -199,7 +199,7 @@ def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
     student = get_object_or_404(Student, pk=pk)
     student_test = get_object_or_404(TestStudent, pk=test_pk)
 
-    return render(request, "professor/lesson/student/test/detail.haml", {
+    return render(request, "professor/lesson/student/test/online/detail.haml", {
         "lesson": get_object_or_404(Lesson, pk=lesson_pk),
         "student": student,
         "student_test": student_test,
@@ -212,7 +212,7 @@ def lesson_test_list(request, pk):
 
     return render(request, "professor/lesson/test/list.haml", {
         "lesson": lesson,
-        "tests": lesson.test_set.order_by('-created_at'),
+        "all_tests": lesson.basetest_set.order_by('-created_at'),
     })
 
 
@@ -222,12 +222,21 @@ def lesson_test_add(request, pk):
 
     return render(request, "professor/lesson/test/add.haml", {
         "lesson": lesson,
+    })
+
+
+@user_is_professor
+def lesson_test_online_add(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    return render(request, "professor/lesson/test/online/add.haml", {
+        "lesson": lesson,
         "stages": lesson.stages_in_unchronological_order(),
     })
 
 
 @user_is_professor
-def lesson_test_update(request, lesson_pk, pk):
+def lesson_test_online_update(request, lesson_pk, pk):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(Test, pk=pk)
 
@@ -235,9 +244,9 @@ def lesson_test_update(request, lesson_pk, pk):
 
     if form.is_valid():
         form.save()
-        return HttpResponseRedirect(reverse("professor:lesson_test_detail", args=(lesson.pk, test.pk,)))
+        return HttpResponseRedirect(reverse("professor:lesson_test_online_detail", args=(lesson.pk, test.pk,)))
 
-    return render(request, "professor/lesson/test/update.haml", {
+    return render(request, "professor/lesson/test/online/update.haml", {
         "lesson": lesson,
         "test": test,
         "form": form,
@@ -246,7 +255,7 @@ def lesson_test_update(request, lesson_pk, pk):
 
 @user_is_professor
 @require_POST
-def lesson_test_close_open(request, lesson_pk, pk):
+def lesson_test_online_close_open(request, lesson_pk, pk):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(Test, pk=pk)
 

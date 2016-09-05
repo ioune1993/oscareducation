@@ -1,108 +1,39 @@
 -extends "base.haml"
--load static
-
--block head
-  %script{type: "text/javascript", src: "{% static 'js/professor_lesson.js' %}"}
-
-  :javascript
-    context = {
-      lessonId: {{ lesson.id }}
-    };
 
 -block content
-  %ol.breadcrumb
-    %li
-      %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= lesson.stage.name
-    %li
-      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-        Classe
-        =lesson.name
-    %li.active
-      Ajouter un test
+  %h2 Ajouter un nouveau test
+  %hr
 
-  %div#alerts
+  .row
+    .col-md-4.col-md-offset-2
+      .panel.panel-default
+        .panel-heading
+          Test en ligne
 
-  %div{ng-app: "oscar", ng-controller: "createTestController"}
-    .panel.panel-default
-      .panel-heading
-        Ajouter un test
+        .panel-body
+          %p
+            Le test en ligne est un test qui se déroulera entièrement dans
+            l'interface web d'Oscar, aussi bien sa création que les réponses des
+            élèves.
 
-      .panel-body
-        %form.form
-          .row
-            .col-md-6
-              .form-group
-                %label.control-label{for: "test_name"} Nom du test
-                %input#test_name.form-control{type: "text", ng-model: "name"}
+          %br
 
-              .form-group
-                %label.control-label Ce test portera sur :
-                .radio
-                  %label
-                    %input{ng-model: "testType", type: "radio", value: "skills"} les compétences sélectionnées
-                .radio
-                  %label
-                    %input{ng-model: "testType", type: "radio", value: "dependencies"} les prérequis des compétences sélectionnées
-                .radio
-                  %label
-                    %input{ng-model: "testType", type: "radio", value: "skills-dependencies"} les compétences sélectionnées et leurs prérequis
+          .center
+            %a.btn.btn-primary.center{href: "{% url 'professor:lesson_test_online_add' lesson.pk %}"}
+              Ajouter un test en ligne
 
-              %p
-                %b
-                  Compétences sélectionnées :
+    .col-md-4
+      .panel.panel-default
+        .panel-heading
+          Évaluation libre
 
-              .well
-                %span.btn.btn-primary.selected-skill{ng-repeat: "skill in toTestSkills", title: "{& skill.name &}" }
-                  {& skill &}
+        .panel-body
+          %p
+            L'évaluation sert à mettre en ligne le résultat d'un test qui aura
+            été effectué préalablement en classe.
 
-            .col-md-6
-              %h
-              -for stage in stages
-                -if forloop.counter == 3
-                  <div class="panel panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                    <div class="panel panel-default">
-                      <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">Compétences antérieures</a>
-                        </h4>
-                      </div>
-                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                      <div class="panel-body">
+          %br
 
-                .form-group
-                  %label.control-label= stage.name
-                  .form-group
-                    %select.form-control{ng-model: "stage{{ stage.id }}SelectedSkill"}
-                      -for skill in stage.skills.all reversed
-                        %option{value: "{{ skill.code }}", id: "{{ skill.code }}"}
-                          {{ skill.code }} - {{ skill.name }}
-
-                .form-group
-                  %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})", id: "addSkillToTestButtonForStage{{ stage.id }}"}
-                    Ajouter cette compétence
-
-                -if forloop.last and forloop.counter >= 3
-                  </div>
-                  </div>
-
-    .form-group
-      %button.btn.btn-primary{type: "submit", ng-click: "addNewTest()"}
-        Créer le test
-
-  :css
-    .well {
-      padding-bottom: 19px;
-    }
-
-    .selected-skill {
-      margin-right: 3px;
-      margin-bottom: 3px;
-      width: 59px;
-    }
-
-    .selected-skill:hover {
-      background-color: #337ab7;
-      border-color: #2e6da4;
-      cursor: default;
-    }
+          .center
+            %a.btn.btn-primary{href: ""}
+              Ajouter une évaluation libre

@@ -12,12 +12,25 @@ from promotions.models import Lesson
 from skills.models import Skill, StudentSkill
 
 
-class Test(models.Model):
+class BaseTest(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nom")
     lesson = models.ForeignKey(Lesson)
     skills = models.ManyToManyField(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def prerequisistes(self):
+        selected_skills = self.skills.all()
+
+        return [x.skill for x in self.testexercice_set.exclude(skill__in=selected_skills).order_by('-skill__stage__level', '-skill__code')]
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['created_at']
+
+
+class Test(BaseTest):
     running = models.BooleanField(default=True)
 
     type = models.CharField(max_length=255, choices=(
@@ -25,11 +38,6 @@ class Test(models.Model):
         ("dependencies", "dependencies"),
         ("skills-dependencies", "skills-dependencies"),
     ))
-
-    def prerequisistes(self):
-        selected_skills = self.skills.all()
-
-        return [x.skill for x in self.testexercice_set.exclude(skill__in=selected_skills).order_by('-skill__stage__level', '-skill__code')]
 
     def display_test_type(self):
         if self.type == "skills":
@@ -93,8 +101,9 @@ class Test(models.Model):
     def __unicode__(self):
         return self.name
 
-    class Meta:
-        ordering = ['created_at']
+
+class TestFromClass(BaseTest):
+    pass
 
 
 class Exercice(models.Model):
