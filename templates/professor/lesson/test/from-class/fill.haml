@@ -5,13 +5,39 @@
     %i= test_from_class.name
   %hr
 
-  %table.table.table-striped.table-bordered
-    %tr
-      %th Élèves
+  %form{method: "post", action: ""}
+    -csrf_token
+    %table.table.table-striped.table-bordered
+      %col{width: "120px"}
       -for skill in test_from_class.skills.all
-        %th= skill.code
-    -for student in lesson.students.all
+        %col{width: "1"}
       %tr
-        %td= student
+        %th Élèves
         -for skill in test_from_class.skills.all
-          %td
+          %th
+            .center
+              =skill.code
+              %br
+              =skill.name
+      -for student in lesson.students.all
+        %tr
+          %td= student
+          -for skill in test_from_class.skills.all
+            %td
+              .center
+                .btn-group-vertical{data-toggle: "buttons"}
+                  %label.btn.btn-success
+                    %input{type: "radio", autocomplete: "off"}
+                    acquise
+                  %label.btn.btn-warning
+                    %input{type: "radio", autocomplete: "off"}
+                    non acquise
+                  %label.btn.btn-default.active
+                    %input{type: "radio", autocomplete: "off"}
+                    inconnu
+
+    %button.btn.btn-primary{type: "submit"}
+      Valider
+
+-block javascript
+  %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}

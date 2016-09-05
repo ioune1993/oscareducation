@@ -19,7 +19,7 @@ function createTestController($scope, $http) {
             "skills": $scope.toTestSkills,
         }).success(function(data, status, headers, config) {
             // TODO: don't do that in javascript
-            window.location.href = "../fill/"
+            window.location.href = "../" + data + "/fill/"
         })
     }
 

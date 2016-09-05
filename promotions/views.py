@@ -275,6 +275,17 @@ def lesson_test_from_class_add(request, pk):
     })
 
 
+@user_is_professor
+def lesson_test_from_class_fill(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test_from_class = get_object_or_404(TestFromClass, pk=pk)
+
+    return render(request, "professor/lesson/test/from-class/fill.haml", {
+        "lesson": lesson,
+        "test_from_class": test_from_class,
+    })
+
+
 @require_POST
 @user_is_professor
 def lesson_test_from_class_add_json(request):
@@ -299,7 +310,7 @@ def lesson_test_from_class_add_json(request):
 
         test.save()
 
-    return HttpResponse("ok")
+    return HttpResponse(str(test.id))
 
 
 def lesson_skill_detail(request, lesson_pk, skill_code):
