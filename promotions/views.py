@@ -20,7 +20,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test, TestStudent, Exercice
+from examinations.models import Test, TestStudent, Exercice, TestFromClass
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student
@@ -273,6 +273,33 @@ def lesson_test_from_class_add(request, pk):
         "lesson": lesson,
         "stages": lesson.stages_in_unchronological_order(),
     })
+
+
+@require_POST
+@user_is_professor
+def lesson_test_from_class_add_json(request):
+    # TODO: a professor can only do this on one of his lesson
+    # TODO: use django form
+
+    data = json.load(request)
+
+    lesson = get_object_or_404(Lesson, id=data["lesson"])
+
+    if request.user.professor not in lesson.professors.all():
+        raise PermissionDenied()
+
+    with transaction.atomic():
+        test = TestFromClass.objects.create(
+            lesson=lesson,
+            name=data["name"],
+        )
+
+        for skill_id in data["skills"]:
+            test.skills.add(Skill.objects.get(code=skill_id))
+
+        test.save()
+
+    return HttpResponse("ok")
 
 
 def lesson_skill_detail(request, lesson_pk, skill_code):
