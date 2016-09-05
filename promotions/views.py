@@ -265,6 +265,16 @@ def lesson_test_online_close_open(request, lesson_pk, pk):
     return HttpResponseRedirect(reverse("professor:lesson_test_list", args=(lesson.pk,)))
 
 
+@user_is_professor
+def lesson_test_from_class_add(request, pk):
+    lesson = get_object_or_404(Lesson, pk=pk)
+
+    return render(request, "professor/lesson/test/from-class/add.haml", {
+        "lesson": lesson,
+        "stages": lesson.stages_in_unchronological_order(),
+    })
+
+
 def lesson_skill_detail(request, lesson_pk, skill_code):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)

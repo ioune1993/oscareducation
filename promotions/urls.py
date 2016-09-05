@@ -35,6 +35,8 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/delete/$', user_is_professor(TestDelete.as_view()), name='lesson_test_online_delete'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/close/$', 'lesson_test_online_close_open', name='lesson_test_online_close_open'),
 
+    url(r'^lesson/(?P<pk>\d+)/test/from-class/add/$', 'lesson_test_from_class_add', name='lesson_test_from_class_add'),
+
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
 
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='regenerate_student_password'),
