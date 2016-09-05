@@ -1,0 +1,17 @@
+-extends "base.haml"
+
+-block content
+  %h2 Sélectionner les compétences résultantes de l'évaluation libre
+    %i= test_from_class.name
+  %hr
+
+  %table.table.table-striped.table-bordered
+    %tr
+      %th Élèves
+      -for skill in test_from_class.skills.all
+        %th= skill.code
+    -for student in lesson.students.all
+      %tr
+        %td= student
+        -for skill in test_from_class.skills.all
+          %td
