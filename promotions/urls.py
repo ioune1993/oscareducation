@@ -34,6 +34,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/update/$', 'lesson_test_online_update', name='lesson_test_online_update'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/delete/$', user_is_professor(TestDelete.as_view()), name='lesson_test_online_delete'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/close/$', 'lesson_test_online_close_open', name='lesson_test_online_close_open'),
+    url(r'^add_test_for_lesson/$', 'lesson_test_add_json', name='lesson_test_add'),
 
     url(r'^lesson/(?P<pk>\d+)/test/from-class/add/$', 'lesson_test_from_class_add', name='lesson_test_from_class_add'),
 
@@ -50,7 +51,6 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<lesson_pk>\d+)/default_skill/(?P<student_skill>\d+)/$', 'default_student_skill', name='default_student_skill'),
 
     url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', 'lesson_tests_and_skills', name='lesson_tests_and_skills'),
-    url(r'^add_test_for_lesson/$', 'lesson_test_add_json', name='lesson_test_add'),
 
     url(r'^exercices/$', 'exercice_list', name='exercice_list'),
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
