@@ -106,6 +106,22 @@ class TestFromClass(BaseTest):
     pass
 
 
+class TestSkillFromClass(models.Model):
+    test = models.ForeignKey(TestFromClass)
+    skill = models.ForeignKey(Skill)
+    student = models.ForeignKey("promotions.Student")
+    result = models.CharField(max_length=10, choices=(
+        ("good", "acquise"),
+        ("bad", "non acquise"),
+        ("unknown", "inconnu"),
+    ))
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('test', 'skill', 'student')
+
+
 class Exercice(models.Model):
     file_name = models.CharField(max_length=255, unique=True)
     content = models.TextField(null=True, blank=True)

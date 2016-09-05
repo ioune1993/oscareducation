@@ -6,6 +6,7 @@ import requests
 import yaml
 import yamlordereddictloader
 
+from datetime import datetime
 from base64 import b64encode
 from requests.auth import HTTPBasicAuth
 
@@ -20,7 +21,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test, TestStudent, Exercice, TestFromClass
+from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student
@@ -279,6 +280,51 @@ def lesson_test_from_class_add(request, pk):
 def lesson_test_from_class_fill(request, lesson_pk, pk):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test_from_class = get_object_or_404(TestFromClass, pk=pk)
+
+    if request.method == "POST":
+        second_run = []
+        print request.POST.items()
+
+        with transaction.atomic():
+            for key in filter(lambda x: x.startswith(("good", "bad", "unknown")), request.POST.values()):
+                result, student, skill = key.split("_", 2)
+                print result, student, skill
+                student = Student.objects.get(pk=student)
+                skill = Skill.objects.get(pk=skill)
+
+                TestSkillFromClass.objects.create(
+                    test=test_from_class,
+                    student=student,
+                    skill=skill,
+                    result=result,
+                )
+
+                student_skill = StudentSkill.objects.get(
+                    student=student,
+                    skill=skill,
+                )
+
+                if result == "god":
+                    student_skill.validate()
+                elif result == "bad":
+                    student_skill.unvalidate()
+
+                second_run.append([result, student_skill])
+
+            # I redo a second run here because we can end up in a situation where
+            # the teacher has enter value that would be overwritten by the
+            # recursive walk and we want the resulting skills to match the teacher
+            # input
+            for result, student_skill in second_run:
+                if result == "god":
+                    student_skill.acquired = datetime.now()
+                    student_skill.save()
+                elif result == "bad":
+                    student_skill.acquired = None
+                    student_skill.tested = datetime.now()
+                    student_skill.save()
+
+        return HttpResponseRedirect(reverse('professor:lesson_test_list', args=(lesson.pk,)))
 
     return render(request, "professor/lesson/test/from-class/fill.haml", {
         "lesson": lesson,

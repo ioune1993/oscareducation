@@ -27,13 +27,13 @@
               .center
                 .btn-group-vertical{data-toggle: "buttons"}
                   %label.btn.btn-success
-                    %input{type: "radio", autocomplete: "off"}
+                    %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                     acquise
                   %label.btn.btn-warning
-                    %input{type: "radio", autocomplete: "off"}
+                    %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                     non acquise
                   %label.btn.btn-default.active
-                    %input{type: "radio", autocomplete: "off"}
+                    %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "unknown_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
                     inconnu
 
     %button.btn.btn-primary{type: "submit"}
