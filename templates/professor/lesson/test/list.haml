@@ -22,19 +22,17 @@
         %tr
           %td{width: "30px"}
             =basetest.created_at|date:"d/m/Y"
-          %td{width: "8px"}
-            -if basetest.test
+
+          -if basetest.test
+            %td{width: "8px"}
               %i.fa.fa-desktop{title: "test en ligne"}
-            -else
-              %i.fa.fa-commenting-o{title: "évaluation libre"}
-          %td
-            %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
-              =basetest
-            -if basetest.test and not basetest.test.running
-              %span.label.label-danger
-                Clôturé
-          %td.center{width: "20px"}
-            -if basetest.test
+            %td
+              %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
+                =basetest
+              -if not basetest.test.running
+                %span.label.label-danger
+                  Clôturé
+            %td.center{width: "20px"}
               %form{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
                 -csrf_token
                 %button.btn.btn-sm.btn-default{type: "submit"}
@@ -42,12 +40,26 @@
                     Clôturer
                   -else
                     Rendre disponible
-          %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk basetest.pk %}"}
-              Modifier
-          %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk basetest.pk %}"}
-              Supprimer
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk basetest.pk %}"}
+                Modifier
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk basetest.pk %}"}
+                Supprimer
+
+          -else
+            %td{width: "8px"}
+              %i.fa.fa-commenting-o{title: "évaluation libre"}
+            %td
+              %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
+                =basetest
+            %td.center{width: "20px"}
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk basetest.pk %}"}
+                Modifier
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk basetest.pk %}"}
+                Supprimer
 
   -else
     %p

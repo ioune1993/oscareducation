@@ -45,7 +45,7 @@ class LessonDelete(DeleteView):
 
 class TestDetailView(LessonMixin, DetailView):
     model = Test
-    template_name = "professor/lesson/test/detail.haml"
+    template_name = "professor/lesson/test/online/detail.haml"
 
 
 class TestDelete(LessonMixin, DeleteView):
