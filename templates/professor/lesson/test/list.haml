@@ -26,7 +26,7 @@
             -if basetest.test
               %i.fa.fa-desktop{title: "test en ligne"}
             -else
-              %i.fa.fa-pencil-square-o{title: "évaluation libre"}
+              %i.fa.fa-commenting-o{title: "évaluation libre"}
           %td
             %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
               =basetest
