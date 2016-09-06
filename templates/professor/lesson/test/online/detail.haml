@@ -71,3 +71,6 @@
             =test_student.student
         -for answer in test_student.answer_set.all
           %td{class: "{% if answer.correct %}success{% else %}danger{% endif %}"}
+        -empty
+          -for i in object.testexercice_set.all
+            %th
