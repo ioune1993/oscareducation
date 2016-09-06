@@ -54,6 +54,9 @@
               %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk basetest.pk %}"}
                 =basetest
             %td.center{width: "20px"}
+              -if not basetest.testfromclass.testskillfromclass_set.exists
+                %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
+                  Remplir
             %td.center{width: "20px"}
               %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
                 Modifier
