@@ -53,7 +53,8 @@
       -for student in students
         %tr
           %td
-            =student.grouper
+            %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.grouper.pk %}"}
+              =student.grouper
           -for result in student.list
             %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
 
