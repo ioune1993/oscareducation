@@ -16,6 +16,9 @@
   %h2 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
     .pull-right
       %td.center{width: "20px"}
+        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
+          remplir
+      %td.center{width: "20px"}
         %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk object.pk %}"}
           modifier
       %td.center{width: "20px"}
@@ -35,20 +38,26 @@
 
   %h3 Résultats par élèves
 
-  -regroup object.testskillfromclass_set.all by student as students
+  -if object.testskillfromclass_set.exists
+    -regroup object.testskillfromclass_set.all by student as students
 
-  %table.table.table-bordered
-    %thead
-      %th{width: "20%"}
-        Élève / Compétences
-      -for i in object.skills.all
-        %th.center
-          =i.code
-          %br
-          =i.name
-    -for student in students
-      %tr
-        %td
-          =student.grouper
-        -for result in student.list
-          %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
+    %table.table.table-bordered
+      %thead
+        %th{width: "20%"}
+          Élève / Compétences
+        -for i in object.skills.all
+          %th.center
+            =i.code
+            %br
+            =i.name
+      -for student in students
+        %tr
+          %td
+            =student.grouper
+          -for result in student.list
+            %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
+
+  -else
+    %p Vous n'avez pas encore rempli cette évaluation libre.
+    %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
+      Le faire maintenant.
