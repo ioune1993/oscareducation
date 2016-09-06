@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
 from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill, KhanAcademyVideoSkill
-from examinations.models import Test
+from examinations.models import BaseTest
 
 from .models import Lesson
 
@@ -66,7 +66,7 @@ class StudentUpdateForm(forms.ModelForm):
 
 class TestUpdateForm(forms.ModelForm):
     class Meta:
-        model = Test
+        model = BaseTest
         fields = ['name']
 
 

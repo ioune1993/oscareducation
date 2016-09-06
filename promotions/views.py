@@ -21,7 +21,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill
-from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass
+from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student
@@ -227,30 +227,33 @@ def lesson_test_add(request, pk):
 
 
 @user_is_professor
+def lesson_test_update(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test = get_object_or_404(BaseTest, pk=pk)
+
+    form = TestUpdateForm(request.POST, instance=test) if request.method == "POST" else TestUpdateForm(instance=test)
+
+    if form.is_valid():
+        form.save()
+        if hasattr(test, "test"):
+            return HttpResponseRedirect(reverse("professor:lesson_test_online_detail", args=(lesson.pk, test.pk,)))
+        else:
+            return HttpResponseRedirect(reverse("professor:lesson_test_from_class_detail", args=(lesson.pk, test.pk,)))
+
+    return render(request, "professor/lesson/test/update.haml", {
+        "lesson": lesson,
+        "test": test,
+        "form": form,
+    })
+
+
+@user_is_professor
 def lesson_test_online_add(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
     return render(request, "professor/lesson/test/online/add.haml", {
         "lesson": lesson,
         "stages": lesson.stages_in_unchronological_order(),
-    })
-
-
-@user_is_professor
-def lesson_test_online_update(request, lesson_pk, pk):
-    lesson = get_object_or_404(Lesson, pk=lesson_pk)
-    test = get_object_or_404(Test, pk=pk)
-
-    form = TestUpdateForm(request.POST, instance=test) if request.method == "POST" else TestUpdateForm(instance=test)
-
-    if form.is_valid():
-        form.save()
-        return HttpResponseRedirect(reverse("professor:lesson_test_online_detail", args=(lesson.pk, test.pk,)))
-
-    return render(request, "professor/lesson/test/online/update.haml", {
-        "lesson": lesson,
-        "test": test,
-        "form": form,
     })
 
 
