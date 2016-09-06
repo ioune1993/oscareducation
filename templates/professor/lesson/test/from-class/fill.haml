@@ -38,6 +38,8 @@
 
     %button.btn.btn-primary{type: "submit"}
       Valider
+    %a.btn.btn-default{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test_from_class.pk %}"}
+      Remplir plus tard
 
 -block javascript
   %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}
