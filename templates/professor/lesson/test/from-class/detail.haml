@@ -13,7 +13,7 @@
       Évaluation libre
       =object.name
 
-  %h2 Évaluation libre {{ object.name }}  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+  %h2 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
 
   %hr
 
