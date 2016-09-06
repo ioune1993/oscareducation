@@ -55,7 +55,7 @@
                 =basetest
                 -if not basetest.testfromclass.testskillfromclass_set.exists
                   %span.label.label-warning
-                    pas encore remplie
+                    pas encore rempli
             %td.center{width: "20px"}
               -if not basetest.testfromclass.testskillfromclass_set.exists
                 %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
