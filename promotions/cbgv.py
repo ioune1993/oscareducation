@@ -3,7 +3,7 @@ from django.views.generic import DetailView, DeleteView
 from django.shortcuts import get_object_or_404
 
 from .models import Lesson, Student
-from examinations.models import Test, TestFromClass
+from examinations.models import Test, TestFromClass, BaseTest
 
 
 class LessonMixin(object):
@@ -53,9 +53,10 @@ class TestFromClassDetailView(LessonMixin, DetailView):
     template_name = "professor/lesson/test/from-class/detail.haml"
 
 
-class TestDelete(LessonMixin, DeleteView):
-    model = Test
+class BaseTestDelete(LessonMixin, DeleteView):
+    model = BaseTest
     template_name = "professor/lesson/test/delete.haml"
+    context_object_name = "test"
 
     def get_success_url(self):
         return reverse('professor:lesson_test_list', args=(self.get_lesson().pk,))

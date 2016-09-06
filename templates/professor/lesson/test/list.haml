@@ -44,7 +44,7 @@
               %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk basetest.pk %}"}
                 Modifier
             %td.center{width: "20px"}
-              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk basetest.pk %}"}
+              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
                 Supprimer
 
           -else
@@ -58,7 +58,7 @@
               %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_online_update' lesson.pk basetest.pk %}"}
                 Modifier
             %td.center{width: "20px"}
-              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_online_delete' lesson.pk basetest.pk %}"}
+              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
                 Supprimer
 
   -else
