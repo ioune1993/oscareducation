@@ -1,0 +1,7 @@
+“La longueur d’une piscine olympique mesure :“ :
+   type : radio
+   answers :
+    “5m“ : false
+    “50m“ : true
+    “500m“ : false
+    “5000m“ : false
