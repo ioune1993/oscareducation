@@ -1,0 +1,48 @@
+-extends "base.haml"
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li= object.lesson.stage.name
+    %li
+      %a{href: "{% url 'professor:lesson_detail' object.lesson.id %}"}
+        Classe
+        =object.lesson.name
+    %li.active
+      Évaluation libre
+      =object.name
+
+  %h2 Évaluation libre {{ object.name }}  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+
+  %hr
+
+  %h3 Compétences sélectionnées
+  %ul.heatmap-list
+    -for skill in object.skills.all
+      %li
+        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
+          %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+        =skill.name
+
+  %h3 Résultats par élèves
+
+  -regroup object.testskillfromclass_set.all by student as students
+
+  %table.table.table-bordered
+    %thead
+      %th{width: "20%"}
+        Élève / Compétences
+      -for i in object.skills.all
+        %th.center
+          =i.code
+          %br
+          =i.name
+    -for student in students
+      %tr
+        %td
+          =student.grouper
+        -for result in student.list
+          %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
+            =result.skill.code

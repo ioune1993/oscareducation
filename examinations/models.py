@@ -120,6 +120,7 @@ class TestSkillFromClass(models.Model):
 
     class Meta:
         unique_together = ('test', 'skill', 'student')
+        ordering = ['student', 'skill__code']
 
 
 class Exercice(models.Model):

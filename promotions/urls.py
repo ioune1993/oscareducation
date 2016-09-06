@@ -7,7 +7,7 @@ from .models import Stage
 
 from .utils import user_is_professor
 
-from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, TestDelete, TestDetailView
+from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, TestDelete, TestDetailView, TestFromClassDetailView
 
 
 urlpatterns = patterns('promotions.views',
@@ -38,6 +38,7 @@ urlpatterns = patterns('promotions.views',
 
     url(r'^lesson/(?P<pk>\d+)/test/from-class/add/$', 'lesson_test_from_class_add', name='lesson_test_from_class_add'),
     url(r'^lesson/(?P<lesson_pk>\d+)/test/from-class/(?P<pk>\d+)/fill/$', 'lesson_test_from_class_fill', name='lesson_test_from_class_fill'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/test/from-class/(?P<pk>\d+)/$', user_is_professor(TestFromClassDetailView.as_view()), name='lesson_test_from_class_detail'),
     url(r'^add_test_from_class_for_lesson/$', 'lesson_test_from_class_add_json', name='lesson_test_from_class_add_json'),
 
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
