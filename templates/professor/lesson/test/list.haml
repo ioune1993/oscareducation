@@ -23,7 +23,10 @@
           %td{width: "30px"}
             =basetest.created_at|date:"d/m/Y"
           %td{width: "8px"}
-            %i.fa.fa-desktop
+            -if basetest.test
+              %i.fa.fa-desktop{title: "test en ligne"}
+            -else
+              %i.fa.fa-pencil-square-o{title: "évaluation libre"}
           %td
             %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
               =basetest
