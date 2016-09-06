@@ -292,12 +292,14 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
                 student = Student.objects.get(pk=student)
                 skill = Skill.objects.get(pk=skill)
 
-                TestSkillFromClass.objects.create(
+                test_skill_from_class, _ = TestSkillFromClass.objects.get_or_create(
                     test=test_from_class,
                     student=student,
                     skill=skill,
-                    result=result,
                 )
+
+                test_skill_from_class.result = result
+                test_skill_from_class.save()
 
                 student_skill = StudentSkill.objects.get(
                     student=student,
