@@ -12,9 +12,14 @@
         Classe
         =lesson.name
     %li
-      %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
-        Test
-        =test.name
+      -if basetest.test
+        %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+          Test
+          =test.name
+      -else
+        %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+          Évaluation libre
+          =test.name
     %li.active
       Modifier
 
@@ -29,6 +34,10 @@
         {% buttons %}
           %button.btn.btn-primary{type: "submit"}
             Modifier
-          %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
-            Annuler
+          -if basetest.test
+            %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+              Annuler
+          -else
+            %a.btn.btn-default{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+              Annuler
         {% endbuttons %}
