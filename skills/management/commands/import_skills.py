@@ -75,9 +75,6 @@ class Command(BaseCommand):
         sorted_stages = [x[1] for x in sorted(level_stages.items(), key=lambda x: x[0])]
 
         for previous_stage, next_stage in zip(sorted_stages, sorted_stages[1:]):
-            next_stage = Stage.objects.get(name=next_stage)
-            previous_stage = Stage.objects.get(name=previous_stage)
-
             print (u"[Stage] '%s' depends on '%s'" % (next_stage, previous_stage)).encode("Utf-8")
 
             next_stage.previous_stage = previous_stage
