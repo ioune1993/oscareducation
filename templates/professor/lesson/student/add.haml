@@ -52,18 +52,3 @@
           %button.btn.btn-primary{type: "submit"}
             Ajouter
         {% endbuttons %}
-
-
--#
-  %h3 Autre :
-
-  %ul
-    %li
-      %form{method: "POST", action: "{% url 'professor:students_password_page' lesson.pk %}"}
-        -csrf_token
-        %p
-          Générer une page à imprimer avec les informations de connexion pour tous les élèves.
-        %p
-          %b
-            Attention! Cela modifiera le mot de passe de TOUS les élèves.
-        %input.btn.btn-danger{type: "submit", value: "Générer"}
