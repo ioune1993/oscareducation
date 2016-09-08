@@ -5,17 +5,6 @@ from skills.models import Skill
 from promotions.models import Stage
 
 
-STAGES_ORDER = [
-    u'\xe9tape I (1\xa1 degr\xe9 primaire)',
-    u'\xe9tape II (2\xa1 et 3\xa1 degr\xe9s primaire)',
-    u'\xe9tape III (1\xa1 degr\xe9 secondaire)',
-    u'3\xe8me ann\xe9e CPEONS',
-    u'4\xe8me ann\xe9e CPEONS',
-    u'5\xe8me ann\xe9e CPEONS',
-    u'6\xe8me ann\xe9e CPEONS',
-]
-
-
 class Command(BaseCommand):
     args = '<csv file>'
     help = 'Import skills tree out of a csv file'
@@ -25,8 +14,9 @@ class Command(BaseCommand):
         rubrique = ''
 
         to_link_to_stage = {}
+        level_stages = {}
 
-        for row in csv.DictReader(open(args[0], "r"), delimiter=";", quotechar='"'):
+        for row in csv.DictReader(open(args[0], "r"), delimiter=",", quotechar='"'):
 
             rubrique = row['Rubrique'] if row['Rubrique'] else rubrique
 
@@ -39,14 +29,19 @@ class Command(BaseCommand):
                 print "create", row["Code"]
                 skill.code = row["Code"]
 
-            if Stage.objects.filter(level=row['Niveau']).exists():
-                stage = Stage.objects.get(level=row['Niveau'])
-                stage.name = row['\xc3\x89tape']
+            level = row['Niveau']
+
+            if Stage.objects.filter(level=level).exists():
+                stage = Stage.objects.get(level=level)
+                stage.name = row['\xc3\x89tape'].decode("Utf-8")
             else:
-                stage = Stage.objects.create(name=row['\xc3\x89tape'], level=row['Niveau'])
+                stage = Stage.objects.create(name=row['\xc3\x89tape'], level=level)
 
             if stage not in to_link_to_stage:
                 to_link_to_stage[stage] = []
+
+            if level not in level_stages:
+                level_stages[level] = stage
 
             to_link_to_stage[stage].append(skill)
 
@@ -72,12 +67,14 @@ class Command(BaseCommand):
             stage.skills.clear()
             stage.skills.add(*skills)
 
-        first_stage = Stage.objects.get(name=STAGES_ORDER[0])
+        first_stage = level_stages[str(1)]
         print (u"[Stage] '%s' is the first stage (previous_stage is None)" % first_stage).encode("Utf-8")
         first_stage.previous_stage = None
         first_stage.save()
 
-        for previous_stage, next_stage in zip(STAGES_ORDER, STAGES_ORDER[1:]):
+        sorted_stages = [x[1] for x in sorted(level_stages.items(), key=lambda x: x[0])]
+
+        for previous_stage, next_stage in zip(sorted_stages, sorted_stages[1:]):
             next_stage = Stage.objects.get(name=next_stage)
             previous_stage = Stage.objects.get(name=previous_stage)
 

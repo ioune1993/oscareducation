@@ -28,7 +28,7 @@
           -for stage in form.fields.stage.queryset
             -if stage.name
               -if stage.level == 4 or stage.level == 5
-                %b= stage.name
+                %b {{ stage.level }}ème année
                 %ul
                   %li
                     .radio
