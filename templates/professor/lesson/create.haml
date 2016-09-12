@@ -25,20 +25,24 @@
             %span.help-block= error
 
         .form-group{class: "{% if form.stage.errors %}has-error{% elif form.data and form.stage %}has-success{% endif %}"}
-          %label.control-label Année :
-          .radio
-            %label
-              %input{type: "radio", name: "stage", value: "{% get_stage_id '1e' %}"} étape I (1er degré primaire)
+          %b Socles de compétences :
+          %ul
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '1e' %}"} étape I (1er degré primaire)
 
 
-          .radio
-            %label
-              %input{type: "radio", name: "stage", value: "{% get_stage_id '2e' %}"} étape II (2ème et 3ème degrés primaire)
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '2e' %}"} étape II (2ème et 3ème degrés primaire)
 
 
-          .radio
-            %label
-              %input{type: "radio", name: "stage", value: "{% get_stage_id '3e' %}"} étape III (1er degré secondaire)
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '3e' %}"} étape III (1er degré secondaire)
 
 
 
@@ -50,18 +54,22 @@
                 %label
                   %input{type: "radio", name: "stage", value: "{% get_stage_id '2p' %}"} enseignement professionnel (2ème degré)
             %li
-              enseignement technique
-              %ul
-                %li
-                  .radio
-                    %label
-                      %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} 2 périodes par semaine (2ème degré)
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} enseignement technique 2 périodes par semaine (2ème degré)
+              -#
+                enseignement technique
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} 2 périodes par semaine (2ème degré)
                 -#
                   %li
                     .radio
                       %label
                         %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
-              %li
+            %li
               .radio
                 %label
                   %input{type: "radio", name: "stage", value: "{% get_stage_id '3t' %}"} enseignement de transition
@@ -76,12 +84,16 @@
                 %label
                   %input{type: "radio", name: "stage", value: "{% get_stage_id '2p' %}"} enseignement professionnel (2ème degré)
             %li
-              enseignement technique
-              %ul
-                %li
-                  .radio
-                    %label
-                      %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} 2 périodes par semaine (2ème degré)
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} enseignement technique 2 périodes par semaine (2ème degré)
+              -#
+                enseignement technique
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} 2 périodes par semaine (2ème degré)
                 -#
                   %li
                     .radio
@@ -103,12 +115,16 @@
                 %label
                   %input{type: "radio", name: "stage", value: "{% get_stage_id '3p' %}"} enseignement professionnel (3ème degré)
             %li
-              enseignement technique
-              %ul
-                %li
-                  .radio
-                    %label
-                      %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} 2 périodes par semaine (3ème degré)
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} enseignement technique 2 périodes par semaine (3ème degré)
+              -#
+                enseignement technique
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} 2 périodes par semaine (3ème degré)
                 -#
                   %li
                     4 périodes par semaine
@@ -165,12 +181,16 @@
                 %label
                   %input{type: "radio", name: "stage", value: "{% get_stage_id '3p' %}"} enseignement professionnel (3ème degré)
             %li
-              enseignement technique
-              %ul
-                %li
-                  .radio
-                    %label
-                      %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} 2 périodes par semaine (3ème degré)
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} enseignement technique 2 périodes par semaine (3ème degré)
+              -#
+                enseignement technique
+                %ul
+                  %li
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} 2 périodes par semaine (3ème degré)
                 -#
                   %li
                     4 périodes par semaine
