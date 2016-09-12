@@ -42,7 +42,7 @@ urlpatterns = patterns('promotions.views',
     url(r'^add_test_from_class_for_lesson/$', 'lesson_test_from_class_add_json', name='lesson_test_from_class_add_json'),
 
 
-    url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>\w+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>.+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
 
     url(r'^regenerate_student_password/$', 'regenerate_student_password', name='regenerate_student_password'),
 
