@@ -18,6 +18,9 @@ class Command(BaseCommand):
 
         for row in csv.DictReader(open(args[0], "r"), delimiter=",", quotechar='"'):
 
+            if not filter(None, row.values()):
+                continue
+
             rubrique = row['Rubrique'] if row['Rubrique'] else rubrique
 
             if Skill.objects.filter(code=row["Code"]).exists():
