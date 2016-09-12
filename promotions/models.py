@@ -60,6 +60,7 @@ class Student(models.Model):
 
 class Stage(models.Model):
     name = models.CharField("Nom", max_length=255, unique=True)
+    short_name = models.CharField("Nom", max_length=255, unique=True, null=True, blank=True)
     level = models.PositiveSmallIntegerField("Niveau")
     previous_stage = models.ForeignKey("promotions.Stage", null=True, blank=True)
 

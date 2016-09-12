@@ -4,6 +4,22 @@ from django.core.management.base import BaseCommand
 from skills.models import Skill
 from promotions.models import Stage
 
+stage_short_name = {
+    u'2e degr\xe9 professionnel': "2p",
+    u'3e degr\xe9 professionnel': "3p",
+    u'5e ann\xe9e transition (math\xe9matiques de base)': "5tb",
+    u'6e ann\xe9e transition (math\xe9matiques de base)': "6tb",
+    u'3e ann\xe9e transition': "3t",
+    u'4e ann\xe9e transition': "4t",
+    u'5e ann\xe9e transition (math\xe9matiques g\xe9n\xe9rales)': "5tg",
+    u'6e ann\xe9e transition (math\xe9matiques g\xe9n\xe9rales)': "6tg",
+    u'\xe9tape I (1er degr\xe9 primaire)': "1e",
+    u'\xe9tape II (2e et 3e degr\xe9s primaire)': "2e",
+    u'\xe9tape III (1er degr\xe9 secondaire)': "3e",
+    u'2e degr\xe9 technique (2 p\xe9r./sem.)': "2d2",
+    u'3e degr\xe9 technique (2 p\xe9r./sem.)': "3d2",
+}
+
 
 class Command(BaseCommand):
     args = '<csv file>'
@@ -41,6 +57,10 @@ class Command(BaseCommand):
                 stage.name = stage_name
             else:
                 stage = Stage.objects.create(name=stage_name, level=level)
+
+            if not stage.short_name:
+                stage.short_name = stage_short_name[stage.name]
+                stage.save()
 
             if stage not in to_link_to_stage:
                 to_link_to_stage[stage] = []
