@@ -70,6 +70,7 @@ class Stage(models.Model):
 
     class Meta:
         unique_together = ('name', 'level')
+        ordering = ['level']
 
 
 class Lesson(models.Model):
