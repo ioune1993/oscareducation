@@ -32,7 +32,11 @@ class Command(BaseCommand):
                 print "importing", file_name, "..."
                 exercice = Exercice(file_name=file_name)
 
-            skill = Skill.objects.get(code__iexact=skill_code)
+            try:
+                skill = Skill.objects.get(code__iexact=skill_code)
+            except Skill.DoesNotExist:
+                print "Warning: skill %s does NOT exist in db" % skill_code
+                continue
 
             exercice.skill = skill
             exercice.answer = open("exercices/" + i).read()
