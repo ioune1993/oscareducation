@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 stage = Stage.objects.get(level=level)
                 stage.name = row['\xc3\x89tape'].decode("Utf-8")
             else:
-                stage = Stage.objects.create(name=row['\xc3\x89tape'], level=level)
+                stage = Stage.objects.create(name=row['\xc3\x89tape'].decode("Utf-8"), level=level)
 
             if stage not in to_link_to_stage:
                 to_link_to_stage[stage] = []
