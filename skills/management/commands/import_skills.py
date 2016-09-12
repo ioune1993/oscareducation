@@ -34,11 +34,13 @@ class Command(BaseCommand):
 
             level = row['Niveau']
 
-            if Stage.objects.filter(level=level).exists():
-                stage = Stage.objects.get(level=level)
-                stage.name = row['\xc3\x89tape'].decode("Utf-8")
+            stage_name = row['\xc3\x89tape'].strip().decode("Utf-8")
+
+            if Stage.objects.filter(level=level, name=stage_name).exists():
+                stage = Stage.objects.get(level=level, name=stage_name)
+                stage.name = stage_name
             else:
-                stage = Stage.objects.create(name=row['\xc3\x89tape'].decode("Utf-8"), level=level)
+                stage = Stage.objects.create(name=stage_name, level=level)
 
             if stage not in to_link_to_stage:
                 to_link_to_stage[stage] = []
