@@ -1,6 +1,7 @@
 -extends "base.haml"
 
 -load bootstrap3
+-load lesson_tags
 
 -block content
   %ol.breadcrumb
@@ -25,90 +26,198 @@
 
         .form-group{class: "{% if form.stage.errors %}has-error{% elif form.data and form.stage %}has-success{% endif %}"}
           %label.control-label Année :
-          -for stage in form.fields.stage.queryset
-            -if stage.name
-              -if stage.level == 4 or stage.level == 5
-                %b {{ stage.level|add:"-1" }}ème année
-                %ul
+          .radio
+            %label
+              %input{type: "radio", name: "stage", value: "{% get_stage_id '1e' %}"} étape I (1er degré primaire)
+
+
+          .radio
+            %label
+              %input{type: "radio", name: "stage", value: "{% get_stage_id '2e' %}"} étape II (2ème et 3ème degrés primaire)
+
+
+          .radio
+            %label
+              %input{type: "radio", name: "stage", value: "{% get_stage_id '3e' %}"} étape III (1er degré secondaire)
+
+
+
+
+          %b 3ème année
+          %ul
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '2p' %}"} enseignement professionnel (2ème degré)
+            %li
+              enseignement technique
+              %ul
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} 2 périodes par semaine (2ème degré)
+                -#
                   %li
                     .radio
                       %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
+              %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '3t' %}"} enseignement de transition
+
+
+
+
+          %b 4ème année
+          %ul
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '2p' %}"} enseignement professionnel (2ème degré)
+            %li
+              enseignement technique
+              %ul
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '2d2' %}"} 2 périodes par semaine (2ème degré)
+                -#
                   %li
-                    enseignement technique
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '4t' %}"} enseignement de transition
+
+
+
+
+
+          %b 5ème année
+          %ul
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '3p' %}"} enseignement professionnel (3ème degré)
+            %li
+              enseignement technique
+              %ul
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} 2 périodes par semaine (3ème degré)
+                -#
+                  %li
+                    4 périodes par semaine
                     %ul
                       %li
                         .radio
                           %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} agronomie
                       %li
                         .radio
                           %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 4 périodes par semaine
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} construction
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} économie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie orientation électrotechnique
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} sciences appliquées
+            %li
+              enseignement de transition
+              %ul
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '5tb' %}"} mathématiques de base
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '5tg' %}"} mathématiques générales
+                -#
                   %li
                     .radio
                       %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement de transition
-              -elif stage.level == 6 or stage.level == 7
-                %b= stage.name
-                %ul
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques pour scientifiques
+
+
+
+
+
+          %b 6ème année
+          %ul
+            %li
+              .radio
+                %label
+                  %input{type: "radio", name: "stage", value: "{% get_stage_id '3p' %}"} enseignement professionnel (3ème degré)
+            %li
+              enseignement technique
+              %ul
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '3d2' %}"} 2 périodes par semaine (3ème degré)
+                -#
                   %li
-                    .radio
-                      %label
-                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} enseignement professionnel
-                  %li
-                    enseignement technique
+                    4 périodes par semaine
                     %ul
                       %li
                         .radio
                           %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} 2 périodes par semaine
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} agronomie
                       %li
-                        4 périodes par semaine
-                        %ul
-                          %li
-                            .radio
-                              %label
-                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} agronomie
-                          %li
-                            .radio
-                              %label
-                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} construction
-                          %li
-                            .radio
-                              %label
-                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} économie
-                          %li
-                            .radio
-                              %label
-                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie
-                          %li
-                            .radio
-                              %label
-                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie orientation électrotechnique
-                          %li
-                            .radio
-                              %label
-                                %input{type: "radio", name: "stage", value: "{{ stage.id }}"} sciences appliquées
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} construction
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} économie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} industrie orientation électrotechnique
+                      %li
+                        .radio
+                          %label
+                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} sciences appliquées
+            %li
+              enseignement de transition
+              %ul
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '6tb' %}"} mathématiques de base
+                %li
+                  .radio
+                    %label
+                      %input{type: "radio", name: "stage", value: "{% get_stage_id '6tg' %}"} mathématiques générales
+                -#
                   %li
-                    enseignement de transition
-                    %ul
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques de base
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques générales
-                      %li
-                        .radio
-                          %label
-                            %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques pour scientifiques
-              -else
-                .radio
-                  %label
-                    %input{type: "radio", name: "stage", value: "{{ stage.id }}"}= stage
+                    .radio
+                      %label
+                        %input{type: "radio", name: "stage", value: "{{ stage.id }}"} mathématiques pour scientifiques
+
+
+
 
         {% buttons %}
           %button.btn.btn-primary{type: "submit"}
