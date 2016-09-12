@@ -1,0 +1,17 @@
+"Le secteur B correspond à la pointure :":
+  type: radio
+  answers:
+    "36": false
+    "37": true
+    "38": false
+    "39": false
+    "40": false
+
+"Le secteur E correspond à la pointure :":
+  type: radio
+  answers:
+    "36": true
+    "37": false
+    "38": false
+    "39": false
+    "40": false

@@ -1,0 +1,21 @@
+"120 x 15% =":
+  type: text
+  answers:
+    - 18
+
+"75% x 4 =":
+  type: text
+  answers:
+    - 3
+
+"30% x 90% =":
+  type: text
+  answers:
+    - "0,27"
+    - "0.27"
+    - "27%"
+
+"3000 x 5% =":
+  type: text
+  answers:
+    - 150
