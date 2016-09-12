@@ -10,7 +10,7 @@
   type: radio
   answers:
     "C'est possible. Il y a 9 élèves qui ont la même taille, et c'est certainement le plus grand groupe d'élèves de même taille.": false
-    "C'est impossible; le mode doit être compris entre 1,5 m et 1,8 m.": true
+    "C'est impossible: par ordre croissant de taille, la 9ème élève mesure 167 cm.": true
 
 "<p>Ton pote t'annonce que la médiane vaut 165 cm.</p>":
   type: radio
