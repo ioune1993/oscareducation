@@ -200,7 +200,7 @@ def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
     student = get_object_or_404(Student, pk=pk)
     student_test = get_object_or_404(TestStudent, pk=test_pk)
 
-    return render(request, "professor/lesson/student/test/online/detail.haml", {
+    return render(request, "professor/lesson/student/test/detail.haml", {
         "lesson": get_object_or_404(Lesson, pk=lesson_pk),
         "student": student,
         "student_test": student_test,
