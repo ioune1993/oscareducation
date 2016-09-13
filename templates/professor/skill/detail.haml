@@ -14,6 +14,9 @@
         %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
           Classe
           =lesson.name
+    -else
+      %li
+        %a{href: "{% url 'professor:skill_list' %}"} Compétences
     %li.active
       =skill.code
 
