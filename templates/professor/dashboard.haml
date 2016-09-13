@@ -5,8 +5,11 @@
 -block content
   %h2 Mes classes
 
-    %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_add' %}"}
-      Ajouter une nouvelle classe
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_add' %}"}
+        Ajouter une nouvelle classe
+      %a.btn.btn-default{href: "{% url 'professor:skill_list' %}"}
+        Compétences
 
   %table.table
     -for lesson in lessons
