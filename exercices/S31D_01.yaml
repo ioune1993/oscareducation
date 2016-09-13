@@ -1,0 +1,4 @@
+"<b>Déterminez</b> le périmètre du rectangle agrandi (en cm):":
+   type: text
+   answers:
+    - “66“
