@@ -1,4 +1,48 @@
 -extends "base.haml"
 
 -block content
-  %p pouet
+  %h2 Compétences
+  %hr
+
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li.active
+      Compétences
+
+  -for stage in object_list
+    .panel.panel-default
+      .panel-heading
+        =stage.name
+
+      %table.table
+        %col
+        %col
+        %col{width: "200px"}
+        %col
+        -for skill in stage.skills.all
+          %tr
+            %td
+              %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
+            %td
+              =skill.name
+            %td
+              %ul.exercices
+                -for exercice in skill.exercice_set.all
+                  %li
+                    %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
+                      Exercice n°{{ exercice.id }}
+                -empty
+                  %i Pas d'exercices disponibles.
+            %td
+              %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                ressources
+
+  :css
+    .exercices {
+      padding-left: 0;
+    }
+
+    .exercices li {
+      list-style-type: none;
+    }
