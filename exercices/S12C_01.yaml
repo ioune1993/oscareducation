@@ -1,0 +1,15 @@
+"D'un nombre impair :":
+   type: text
+   answers:
+   - "2n+1"
+   - "2n-1"
+
+"D’un multiple de 5 augmenté de 7 :":
+   type: text
+   answers:
+   - "5n+7"
+
+"Du triple du carré d’un nombre entier :":
+   type: text
+   answers:
+   - "3n^2"
