@@ -1,6 +1,12 @@
 -extends "base.haml"
 
 -block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li.active
+      Compétences
+
   %h2 Compétences
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
@@ -8,12 +14,6 @@
       %a.btn.btn-default{href: "{% url 'professor:exercice_list' %}"}
         exercices
   %hr
-
-  %ol.breadcrumb
-    %li
-      %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li.active
-      Compétences
 
   -for stage in object_list
     .panel.panel-default
