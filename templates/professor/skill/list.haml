@@ -2,6 +2,9 @@
 
 -block content
   %h2 Compétences
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
+        valider le format d'un exercice
   %hr
 
   %ol.breadcrumb
