@@ -1,0 +1,8 @@
+"Le crayon B mesure … cm":
+   type: text
+   answers: 
+     - "10"
+"Le crayon C mesure … cm":
+   type: text
+   answers: 
+     - "24"
