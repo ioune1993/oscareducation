@@ -1,0 +1,9 @@
+"Un quadrilatère qui a un centre de symétrie mais pas d’axe de symétrie est un … " :
+  type: text
+  answers:
+   - "parallélogramme"
+
+"Un quadrilatere dont les diagonales sont les seuls axes de symetrie est un " :
+  type: text
+  answers:
+    - "losange"
