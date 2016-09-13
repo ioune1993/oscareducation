@@ -31,7 +31,8 @@
                 -for exercice in skill.exercice_set.all
                   %li
                     %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-                      Exercice n°{{ exercice.id }}
+                      Exercice
+                      =exercice.file_name
                 -empty
                   %i Pas d'exercices disponibles.
             %td
