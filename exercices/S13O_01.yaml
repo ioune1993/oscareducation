@@ -1,0 +1,16 @@
+"Johan choisit un nombre. Il soustrait 3 a ce nombre puis multiplie le resultat par 4. Il obtient alors le double du nombre de depart.":
+   type: radio
+   answers:
+    n – 3 * 4 = 2 + n : false
+    n – 3 * 4 = 2n : false
+    (n – 3) * 4 = 2 + n : false
+    (n – 3) . 4 = 2n : true
+
+"Maud a choisi une formule de vacances à 1 000 euros. Le vol aller-retour Bruxelles-Barcelone coute 250 euros et le séjour a l’hôtel revient à 50 euro par jour.":
+   type: radio
+   answers:
+    250 + n + 50 = 1 000: false
+    250 + 50n = 1 000: true
+    (250 + 50)n = 1 000: false
+    250 . 2 + 50n = 1 000: false
+
