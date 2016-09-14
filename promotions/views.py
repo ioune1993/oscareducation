@@ -135,17 +135,17 @@ def lesson_student_add(request, pk):
         username = form.generate_student_username()
         email = form.get_or_generate_email(username)
 
-        user = User.objects.create_user(username=username,
-                                        email=email,
-                                        password=generate_random_password(15),
-                                        first_name=first_name,
-                                        last_name=last_name)
-
-        student = Student.objects.create(user=user)
-        student.lesson_set.add(lesson)
-        # TODO send email to student here if email doesn't end in @example.com
-
         with transaction.atomic():
+            user = User.objects.create_user(username=username,
+                                            email=email,
+                                            password=generate_random_password(15),
+                                            first_name=first_name,
+                                            last_name=last_name)
+
+            student = Student.objects.create(user=user)
+            student.lesson_set.add(lesson)
+            # TODO send email to student here if email doesn't end in @example.com
+
             for stage in lesson.stages_in_unchronological_order():
                 for skill in stage.skills.all():
                     StudentSkill.objects.create(
