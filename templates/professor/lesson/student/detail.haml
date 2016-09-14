@@ -48,7 +48,7 @@
 
     %hr
 
-    -if student.todo_tests and student.done_tests
+    -if student.todo_tests or student.done_tests
       .row
         -if student.todo_tests
           .col-md-6
