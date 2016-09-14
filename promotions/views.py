@@ -571,10 +571,7 @@ def lesson_test_add_json(request):
             test.skills.add(Skill.objects.get(code=skill_id))
 
         for student in lesson.students.all():
-            TestStudent.objects.create(
-                test=test,
-                student=student,
-            )
+            test.add_student(student)
 
         if data["type"] == "skills":
             test.generate_skills_test()

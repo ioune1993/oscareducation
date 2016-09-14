@@ -39,6 +39,12 @@ class Test(BaseTest):
         ("skills-dependencies", "skills-dependencies"),
     ))
 
+    def add_student(self, student):
+        TestStudent.objects.create(
+            test=self,
+            student=student
+        )
+
     def display_test_type(self):
         if self.type == "skills":
             return "compétences"
