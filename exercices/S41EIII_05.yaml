@@ -1,0 +1,11 @@
+"<b>Déterminez</b> la couleur qui correspond a une frequence de 30 %.":
+   type: text
+   answers:
+    - "rouge"
+
+
+"Youri a pris un bonbon. Il avait une chance sur 5 de prendre un bonbon de cette couleur. <b>Détermine</b> la couleur du bonbon de Youri.":
+   type: text
+   answers:
+    - "vert"
+
