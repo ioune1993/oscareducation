@@ -1,0 +1,6 @@
+"Détermine, a partir de combien d’heures (nombre entier) de location, l’option 1 devient la plus intéressante.":
+   type: text
+   answers:
+    - "13"
+    - "12,5"
+    - "12.5"
