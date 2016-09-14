@@ -153,6 +153,9 @@ def lesson_student_add(request, pk):
                         skill=skill,
                     )
 
+            for test in Test.objects.filter(lesson=lesson, running=True):
+                test.add_student(student)
+
         return HttpResponseRedirect(reverse("professor:lesson_student_list", args=(lesson.pk,)))
 
     return render(request, "professor/lesson/student/add.haml", {
