@@ -15,34 +15,39 @@
         exercices
   %hr
 
-  -for stage in object_list
-    .panel.panel-default
-      .panel-heading
-        =stage.name
+  #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
+    -for stage in object_list
+      .panel.panel-default
+        .panel-heading{id: "heading{{ stage.id }}", role: "tab"}
+          %h4.panel-title
+            %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.id }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.id }}", class: "{% if not forloop.counter == 1 %}collapsed{% endif %}"}
+              =stage.name
 
-      %table.table
-        %col
-        %col
-        %col{width: "200px"}
-        %col
-        -for skill in stage.skills.all
-          %tr
-            %td
-              %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
-            %td
-              =skill.name
-            %td
-              %ul.exercices
-                -for exercice in skill.exercice_set.all
-                  %li
-                    %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-                      Exercice
-                      =exercice.file_name
-                -empty
-                  %i Pas d'exercices disponibles.
-            %td
-              %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-                ressources
+        .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
+          .panel-body
+            %table.table
+              %col
+              %col
+              %col{width: "200px"}
+              %col
+              -for skill in stage.skills.all
+                %tr
+                  %td
+                    %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
+                  %td
+                    =skill.name
+                  %td
+                    %ul.exercices
+                      -for exercice in skill.exercice_set.all
+                        %li
+                          %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
+                            Exercice
+                            =exercice.file_name
+                      -empty
+                        %i Pas d'exercices disponibles.
+                  %td
+                    %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                      ressources
 
   :css
     .exercices {
