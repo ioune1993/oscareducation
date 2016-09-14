@@ -48,7 +48,7 @@ def dashboard(request):
 def lesson_detail(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
 
-    number_of_students = Lesson.objects.first().students.count()
+    number_of_students = lesson.students.count()
 
     skill_to_student_skill = {}
     for student_skill in StudentSkill.objects.filter(student__lesson=lesson).select_related("skill"):
