@@ -77,7 +77,7 @@ class Command(BaseCommand):
 
             skill.save()
 
-            for next_ in filter(lambda x: x, {row["suivant1"], row["suivant2"], row["suivant3"]}):
+            for next_ in filter(lambda x: x, {row[key] for key in row.keys() if key.startswith("suivant") and key.endswith(tuple(map(str, range(10))))}):
                 dependancies.setdefault(row["Code"], []).append(next_)
 
         for key, value in filter(lambda (x, y): y, dependancies.iteritems()):
