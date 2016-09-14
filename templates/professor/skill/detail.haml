@@ -22,6 +22,8 @@
 
   %h2
     =skill.name
+    %small
+      =skill.code
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
         Matériel éducatif
