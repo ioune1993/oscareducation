@@ -97,9 +97,8 @@
       -block after
 
     .col-md-3
-      -#
-        -if skill.skill_set.exists or skill.depends_on.exists
-          .mermaid{style: "color: white"}
-            graph BT;
-              -for i in skill.mermaid_graph
-                =i
+      -if skill.skill_set.exists or skill.depends_on.exists
+        .mermaid{style: "color: white"}
+          graph BT;
+            -for i in skill.mermaid_graph
+              =i
