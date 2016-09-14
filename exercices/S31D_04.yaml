@@ -1,0 +1,4 @@
+"CALCULE le volume d’eau (en m^3) necessaire pour remplir cette piscine jusqu’a 10 cm du bord superieur.":
+    type: text
+    answers:
+        - "126"
