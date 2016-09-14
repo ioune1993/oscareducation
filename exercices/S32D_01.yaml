@@ -1,0 +1,7 @@
+"Détermine le pourcentage de remplissage de cette cuve après une livraison supplémentaire de 1 500 litres.(réponse sous forme: …%)":
+   type: text
+   answers:
+    - "97,5%"
+    - "97.5%"
+    - "97,5"
+    - "97.5"
