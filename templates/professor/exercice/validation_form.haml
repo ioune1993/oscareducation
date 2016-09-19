@@ -1,4 +1,8 @@
 -extends "base.haml"
+-load static
+
+-block head
+  %script{type: "text/javascript", src: "{% static 'js/professor_validate_exercice.js' %}"}
 
 -block content
   %ol.breadcrumb
@@ -14,14 +18,14 @@
     %b Attention :
     ce formulaire ne sauve pas votre travail pour l'instant, je vous conseille d'utiliser une extension navigateur pour le sauver automatiquement tel que Lazarus <a href="https://addons.mozilla.org/en-Us/firefox/addon/lazarus-form-recovery/">pour firefox</a> ou <a href="https://chrome.google.com/webstore/detail/lazarus-form-recovery/loljledaigphbcpfhfmgopdkppkifgno">pour chrome</a>.
 
-  .panel.panel-default
+  .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
     .panel-heading
       Formulaire pour valider un exercice
 
     .panel-body
       .form-group
         %label Compétence
-        %select#skill-code.form-control
+        %select#skill-code.form-control{ng-model: "skillCode"}
           %option{value: ""}
           -for stage in stage_list
             -if stage.name
@@ -35,95 +39,29 @@
 
       .form-group
         %label Fichier HTML
-        %textarea#exercice-html.form-control{rows: 10}
+        %textarea#exercice-html.form-control{rows: 10, ng-model: "html"}
 
       .form-group
         %label Fichier YAML
-        %textarea#exercice-yaml.form-control{rows: 16}
+        %textarea#exercice-yaml.form-control{rows: 16, ng-model: "yaml"}
 
       .form-group
-        %button#validate-yaml.btn.btn-primary
+        %button#validate-yaml.btn.btn-primary{ng-click: "validateExercice()"}
           Vérifier
-        %button#submit-pull-request.btn.btn-primary{style: "display: none"}
+        %button#submit-pull-request.btn.btn-primary{ng-click: "proposeToOscar()", ng-if: "exerciceIsValid"}
           Proposer à Oscar
 
-      #yaml-validation-result
+      #yaml-validation-result{ng-bind-html: "yamlValidationResult"}
 
-      #exercice-rendering-panel.panel.panel-default{style: "display: none"}
+      #exercice-rendering-panel.panel.panel-default{ng-if: "exerciceIsValid"}
         .panel-heading
           Rendu de l'exercice
 
         .panel-body
 
-          #exercice-rendering-html.well{style: "display: none"}
+          #exercice-rendering-html.well{ng-if: "htmlRendering != \"\"", ng-bind-html: "htmlRendering"}
 
-          #exercice-rendering-yaml
+          #exercice-rendering-yaml{ng-if: "yamlRendering != \"\"", ng-bind-html: "yamlRendering"}
 
   %b Exemple d'un exercice
   <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>
-
--block javascript
-  :javascript
-    $(function() {
-      $("#validate-yaml").on("click", function() {
-        var content = $("#exercice-yaml").val();
-        $.post("{% url 'professor:exercice_validation_form_validate_exercice' %}", {"yaml": content})
-          .error(function() {
-            $("#yaml-validation-result")
-              .html('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
-          })
-          .success(function(data) {
-          if (data.yaml.result == "error") {
-            $("#yaml-validation-result")
-              .html('<div class="alert alert-danger"> <b>Erreur:</b> ' + data.yaml.message + '</b></div>');
-            $("#exercice-rendering-panel").hide();
-            $("#pull-request").hide();
-          } else {
-            $("#yaml-validation-result")
-              .html('<div class="alert alert-success">' + data.yaml.message + '</b></div>');
-
-            $("#exercice-rendering-panel").show();
-            $("#exercice-rendering-yaml").html(data.rendering);
-            $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
-            var html = $("#exercice-html").val()
-            if (html) {
-              $("#exercice-rendering-html").html(html);
-              $("#exercice-rendering-html").show();
-            }
-            $("#submit-pull-request").show();
-          }
-          })
-      })
-
-      $("#submit-pull-request").on("click", function() {
-        var yaml = $("#exercice-yaml").val();
-        var html = $("#exercice-html").val();
-        var skill_code = $("#skill-code").val();
-
-        if (!skill_code) {
-          $("#yaml-validation-result")
-            .html('<div class="alert alert-danger"><b>Erreur :</b> vous devez sélectionner une compétence pour pouvoir proposer l\'exercice à Oscar.</div>');
-          return;
-        }
-
-        $("#submit-pull-request").addClass("disabled");
-
-        // TODO: complain if no yaml or no skill code
-
-        $.post("{% url 'professor:exercice_validation_form_pull_request' %}", {"yaml": yaml, "html": html, "skill_code": skill_code})
-          .success(function(data) {
-            $("#yaml-validation-result")
-              .html('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
-            $("#exercice-yaml").val("");
-            $("#exercice-html").val("");
-            $("#skill-code").val("");
-          })
-          .error(function() {
-            $("#yaml-validation-result")
-              .html('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
-          })
-          .always(function() {
-            $("#submit-pull-request").removeClass("disabled");
-          })
-      })
-    })

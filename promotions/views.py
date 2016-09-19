@@ -624,8 +624,9 @@ def students_password_page(request, pk):
 @user_is_professor
 def exercice_validation_form_validate_exercice(request):
     try:
-        yaml.safe_load(request.POST.get("yaml", ""))
-        exercice = yaml.load(request.POST.get("yaml", ""), Loader=yamlordereddictloader.Loader)
+        data = json.loads(request.read())
+        yaml.safe_load(data["yaml"])
+        exercice = yaml.load(data["yaml"], Loader=yamlordereddictloader.Loader)
     except Exception as e:
         return HttpResponse(json.dumps({
             "yaml": {
@@ -661,9 +662,10 @@ def exercice_validation_form_validate_exercice(request):
 @require_POST
 @user_is_professor
 def exercice_validation_form_pull_request(request):
-    yaml = request.POST["yaml"]
-    html = request.POST["html"]
-    skill_code = request.POST["skill_code"]
+    content = json.load(request)
+    yaml = content["yaml"]
+    html = content["html"]
+    skill_code = content["skill_code"]
 
     existing_files = [x["name"] for x in requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()]
 
