@@ -20,10 +20,10 @@
       .panel.panel-default
         .panel-heading{id: "heading{{ stage.id }}", role: "tab"}
           %h4.panel-title
-            %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.id }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.id }}", class: "{% if not forloop.counter == 1 %}collapsed{% endif %}"}
+            %a.collapsed{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.id }}", aria-expanded: "false", aria-controls: "collapse{{ stage.id }}"}
               =stage.name
 
-        .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
+        .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
           .panel-body
             %table.table
               %col
