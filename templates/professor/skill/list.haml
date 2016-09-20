@@ -24,30 +24,29 @@
               =stage.name
 
         .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
-          .panel-body
-            %table.table
-              %col
-              %col
-              %col{width: "200px"}
-              %col
-              -for skill in stage.skills.all
-                %tr
-                  %td
-                    %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
-                  %td
-                    =skill.name
-                  %td
-                    %ul.exercices
-                      -for exercice in skill.exercice_set.all
-                        %li
-                          %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-                            Exercice
-                            =exercice.file_name
-                      -empty
-                        %i Pas d'exercices disponibles.
-                  %td
-                    %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-                      ressources
+          %table.table
+            %col
+            %col
+            %col{width: "200px"}
+            %col
+            -for skill in stage.skills.all
+              %tr
+                %td
+                  %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
+                %td
+                  =skill.name
+                %td
+                  %ul.exercices
+                    -for exercice in skill.exercice_set.all
+                      %li
+                        %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
+                          Exercice
+                          =exercice.file_name
+                    -empty
+                      %i Pas d'exercices disponibles.
+                %td
+                  %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                    ressources
 
   :css
     .exercices {
