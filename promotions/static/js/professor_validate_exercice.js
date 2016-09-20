@@ -5,12 +5,21 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
     $scope.yamlRendering = "";
     $scope.htmlRendering = "";
 
+    $scope.questions = [{
+        "instructions": "",
+        "type": "",
+        "answers": [{
+            "text": "",
+            "correct": false,
+        }],
+    }]
+
     $scope.yamlValidationResult = "";
     $scope.exerciceIsValid = false;
 
     $scope.validateExercice = function() {
         var content = $scope.yaml;
-        $http.post("validate/", {"yaml": content})
+        $http.post("validate/", {"yaml": questions})
             .error(function() {
                 console.log("error")
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
@@ -65,4 +74,31 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
             $("#submit-pull-request").removeClass("disabled");
         })
     }
+
+    $scope.addAnswer = function(question) {
+        question["answers"].push({
+            "text": "",
+            "correct": false,
+        })
+    }
+
+    $scope.removeAnswer = function(question, answer) {
+        question["answers"].splice(question["answers"].indexOf(answer), 1);
+    }
+
+    $scope.addQuestion = function() {
+        $scope.questions.push({
+            "instructions": "",
+            "type": "",
+            "answers": [{
+                "text": "",
+                "correct": false,
+            }],
+        })
+    }
+
+    $scope.removeQuestion = function(question) {
+        $scope.questions.splice($scope.questions.indexOf(question), 1);
+    }
+
 }

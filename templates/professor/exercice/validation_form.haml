@@ -42,6 +42,37 @@
         %textarea#exercice-html.form-control{rows: 10, ng-model: "html"}
 
       .form-group
+        %ul.list-group{ng-repeat: "question in questions"}
+          %li.list-group-item
+            %label Énoncé
+            %input{type: "text", ng-model: "question.instructions"}
+            %label Type de la question
+            %select{ng-model: "type"}
+              %option{value: ""}
+              %option{value: "text"} Champ libre
+              %option{value: "radio"} Réponse unique possible
+              %option{value: "checkbox"} QCM
+
+            %ul.list-group{ng-repeat: "answer in question.answers"}
+              %li.list-group-item
+                %label Réponse possible :
+                %input{type: "text", ng-model: "answer.text"}
+                %div{ng-if: "question.type != \"text\""}
+                  %label Réponse correcte ?
+                  %input{type: "checkbox", ng-model: "answer.correct"}
+
+              %button.btn.btn-default.btn-sm{ng-click: "removeAnswer(question, answer)"}
+                Supprimer la réponse
+            %button.btn.btn-default.btn-sm{ng-click: "addAnswer(question)"}
+              Ajouter une réponse
+
+            %button.btn.btn-default{ng-click: "removeQuestion(question)"}
+              Supprimer la question
+
+
+        %button.btn.btn-default{ng-click: "addQuestion()"}
+          Rajouter une autre question
+
         %label Fichier YAML
         %textarea#exercice-yaml.form-control{rows: 16, ng-model: "yaml"}
 
