@@ -66,6 +66,15 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
                 $scope.yaml = "";
                 $scope.html = "";
                 $scope.skillCode = "";
+
+                $scope.questions = [{
+                    "instructions": "",
+                    "type": "",
+                    "answers": [{
+                        "text": "",
+                        "correct": false,
+                    }],
+                }]
             })
             .error(function() {
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
