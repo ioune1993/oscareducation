@@ -41,46 +41,57 @@
         %label Fichier HTML
         %textarea#exercice-html.form-control{rows: 10, ng-model: "html"}
 
-      .form-group
-        %ul.list-group{ng-repeat: "question in questions"}
-          %li.list-group-item
-            %label Énoncé
-            %input{type: "text", ng-model: "question.instructions"}
-            %label Type de la question
-            %select{ng-model: "type"}
-              %option{value: ""}
-              %option{value: "text"} Champ libre
-              %option{value: "radio"} Réponse unique possible
-              %option{value: "checkbox"} QCM
+      %form.form-group{ng-submit: "validateExercice()"}
+        %ul.list-group
+          %li.list-group-item{ng-repeat: "question in questions"}
+            .form-horizontal
+              .form-group
+                %label.control-label.col-sm-2 Énoncé
+                .col-sm-9
+                  %input.form-control{type: "text", ng-model: "question.instructions", ng-required: "true"}
+                .col-sm-1
+                  %button.btn.btn-danger{ng-click: "removeQuestion(question)", type: "button"}
+                    %span.glyphicon.glyphicon-remove
+              .form-group
+                %label.control-label.col-sm-2 Type de la question
+                .col-sm-10
+                  %select.form-control{ng-model: "question.type", ng-required: "true"}
+                    %option{value: ""}
+                    %option{value: "text"} Champ libre (text)
+                    %option{value: "radio"} Réponse unique possible (radio)
+                    %option{value: "checkbox"} Question à choix multiples (checkbox)
 
-            %ul.list-group{ng-repeat: "answer in question.answers"}
-              %li.list-group-item
-                %label Réponse possible :
-                %input{type: "text", ng-model: "answer.text"}
-                %div{ng-if: "question.type != \"text\""}
-                  %label Réponse correcte ?
-                  %input{type: "checkbox", ng-model: "answer.correct"}
+            %ul.list-group
+              %li.list-group-item{ng-repeat: "answer in question.answers"}
+                .form-horizontal
+                  .form-group
+                    %label.col-sm-2.control-label Réponse possible :
+                    .col-sm-9
+                      %input.form-control{type: "text", ng-model: "answer.text", ng-required: "true"}
+                    .col-sm-1
+                      %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
+                        %span.glyphicon.glyphicon-remove
+                  .form-group.no-bottom{ng-if: "question.type != \"text\""}
+                    %label.control-label.col-sm-2 Réponse correcte ?
+                    .col-sm-1
+                      %input.form-control{type: "checkbox", ng-model: "answer.correct"}
 
-              %button.btn.btn-default.btn-sm{ng-click: "removeAnswer(question, answer)"}
-                Supprimer la réponse
-            %button.btn.btn-default.btn-sm{ng-click: "addAnswer(question)"}
-              Ajouter une réponse
-
-            %button.btn.btn-default{ng-click: "removeQuestion(question)"}
-              Supprimer la question
+            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(question)", type: "button"}
+              %span.glyphicon.glyphicon-plus
+              nouvelle réponse possible
 
 
-        %button.btn.btn-default{ng-click: "addQuestion()"}
-          Rajouter une autre question
 
-        %label Fichier YAML
-        %textarea#exercice-yaml.form-control{rows: 16, ng-model: "yaml"}
+        .form-group
+          %button.btn.btn-success{ng-click: "addQuestion()", type: "button"}
+            %span.glyphicon.glyphicon-plus
+            nouvelle question
 
-      .form-group
-        %button#validate-yaml.btn.btn-primary{ng-click: "validateExercice()"}
-          Vérifier
-        %button#submit-pull-request.btn.btn-primary{ng-click: "proposeToOscar()", ng-if: "exerciceIsValid"}
-          Proposer à Oscar
+        .form-group
+          %button#validate-yaml.btn.btn-primary{type: "submit"}
+            Vérifier
+          %button#submit-pull-request.btn.btn-primary{ng-click: "proposeToOscar()", ng-if: "exerciceIsValid", ng-required: "exerciceIsValid", type: "button"}
+            Proposer à Oscar
 
       #yaml-validation-result{ng-bind-html: "yamlValidationResult"}
 
@@ -96,3 +107,8 @@
 
   %b Exemple d'un exercice
   <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>
+
+  :css
+    .no-bottom {
+      margin-bottom: 0px;
+    }

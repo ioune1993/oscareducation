@@ -8,3 +8,4 @@ werkzeug
 pyyaml
 yamlordereddictloader
 requests
+ruamel.yaml

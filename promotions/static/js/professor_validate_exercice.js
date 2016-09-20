@@ -19,7 +19,7 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
 
     $scope.validateExercice = function() {
         var content = $scope.yaml;
-        $http.post("validate/", {"yaml": questions})
+        $http.post("validate/", {"questions": $scope.questions})
             .error(function() {
                 console.log("error")
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
@@ -59,7 +59,7 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
 
         // TODO: complain if no yaml or no skill code
 
-        $http.post("pull-request/", {"yaml": yaml, "html": html, "skill_code": skill_code})
+        $http.post("pull-request/", {"questions": $scope.questions, "html": html, "skill_code": skill_code})
             .success(function(data) {
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
 
@@ -67,12 +67,14 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
                 $scope.html = "";
                 $scope.skillCode = "";
             })
-        .error(function() {
-            $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
-        })
-        .always(function() {
-            $("#submit-pull-request").removeClass("disabled");
-        })
+            .error(function() {
+                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
+            })
+            .always(function() {
+                $timeout(function() {
+                    $("#submit-pull-request").removeClass("disabled");
+                }, 0);
+            })
     }
 
     $scope.addAnswer = function(question) {

@@ -4,7 +4,10 @@ import json
 import requests
 
 import yaml
+import ruamel.yaml
 import yamlordereddictloader
+
+from ruamel.yaml.comments import CommentedMap
 
 from datetime import datetime
 from base64 import b64encode
@@ -623,6 +626,118 @@ def students_password_page(request, pk):
 @require_POST
 @user_is_professor
 def exercice_validation_form_validate_exercice(request):
+    data = json.loads(request.read())
+
+    questions = {}
+    for question in data["questions"]:
+        if question["type"] == "text":
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": [x["text"] for x in question["answers"]],
+            }
+
+        else:
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": {x["text"]: x["correct"] for x in question["answers"]},
+            }
+
+    result = validate_exercice_yaml_structure(questions)
+
+    if result is not True:
+        return HttpResponse(json.dumps({
+            "yaml": {
+                "result": "error",
+                "message": result,
+            }
+        }, indent=4), content_type="application/json")
+
+    rendering = render(request, "examinations/exercice_rendering.haml", {
+        "content": "",
+        "questions": questions,
+    })
+
+    return HttpResponse(json.dumps({
+        "yaml": {
+            "result": "success",
+            "message": "L'exercice semble valide",
+        },
+        "rendering": rendering.content,
+    }, indent=4), content_type="application/json")
+
+
+@require_POST
+@user_is_professor
+def exercice_validation_form_pull_request(request):
+    data = json.load(request)
+    html = data["html"]
+    skill_code = data["skill_code"]
+
+    questions = CommentedMap()
+    for question in data["questions"]:
+        if question["type"] == "text":
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": [x["text"] for x in question["answers"]],
+            }
+
+        else:
+            answers = CommentedMap()
+            for i in question["answers"]:
+                answers[i["text"]] = i["correct"]
+
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": answers,
+            }
+
+    yaml_file = ruamel.yaml.round_trip_dump(questions)
+
+    existing_files = [x["name"] for x in requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()]
+
+    existing_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches").json()]
+
+    for i in range(1, 100):
+        base_name = ("%s_%.2d" % (skill_code, i)).upper()
+        if base_name + ".yaml" not in existing_files and base_name not in existing_branches:
+            break
+    else:
+        raise Exception()
+
+    master_sha = [x["object"]["sha"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/git/refs/heads").json() if x["ref"] == "refs/heads/master"][0]
+
+    requests.post("https://api.github.com/repos/oscardemo/oscar/git/refs", data=json.dumps({
+            "ref": "refs/heads/%s" % base_name,
+            "sha": master_sha
+        }),
+        auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+
+    requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.yaml" % base_name, data=json.dumps({
+        "message": "yaml for new exercice for %s" % skill_code,
+        "content": b64encode(yaml_file),
+        "branch": base_name}),
+        auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+
+    if html:
+        requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.html" % base_name, data=json.dumps({
+            "message": "html for new exercice for %s" % skill_code,
+            "content": b64encode(html.encode("Utf-8")),
+            "branch": base_name}),
+            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+
+    answer = requests.post("https://api.github.com/repos/psycojoker/oscar/pulls", data=json.dumps({
+        "title": "New exercice for %s by %s" % (skill_code, request.user.username),
+        "head": "oscardemo:%s" % base_name,
+        "base": "master",
+    }),
+            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)).json()
+
+    return HttpResponse(answer["html_url"])
+
+
+@require_POST
+@user_is_professor
+def exercice_validation_form_validate_exercice_yaml(request):
     try:
         data = json.loads(request.read())
         yaml.safe_load(data["yaml"])
@@ -661,7 +776,7 @@ def exercice_validation_form_validate_exercice(request):
 
 @require_POST
 @user_is_professor
-def exercice_validation_form_pull_request(request):
+def exercice_validation_form_pull_request_yaml(request):
     content = json.load(request)
     yaml = content["yaml"]
     html = content["html"]
