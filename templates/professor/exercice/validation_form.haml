@@ -14,10 +14,6 @@
     %li.active
       Formulaire de validation du format d'un exercice
 
-  .alert.alert-warning
-    %b Attention :
-    ce formulaire ne sauve pas votre travail pour l'instant, je vous conseille d'utiliser une extension navigateur pour le sauver automatiquement tel que Lazarus <a href="https://addons.mozilla.org/en-Us/firefox/addon/lazarus-form-recovery/">pour firefox</a> ou <a href="https://chrome.google.com/webstore/detail/lazarus-form-recovery/loljledaigphbcpfhfmgopdkppkifgno">pour chrome</a>.
-
   .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
     .panel-heading
       Formulaire pour valider un exercice
@@ -38,15 +34,15 @@
 
 
       .form-group
-        %label Fichier HTML
-        %textarea#exercice-html.form-control{rows: 10, ng-model: "html"}
+        %label Énoncé
+        %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>..."}
 
       %form.form-group{ng-submit: "validateExercice()"}
         %ul.list-group
           %li.list-group-item{ng-repeat: "question in questions"}
             .form-horizontal
               .form-group
-                %label.control-label.col-sm-2 Énoncé
+                %label.control-label.col-sm-2 Énoncé de la sous question
                 .col-sm-9
                   %input.form-control{type: "text", ng-model: "question.instructions", ng-required: "true"}
                 .col-sm-1
@@ -89,7 +85,7 @@
 
         .form-group
           %button#validate-yaml.btn.btn-primary{type: "submit"}
-            Vérifier
+            Prévisualiser
           %button#submit-pull-request.btn.btn-primary{ng-click: "proposeToOscar()", ng-if: "exerciceIsValid", ng-required: "exerciceIsValid", type: "button"}
             Proposer à Oscar
 
@@ -104,9 +100,6 @@
           #exercice-rendering-html.well{ng-if: "htmlRendering != \"\"", ng-bind-html: "htmlRendering"}
 
           #exercice-rendering-yaml{ng-if: "yamlRendering != \"\"", ng-bind-html: "yamlRendering"}
-
-  %b Exemple d'un exercice
-  <pre>{% include "professor/exercice/validate_form/example_exercice" %}</pre>
 
   :css
     .no-bottom {
