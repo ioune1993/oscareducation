@@ -407,94 +407,65 @@ def regenerate_student_password(request):
 def update_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
+    video_skill_form = VideoSkillForm()
+    khanacademy_skill_form = KhanAcademyVideoSkillForm()
+    exercice_skill_form = ExerciceSkillForm()
+    external_link_skill_form = ExternalLinkSkillForm()
+    synthese_form = SyntheseForm()
+
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
+            "video_skill_form": video_skill_form,
+            "khanacademy_skill_form": khanacademy_skill_form,
+            "exercice_skill_form": exercice_skill_form,
+            "external_link_skill_form": external_link_skill_form,
+            "synthese_form": synthese_form,
             "object": skill,
         })
 
     assert request.method == "POST"
 
-    print request.POST
-
     if request.POST["form_type"] == "video_skill":
-        form = VideoSkillForm(request.POST)
-        if form.is_valid():
-            form.save()
+        video_skill_form = VideoSkillForm(request.POST)
+        if video_skill_form.is_valid():
+            video_skill_form.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": form,
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
 
     elif request.POST["form_type"] == "khanacademy_skill":
-        form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        khanacademy_skill_form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
+        if khanacademy_skill_form.is_valid():
+            khanacademy_skill_form.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": form,
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
 
     elif request.POST["form_type"] == "exercice_skill":
-        form = ExerciceSkillForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        exercice_skill_form = ExerciceSkillForm(request.POST, request.FILES)
+        if exercice_skill_form.is_valid():
+            exercice_skill_form.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": form,
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
 
     elif request.POST["form_type"] == "external_link_skill":
-        form = ExternalLinkSkillForm(request.POST)
-        if form.is_valid():
-            form.save()
+        external_link_skill_form = ExternalLinkSkillForm(request.POST)
+        if external_link_skill_form.is_valid():
+            external_link_skill_form.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": form,
-            "synthese_form": SyntheseForm(),
-            "object": skill,
-        })
     elif request.POST["form_type"] == "synthese_form":
-        form = SyntheseForm(request.POST)
-        if form.is_valid():
-            skill.oscar_synthese = form.cleaned_data["synthese"]
+        synthese_form = SyntheseForm(request.POST)
+        if synthese_form.is_valid():
+            skill.oscar_synthese = synthese_form.cleaned_data["synthese"]
             skill.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": VideoSkillForm(),
-            "khanacademy_skill_form": KhanAcademyVideoSkillForm(),
-            "exercice_skill_form": ExerciceSkillForm(),
-            "external_link_skill_form": ExternalLinkSkillForm(),
-            "synthese_form": form,
-            "object": skill,
-        })
+    return render(request, "professor/skill/update_pedagogical_resources.haml", {
+        "video_skill_form": video_skill_form,
+        "khanacademy_skill_form": khanacademy_skill_form,
+        "exercice_skill_form": exercice_skill_form,
+        "external_link_skill_form": external_link_skill_form,
+        "synthese_form": synthese_form,
+        "object": skill,
+    })
+
+
 @require_POST
 @user_is_professor
 def validate_student_skill(request, lesson_pk, student_skill):
