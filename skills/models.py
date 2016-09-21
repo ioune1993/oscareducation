@@ -89,6 +89,9 @@ class KhanAcademyVideoReference(models.Model):
     fr_date_added = models.DateField(null=True, blank=True)
     linked_skills = models.ManyToManyField(KhanAcademyVideoSkill)
 
+    class Meta:
+        ordering = ['subject', 'topic', 'title']
+
 
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")

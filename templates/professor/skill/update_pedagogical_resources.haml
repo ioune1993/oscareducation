@@ -56,6 +56,17 @@
       %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
       %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
+      .form-group
+        %select.form-control
+          -regroup khanacademy_references by subject as subjects
+          -for subject in subjects
+            %optgroup.level2{label: "{{ subject.grouper }}"}
+              -regroup subject.list by topic as topics
+              -for topic in topics
+                %optgroup.level3{label: "{{ topic.grouper }}"}
+                  -for khan in topic.list
+                    %option{value: "{{ khan.youtube_id }}"}= khan.title
+
       .row
         .col-md-6
           .form-group{class: "{% if khanacademy_skill_form.url.errors %}has-error{% elif khanacademy_skill_form.data and khanacademy_skill_form.url %}has-success{% endif %}"}
@@ -288,6 +299,19 @@
 
     %button.show-form.btn.btn-primary{data-target: "#external-link-form", style: "{% if external_link_skill_form.errors %}display: none{% endif %}"}
       Ajouter un lien externe
+
+  :css
+    .level2 {
+      padding-left: 10px;
+    }
+
+    .level3 {
+      padding-left: 20px;
+    }
+
+    .level4 {
+      padding-left: 30px;
+    }
 
 -block javascript
   :javascript

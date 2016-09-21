@@ -23,7 +23,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference
 from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
@@ -413,10 +413,13 @@ def update_pedagogical_ressources(request, slug):
     external_link_skill_form = ExternalLinkSkillForm()
     synthese_form = SyntheseForm()
 
+    khanacademy_references = KhanAcademyVideoReference.objects.all()
+
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": video_skill_form,
             "khanacademy_skill_form": khanacademy_skill_form,
+            "khanacademy_references": khanacademy_references,
             "exercice_skill_form": exercice_skill_form,
             "external_link_skill_form": external_link_skill_form,
             "synthese_form": synthese_form,
@@ -459,6 +462,7 @@ def update_pedagogical_ressources(request, slug):
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
         "video_skill_form": video_skill_form,
         "khanacademy_skill_form": khanacademy_skill_form,
+        "khanacademy_references": khanacademy_references,
         "exercice_skill_form": exercice_skill_form,
         "external_link_skill_form": external_link_skill_form,
         "synthese_form": synthese_form,
