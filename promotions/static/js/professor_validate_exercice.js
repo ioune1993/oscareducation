@@ -4,6 +4,9 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
     $scope.yaml = "";
     $scope.yamlRendering = "";
     $scope.htmlRendering = "";
+    $scope.image = null;
+    $scope.base64img = "";
+    $scope.file = null;
 
     $scope.questions = [{
         "instructions": "",
@@ -16,6 +19,20 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
 
     $scope.yamlValidationResult = "";
     $scope.exerciceIsValid = false;
+
+    $scope.uploadFile = function(files) {
+        var fd = new FormData();
+        fd.append("file", files[0]);
+        $scope.file = fd;
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.addEventListener("load", function() {
+            console.log("yay")
+            $scope.base64img = reader.result;
+            $scope.$digest();
+        })
+        console.log($scope.file);
+    }
 
     $scope.validateExercice = function() {
         var content = $scope.yaml;

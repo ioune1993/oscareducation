@@ -34,6 +34,10 @@
 
 
       .form-group
+        %label Image (optionnel)
+        %input{ng-model: "image", multiple: "multiple", type: "file", onchange: "angular.element(this).scope().uploadFile(this.files)"}
+
+      .form-group
         %label Énoncé
         %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>..."}
 
@@ -97,7 +101,9 @@
 
         .panel-body
 
-          #exercice-rendering-html.well{ng-if: "htmlRendering != \"\"", ng-bind-html: "htmlRendering"}
+          #exercice-rendering-html.well{ng-if: "htmlRendering != \"\" || base64img != \"\""}
+            %img{ng-if: "base64img", src: "{& base64img &}"}
+            %div{ng-bind-html: "htmlRendering"}
 
           #exercice-rendering-yaml{ng-if: "yamlRendering != \"\"", ng-bind-html: "yamlRendering"}
 
