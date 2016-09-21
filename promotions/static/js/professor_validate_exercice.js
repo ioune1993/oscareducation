@@ -76,6 +76,7 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
                 $scope.yaml = "";
                 $scope.html = "";
                 $scope.skillCode = "";
+                $scope.image = null;
 
                 $scope.questions = [{
                     "instructions": "",
