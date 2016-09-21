@@ -74,7 +74,7 @@
                   .form-group.no-bottom{ng-if: "question.type != \"text\""}
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
-                      %input.form-control{type: "checkbox", ng-model: "answer.correct"}
+                      %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
 
             %button.btn.btn-success.btn-sm{ng-click: "addAnswer(question)", type: "button"}
               %span.glyphicon.glyphicon-plus

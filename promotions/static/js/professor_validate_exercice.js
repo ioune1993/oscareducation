@@ -98,6 +98,21 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
             })
     }
 
+    $scope.onChangeRadio = function(question, answer) {
+        if (question.type != "radio")
+            return;
+
+        if (answer.correct !== true)
+            return;
+
+        for (a in question.answers) {
+            var a = question.answers[a];
+            if (a !== answer && a.correct === true) {
+                a.correct = false;
+            }
+        }
+    }
+
     $scope.addAnswer = function(question) {
         question["answers"].push({
             "text": "",
