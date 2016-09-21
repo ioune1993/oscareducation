@@ -71,7 +71,8 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
 
         $http.post("pull-request/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img})
             .success(function(data) {
-                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
+                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, un grand merci !');
+                console.log(data);
 
                 $scope.yaml = "";
                 $scope.html = "";
