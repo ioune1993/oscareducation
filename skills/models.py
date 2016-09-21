@@ -78,6 +78,18 @@ class KhanAcademyVideoSkill(models.Model):
     url = models.URLField()
 
 
+class KhanAcademyVideoReference(models.Model):
+    subject = models.CharField(max_length=255)
+    topic = models.CharField(max_length=255, blank=True, null=True)
+    tutorial = models.CharField(max_length=255)
+    youtube_id = models.CharField(max_length=25, unique=True)
+    title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=100)
+    duration = models.PositiveSmallIntegerField()
+    fr_date_added = models.DateField(null=True, blank=True)
+    linked_skills = models.ManyToManyField(KhanAcademyVideoSkill)
+
+
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")
     answers = models.FileField(upload_to="pedagogique_ressources/exercices/answers/", blank=True, null=True, verbose_name=u"Réponses (optionnel)")
