@@ -6,7 +6,6 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
     $scope.htmlRendering = "";
     $scope.image = null;
     $scope.base64img = "";
-    $scope.file = null;
 
     $scope.questions = [{
         "instructions": "",
@@ -21,9 +20,6 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
     $scope.exerciceIsValid = false;
 
     $scope.uploadFile = function(files) {
-        var fd = new FormData();
-        fd.append("file", files[0]);
-        $scope.file = fd;
         var reader = new FileReader();
         reader.readAsDataURL(files[0]);
         reader.addEventListener("load", function() {
@@ -31,7 +27,6 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
             $scope.base64img = reader.result;
             $scope.$digest();
         })
-        console.log($scope.file);
     }
 
     $scope.validateExercice = function() {
@@ -74,9 +69,7 @@ function validateExerciceController($scope, $http, $sce, $timeout) {
 
         $("#submit-pull-request").addClass("disabled");
 
-        // TODO: complain if no yaml or no skill code
-
-        $http.post("pull-request/", {"questions": $scope.questions, "html": html, "skill_code": skill_code})
+        $http.post("pull-request/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img})
             .success(function(data) {
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, cette demande est visible ici: <a target="_blank" href="' + data + '">' + data + '</a></b></div>');
 

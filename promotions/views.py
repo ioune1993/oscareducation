@@ -672,6 +672,10 @@ def exercice_validation_form_pull_request(request):
     data = json.load(request)
     html = data["html"]
     skill_code = data["skill_code"]
+    if data.get("image"):
+        image_extension, image = data["image"].split(",", 1)
+
+        image_extension = image_extension.split("/")[1].split(";")[0]
 
     questions = CommentedMap()
     for question in data["questions"]:
@@ -722,6 +726,13 @@ def exercice_validation_form_pull_request(request):
         requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.html" % base_name, data=json.dumps({
             "message": "html for new exercice for %s" % skill_code,
             "content": b64encode(html.encode("Utf-8")),
+            "branch": base_name}),
+            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+
+    if image:
+        requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.%s" % (base_name, image_extension), data=json.dumps({
+            "message": "image for new exercice for %s" % skill_code,
+            "content": image,
             "branch": base_name}),
             auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
 
