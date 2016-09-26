@@ -8,8 +8,8 @@
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_add' %}"}
         Ajouter une nouvelle classe
-      %a.btn.btn-default{href: "{% url 'professor:skill_list' %}"}
-        Compétences
+      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
+        Contribuer
 
   %table.table
     -for lesson in lessons
