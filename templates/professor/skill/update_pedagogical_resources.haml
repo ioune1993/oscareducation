@@ -57,7 +57,7 @@
       %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
       .form-group
-        %select.form-control
+        %select.form-control{name: "ref_pk"}
           -regroup khanacademy_references by subject as subjects
           -for subject in subjects
             %optgroup.level2{label: "{{ subject.grouper }}"}
@@ -65,24 +65,13 @@
               -for topic in topics
                 %optgroup.level3{label: "{{ topic.grouper }}"}
                   -for khan in topic.list
-                    %option{value: "{{ khan.youtube_id }}"}= khan.title
+                    -if khan not in already_added
+                      %option{value: "{{ khan.id }}"}= khan.title
 
-      .row
-        .col-md-6
-          .form-group{class: "{% if khanacademy_skill_form.url.errors %}has-error{% elif khanacademy_skill_form.data and khanacademy_skill_form.url %}has-success{% endif %}"}
-            %label.control-label{for: "id_url"}
-              URL chez KhanAcademy
-            %input#id_url.form-control{type: "text", required: "", placeholder: "Titre", name: "url", value: '{{ khanacademy_skill_form.url.value|default:"" }}'}
-            -for error in khanacademy_skill_form.url.errors
-              %span.help-block= error
+          -for error in khanacademy_skill_form.ref_pk.errors
+            %span.help-block= error
 
-        .col-md-6
-          %div{class: "form-group {% if khanacademy_skill_form.youtube_id.errors %}has-error{% elif khanacademy_skill_form.data and khanacademy_skill_form.youtube_id %}has-success{% endif %}"}
-            %label.control-label{for: "id_youtube_id"}
-              <b>id</b> de la vidéo youtube
-            %input#id_youtube_id.form-control{type: "text", required: "", placeholder: "Page de la vidéo", name: "youtube_id", value: '{{ khanacademy_skill_form.youtube_id.value|default:"" }}'}
-            -for error in khanacademy_skill_form.youtube_id.errors
-              %span.help-block= error
+        %span.help-block= khanacademy_skill_form.errors
 
       %p
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}

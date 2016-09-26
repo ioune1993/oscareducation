@@ -23,12 +23,12 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill
 from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoSkillForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm
+from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -408,7 +408,7 @@ def update_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
     video_skill_form = VideoSkillForm()
-    khanacademy_skill_form = KhanAcademyVideoSkillForm()
+    khanacademy_skill_form = KhanAcademyVideoReferenceForm()
     exercice_skill_form = ExerciceSkillForm()
     external_link_skill_form = ExternalLinkSkillForm()
     synthese_form = SyntheseForm()
@@ -435,9 +435,15 @@ def update_pedagogical_ressources(request, slug):
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "khanacademy_skill":
-        khanacademy_skill_form = KhanAcademyVideoSkillForm(request.POST, request.FILES)
+        khanacademy_skill_form = KhanAcademyVideoReferenceForm(request.POST)
+
         if khanacademy_skill_form.is_valid():
-            khanacademy_skill_form.save()
+            ref = KhanAcademyVideoReference.objects.get(id=khanacademy_skill_form.cleaned_data["ref_pk"])
+            KhanAcademyVideoSkill.objects.create(
+                youtube_id=ref.youtube_id,
+                url="https://fr.khanacademy.org/v/%s" % ref.slug,
+                skill=skill,
+            )
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "exercice_skill":
