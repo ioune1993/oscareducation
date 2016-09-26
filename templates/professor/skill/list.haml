@@ -10,7 +10,7 @@
   %h2 Compétences
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        valider le format d'un exercice
+        Ajouter un exercice
       %a.btn.btn-default{href: "{% url 'professor:exercice_list' %}"}
         exercices
   %hr
@@ -29,6 +29,7 @@
             %col
             %col{width: "200px"}
             %col
+            %col
             -for skill in stage.skills.all
               %tr
                 %td
@@ -44,6 +45,9 @@
                           =exercice.file_name
                     -empty
                       %i Pas d'exercices disponibles.
+                %td
+                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
+                    Ajouter un exercice
                 %td
                   %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
                     Ajouter une ressource
