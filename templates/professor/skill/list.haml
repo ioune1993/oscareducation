@@ -10,9 +10,9 @@
   %h2 Compétences
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        Ajouter un exercice
+        Ajouter une question
       %a.btn.btn-default{href: "{% url 'professor:exercice_list' %}"}
-        exercices
+        Questions
   %hr
 
   #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
@@ -41,10 +41,10 @@
                     =skill.exercice__count
                     exercice{{ skill.exercice__count|pluralize }}
                   -else
-                    %i Pas d'exercices disponibles.
+                    %i Pas de questions disponibles.
                 %td
                   %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}?code={{ skill.code }}"}
-                    Ajouter un exercice
+                    Ajouter une question
                 %td
                   %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
                     Ajouter une ressource

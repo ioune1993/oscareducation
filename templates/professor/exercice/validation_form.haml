@@ -10,13 +10,13 @@
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li
       %a{href: "{% url 'professor:exercice_list' %}"}
-        Exercices
+        Questions
     %li.active
-      Formulaire de soumission d'un exercice
+      Formulaire de proposition d'une question
 
   .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
     .panel-heading
-      Formulaire pour valider un exercice
+      Formulaire pour proposer une question
 
     .panel-body
       .form-group
@@ -97,7 +97,7 @@
 
       #exercice-rendering-panel.panel.panel-default{ng-if: "exerciceIsValid"}
         .panel-heading
-          Rendu de l'exercice
+          Rendu de la question
 
         .panel-body
 

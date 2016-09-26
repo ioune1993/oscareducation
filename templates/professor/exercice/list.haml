@@ -1,10 +1,10 @@
 -extends "base.haml"
 
 -block content
-  %h2 Exercices
+  %h2 Questions
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        valider le format d'un exercice
+        valider le format d'une question
   %hr
 
   -regroup exercice_list by skill as exercices_by_skills
@@ -18,10 +18,10 @@
       %ul
         %li
           %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-            Exercice
+            Question
             =exercice.file_name
 
-  %h2 Compétences sans exercices
+  %h2 Compétences sans questions
 
   %ul
     -for skill in skills_without_exercices

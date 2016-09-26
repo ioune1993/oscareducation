@@ -9,7 +9,7 @@
       =test_exercice.test
 
   -if not test_exercice.exercice
-    %h1 Test de la compétence {{ test_exercice.skill.code }} mais nous n'avons pas encore d'exercice
+    %h1 Test de la compétence {{ test_exercice.skill.code }} mais nous n'avons pas encore de questions
     %hr
 
     %center
@@ -24,7 +24,7 @@
   -else
     .panel.panel-default
       .panel-heading
-        Exercice sur
+        Question sur
         =test_exercice.skill.code
 
       .panel-body

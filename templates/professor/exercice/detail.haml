@@ -1,8 +1,8 @@
 -extends "base.haml"
 
 -block content
-  %h2 Exercice numéro
-    =exercice.pk
+  %h2 Question numéro
+    =exercice.file_name
     sur
     =exercice.skill.code
     %small
@@ -46,7 +46,7 @@
 
   %p
     %a{href: "{% url 'professor:exercice_list' %}"}
-      Voir tous les exercices
+      Voir toutes les questions
 
   %p
     -if exercice.content

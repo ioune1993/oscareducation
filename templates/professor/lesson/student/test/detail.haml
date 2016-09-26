@@ -26,7 +26,7 @@
     %table.table.table-bordered
       %thead
         %th
-          Compétence / exercice
+          Compétence / question
         %th
           Réponse de l'élève
         %th
@@ -39,11 +39,11 @@
                 %b Compétence :
                 =i.test_exercice.skill
                 %br
-                %b Exercice :
-                =i.test_exercice.exercice.file_name|default:"pas d'exercice disponible"
+                %b Question :
+                =i.test_exercice.exercice.file_name|default:"pas de questions disponible"
             %td{colspan: 2}
               -if not i.test_exercice.exercice.file_name and not i.automatic
-                %i pas d'exercice disponible
+                %i pas de questions disponible
               -elif not i.automatic
                 %table.full-width
                   %tr

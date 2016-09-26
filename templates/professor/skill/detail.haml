@@ -82,16 +82,16 @@
               .panel-body
                 Aucune compétence ne dépend de celle-ci.
 
-      %h3 Exercices
+      %h3 Questions
       %ul
         -for exercice in skill.exercice_set.all
           %li
             %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-              Exercice
+              Question
               =exercice.file_name
         -empty
           %p
-            %i Il n'y a pas d'exercices disponibles pour cette compétence pour l'instant.
+            %i Il n'y a pas de questions disponibles pour cette compétence pour l'instant.
 
 
       -block after
