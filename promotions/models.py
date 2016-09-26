@@ -2,6 +2,7 @@
 
 import random
 from django.db import models
+from django.db.models import Count
 from django.contrib.auth.models import User
 
 
@@ -65,6 +66,9 @@ class Stage(models.Model):
     previous_stage = models.ForeignKey("promotions.Stage", null=True, blank=True)
 
     skills = models.ManyToManyField("skills.Skill")
+
+    def skills_with_exercice_count(self):
+        return self.skills.annotate(Count('exercice'))
 
     def __unicode__(self):
         return self.name

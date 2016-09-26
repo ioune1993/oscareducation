@@ -30,23 +30,20 @@
             %col{width: "200px"}
             %col
             %col
-            -for skill in stage.skills.all
+            -for skill in stage.skills_with_exercice_count
               %tr
                 %td
                   %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
                 %td
                   =skill.name
                 %td
-                  %ul.exercices
-                    -for exercice in skill.exercice_set.all
-                      %li
-                        %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-                          Exercice
-                          =exercice.file_name
-                    -empty
-                      %i Pas d'exercices disponibles.
+                  -if skill.exercice__count
+                    =skill.exercice__count
+                    exercice{{ skill.exercice__count|pluralize }}
+                  -else
+                    %i Pas d'exercices disponibles.
                 %td
-                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
+                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}?code={{ skill.code }}"}
                     Ajouter un exercice
                 %td
                   %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
