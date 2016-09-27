@@ -33,3 +33,5 @@ class Command(BaseCommand):
                 ref.section_kind=row["Fiche/page"]
                 ref.year=row["Ann\xc3\xa9e"]
                 ref.file_name=row["Nom du fichier"]
+
+                ref.save()
