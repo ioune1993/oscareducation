@@ -93,6 +93,19 @@ class KhanAcademyVideoReference(models.Model):
         ordering = ['subject', 'topic', 'title']
 
 
+class SesamathReference(models.Model):
+    classe = models.CharField(max_length=255)
+    # cahier, manuel
+    ressource_kind = models.CharField(max_length=255)
+    chapitre = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    # "Fiche/Page"
+    section_kind = models.CharField(max_length=255)
+    year = models.PositiveSmallIntegerField()
+    file_name = models.CharField(max_length=255)
+    on_oscar = models.URLField(unique=True)
+
+
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")
     answers = models.FileField(upload_to="pedagogique_ressources/exercices/answers/", blank=True, null=True, verbose_name=u"Réponses (optionnel)")
