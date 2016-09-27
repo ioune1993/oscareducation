@@ -75,8 +75,39 @@
       %p
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
+    %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
       Ajouter une vidéo
+
+  .well
+    %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+
+    %ul
+      -for sesamath in object.sesamathskill_set.all
+        %li
+          %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
+            =sesamath.reference.title
+
+    %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
+      -csrf_token
+
+      %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
+      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+
+      .form-group
+        %select.form-control{name: "ref_pk"}
+          -for ref in sesamath_references
+            %option{value: "{{ ref.id }}"}= ref.title
+
+          -for error in sesamath_reference_form.ref_pk.errors
+            %span.help-block= error
+
+        %span.help-block= sesamath_reference_form.errors
+
+      %p
+        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
+    %button.show-form.btn.btn-primary{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
+      Ajouter une ressource
 
   .well
     %h3 Vidéos

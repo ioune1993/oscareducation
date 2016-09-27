@@ -119,6 +119,16 @@ class SesamathReference(models.Model):
     on_oscar = models.URLField(unique=True)
 
 
+class SesamathSkill(models.Model):
+    skill = models.ForeignKey(Skill)
+    reference = models.ForeignKey(SesamathReference)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    added_by = models.ForeignKey(User, null=True)
+
+
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")
     answers = models.FileField(upload_to="pedagogique_ressources/exercices/answers/", blank=True, null=True, verbose_name=u"Réponses (optionnel)")

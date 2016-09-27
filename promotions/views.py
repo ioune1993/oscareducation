@@ -23,12 +23,12 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference
 from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student
-from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm
+from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -409,17 +409,21 @@ def update_pedagogical_ressources(request, slug):
 
     video_skill_form = VideoSkillForm()
     khanacademy_skill_form = KhanAcademyVideoReferenceForm()
+    sesamath_reference_form = SesamathReferenceForm()
     exercice_skill_form = ExerciceSkillForm()
     external_link_skill_form = ExternalLinkSkillForm()
     synthese_form = SyntheseForm()
 
     khanacademy_references = KhanAcademyVideoReference.objects.all()
+    sesamath_references = SesamathReference.objects.all()
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
             "video_skill_form": video_skill_form,
             "khanacademy_skill_form": khanacademy_skill_form,
             "khanacademy_references": khanacademy_references,
+            "sesamath_reference_form": sesamath_reference_form,
+            "sesamath_references": sesamath_references,
             "exercice_skill_form": exercice_skill_form,
             "external_link_skill_form": external_link_skill_form,
             "synthese_form": synthese_form,
@@ -446,6 +450,17 @@ def update_pedagogical_ressources(request, slug):
                 url="https://fr.khanacademy.org/v/%s" % ref.slug,
                 skill=skill,
                 added_by=request.user,
+            )
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+    elif request.POST["form_type"] == "sesamath_reference":
+        sesamath_reference_form = SesamathReferenceForm(request.POST)
+
+        if sesamath_reference_form.is_valid():
+            ref = SesamathReference.objects.get(id=sesamath_reference_form.cleaned_data["ref_pk"])
+            SesamathSkill.objects.create(
+                skill=skill,
+                reference=ref,
             )
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
@@ -477,6 +492,8 @@ def update_pedagogical_ressources(request, slug):
         "video_skill_form": video_skill_form,
         "khanacademy_skill_form": khanacademy_skill_form,
         "khanacademy_references": khanacademy_references,
+        "sesamath_reference_form": sesamath_reference_form,
+        "sesamath_references": sesamath_references,
         "exercice_skill_form": exercice_skill_form,
         "external_link_skill_form": external_link_skill_form,
         "synthese_form": synthese_form,

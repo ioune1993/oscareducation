@@ -92,5 +92,9 @@ class KhanAcademyVideoReferenceForm(forms.Form):
     ref_pk = forms.IntegerField()
 
 
+class SesamathReferenceForm(forms.Form):
+    ref_pk = forms.IntegerField()
+
+
 class SyntheseForm(forms.Form):
     synthese = forms.CharField()
