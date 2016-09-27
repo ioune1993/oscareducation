@@ -3,7 +3,7 @@ django-bootstrap3
 django-extensions
 django-debug-toolbar
 git+https://github.com/tomchristie/django-pdb
-hamlpy
+django-hamlpy
 werkzeug
 pyyaml
 yamlordereddictloader
