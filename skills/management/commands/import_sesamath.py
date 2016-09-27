@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         for file_name in args:
             for row in csv.DictReader(open(file_name, "r"), delimiter=",", quotechar='"'):
-                if not row["Emplacement sur site Oscar"] or not row["Emplacement sur site Oscar"].startswith("http://"):
+                if not row["Emplacement sur site Oscar"] or not row["Emplacement sur site Oscar"].startswith(("http://", "https://")):
                     continue
 
                 # print row["Emplacement sur site Oscar"]
