@@ -65,8 +65,7 @@
               -for topic in topics
                 %optgroup.level3{label: "{{ topic.grouper }}"}
                   -for khan in topic.list
-                    -if khan not in already_added
-                      %option{value: "{{ khan.id }}"}= khan.title
+                    %option{value: "{{ khan.id }}"}= khan.title
 
           -for error in khanacademy_skill_form.ref_pk.errors
             %span.help-block= error
