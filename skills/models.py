@@ -4,6 +4,7 @@ from datetime import datetime
 
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from promotions.models import Student
 
@@ -66,6 +67,8 @@ class PedagogicalRessource(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    added_by = models.ForeignKey(User, null=True)
 
     class Meta:
         abstract = True
