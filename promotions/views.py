@@ -431,7 +431,9 @@ def update_pedagogical_ressources(request, slug):
     if request.POST["form_type"] == "video_skill":
         video_skill_form = VideoSkillForm(request.POST)
         if video_skill_form.is_valid():
-            video_skill_form.save()
+            r = video_skill_form.save()
+            r.add_by = request.user
+            r.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "khanacademy_skill":
@@ -443,25 +445,31 @@ def update_pedagogical_ressources(request, slug):
                 youtube_id=ref.youtube_id,
                 url="https://fr.khanacademy.org/v/%s" % ref.slug,
                 skill=skill,
+                added_by=request.user,
             )
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "exercice_skill":
         exercice_skill_form = ExerciceSkillForm(request.POST, request.FILES)
         if exercice_skill_form.is_valid():
-            exercice_skill_form.save()
+            r = exercice_skill_form.save()
+            r.add_by = request.user
+            r.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "external_link_skill":
         external_link_skill_form = ExternalLinkSkillForm(request.POST)
         if external_link_skill_form.is_valid():
-            external_link_skill_form.save()
+            r = external_link_skill_form.save()
+            r.add_by = request.user
+            r.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "synthese_form":
         synthese_form = SyntheseForm(request.POST)
         if synthese_form.is_valid():
             skill.oscar_synthese = synthese_form.cleaned_data["synthese"]
+            skill.modified_by = request.user
             skill.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 

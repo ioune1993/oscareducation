@@ -23,6 +23,8 @@ class Skill(models.Model):
 
     oscar_synthese = models.TextField(null=True, blank=True)
 
+    modified_by = models.ForeignKey(User, null=True)
+
     class Meta:
         ordering = ['code']
 
