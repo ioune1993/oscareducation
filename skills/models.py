@@ -83,6 +83,11 @@ class KhanAcademyVideoSkill(models.Model):
     youtube_id = models.CharField(max_length=25)
     url = models.URLField()
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    added_by = models.ForeignKey(User, null=True)
+
 
 class KhanAcademyVideoReference(models.Model):
     subject = models.CharField(max_length=255)
