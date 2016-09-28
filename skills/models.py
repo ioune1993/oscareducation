@@ -128,6 +128,14 @@ class SesamathSkill(models.Model):
 
     added_by = models.ForeignKey(User, null=True)
 
+    class Meta:
+        ordering = [
+            'reference__classe',
+            'reference__ressource_kind',
+            'reference__chapitre',
+            'reference__section_kind',
+        ]
+
 
 class ExerciceSkill(PedagogicalRessource):
     questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")

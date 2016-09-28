@@ -94,16 +94,42 @@
       %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
       .form-group
-        %select.form-control{name: "ref_pk"}
-          -for ref in sesamath_references
-            %option{value: "{{ ref.id }}"}= ref.title
+        %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; width: 180px;"}
+          -regroup sesamath_references by classe as classes
+          -for classe in classes
+            %li.dropdown-submenu
+              %a{tabindex: "-1", href: "#"}= classe.grouper
+              %ul.dropdown-menu
+                -regroup classe.list by ressource_kind as ressource_kinds
+                -for ressource_kind in ressource_kinds
+                  %li.dropdown-submenu
+                    %a{href: "#"}= ressource_kind.grouper
+                    %ul.dropdown-menu
+                      -regroup ressource_kind.list by chapitre as chapitres
+                      -for chapitre in chapitres
+                        %li.dropdown-submenu
+                          %a{href: "#"}= chapitre.grouper
+                          %ul.dropdown-menu
+                            -for ref in chapitre.list
+                              %li
+                                %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\")"}
+                                  -if ref.section_kind and ref.section_kind != "-"
+                                    [{{ ref.section_kind.strip }}]
+                                  =ref.title
 
           -for error in sesamath_reference_form.ref_pk.errors
             %span.help-block= error
 
         %span.help-block= sesamath_reference_form.errors
 
-      %p
+      .form-group
+        .input-group
+          .input-group-addon Ressource sélectionnée :
+          %input#ref_pk_title.form-control{type: "text", value: "", name: "ref_pk_title", disabled: None}
+
+      %input#ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+
+      .form-group
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
     %button.show-form.btn.btn-primary{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
@@ -332,6 +358,51 @@
       padding-left: 30px;
     }
 
+    .dropdown-menu {
+      float: none;
+    }
+    .dropdown-submenu {
+        position:relative;
+    }
+    .dropdown-submenu>.dropdown-menu {
+        top:0;
+        left:100%;
+        margin-top:-6px;
+        margin-left:-1px;
+        -webkit-border-radius:0 6px 6px 6px;
+        -moz-border-radius:0 6px 6px 6px;
+        border-radius:0 6px 6px 6px;
+    }
+    .dropdown-submenu:hover>.dropdown-menu {
+        display:block;
+    }
+    .dropdown-submenu>a:after {
+        display:block;
+        content:" ";
+        float:right;
+        width:0;
+        height:0;
+        border-color:transparent;
+        border-style:solid;
+        border-width:5px 0 5px 5px;
+        border-left-color:#cccccc;
+        margin-top:5px;
+        margin-right:-10px;
+    }
+    .dropdown-submenu:hover>a:after {
+        border-left-color:#ffffff;
+    }
+    .dropdown-submenu.pull-left {
+        float:none;
+    }
+    .dropdown-submenu.pull-left>.dropdown-menu {
+        left:-100%;
+        margin-left:10px;
+        -webkit-border-radius:6px 0 6px 6px;
+        -moz-border-radius:6px 0 6px 6px;
+        border-radius:6px 0 6px 6px;
+    }
+
 -block javascript
   :javascript
     $(".show-form").click(function(event) {
@@ -343,3 +414,7 @@
       $(".synthese").hide();
       $(event.currentTarget.attributes["data-target"].value).show();
     })
+    function selectionSesamathReference(ref_pk, title) {
+      $("#ref_pk_title").val(title);
+      $("#ref_pk").val(ref_pk);
+    }
