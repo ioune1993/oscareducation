@@ -118,6 +118,14 @@ class SesamathReference(models.Model):
     file_name = models.CharField(max_length=255)
     on_oscar = models.URLField(unique=True)
 
+    class Meta:
+        ordering = [
+            'classe',
+            'ressource_kind',
+            'chapitre',
+            'section_kind',
+        ]
+
 
 class SesamathSkill(models.Model):
     skill = models.ForeignKey(Skill)

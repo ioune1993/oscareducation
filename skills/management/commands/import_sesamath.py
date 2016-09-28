@@ -29,11 +29,11 @@ class Command(BaseCommand):
                 else:
                     ref = SesamathReference(on_oscar=row["Emplacement sur site Oscar"])
 
-                ref.classe=row["Classe (France)"]
-                ref.ressource_kind=row["Ressource"]
-                ref.chapitre=row["Chapitre"]
-                ref.title=row["Titre"]
-                ref.section_kind=row["Fiche/page"]
+                ref.classe=row["Classe (France)"].capitalize()
+                ref.ressource_kind=row["Ressource"].capitalize()
+                ref.chapitre=row["Chapitre"].capitalize()
+                ref.title=row["Titre"].capitalize()
+                ref.section_kind=row["Fiche/page"].capitalize()
                 ref.year=row["Ann\xc3\xa9e"]
                 ref.file_name=row["Nom du fichier"]
 
