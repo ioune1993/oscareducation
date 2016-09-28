@@ -146,7 +146,7 @@ class Exercice(models.Model):
             answer = answers.get(str(number))
             answer = answer.strip().replace(" ", "") if isinstance(answer, basestring) else answer
             if value["type"] == "text":
-                if not answer in map(str, value["answers"]):
+                if not answer in map(unicode, value["answers"]):
                     return False
             elif value["type"] == "radio":
                 if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
