@@ -15,6 +15,9 @@ class Command(BaseCommand):
                 if not row["Emplacement sur site Oscar"] or not row["Emplacement sur site Oscar"].startswith(("http://", "https://")):
                     continue
 
+                if not row["Titre"].strip():
+                    continue
+
                 # print row["Emplacement sur site Oscar"]
                 check = requests.get(row["Emplacement sur site Oscar"])
                 if check.status_code != 200:
