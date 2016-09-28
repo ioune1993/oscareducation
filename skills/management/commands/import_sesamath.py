@@ -11,6 +11,7 @@ classe_to_digit = {
    "Troisième": 3,
    "Quatrième": 4,
    "Cinquième": 5,
+   'Sixi\xc3\xa8me': 6,
 }
 
 class Command(BaseCommand):
