@@ -39,7 +39,7 @@ class Command(BaseCommand):
                 else:
                     ref = SesamathReference(on_oscar=row["Emplacement sur site Oscar"])
 
-                ref.classe_to_digit=classe_to_digit[row["Classe (France)"].capitalize().strip()]
+                ref.classe_int=classe_to_digit[row["Classe (France)"].capitalize().strip()]
                 ref.classe=row["Classe (France)"].capitalize()
                 ref.ressource_kind=row["Ressource"].capitalize()
                 ref.chapitre=row["Chapitre"].capitalize()
