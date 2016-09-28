@@ -30,6 +30,7 @@
             %col{width: "200px"}
             %col
             %col
+            %col
             -for skill in stage.skills_with_exercice_count
               %tr
                 %td
@@ -48,6 +49,11 @@
                 %td
                   %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
                     Ajouter une ressource
+                %td
+                  %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
+                    Signaler un problème
+                    %br
+                    avec cette compétence
 
   :css
     .exercices {
