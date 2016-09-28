@@ -16,6 +16,9 @@ class Professor(models.Model):
 
     user = models.OneToOneField(User)
 
+    def students(self):
+        return Student.objects.filter(lesson__professors=self)
+
     def __unicode__(self):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
 

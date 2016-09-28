@@ -21,3 +21,18 @@
       %p
         %b Nombre de classes :
         =lessons.count
+
+  .panel.panel-default
+    .panel-heading
+      Par professeur
+
+    .panel-body
+      -for prof in professors
+        %p
+          %b= prof|capfirst
+          ({{ prof.students.count }} élèves)
+          :
+        %ul
+          -for lesson in prof.lesson_set.all
+            %li= lesson
+              ({{ lesson.students.count }} élèves)
