@@ -113,6 +113,9 @@
                             -for ref in chapitre.list
                               %li
                                 %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\")"}
+                                  -if ref.year
+                                    =ref.year
+                                    \-
                                   -if ref.section_kind and ref.section_kind != "-"
                                     [{{ ref.section_kind.strip }}]
                                   =ref.title
