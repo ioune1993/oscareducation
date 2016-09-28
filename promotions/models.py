@@ -22,6 +22,9 @@ class Professor(models.Model):
     def __unicode__(self):
         return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
 
+    class Meta:
+        ordering = ['user__last_name', 'user__first_name']
+
 
 class Student(models.Model):
     objects = AuthUserManager()
@@ -101,3 +104,6 @@ class Lesson(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
