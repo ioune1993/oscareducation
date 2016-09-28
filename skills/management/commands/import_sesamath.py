@@ -34,7 +34,7 @@ class Command(BaseCommand):
                 ref.chapitre=row["Chapitre"].capitalize()
                 ref.title=row["Titre"].capitalize()
                 ref.section_kind=row["Fiche/page"].capitalize()
-                ref.year=row["Ann\xc3\xa9e"]
+                ref.year=row["Ann\xc3\xa9e"] if row["Ann\xc3\xa9e"] else None
                 ref.file_name=row["Nom du fichier"]
 
                 ref.save()
