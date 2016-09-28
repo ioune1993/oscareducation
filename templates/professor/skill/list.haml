@@ -43,7 +43,7 @@
                   -else
                     %i Pas de questions disponibles.
                 %td
-                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}?code={{ skill.code }}"}
+                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
                     Ajouter une question
                 %td
                   %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}

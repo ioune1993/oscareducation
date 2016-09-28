@@ -1,5 +1,5 @@
-function validateExerciceController($scope, $http, $sce, $timeout) {
-    $scope.skillCode = "";
+function validateExerciceController($scope, $http, $sce, $timeout, $location) {
+    $scope.skillCode = $location.search().code;
     $scope.html = "";
     $scope.yaml = "";
     $scope.yamlRendering = "";
