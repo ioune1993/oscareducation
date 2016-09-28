@@ -107,6 +107,7 @@ class KhanAcademyVideoReference(models.Model):
 
 
 class SesamathReference(models.Model):
+    classe_int = models.PositiveSmallIntegerField()
     classe = models.CharField(max_length=255)
     # cahier, manuel
     ressource_kind = models.CharField(max_length=255)
@@ -120,7 +121,7 @@ class SesamathReference(models.Model):
 
     class Meta:
         ordering = [
-            'classe',
+            'classe_int',
             'ressource_kind',
             'chapitre',
             'section_kind',
@@ -138,7 +139,7 @@ class SesamathSkill(models.Model):
 
     class Meta:
         ordering = [
-            'reference__classe',
+            'reference__classe_int',
             'reference__ressource_kind',
             'reference__chapitre',
             'reference__section_kind',

@@ -1,9 +1,17 @@
+# encoding: utf-8
+
 import csv
 import requests
 from django.core.management.base import BaseCommand
 
 from skills.models import SesamathReference
 
+classe_to_digit = {
+   "Seconde": 2,
+   "Troisième": 3,
+   "Quatrième": 4,
+   "Cinquième": 5,
+}
 
 class Command(BaseCommand):
     args = '<poll_id poll_id ...>'
@@ -29,6 +37,7 @@ class Command(BaseCommand):
                 else:
                     ref = SesamathReference(on_oscar=row["Emplacement sur site Oscar"])
 
+                ref.classe_to_digit=classe_to_digit[row["Classe (France)"].capitalize().strip()]
                 ref.classe=row["Classe (France)"].capitalize()
                 ref.ressource_kind=row["Ressource"].capitalize()
                 ref.chapitre=row["Chapitre"].capitalize()
