@@ -114,7 +114,7 @@ class SesamathReference(models.Model):
     title = models.CharField(max_length=255)
     # "Fiche/Page"
     section_kind = models.CharField(max_length=255)
-    year = models.PositiveSmallIntegerField()
+    year = models.PositiveSmallIntegerField(blank=True, null=True)
     file_name = models.CharField(max_length=255)
     on_oscar = models.URLField(unique=True)
 
