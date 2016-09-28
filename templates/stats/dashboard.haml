@@ -1,0 +1,23 @@
+-extends "base.haml"
+
+-block content
+
+  %h2 Statistiques d'usage
+  %hr
+
+  .panel.panel-default
+    .panel-heading
+      Statistiques générales
+
+    .panel-body
+      %p
+        %b Nombre de professeurs :
+        =professors.count
+
+      %p
+        %b Nombre d'élèves :
+        =students.count
+
+      %p
+        %b Nombre de classes :
+        =lessons.count
