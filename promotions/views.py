@@ -450,6 +450,7 @@ def update_pedagogical_ressources(request, slug):
                 url="https://fr.khanacademy.org/v/%s" % ref.slug,
                 skill=skill,
                 added_by=request.user,
+                reference=ref,
             )
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
