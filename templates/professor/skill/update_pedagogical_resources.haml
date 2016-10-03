@@ -70,12 +70,19 @@
                     %ul.dropdown-menu
                       -for khan in topic.list
                         %li
-                          %a{value: "{{ khan.id }}"}= khan.title
+                          %a{href: "javascript:selectKhanReference({{ khan.id }}, \"{{ khan.title }}\")"}= khan.title
 
           -for error in khanacademy_skill_form.ref_pk.errors
             %span.help-block= error
 
         %span.help-block= khanacademy_skill_form.errors
+
+      .form-group
+        .input-group
+          .input-group-addon Vidéo sélectionnée :
+          %input#khan_ref_pk_title.form-control{type: "text", value: "", name: "khan_ref_pk_title", disabled: None}
+
+      %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
 
       %p
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
@@ -428,4 +435,8 @@
     function selectionSesamathReference(ref_pk, title) {
       $("#ref_pk_title").val(title);
       $("#ref_pk").val(ref_pk);
+    }
+    function selectKhanReference(ref_pk, title) {
+      $("#khan_ref_pk_title").val(title);
+      $("#khan_ref_pk").val(ref_pk);
     }
