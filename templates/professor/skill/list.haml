@@ -16,35 +16,73 @@
   %hr
 
   #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
-    -with stage=2p
-      -include "professor/skill/list/panel.haml"
+    .panel.panel-default
+      .panel-heading
+        %b
+          Socles de compétences
 
-    -with stage=3p
-      -include "professor/skill/list/panel.haml"
+      .panel-body{style: "padding-top: 10px"}
+        -with stage=1e
+          -include "professor/skill/list/panel.haml"
 
-    -with stage=2d2
-      -include "professor/skill/list/panel.haml"
+        -with stage=2e
+          -include "professor/skill/list/panel.haml"
 
-    -with stage=3d2
-      -include "professor/skill/list/panel.haml"
+        -with stage=3e
+          -include "professor/skill/list/panel.haml"
 
-    -with stage=3t
-      -include "professor/skill/list/panel.haml"
+    .panel.panel-default
+      .panel-heading
+        %b
+          Enseignement professionnel
 
-    -with stage=4t
-      -include "professor/skill/list/panel.haml"
+      .panel-body
+        %h5.color-title{style: "background-color: red"} Mathématiques de base
+        -with stage=2p
+          -include "professor/skill/list/panel.haml"
 
-    -with stage=5tb
-      -include "professor/skill/list/panel.haml"
+        -with stage=3p
+          -include "professor/skill/list/panel.haml"
 
-    -with stage=6tb
-      -include "professor/skill/list/panel.haml"
+    .panel.panel-default
+      .panel-heading
+        %b
+          Enseignement technique et artistique de qualification
 
-    -with stage=5tg
-      -include "professor/skill/list/panel.haml"
+      .panel-body
+        %h5.color-title{style: "background-color: green"} Mathématiques actives dans la formation qualifiante
+        -with stage=2d2
+          -include "professor/skill/list/panel.haml"
 
-    -with stage=6tg
-      -include "professor/skill/list/panel.haml"
+        -with stage=3d2
+          -include "professor/skill/list/panel.haml"
+
+    .panel.panel-default
+      .panel-heading
+        %b
+          Enseignement de transition
+
+      .panel-body
+        %h5.color-title{style: "background-color: red"} Deuxième degré de transition
+        -with stage=3t
+          -include "professor/skill/list/panel.haml"
+
+        -with stage=4t
+          -include "professor/skill/list/panel.haml"
+
+        %h5.color-title{style: "background-color: pink"} Troisième degré de transition - Mathématiques de base
+        -with stage=5tb
+          -include "professor/skill/list/panel.haml"
+
+        -with stage=6tb
+          -include "professor/skill/list/panel.haml"
+
+        %h5.color-title{style: "background-color: purple"} Troisième degré de transition - Mathématiques générales
+        -with stage=5tg
+          -include "professor/skill/list/panel.haml"
+
+        -with stage=6tg
+          -include "professor/skill/list/panel.haml"
 
   :css
     .exercices {
@@ -53,4 +91,14 @@
 
     .exercices li {
       list-style-type: none;
+    }
+
+    .color-title {
+      padding: 5px;
+      color: white;
+      font-weight: bold;
+    }
+
+    .panel-body {
+      padding-top: 0px;
     }
