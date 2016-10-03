@@ -70,7 +70,7 @@
                     %ul.dropdown-menu
                       -for khan in topic.list
                         %li
-                          %a{href: "javascript:selectKhanReference({{ khan.id }}, \"{{ khan.title }}\")"}= khan.title
+                          %a{href: "javascript:selectKhanReference({{ khan.id }}, \"{{ khan.title }}\", \"https://fr.khanacademy.org/v/{{ khan.slug }}\")"}= khan.title
 
           -for error in khanacademy_skill_form.ref_pk.errors
             %span.help-block= error
@@ -86,6 +86,8 @@
 
       %p
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+        %a#khan_verify.btn.btn-default.disabled{href: "", target: "_blank"}
+          Vérifier
 
     %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
       Ajouter une vidéo
@@ -124,7 +126,7 @@
                           %ul.dropdown-menu
                             -for ref in chapitre.list
                               %li
-                                %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\")"}
+                                %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
                                   -if ref.year
                                     =ref.year
                                     \-
@@ -146,6 +148,8 @@
 
       .form-group
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+        %a#sesamath_verify.btn.btn-default.disabled{href: "", target: "_blank"}
+          Vérifier
 
     %button.show-form.btn.btn-primary{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
       Ajouter une ressource
@@ -432,11 +436,15 @@
       $(".synthese").hide();
       $(event.currentTarget.attributes["data-target"].value).show();
     })
-    function selectionSesamathReference(ref_pk, title) {
+    function selectionSesamathReference(ref_pk, title, url) {
       $("#ref_pk_title").val(title);
       $("#ref_pk").val(ref_pk);
+      $("#sesamath_verify").removeClass("disabled");
+      $("#sesamath_verify").attr("href", url);
     }
-    function selectKhanReference(ref_pk, title) {
+    function selectKhanReference(ref_pk, title, url) {
       $("#khan_ref_pk_title").val(title);
       $("#khan_ref_pk").val(ref_pk);
+      $("#khan_verify").removeClass("disabled");
+      $("#khan_verify").attr("href", url);
     }
