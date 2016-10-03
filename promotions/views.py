@@ -27,7 +27,7 @@ from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAc
 from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
-from .models import Lesson, Student
+from .models import Lesson, Student, Stage
 from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm
 from .utils import generate_random_password, user_is_professor
 
@@ -846,3 +846,10 @@ def exercice_validation_form_pull_request_yaml(request):
             auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)).json()
 
     return HttpResponse(answer["html_url"])
+
+
+@user_is_professor
+def contribute_page(request):
+    stages = {x.short_name: x for x in Stage.objects.all()}
+
+    return render(request, "professor/skill/list.haml", stages)

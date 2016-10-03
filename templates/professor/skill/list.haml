@@ -16,7 +16,34 @@
   %hr
 
   #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
-    -for stage in object_list
+    -with stage=2p
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=3p
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=2d2
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=3d2
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=3t
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=4t
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=5tb
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=6tb
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=5tg
+      -include "professor/skill/list/panel.haml"
+
+    -with stage=6tg
       -include "professor/skill/list/panel.haml"
 
   :css
