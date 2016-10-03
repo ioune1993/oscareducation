@@ -48,7 +48,7 @@
       -for video in object.khanacademyvideoskill_set.all
         %li
           %a{href: "{{ video.url }}", target: "_blank"}
-            =video.reference.title
+            =video.reference.title|default:video.url
 
     %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
       -csrf_token
