@@ -2,7 +2,7 @@
   .panel-heading{id: "heading{{ stage.id }}", role: "tab"}
     %h4.panel-title
       %a.collapsed{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.id }}", aria-expanded: "false", aria-controls: "collapse{{ stage.id }}"}
-        =stage.name
+        =title
 
   .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
     %table.table
