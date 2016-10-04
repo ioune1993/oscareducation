@@ -16,11 +16,13 @@
           %col
           %col
           %tr.active
-            %th{colspan: 6}= section.grouper
+            -with code=section.list|first
+              %th.center= code.code|slice:":2"
+            %th{colspan: 5}= section.grouper
           -for skill in section.list
             %tr
               %td
-                %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
+                %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|slice:"2:"
               %td
                 =skill.name
               %td
