@@ -17,7 +17,7 @@
   %h3 Élèves de {{ lesson.name }}
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
-        ajouter un élève
+        ajouter des élèves
       %a.btn.btn-danger{href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
         générer les mots de passe pour toute la classe
 
