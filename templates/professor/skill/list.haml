@@ -23,13 +23,13 @@
 
       .panel-body{style: "padding-top: 10px"}
         -with stage=1e title="1er degré primaire"
-          -include "professor/skill/list/panel.haml"
+          -include "professor/skill/list/panel-socles.haml"
 
         -with stage=2e title="2ème et 3ème degrés primaire"
-          -include "professor/skill/list/panel.haml"
+          -include "professor/skill/list/panel-socles.haml"
 
         -with stage=3e title="1er degré secondaire"
-          -include "professor/skill/list/panel.haml"
+          -include "professor/skill/list/panel-socles.haml"
 
     .panel.panel-default
       .panel-heading
@@ -97,8 +97,4 @@
       padding: 5px;
       color: white;
       font-weight: bold;
-    }
-
-    .panel-body {
-      padding-top: 0px;
     }
