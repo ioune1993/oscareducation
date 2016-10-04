@@ -37,12 +37,13 @@
           Enseignement professionnel
 
       .panel-body
-        -with stage=2p title="Deuxième degré (MB22)" color="#C20000"
-          %h5.color-title{style: "background-color: {{ color }}"} Mathématiques de base
-          -include "professor/skill/list/panel.haml"
+        -with color="#C20000"
+          -with stage=2p title="Deuxième degré (MB22)"
+            %h5.color-title{style: "background-color: {{ color }}"} Mathématiques de base
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=3p title="Troisième degré (MB32)" color="#C20000"
-          -include "professor/skill/list/panel.haml"
+          -with stage=3p title="Troisième degré (MB32)" color="#C20000"
+            -include "professor/skill/list/panel.haml"
 
     .panel.panel-default
       .panel-heading
@@ -50,12 +51,13 @@
           Enseignement technique et artistique de qualification
 
       .panel-body
-        -with stage=2d2 title="Deuxième degré (MQ22)" color="#2BA72B"
-          %h5.color-title{style: "background-color: {{ color }}"} Mathématiques actives dans la formation qualifiante
-          -include "professor/skill/list/panel.haml"
+        -with color="#2BA72B"
+          -with stage=2d2 title="Deuxième degré (MQ22)"
+            %h5.color-title{style: "background-color: {{ color }}"} Mathématiques actives dans la formation qualifiante
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=3d2 title="Troisième degré (MQ32)" color="#2BA72B"
-          -include "professor/skill/list/panel.haml"
+          -with stage=3d2 title="Troisième degré (MQ32)" color="#2BA72B"
+            -include "professor/skill/list/panel.haml"
 
     .panel.panel-default
       .panel-heading
@@ -63,26 +65,29 @@
           Enseignement de transition
 
       .panel-body
-        -with stage=3t title="Troisième année" color="#C20000"
-          %h5.color-title{style: "background-color: {{ color }}"} Deuxième degré de transition
-          -include "professor/skill/list/panel.haml"
+        -with color="#C20000"
+          -with stage=3t title="Troisième année"
+            %h5.color-title{style: "background-color: {{ color }}"} Deuxième degré de transition
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=4t title="Quatrième année" color="#C20000"
-          -include "professor/skill/list/panel.haml"
+          -with stage=4t title="Quatrième année"
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=5tb title="Cinquième année" color="#AA0040"
-          %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques de base
-          -include "professor/skill/list/panel.haml"
+        -with color="#AA0040"
+          -with stage=5tb title="Cinquième année"
+            %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques de base
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=6tb title="Sixième année" color="#AA0040"
-          -include "professor/skill/list/panel.haml"
+          -with stage=6tb title="Sixième année"
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=5tg title="Cinquième année" color="#C991D2"
-          %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques générales
-          -include "professor/skill/list/panel.haml"
+        -with color="#C991D2"
+          -with stage=5tg title="Cinquième année"
+            %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques générales
+            -include "professor/skill/list/panel.haml"
 
-        -with stage=6tg title="Sixième année" color="#C991D2"
-          -include "professor/skill/list/panel.haml"
+          -with stage=6tg title="Sixième année"
+            -include "professor/skill/list/panel.haml"
 
   :css
     .exercices {
