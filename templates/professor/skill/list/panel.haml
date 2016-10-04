@@ -5,33 +5,51 @@
         =title
 
   .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
-    %table.table
-      %col
-      %col
-      %col{width: "200px"}
-      %col
-      %col
-      %col
-      -for skill in stage.skills_with_exercice_count
-        %tr
-          %td
-            %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill
-          %td
-            =skill.name
-          %td
-            -if skill.exercice__count
-              =skill.exercice__count
-              question{{ skill.exercice__count|pluralize }}
-            -else
-              %i Pas de questions disponibles.
-          %td
-            %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
-              Ajouter une question
-          %td
-            %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-              Ajouter une ressource
-          %td
-            %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
-              Signaler un problème
-              %br
-              avec cette compétence
+    .panel-body
+      -regroup stage.skills_with_exercice_count by section as sections
+      -for section in sections
+        %table.table.table-bordered
+          %col
+          %col
+          %col{width: "200px"}
+          %col
+          %col
+          %col
+            %tr.color-title{style: "background-color: {{ color }}"}
+              -with code=section.list|first
+                %th.center= code.code|slice:":6"
+              %th{colspan: 5}= section.grouper
+          -regroup section.list by code|slice:"7:8" as categories
+          -for category in categories
+            %tr.active
+              %th.center= category.grouper
+              %th{colspan: 6}
+                -if category.grouper == "A"
+                  Appliquer
+                -elif category.grouper == "C"
+                  Connaitre
+                -elif category.grouper == "T"
+                  Transférer
+            -for skill in category.list
+              %tr
+                %td.center
+                  %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|slice:"7:"
+                %td
+                  =skill.name
+                %td
+                  -if skill.exercice__count
+                    =skill.exercice__count
+                    question{{ skill.exercice__count|pluralize }}
+                  -else
+                    %i Pas de questions disponibles.
+                %td
+                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
+                    Ajouter une question
+                %td
+                  %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                    Ajouter une ressource
+                %td
+                  %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
+                    Signaler un problème
+                    %br
+                    avec cette compétence
