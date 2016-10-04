@@ -41,6 +41,8 @@
               %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name_{& student &}", value: "{{ add_student_form.last_name.value|default:\"\" }}"}
               -for error in add_student_form.last_name.errors
                 %span.help-block{style: "color: red"}= error
+        %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "removeStudent(student)"}
+          %span.glyphicon.glyphicon-remove
       %li.list-group-item
         %button.btn.btn-success{type: "button", ng-click: "addAnotherStudent()"}
           %span.glyphicon.glyphicon-plus
@@ -49,6 +51,16 @@
       %button.btn.btn-primary{type: "submit"}
         Ajouter mes élèves
     {% endbuttons %}
+
+  :css
+    .remove {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      border-radius: 0px;
+      border-bottom-left-radius: 3px;
+      padding: 2px 6px;
+    }
 
 -block javascript
   %script{type: "text/javascript", src: "{% static 'js/professor_add_students.js' %}"}
