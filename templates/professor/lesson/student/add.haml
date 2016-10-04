@@ -1,5 +1,6 @@
 -extends "base.haml"
 -load bootstrap3
+-load static
 
 -block content
   %ol.breadcrumb
@@ -11,24 +12,24 @@
       %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
         =lesson.name
     %li.active
-      Ajouter un élève
+      Ajouter des élèves
 
-  .panel.panel-default
-    .panel-heading
-      Ajouter un élève pour la classe
-      %i
-        =lesson.name
+  %h3
+    Ajouter des élève pour ma classe
+    %i
+      =lesson.name
 
-    .panel-body
-      %form.form{action: "", method: "post"}
-        -csrf_token
+  %form.form{action: "", method: "post", ng-app: "oscar", ng-controller: "severalStudentsController"}
+    -csrf_token
 
+    %ul.list-group
+      %li.list-group-item{ng-repeat: "student in students"}
         .row
           .col-md-6
             .form-group{class: "{% if add_student_form.id_first_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_first_name %}has-success{% endif %}"}
               %label.control-label{for: "id_first_name"}
                 Prénom
-              %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "{{ add_student_form.first_name.value|default:\"\" }}"}
+              %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name_{& student &}", value: "{{ add_student_form.first_name.value|default:\"\" }}"}
               -for error in add_student_form.first_name.errors
                 %span.help-block{style: "color: red"}= error
 
@@ -36,19 +37,17 @@
             .form-group{class: "{% if add_student_form.id_last_name.errors %}has-error{% elif add_student_form.data and add_student_form.id_last_name %}has-success{% endif %}"}
               %label.control-label{for: "id_last_name"}
                 Nom
-              %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name", value: "{{ add_student_form.last_name.value|default:\"\" }}"}
+              %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name_{& student &}", value: "{{ add_student_form.last_name.value|default:\"\" }}"}
               -for error in add_student_form.last_name.errors
                 %span.help-block{style: "color: red"}= error
+      %li.list-group-item
+        %button.btn.btn-success{tyle: "button", ng-click: "addAnotherStudent()"}
+          %span.glyphicon.glyphicon-plus
 
-        .form-group{class: "{% if add_student_form.id_email.errors %}has-error{% elif add_student_form.data and add_student_form.id_email %}has-success{% endif %}"}
-          %label.control-label{for: "id_email"}
-            Courriel (optionnel)
-          %input#id_email.form-control{type: "text", placeholder: "Courriel", name: "email", value: "{{ add_student_form.email.value|default:\"\" }}"}
+    {% buttons %}
+      %button.btn.btn-primary{type: "submit"}
+        Ajouter mes élèves
+    {% endbuttons %}
 
-          -for error in add_student_form.email.errors
-            %span.help-block{style: "color: red"}= error
-
-        {% buttons %}
-          %button.btn.btn-primary{type: "submit"}
-            Ajouter
-        {% endbuttons %}
+-block javascript
+  %script{type: "text/javascript", src: "{% static 'js/professor_add_students.js' %}"}
