@@ -31,6 +31,8 @@
         -with stage=3e title="1er degré secondaire"
           -include "professor/skill/list/panel-socles.haml"
 
+    %br
+
     .panel.panel-default
       .panel-heading
         %b
@@ -44,6 +46,8 @@
 
           -with stage=3p title="Troisième degré (MB32)"
             -include "professor/skill/list/panel.haml"
+
+    %br
 
     .panel.panel-default
       .panel-heading
@@ -59,6 +63,8 @@
           -with stage=3d2 title="Troisième degré (MQ32)"
             -include "professor/skill/list/panel.haml"
 
+    %br
+
     .panel.panel-default
       .panel-heading
         %b
@@ -73,6 +79,8 @@
           -with stage=4t title="Quatrième année"
             -include "professor/skill/list/panel.haml"
 
+        %br
+
         -with color="#B02459"
           -with stage=5tb title="Cinquième année"
             %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques de base
@@ -80,6 +88,8 @@
 
           -with stage=6tb title="Sixième année"
             -include "professor/skill/list/panel.haml"
+
+        %br
 
         -with color="#C991D2"
           -with stage=5tg title="Cinquième année"
@@ -103,4 +113,5 @@
       color: white;
       font-weight: bold;
       text-shadow: 0 0 4px rgba(1, 1, 1, 0.3);
+      margin-top: 0px;
     }
