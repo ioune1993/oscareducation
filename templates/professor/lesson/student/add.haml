@@ -25,10 +25,12 @@
 
     %ul.list-group{ng-app: "oscar", ng-controller: "severalStudentsController"}
       %li.list-group-item{ng-repeat: "student in students"}
+        .index
+          {& $index + 1 &}
         .row
           .col-md-6
             .form-group
-              %label.control-label{for: "id_first_name"}
+              %label.control-label.prenom{for: "id_first_name"}
                 Prénom
               %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name_{& student &}", value: ""}
 
@@ -67,6 +69,20 @@
       border-radius: 0px;
       border-bottom-left-radius: 3px;
       padding: 2px 6px;
+    }
+
+    .index {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      padding: 2px 6px;
+      background-color: #777777;
+      color: white;
+      border-bottom-right-radius: 3px;
+    }
+
+    .prenom {
+      padding-left: 10px;
     }
 
 -block javascript
