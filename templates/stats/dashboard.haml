@@ -34,7 +34,9 @@
           :
         %ul
           -for lesson in prof.lesson_set.all
-            %li= lesson
+            %li
+              %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+                =lesson
               ({{ lesson.students.count }} élèves)
               %ul
                 -for test in lesson.basetest_set.all
