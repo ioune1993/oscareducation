@@ -39,8 +39,11 @@
               %ul
                 -for test in lesson.basetest_set.all
                   %li
-                    =test
                     -if test.test
+                      %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+                        =test
                       (test en ligne)
                     -else
+                      %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+                        =test
                       (évaluation libre)
