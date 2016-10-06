@@ -42,8 +42,17 @@
           %span.glyphicon.glyphicon-remove
 
       %li.list-group-item
-        %button.btn.btn-success{type: "button", ng-click: "addAnotherStudent()"}
-          %span.glyphicon.glyphicon-plus
+        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(1)"}
+          %span.glyphicon.glyphicon-plus 1
+
+        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(5)"}
+          %span.glyphicon.glyphicon-plus 5
+
+        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(10)"}
+          %span.glyphicon.glyphicon-plus 10
+
+        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(20)"}
+          %span.glyphicon.glyphicon-plus 20
 
     {% buttons %}
       %button.btn.btn-primary{type: "submit"}
