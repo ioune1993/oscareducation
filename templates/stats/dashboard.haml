@@ -36,3 +36,11 @@
           -for lesson in prof.lesson_set.all
             %li= lesson
               ({{ lesson.students.count }} élèves)
+              %ul
+                -for test in lesson.basetest_set.all
+                  %li
+                    =test
+                    -if test.test
+                      (test en ligne)
+                    -else
+                      (évaluation libre)
