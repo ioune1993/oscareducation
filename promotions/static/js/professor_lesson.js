@@ -48,7 +48,12 @@ function createTestController($scope, $http) {
             $("#addSkillToTestButtonForStage" + stage_id).addClass("disabled");
         }
 
-        $("#" + skill).remove();
+        $("#" + skill).hide();
+    }
+
+    $scope.removeSkill = function(skill) {
+        $scope.toTestSkills.splice($scope.toTestSkills.indexOf(skill), 1);
+        $("#" + skill).show();
     }
 
     update_test_list = function () {
