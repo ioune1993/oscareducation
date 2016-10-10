@@ -77,6 +77,9 @@
               -for i in khanacademyvideoskill|slice:":10"
                 %li
                   %a{href: "i.url"}= i.reference.title|default:i.url
+                  -if i.added_by
+                    by
+                    =i.added_by
               -empty
                 Pas encore de ressource :(
 
@@ -87,5 +90,8 @@
               -for i in sesamathskill|slice:":10"
                 %li
                   %a{href: "i.reference.on_oscar"}= i.reference.title
+                  -if i.added_by
+                    by
+                    =i.added_by
               -empty
                 Pas encore de ressource :(
