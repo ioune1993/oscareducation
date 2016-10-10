@@ -6,6 +6,8 @@ from .utils import user_is_superuser
 from promotions.models import Professor, Student, Lesson
 from skills.models import Skill, KhanAcademyVideoSkill, SesamathSkill
 
+from examinations.models import Exercice as Question
+
 
 @user_is_superuser
 def dashboard(request):
@@ -18,4 +20,6 @@ def dashboard(request):
         "skills_with_sesamath_ressources": Skill.objects.annotate(Count('sesamathskill')).filter(sesamathskill__count__gt=0),
         "khanacademyvideoskill": KhanAcademyVideoSkill.objects.order_by('-created_at'),
         "sesamathskill": SesamathSkill.objects.order_by('-created_at'),
+        "questions": Question.objects.all(),
+        "skills_with_questions": Skill.objects.annotate(Count('exercice')).filter(exercice__count__gt=0),
     })

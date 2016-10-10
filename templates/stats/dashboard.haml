@@ -97,3 +97,18 @@
                     =i.added_by
               -empty
                 Pas encore de ressource :(
+
+      .panel.panel-default
+        .panel-heading
+          Questions
+
+        .panel-body
+          %p
+            %b Total :
+            =questions.count
+
+          %p
+            %b Progression :
+            =skills_with_questions.count
+            \/
+            =skills.count
