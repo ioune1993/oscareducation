@@ -69,3 +69,23 @@
             =skills_with_sesamath_ressources.count
             \/
             =skills.count
+
+          %p
+            %b Dernières ressources Khan Academy ajoutées :
+
+            %ul
+              -for i in khanacademyvideoskill|slice:":10"
+                %li
+                  %a{href: "i.url"}= i.reference.title|default:i.url
+              -empty
+                Pas encore de ressource :(
+
+          %p
+            %b Dernières ressources Sesamath ajoutées :
+
+            %ul
+              -for i in sesamathskill|slice:":10"
+                %li
+                  %a{href: "i.reference.on_oscar"}= i.reference.title
+              -empty
+                Pas encore de ressource :(
