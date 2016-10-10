@@ -41,8 +41,9 @@
                   Compétences sélectionnées :
 
               .well
-                %span.btn.btn-primary.selected-skill{ng-repeat: "skill in toTestSkills", title: "{& skill.name &}" }
-                  {& skill &}
+                %span{ng-repeat: "skill in toTestSkills"}
+                  %button.btn.btn-primary.selected-skill{type: "button", title: "{& skill.name &}", ng-click: "removeSkill(skill)"}
+                    {& skill &}
 
             .col-md-6
               %h

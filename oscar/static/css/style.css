@@ -130,7 +130,11 @@
 }
 
 .selected-skill:hover {
-    background-color: #337ab7;
-    border-color: #2e6da4;
-    cursor: default;
+    background-color: #B90000;
+    border-color: #950000;
+}
+
+.selected-skill:active {
+    background-color: #950000 !important;
+    border-color: #740000 !important;
 }
