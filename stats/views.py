@@ -15,4 +15,5 @@ def dashboard(request):
         "lessons": Lesson.objects.all(),
         "skills": Skill.objects.all(),
         "skills_with_khan_ressources": Skill.objects.annotate(Count('khanacademyvideoskill')).filter(khanacademyvideoskill__count__gt=0),
+        "skills_with_sesamath_ressources": Skill.objects.annotate(Count('sesamathskill')).filter(sesamathskill__count__gt=0),
     })
