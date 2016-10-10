@@ -5,47 +5,61 @@
   %h2 Statistiques d'usage
   %hr
 
-  .panel.panel-default
-    .panel-heading
-      Statistiques générales
+  .row
+    .col-md-6
+      .panel.panel-default
+        .panel-heading
+          Statistiques générales
 
-    .panel-body
-      %p
-        %b Nombre de professeurs :
-        =professors.count
+        .panel-body
+          %p
+            %b Nombre de professeurs :
+            =professors.count
 
-      %p
-        %b Nombre d'élèves :
-        =students.count
+          %p
+            %b Nombre d'élèves :
+            =students.count
 
-      %p
-        %b Nombre de classes :
-        =lessons.count
+          %p
+            %b Nombre de classes :
+            =lessons.count
 
-  .panel.panel-default
-    .panel-heading
-      Par professeur
+      .panel.panel-default
+        .panel-heading
+          Par professeur
 
-    .panel-body
-      -for prof in professors
-        %p
-          %b= prof|capfirst
-          ({{ prof.students.count }} élèves)
-          :
-        %ul
-          -for lesson in prof.lesson_set.all
-            %li
-              %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-                =lesson
-              ({{ lesson.students.count }} élèves)
-              %ul
-                -for test in lesson.basetest_set.all
-                  %li
-                    -if test.test
-                      %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
-                        =test
-                      (test en ligne)
-                    -else
-                      %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
-                        =test
-                      (évaluation libre)
+        .panel-body
+          -for prof in professors
+            %p
+              %b= prof|capfirst
+              ({{ prof.students.count }} élèves)
+              :
+            %ul
+              -for lesson in prof.lesson_set.all
+                %li
+                  %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+                    =lesson
+                  ({{ lesson.students.count }} élèves)
+                  %ul
+                    -for test in lesson.basetest_set.all
+                      %li
+                        -if test.test
+                          %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+                            =test
+                          (test en ligne)
+                        -else
+                          %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+                            =test
+                          (évaluation libre)
+
+    .col-md-6
+      .panel.panel-default
+        .panel-heading
+          Ressources pédagogiques
+
+        .panel-body
+          %p
+            %b Khan Academy :
+            =skills_with_khan_ressources.count
+            \/
+            =skills.count
