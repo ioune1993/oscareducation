@@ -78,6 +78,7 @@
             %ul
               -for i in khanacademyvideoskill|slice:":10"
                 %li
+                  [<a href="{% url 'professor:skill_update_pedagogical_ressources' i.skill.code %}">{{ i.skill.code }}</a>]
                   %a{href: "i.url"}= i.reference.title|default:i.url
                   -if i.added_by
                     by
@@ -91,6 +92,7 @@
             %ul
               -for i in sesamathskill|slice:":10"
                 %li
+                  [<a href="{% url 'professor:skill_update_pedagogical_ressources' i.skill.code %}">{{ i.skill.code }}</a>]
                   %a{href: "i.reference.on_oscar"}= i.reference.title
                   -if i.added_by
                     by
