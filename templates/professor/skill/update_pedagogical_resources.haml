@@ -57,30 +57,7 @@
       %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
       .form-group
-        %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; width: 33%;"}
-          -regroup khanacademy_references by subject as subjects
-          -for subject in subjects
-            %li.dropdown-submenu
-              %a{tabindex: "-1", href: "#"}= subject.grouper
-              %ul.dropdown-menu
-                -regroup subject.list by topic as topics
-                -for topic in topics
-                  %li.dropdown-submenu
-                    %a{href: "#"}= topic.grouper
-                    %ul.dropdown-menu
-                      -for khan in topic.list
-                        %li
-                          %a{href: "javascript:selectKhanReference({{ khan.id }}, \"{{ khan.title }}\", \"https://fr.khanacademy.org/v/{{ khan.slug }}\")"}= khan.title
-
-          -for error in khanacademy_skill_form.ref_pk.errors
-            %span.help-block= error
-
-        %span.help-block= khanacademy_skill_form.errors
-
-      .form-group
-        .input-group
-          .input-group-addon Vidéo sélectionnée :
-          %input#khan_ref_pk_title.form-control{type: "text", value: "", name: "khan_ref_pk_title", disabled: None}
+        -bootstrap_form khanacademy_skill_form
 
       %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
 

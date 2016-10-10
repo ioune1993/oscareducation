@@ -452,7 +452,7 @@ def update_pedagogical_ressources(request, slug):
         khanacademy_skill_form = KhanAcademyVideoReferenceForm(request.POST)
 
         if khanacademy_skill_form.is_valid():
-            ref = KhanAcademyVideoReference.objects.get(id=khanacademy_skill_form.cleaned_data["ref_pk"])
+            ref = khanacademy_skill_form.reference
             KhanAcademyVideoSkill.objects.create(
                 youtube_id=ref.youtube_id,
                 url="https://fr.khanacademy.org/v/%s" % ref.slug,

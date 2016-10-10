@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill
+from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill, KhanAcademyVideoReference
 from examinations.models import BaseTest
 
 from .models import Lesson
@@ -89,7 +89,19 @@ class ExternalLinkSkillForm(forms.ModelForm):
 
 
 class KhanAcademyVideoReferenceForm(forms.Form):
-    ref_pk = forms.IntegerField()
+    url = forms.URLField()
+
+    def clean_url(self):
+        data = self.cleaned_data["url"]
+
+        slug = filter(None, data.split("/"))[-1]
+
+        try:
+            self.reference = KhanAcademyVideoReference.objects.get(slug=slug)
+        except KhanAcademyVideoReference.DoesNotExist:
+            raise forms.ValidationError(('Impossible de trouver la vidéo à cette page'), code='invalide')
+
+        return data
 
 
 class SesamathReferenceForm(forms.Form):
