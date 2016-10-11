@@ -335,13 +335,16 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
             # recursive walk and we want the resulting skills to match the teacher
             # input
             for result, student_skill in second_run:
+                if result not in ("god", "bad"):
+                    continue
+
                 if result == "god":
                     student_skill.acquired = datetime.now()
-                    student_skill.save()
                 elif result == "bad":
                     student_skill.acquired = None
                     student_skill.tested = datetime.now()
-                    student_skill.save()
+
+                student_skill.save()
 
         return HttpResponseRedirect(reverse('professor:lesson_test_list', args=(lesson.pk,)))
 
