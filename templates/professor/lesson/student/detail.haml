@@ -106,7 +106,7 @@
           -if student_skill.recommanded_to_learn
             %ul.legend-list
               %li.legend
-                %a.right-space{type: "button", style: "width: 75px; border: black solid;", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
+                %a.right-space{type: "button", style: "border: black solid;", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
                   =student_skill.skill.code
                 %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
                   {{ student_skill.skill.name }}
