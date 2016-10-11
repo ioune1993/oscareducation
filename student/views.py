@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 import json
 import random
 
@@ -111,10 +113,18 @@ def validate_exercice(request, test_student, test_exercice):
 
         if is_correct:
             answer.create_other_valide_answers()
-            student_skill.validate()
+            student_skill.validate(
+                who=request.user,
+                reason="Réponse à une question.",
+                reason_object=test_exercice,
+            )
         else:
             answer.create_other_invalide_answers()
-            student_skill.unvalidate()
+            student_skill.unvalidate(
+                who=request.user,
+                reason="Réponse à une question.",
+                reason_object=test_exercice,
+            )
 
     # update student skills, then redirect to self
     return HttpResponseRedirect(reverse("student_pass_test", args=(test_student.id,)))

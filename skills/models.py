@@ -66,7 +66,7 @@ class Skill(models.Model):
 class SkillHistory(models.Model):
     skill = models.ForeignKey(Skill)
     student = models.ForeignKey(Student)
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(auto_now_add=True)
     value = models.CharField(max_length=255, choices=(
         ('unknown', 'Inconnu'),
         ('acquired', 'Acquise'),
@@ -219,22 +219,49 @@ class StudentSkill(models.Model):
 
         traverse(self)
 
-    def validate(self):
+    def validate(self, who, reason, reason_object):
         def validate_student_skill(student_skill):
+            SkillHistory.objects.create(
+                skill=self.skill,
+                student=self.student,
+                value="acquired",
+                by_who=who,
+                reason=reason if student_skill == self else "Déterminé depuis une réponse précédente.",
+                reason_object=reason_object,
+            )
+
             student_skill.acquired = datetime.now()
             student_skill.save()
 
         self.go_down_visitor(validate_student_skill)
 
-    def unvalidate(self):
+    def unvalidate(self, who, reason, reason_object):
         def unvalidate_student_skill(student_skill):
+            SkillHistory.objects.create(
+                skill=self.skill,
+                student=self.student,
+                value="not acquired",
+                by_who=who,
+                reason=reason if student_skill == self else "Déterminé depuis une réponse précédente.",
+                reason_object=reason_object,
+            )
+
             student_skill.acquired = None
             student_skill.tested = datetime.now()
             student_skill.save()
 
         self.go_up_visitor(unvalidate_student_skill)
 
-    def default(self):
+    def default(self, who, reason, reason_object):
+        SkillHistory.objects.create(
+            skill=self.skill,
+            student=self.student,
+            value="unknown",
+            by_who=who,
+            reason=reason,
+            reason_object=reason_object,
+        )
+
         self.acquired = None
         self.tested = None
         self.save()

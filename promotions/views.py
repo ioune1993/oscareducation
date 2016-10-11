@@ -23,7 +23,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, SkillHistory
 from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
@@ -323,10 +323,15 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
                     skill=skill,
                 )
 
+                reasons = {
+                    "who": request.user,
+                    "reason": "Évaluation libre",
+                    "reason_object": test_from_class,
+                }
                 if result == "god":
-                    student_skill.validate()
+                    student_skill.validate(**reasons)
                 elif result == "bad":
-                    student_skill.unvalidate()
+                    student_skill.unvalidate(**reasons)
 
                 second_run.append([result, student_skill])
 
@@ -343,6 +348,15 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
                 elif result == "bad":
                     student_skill.acquired = None
                     student_skill.tested = datetime.now()
+
+                SkillHistory.objects.create(
+                    skill=student_skill.skill,
+                    student=student_skill.student,
+                    value="unknown",
+                    by_who=request.user,
+                    reason="Évaluation libre (seconde passe)",
+                    reason_object=test_from_class,
+                )
 
                 student_skill.save()
 
@@ -521,7 +535,11 @@ def validate_student_skill(request, lesson_pk, student_skill):
 
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
-    student_skill.validate()
+    student_skill.validate(
+        who=request.user,
+        reason="À la main par le professeur.",
+        reason_object=lesson,
+    )
 
     return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
 
@@ -534,7 +552,11 @@ def unvalidate_student_skill(request, lesson_pk, student_skill):
 
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
-    student_skill.unvalidate()
+    student_skill.unvalidate(
+        who=request.user,
+        reason="À la main par le professeur.",
+        reason_object=lesson,
+    )
 
     return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
 
@@ -547,7 +569,11 @@ def default_student_skill(request, lesson_pk, student_skill):
 
     student_skill = get_object_or_404(StudentSkill, id=student_skill)
 
-    student_skill.default()
+    student_skill.default(
+        who=request.user,
+        reason="À la main par le professeur.",
+        reason_object=lesson,
+    )
 
     return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
 
