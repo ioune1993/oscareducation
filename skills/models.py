@@ -5,6 +5,9 @@ from datetime import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
+
 
 from promotions.models import Student
 
@@ -58,6 +61,25 @@ class Skill(models.Model):
         to_return.append("style %s fill:#F58025;" % self.code)
 
         return to_return
+
+
+class SkillHistory(models.Model):
+    skill = models.ForeignKey(Skill)
+    student = models.ForeignKey(Student)
+    datetime = models.DateTimeField()
+    value = models.CharField(max_length=255, choices=(
+        ('unknown', 'Inconnu'),
+        ('acquired', 'Acquise'),
+        ('not acquired', 'None Acquise'),
+    ))
+
+    content_type = models.ForeignKey(ContentType)
+    object_id = models.PositiveIntegerField()
+    reason_object = GenericForeignKey('content_type', 'object_id')
+    reason = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ['datetime']
 
 
 class PedagogicalRessource(models.Model):
