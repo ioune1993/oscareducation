@@ -78,6 +78,8 @@ class SkillHistory(models.Model):
     reason_object = GenericForeignKey('content_type', 'object_id')
     reason = models.CharField(max_length=255)
 
+    by_who = models.ForeignKey(User)
+
     class Meta:
         ordering = ['datetime']
 
