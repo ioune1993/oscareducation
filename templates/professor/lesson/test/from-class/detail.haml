@@ -17,7 +17,7 @@
     .pull-right
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
-          remplir
+          l'encoder
       %td.center{width: "20px"}
         %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk object.pk %}"}
           modifier
@@ -59,6 +59,6 @@
             %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
 
   -else
-    %p Vous n'avez pas encore rempli cette évaluation libre.
+    %p Vous n'avez pas encore encodé cette évaluation libre.
     %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
       Le faire maintenant.

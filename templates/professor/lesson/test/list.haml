@@ -55,11 +55,11 @@
                 =basetest
               -if not basetest.testfromclass.testskillfromclass_set.exists
                 %span.label.label-warning
-                  pas encore rempli
+                  pas encore encodé
             %td.center{width: "20px"}
               -if not basetest.testfromclass.testskillfromclass_set.exists
                 %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
-                  Remplir
+                  L'encoder
             %td.center{width: "20px"}
               %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
                 Modifier
