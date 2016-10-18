@@ -92,7 +92,7 @@ class KhanAcademyVideoReferenceForm(forms.Form):
     url = forms.URLField()
 
     def clean_url(self):
-        data = self.cleaned_data["url"]
+        data = self.cleaned_data["url"].split("?")[0]
 
         slug = filter(None, data.split("/"))[-1]
 
