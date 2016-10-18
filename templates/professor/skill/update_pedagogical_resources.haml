@@ -43,6 +43,8 @@
 
   .well
     %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+    %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+      aller sur la section math
 
     %ul
       -for video in object.khanacademyvideoskill_set.all
