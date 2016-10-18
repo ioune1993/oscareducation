@@ -79,6 +79,8 @@
 
   .well
     %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+    %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
+      aller sur la section manuels et cahiers
 
     %ul
       -for sesamath in object.sesamathskill_set.all
