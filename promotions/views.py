@@ -14,7 +14,7 @@ from base64 import b64encode
 from requests.auth import HTTPBasicAuth
 
 from django.conf import settings
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -23,7 +23,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, SkillHistory
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, SkillHistory, VideoSkill, ExerciceSkill, ExternalLinkSkill
 from examinations.models import Test, TestStudent, Exercice, TestFromClass, TestSkillFromClass, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
@@ -525,6 +525,36 @@ def update_pedagogical_ressources(request, slug):
         "synthese_form": synthese_form,
         "object": skill,
     })
+
+
+@user_is_professor
+def remove_pedagogical_ressources(request, kind, id):
+    kind_to_model = {
+        "video": VideoSkill,
+        "sesamath": SesamathSkill,
+        "khanacademy": KhanAcademyVideoSkill,
+        "exercice": ExerciceSkill,
+        "external_link": ExternalLinkSkill,
+    }
+
+    if kind not in kind_to_model:
+        return HttpResponseBadRequest()
+
+    model = kind_to_model[kind]
+
+    if not model.objects.filter(id=id):
+        return HttpResponseBadRequest()
+
+    object = model.objects.get(id=id)
+
+    if object.added_by != request.user:
+        return HttpResponseForbidden()
+
+    skill = object.skill
+
+    object.delete()
+
+    return HttpResponseRedirect(reverse("professor:skill_update_pedagogical_ressources", args=(skill.code,)))
 
 
 @require_POST

@@ -54,8 +54,9 @@
 
           -if video.added_by == request.user
             \-
-            %form.remove-form{method: "POST"}
-              %button.btn.btn-danger.btn-xs{href: ""}
+            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs{type: "submit"}
                 supprimer
 
     %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
