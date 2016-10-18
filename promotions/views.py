@@ -461,7 +461,7 @@ def update_pedagogical_ressources(request, slug):
         video_skill_form = VideoSkillForm(request.POST)
         if video_skill_form.is_valid():
             r = video_skill_form.save()
-            r.add_by = request.user
+            r.added_by = request.user
             r.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
@@ -487,6 +487,7 @@ def update_pedagogical_ressources(request, slug):
             SesamathSkill.objects.create(
                 skill=skill,
                 reference=ref,
+                added_by=request.user,
             )
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
@@ -494,7 +495,7 @@ def update_pedagogical_ressources(request, slug):
         exercice_skill_form = ExerciceSkillForm(request.POST, request.FILES)
         if exercice_skill_form.is_valid():
             r = exercice_skill_form.save()
-            r.add_by = request.user
+            r.added_by = request.user
             r.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
@@ -502,7 +503,7 @@ def update_pedagogical_ressources(request, slug):
         external_link_skill_form = ExternalLinkSkillForm(request.POST)
         if external_link_skill_form.is_valid():
             r = external_link_skill_form.save()
-            r.add_by = request.user
+            r.added_by = request.user
             r.save()
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
