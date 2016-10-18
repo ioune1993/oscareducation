@@ -50,6 +50,12 @@
           %a{href: "{{ video.url }}", target: "_blank"}
             =video.reference.title|default:video.url
 
+          -if video.added_by == request.user
+            \-
+            %form.remove-form{method: "POST"}
+              %button.btn.btn-danger.btn-xs{href: ""}
+                supprimer
+
     %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
       -csrf_token
 
@@ -400,6 +406,10 @@
     }
     .dropdown-menu > li > a {
       white-space: normal;
+    }
+
+    .remove-form {
+      display: inline;
     }
 
 -block javascript
