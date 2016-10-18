@@ -34,8 +34,14 @@ class Command(BaseCommand):
                     print file_name, row["Emplacement sur site Oscar"], check.status_code
                     continue
 
+                on_oscar = row["Emplacement sur site Oscar"].replace("http", "https", 1) if row["Emplacement sur site Oscar"].startswith("http:") else row["Emplacement sur site Oscar"]
+
                 if SesamathReference.objects.filter(on_oscar=row["Emplacement sur site Oscar"]):
                     ref = SesamathReference.objects.get(on_oscar=row["Emplacement sur site Oscar"])
+                    if ref.on_oscar.startswith("http:"):
+                        ref.on_oscar = ref.on_oscar.replace("http", "https", 1)
+                elif SesamathReference.objects.filter(on_oscar=on_oscar):
+                    ref = SesamathReference.objects.get(on_oscar=on_oscar)
                 else:
                     ref = SesamathReference(on_oscar=row["Emplacement sur site Oscar"])
 
