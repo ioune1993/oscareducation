@@ -89,6 +89,13 @@
           %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
             =sesamath.reference.title
 
+          -if sesamath.added_by == request.user
+            \-
+            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs{type: "submit"}
+                supprimer
+
     %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
       -csrf_token
 
