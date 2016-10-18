@@ -255,6 +255,12 @@
             \-
             %a{href: "{{ MEDIA_URL }}{{ exercice.answers }}"}
               réponses
+          -if exercice.added_by == request.user
+            \-
+            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'exercice' exercice.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs{type: "submit"}
+                supprimer
 
     %form#exercice-form{method: "POST", style: "{% if not exercice_skill_form.errors %}display: none{% endif %}", enctype: "multipart/form-data"}
       -csrf_token
