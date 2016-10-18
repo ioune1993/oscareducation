@@ -327,6 +327,12 @@
           \-
           difficulté:
           =external_link.difficulty
+          -if external_link.added_by == request.user
+            \-
+            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'external_link' external_link.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs{type: "submit"}
+                supprimer
 
     %form#external-link-form{method: "POST", style: "{% if not external_link_skill_form.errors %}display: none{% endif %}"}
       -csrf_token
