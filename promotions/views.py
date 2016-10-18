@@ -539,16 +539,19 @@ def remove_pedagogical_ressources(request, kind, id):
     }
 
     if kind not in kind_to_model:
+        print "kind not in models list"
         return HttpResponseBadRequest()
 
     model = kind_to_model[kind]
 
     if not model.objects.filter(id=id):
+        print "object doesn't exist in db for %s:%s" % (kind, id)
         return HttpResponseBadRequest()
 
     object = model.objects.get(id=id)
 
     if object.added_by != request.user:
+        print "'%s' didn't added '%s', '%s' did" % (request.user, object, object.added_by)
         return HttpResponseForbidden()
 
     skill = object.skill
