@@ -145,9 +145,15 @@ class SesamathReference(models.Model):
     file_name = models.CharField(max_length=255)
     on_oscar = models.URLField(unique=True)
 
+    def ressource_kind_with_year(self):
+        if self.year:
+            return u"%s - %s" % (self.year, self.ressource_kind)
+        return self.ressource_kind
+
     class Meta:
         ordering = [
             'classe_int',
+            'year',
             'ressource_kind',
             'chapitre',
             'section_kind',

@@ -107,7 +107,7 @@
             %li.dropdown-submenu
               %a{tabindex: "-1", href: "#"}= classe.grouper
               %ul.dropdown-menu
-                -regroup classe.list by ressource_kind as ressource_kinds
+                -regroup classe.list by ressource_kind_with_year as ressource_kinds
                 -for ressource_kind in ressource_kinds
                   %li.dropdown-submenu
                     %a{href: "#"}= ressource_kind.grouper
@@ -120,9 +120,6 @@
                             -for ref in chapitre.list
                               %li
                                 %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
-                                  -if ref.year
-                                    =ref.year
-                                    \-
                                   -if ref.section_kind and ref.section_kind != "-"
                                     [{{ ref.section_kind.strip }}]
                                   =ref.title
