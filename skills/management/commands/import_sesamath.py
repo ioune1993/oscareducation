@@ -7,9 +7,12 @@ from django.core.management.base import BaseCommand
 from skills.models import SesamathReference
 
 classe_to_digit = {
+   "Premi\xc3\xa8re professionnelle": 2,
+   "Seconde professionnelle": 2,
    "Seconde": 2,
    "Troisième": 3,
    "Quatrième": 4,
+   "Cycle 4 (ann\xc3\xa9es 5, 4 et 3)": 4,
    "Cinquième": 5,
    'Sixi\xc3\xa8me': 6,
    'Cm2': 7,
