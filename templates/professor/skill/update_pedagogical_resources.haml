@@ -114,12 +114,12 @@
                     %ul.dropdown-menu
                       -regroup ressource_kind.list by chapitre as chapitres
                       -for chapitre in chapitres
-                        %li.dropdown-submenu
-                          %a{href: "#"}= chapitre.grouper
-                          %ul.dropdown-menu
                             -for ref in chapitre.list
                               %li
                                 %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
+                                  -if chapitre.grouper
+                                    =chapitre.grouper
+                                    \-
                                   -if ref.section_kind and ref.section_kind != "-"
                                     [{{ ref.section_kind.strip }}]
                                   =ref.title
