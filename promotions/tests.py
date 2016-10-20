@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from promotions.models import Professor
+from promotions.models import Professor, Student
 
 
 class PermissionsTest(TestCase):
@@ -9,6 +9,11 @@ class PermissionsTest(TestCase):
         prof.set_password("1234")
         prof.save()
         self.prof = Professor.objects.create(user=prof)
+
+        student = User.objects.create(username="student")
+        student.set_password("1234")
+        student.save()
+        self.prof = Student.objects.create(user=student)
 
     def test_unlogged_go_to_homepage(self):
         c = Client()
@@ -23,3 +28,10 @@ class PermissionsTest(TestCase):
 
         response = c.get("/")
         self.assertEqual(response.url, 'http://testserver/professor/dashboard/')
+
+    def test_redirect_student(self):
+        c = Client()
+        c.login(username="student", password="1234")
+
+        response = c.get("/")
+        self.assertEqual(response.url, 'http://testserver/student/dashboard/')
