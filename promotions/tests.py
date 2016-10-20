@@ -1,3 +1,10 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 
-# Create your tests here.
+
+class PermissionsTest(TestCase):
+    def test_unlogged_go_to_homepage(self):
+        c = Client()
+
+        response = c.get("/")
+        assert response.url == 'http://testserver/accounts/login/'
+        assert response.status_code == 302
