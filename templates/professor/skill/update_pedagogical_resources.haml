@@ -101,7 +101,7 @@
       %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
       .form-group
-        %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; width: 180px;"}
+        %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 33%;"}
           -regroup sesamath_references by classe as classes
           -for classe in classes
             %li.dropdown-submenu
@@ -398,7 +398,8 @@
 
     .dropdown-menu {
       float: none;
-      min-width: 300px;
+      max-width: 100%;
+      width: 5000px;
     }
     .dropdown-submenu {
         position:relative;
