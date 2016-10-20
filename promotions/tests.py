@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from promotions.models import Professor, Student
+from django.core.urlresolvers import reverse
 
 
 class PermissionsTest(TestCase):
@@ -35,3 +36,17 @@ class PermissionsTest(TestCase):
 
         response = c.get("/")
         self.assertEqual(response.url, 'http://testserver/student/dashboard/')
+
+
+class PageLoadTest(TestCase):
+    def setUp(self):
+        prof = User.objects.create(username="professor")
+        prof.set_password("1234")
+        prof.save()
+        self.prof = Professor.objects.create(user=prof)
+
+        self.c = Client()
+        self.c.login(username="professor", password="1234")
+
+    def test_static_pages_load(self):
+        self.assertEqual(self.c.get(reverse("professor:dashboard")).status_code, 200)
