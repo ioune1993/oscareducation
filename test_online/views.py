@@ -10,7 +10,7 @@ from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from skills.models import Skill, StudentSkill
+from skills.models import Skill
 from examinations.models import Test
 
 from promotions.models import Lesson
