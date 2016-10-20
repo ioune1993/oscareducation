@@ -35,16 +35,8 @@ from .utils import generate_random_password, user_is_professor
 
 @user_is_professor
 def dashboard(request):
-    form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
-
-    if form.is_valid():
-        lesson = form.save()
-        lesson.professors.add(request.user.professor)
-        return HttpResponseRedirect(reverse("professor:dashboard"))
-
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")),
-        "add_lesson_form": form,
     })
 
 
