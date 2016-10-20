@@ -1,7 +1,9 @@
 # encoding: utf-8
 
+import sys
 import json
 import requests
+import traceback
 
 import yaml
 import ruamel.yaml
@@ -59,31 +61,36 @@ def lesson_detail(request, pk):
     skills_to_heatmap_class = {}
 
     if lesson.students.count():
-        skills = []
-        for stage in lesson.stages_in_unchronological_order():
-            skills.extend([x for x in stage.skills.all().order_by('-code')])
+        try:
+            skills = []
+            for stage in lesson.stages_in_unchronological_order():
+                skills.extend([x for x in stage.skills.all().order_by('-code')])
 
-        for skill in skills:
-            mastered = len([x for x in skill_to_student_skill[skill] if x.acquired])
-            not_mastered = len([x for x in skill_to_student_skill[skill] if not x.acquired and x.tested])
-            total = mastered + not_mastered
+            for skill in skills:
+                mastered = len([x for x in skill_to_student_skill[skill] if x.acquired])
+                not_mastered = len([x for x in skill_to_student_skill[skill] if not x.acquired and x.tested])
+                total = mastered + not_mastered
 
-            # normally number_of_students will never be equal to 0 in this loop
-            if total == 0:
-                skill.heatmap_class = "mastered_not_enough"
-                continue
+                # normally number_of_students will never be equal to 0 in this loop
+                if total == 0:
+                    skill.heatmap_class = "mastered_not_enough"
+                    continue
 
 
-            percentage = (float(mastered) / total) if total else 0
+                percentage = (float(mastered) / total) if total else 0
 
-            if percentage < 0.25:
-                skills_to_heatmap_class[skill] = "mastered_25"
-            elif percentage < 0.5:
-                skills_to_heatmap_class[skill] = "mastered_50"
-            elif percentage < 0.75:
-                skills_to_heatmap_class[skill] = "mastered_75"
-            else:
-                skills_to_heatmap_class[skill] = "mastered_100"
+                if percentage < 0.25:
+                    skills_to_heatmap_class[skill] = "mastered_25"
+                elif percentage < 0.5:
+                    skills_to_heatmap_class[skill] = "mastered_50"
+                elif percentage < 0.75:
+                    skills_to_heatmap_class[skill] = "mastered_75"
+                else:
+                    skills_to_heatmap_class[skill] = "mastered_100"
+        except Exception as e:
+            traceback.print_exc(file=sys.stdout)
+            print e
+            print "Error: could no calculate heatmap"
 
 
     return render(request, "professor/lesson/detail.haml", {
