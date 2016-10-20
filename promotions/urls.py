@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from django.views.generic import DetailView, ListView
 
 from skills.models import Skill
@@ -7,7 +7,7 @@ from .models import Stage
 
 from .utils import user_is_professor
 
-from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, BaseTestDelete, TestDetailView, TestFromClassDetailView
+from .cbgv import LessonStudentListView, StudentDelete, LessonDelete, BaseTestDelete
 
 
 urlpatterns = patterns('promotions.views',
@@ -31,16 +31,8 @@ urlpatterns = patterns('promotions.views',
     url(r'^lesson/(?P<lesson_pk>\d+)/test/(?P<pk>\d+)/delete/$', user_is_professor(BaseTestDelete.as_view()), name='lesson_test_delete'),
 
     # TODO: professor can only see his tests
-    url(r'^lesson/(?P<pk>\d+)/test/online/add/$', 'lesson_test_online_add', name='lesson_test_online_add'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/$', user_is_professor(TestDetailView.as_view()), name='lesson_test_online_detail'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/test/online/(?P<pk>\d+)/close/$', 'lesson_test_online_close_open', name='lesson_test_online_close_open'),
-    url(r'^add_test_for_lesson/$', 'lesson_test_add_json', name='lesson_test_add'),
-
-    url(r'^lesson/(?P<pk>\d+)/test/from-class/add/$', 'lesson_test_from_class_add', name='lesson_test_from_class_add'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/test/from-class/(?P<pk>\d+)/fill/$', 'lesson_test_from_class_fill', name='lesson_test_from_class_fill'),
-    url(r'^lesson/(?P<lesson_pk>\d+)/test/from-class/(?P<pk>\d+)/$', user_is_professor(TestFromClassDetailView.as_view()), name='lesson_test_from_class_detail'),
-    url(r'^add_test_from_class_for_lesson/$', 'lesson_test_from_class_add_json', name='lesson_test_from_class_add_json'),
-
+    url(r'^', include('test_online.urls')),
+    url(r'^', include('test_from_class.urls')),
 
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>.+)/$', 'lesson_skill_detail', name='lesson_skill_detail'),
 
