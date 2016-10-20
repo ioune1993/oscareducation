@@ -74,7 +74,7 @@ def lesson_detail(request, pk):
                 continue
 
 
-            percentage = float(mastered) / total if total else 0
+            percentage = (float(mastered) / total) if total else 0
 
             if percentage < 0.25:
                 skills_to_heatmap_class[skill] = "mastered_25"
