@@ -117,7 +117,7 @@
               mis en ligne par
               =gr.added_by
               -if gr.added_by == request.user
-                %a.btn.btn-xs.btn-danger{href: "{% url 'professor:global_resources_delete' gr.pk %}"}
+                %a.btn.btn-xs.btn-danger.remove-global-resource{href: "{% url 'professor:global_resources_delete' gr.pk %}"}
                   supprimer
 
         #global_resources_form{style: "display: none"}
@@ -142,3 +142,12 @@
       text-shadow: 0 0 4px rgba(1, 1, 1, 0.3);
       margin-top: 0px;
     }
+
+-block javascript
+  :javascript
+    $(".remove-global-resource").click(function(event) {
+      var yes = confirm("Êtes-vous sûr de vouloir supprimer cette ressource ?");
+      if (yes != true) {
+        event.preventDefault();
+      }
+    })
