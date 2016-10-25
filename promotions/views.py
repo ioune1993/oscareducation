@@ -762,3 +762,14 @@ def contribute_page(request):
         return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")
 
     return render(request, "professor/skill/list.haml", data)
+
+
+def global_resources_delete(request, pk):
+    gr = get_object_or_404(GlobalResources, pk=pk)
+
+    if request.user != gr.added_by:
+        raise PermissionDenied()
+
+    gr.delete()
+
+    return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")

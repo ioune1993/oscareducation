@@ -116,6 +116,9 @@
                 =gr.title
               mis en ligne par
               =gr.added_by
+              -if gr.added_by == request.user
+                %a.btn.btn-xs.btn-danger{href: "{% url 'professor:global_resources_delete' gr.pk %}"}
+                  supprimer
 
         #global_resources_form{style: "display: none"}
           -crispy form

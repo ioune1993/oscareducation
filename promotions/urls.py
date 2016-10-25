@@ -42,6 +42,7 @@ urlpatterns = [
     url(r'^regenerate_student_password/$', views.regenerate_student_password, name='regenerate_student_password'),
 
     url(r'^skill/$', views.contribute_page, name='skill_list'),
+    url(r'^global_resources/(?P<pk>\d+)/delete/$', views.global_resources_delete, name='global_resources_delete'),
     url(r'^skill/(?P<slug>.+)/$', user_is_professor(DetailView.as_view(model=Skill, slug_field="code", template_name="professor/skill/detail.haml")), name='skill_detail'),
     url(r'^pedagogical/resource/remove/(?P<kind>\w+)/(?P<id>\d+)/$', views.remove_pedagogical_ressources, name='skill_remove_pedagogical_ressources'),
     url(r'^pedagogical/(?P<slug>.+)/$', views.update_pedagogical_ressources, name='skill_update_pedagogical_ressources'),
