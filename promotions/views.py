@@ -24,12 +24,12 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources
 from examinations.models import Test, TestStudent, Exercice, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
-from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm
+from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -745,6 +745,20 @@ def exercice_validation_form_pull_request_yaml(request):
 
 @user_is_professor
 def contribute_page(request):
-    stages = {x.short_name: x for x in Stage.objects.all()}
+    data = {x.short_name: x for x in Stage.objects.all()}
 
-    return render(request, "professor/skill/list.haml", stages)
+    if request.method == "POST":
+        form = GlobalResourcesForm(request.POST, request.FILES)
+    else:
+        form = GlobalResourcesForm()
+
+    data["form"] = form
+    data["global_resources"] = GlobalResources.objects.all()
+
+    if request.method == "POST" and form.is_valid():
+        gr = form.save()
+        gr.added_by = request.user
+        gr.save()
+        return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")
+
+    return render(request, "professor/skill/list.haml", data)

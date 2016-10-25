@@ -282,3 +282,13 @@ class StudentSkill(models.Model):
                 return False
 
         return True
+
+
+class GlobalResources(models.Model):
+    title = models.CharField(max_length=255, verbose_name="titre")
+    file = models.FileField(verbose_name="fichier")
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    added_by = models.ForeignKey(User, null=True)

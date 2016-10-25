@@ -1,10 +1,13 @@
 # encoding: utf-8
 
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Submit, Layout, Div, Field, ButtonHolder
+
 from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill, KhanAcademyVideoReference
+from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill, KhanAcademyVideoReference, GlobalResources
 from examinations.models import BaseTest
 
 from .models import Lesson
@@ -110,3 +113,24 @@ class SesamathReferenceForm(forms.Form):
 
 class SyntheseForm(forms.Form):
     synthese = forms.CharField()
+
+
+class GlobalResourcesForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(GlobalResourcesForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+        self.helper.layout = Layout(
+            Div(
+                Div('title', css_class="col-md-6"),
+                Div('file', css_class="col-md-6"),
+                css_class="row",
+            ),
+            ButtonHolder(
+                Submit('submit', 'Envoyer'),
+            )
+        )
+
+    class Meta:
+        model = GlobalResources
+        fields = ('title', 'file',)

@@ -1,4 +1,5 @@
 -extends "base.haml"
+-load crispy_forms_tags
 
 -block content
   %ol.breadcrumb
@@ -100,6 +101,21 @@
 
           -with stage=6tg title="Sixième année - TG6"
             -include "professor/skill/list/panel.haml"
+
+    .panel.panel-default
+      #global_resources.panel-heading
+        Ressources générales
+
+      .panel-body
+        %ul
+          -for gr in global_resources
+            %li
+              %a{href: "{{ MEDIA_URL }}{{ gr.file }}"}
+                =gr.title
+              mis en ligne par
+              =gr.added_by
+
+        -crispy form
 
   :css
     .exercices {
