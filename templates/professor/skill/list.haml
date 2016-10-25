@@ -115,7 +115,11 @@
               mis en ligne par
               =gr.added_by
 
-        -crispy form
+        #global_resources_form{style: "display: none"}
+          -crispy form
+
+        %button#global_resources_form_show.btn.btn-primary{onclick: "javascript:$(\"#global_resources_form\").show(); $(\"#global_resources_form_show\").hide()"}
+          Rajouter une ressource générale
 
   :css
     .exercices {
