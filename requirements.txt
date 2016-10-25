@@ -9,3 +9,4 @@ pyyaml
 yamlordereddictloader
 requests
 ruamel.yaml
+django-crispy-forms

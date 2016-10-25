@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'debug_toolbar',
     'django_pdb',
+    'crispy_forms',
     'oscar',  # hack: add self for tempaltes dir
     'promotions',
     'skills',
@@ -126,6 +127,8 @@ STATIC_URL = '/static/'
 MEDIA_URL  = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 try:
     from settings_local import *
