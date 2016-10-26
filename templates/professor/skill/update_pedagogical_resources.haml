@@ -22,6 +22,9 @@
     .col-md-6
       .well
         %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+        %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
+          Ajouter une vidéo
+
         %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
           aller sur la section math
 
@@ -52,12 +55,12 @@
           %p
             %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-        %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-          Ajouter une vidéo
-
     .col-md-6
       .well
         %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+        %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
+          Ajouter une ressource
+
         %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
           aller sur la section manuels et cahiers
 
@@ -131,11 +134,11 @@
           .form-group
             %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-        %button.show-form.btn.btn-primary{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
-          Ajouter une ressource
-
   .well
     %h3 Synthèse <span style="color: #F58025">O</span>scar
+      %button.show-synthese-form.btn.btn-primary.btn-sm{data-target: "#synthese-form"}
+        Modifier
+
 
     %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}"}
       -csrf_token
@@ -156,9 +159,6 @@
     %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
       .synthese
         =object.oscar_synthese|default:""|safe
-
-      %button.show-synthese-form.btn.btn-primary{data-target: "#synthese-form"}
-        Modifier
 
   .well
     %h3 Exercices
