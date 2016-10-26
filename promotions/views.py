@@ -29,7 +29,7 @@ from examinations.models import Test, TestStudent, Exercice, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
-from .forms import LessonForm, StudentAddForm, VideoSkillForm, ExternalLinkSkillForm, ExerciceSkillForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm
 from .utils import generate_random_password, user_is_professor
 
 

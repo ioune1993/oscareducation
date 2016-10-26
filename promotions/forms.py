@@ -7,7 +7,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-from skills.models import VideoSkill, ExternalLinkSkill, ExerciceSkill, KhanAcademyVideoReference, GlobalResources
+from skills.models import KhanAcademyVideoReference, GlobalResources
 from examinations.models import BaseTest
 
 from .models import Lesson
@@ -71,24 +71,6 @@ class TestUpdateForm(forms.ModelForm):
     class Meta:
         model = BaseTest
         fields = ['name']
-
-
-class VideoSkillForm(forms.ModelForm):
-    class Meta:
-        model = VideoSkill
-        fields = ['skill', 'title', 'duration', 'difficulty', 'url']
-
-
-class ExerciceSkillForm(forms.ModelForm):
-    class Meta:
-        model = ExerciceSkill
-        fields = ['skill', 'title', 'duration', 'difficulty', 'questions', 'answers']
-
-
-class ExternalLinkSkillForm(forms.ModelForm):
-    class Meta:
-        model = ExternalLinkSkill
-        fields = ['skill', 'title', 'duration', 'difficulty', 'url']
 
 
 class KhanAcademyVideoReferenceForm(forms.Form):
