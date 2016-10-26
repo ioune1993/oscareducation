@@ -292,3 +292,39 @@ class GlobalResources(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     added_by = models.ForeignKey(User, null=True)
+
+
+class Resource(models.Model):
+    skill = models.ForeignKey(Skill)
+
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255, null=True, blank=True)
+
+    kind = models.CharField(max_length=255)
+
+    text = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    added_by = models.ForeignKey(User, null=True)
+
+
+class ResourcePart(models.Model):
+    resource = models.ForeignKey(Resource)
+    kind = models.CharField(max_length=255)
+
+    title = models.CharField(max_length=255, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
+
+    added_by = models.ForeignKey(User, null=True)
+
+
+class ResourceLink(ResourcePart):
+    link = models.URLField()
+
+
+class ResourceFile(models.Model):
+    file = models.FileField()
