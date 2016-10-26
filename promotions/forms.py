@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Div, Field, ButtonHolder
+from crispy_forms.layout import Submit, Layout, Div, ButtonHolder
 
 from django import forms
 from django.contrib.auth.models import User
