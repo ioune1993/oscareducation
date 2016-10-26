@@ -16,6 +16,125 @@
   %hr
 
   .well
+    %h3 Ressources
+
+  .row
+    .col-md-6
+      .well
+        %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+        %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+          aller sur la section math
+
+        %ul
+          -for video in object.khanacademyvideoskill_set.all
+            %li
+              %a{href: "{{ video.url }}", target: "_blank"}
+                =video.reference.title|default:video.url
+
+              -if video.added_by == request.user
+                \-
+                %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
+                  -csrf_token
+                  %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                    supprimer
+
+        %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
+          -csrf_token
+
+          %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
+          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+
+          .form-group
+            -bootstrap_form khanacademy_skill_form
+
+          %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+
+          %p
+            %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
+        %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
+          Ajouter une vidéo
+
+    .col-md-6
+      .well
+        %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+        %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
+          aller sur la section manuels et cahiers
+
+        %ul
+          -for sesamath in object.sesamathskill_set.all
+            %li
+              %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
+                =sesamath.reference.title
+
+              -if sesamath.added_by == request.user
+                \-
+                %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
+                  -csrf_token
+                  %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                    supprimer
+
+        %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
+          -csrf_token
+
+          %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
+          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+
+          .form-group
+            %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 33%;"}
+              -regroup sesamath_references by classe as classes
+              -for classe in classes
+                %li.dropdown-submenu
+                  %a{tabindex: "-1", href: "#"}= classe.grouper
+                  %ul.dropdown-menu
+                    -regroup classe.list by ressource_kind_with_year as ressource_kinds
+                    -for ressource_kind in ressource_kinds
+                      %li.dropdown-submenu
+                        %a{href: "#"}= ressource_kind.grouper
+                        %ul.dropdown-menu
+                          -regroup ressource_kind.list by chapitre as chapitres
+                          -for chapitre in chapitres
+                                -for ref in chapitre.list
+                                  %li
+                                    %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
+                                      -if chapitre.grouper
+                                        =chapitre.grouper
+                                        \-
+                                      -if ref.section_kind and ref.section_kind != "-"
+                                        [{{ ref.section_kind.strip }}]
+                                      =ref.title
+
+              -for error in sesamath_reference_form.ref_pk.errors
+                %span.help-block= error
+
+            %span.help-block= sesamath_reference_form.errors
+
+          .form-group
+            .input-group
+              .input-group-addon Ressource sélectionnée :
+              %input#ref_pk_title.form-control{type: "text", value: "", name: "ref_pk_title", disabled: None}
+
+          %input#ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+
+          #sesamath_pdf.panel.panel-default{style: "display: none"}
+            .panel-heading
+              Aperçu
+            .panel-body
+              %object{data: "", type: "application/pdf", width: "100%", height: "600px"}
+                %iframe{src: "", style: "border: none;", width: "100%", height: "600px"}
+                  Votre navigateur ne permet pas de voir des fichiers PDFs, 
+                  %a{href: "/pdf/sample-3pp.pdf"}
+                    télécharger le PDF pour le voir
+                .
+
+
+          .form-group
+            %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
+        %button.show-form.btn.btn-primary{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
+          Ajouter une ressource
+
+  .well
     %h3 Synthèse <span style="color: #F58025">O</span>scar
 
     %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}"}
@@ -42,346 +161,11 @@
         Modifier
 
   .well
-    %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-    %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-      aller sur la section math
-
-    %ul
-      -for video in object.khanacademyvideoskill_set.all
-        %li
-          %a{href: "{{ video.url }}", target: "_blank"}
-            =video.reference.title|default:video.url
-
-          -if video.added_by == request.user
-            \-
-            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
-              -csrf_token
-              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                supprimer
-
-    %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
-      -csrf_token
-
-      %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-
-      .form-group
-        -bootstrap_form khanacademy_skill_form
-
-      %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
-
-      %p
-        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-    %button.show-form.btn.btn-primary{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-      Ajouter une vidéo
-
-  .well
-    %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
-    %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
-      aller sur la section manuels et cahiers
-
-    %ul
-      -for sesamath in object.sesamathskill_set.all
-        %li
-          %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
-            =sesamath.reference.title
-
-          -if sesamath.added_by == request.user
-            \-
-            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
-              -csrf_token
-              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                supprimer
-
-    %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
-      -csrf_token
-
-      %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-
-      .form-group
-        %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 33%;"}
-          -regroup sesamath_references by classe as classes
-          -for classe in classes
-            %li.dropdown-submenu
-              %a{tabindex: "-1", href: "#"}= classe.grouper
-              %ul.dropdown-menu
-                -regroup classe.list by ressource_kind_with_year as ressource_kinds
-                -for ressource_kind in ressource_kinds
-                  %li.dropdown-submenu
-                    %a{href: "#"}= ressource_kind.grouper
-                    %ul.dropdown-menu
-                      -regroup ressource_kind.list by chapitre as chapitres
-                      -for chapitre in chapitres
-                            -for ref in chapitre.list
-                              %li
-                                %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
-                                  -if chapitre.grouper
-                                    =chapitre.grouper
-                                    \-
-                                  -if ref.section_kind and ref.section_kind != "-"
-                                    [{{ ref.section_kind.strip }}]
-                                  =ref.title
-
-          -for error in sesamath_reference_form.ref_pk.errors
-            %span.help-block= error
-
-        %span.help-block= sesamath_reference_form.errors
-
-      .form-group
-        .input-group
-          .input-group-addon Ressource sélectionnée :
-          %input#ref_pk_title.form-control{type: "text", value: "", name: "ref_pk_title", disabled: None}
-
-      %input#ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
-
-      #sesamath_pdf.panel.panel-default{style: "display: none"}
-        .panel-heading
-          Aperçu
-        .panel-body
-          %object{data: "", type: "application/pdf", width: "100%", height: "600px"}
-            %iframe{src: "", style: "border: none;", width: "100%", height: "600px"}
-              Votre navigateur ne permet pas de voir des fichiers PDFs, 
-              %a{href: "/pdf/sample-3pp.pdf"}
-                télécharger le PDF pour le voir
-            .
-
-
-      .form-group
-        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-    %button.show-form.btn.btn-primary{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
-      Ajouter une ressource
-
-  .well
-    %h3 Vidéos
-
-    %ul
-      -for video in object.videoskill_set.all
-        %li
-          %a{href: "{{ video.url }}"}
-            =video.title
-          \-
-          =video.duration
-          \-
-          difficulté:
-          =video.difficulty
-          -if video.added_by == request.user
-            \-
-            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'video' video.id %}"}
-              -csrf_token
-              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                supprimer
-
-
-    %form#video-form{method: "POST", style: "{% if not video_skill_form.errors %}display: none{% endif %}"}
-      -csrf_token
-
-      %input{type: "hidden", value: "video_skill", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-
-      .row
-        .col-md-6
-          .form-group{class: "{% if video_skill_form.title.errors %}has-error{% elif video_skill_form.data and video_skill_form.title %}has-success{% endif %}"}
-            %label.control-label{for: "id_title"}
-              Titre
-            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: '{{ video_skill_form.title.value|default:"" }}'}
-            -for error in video_skill_form.title.errors
-              %span.help-block= error
-
-        .col-md-6
-          %div{class: "form-group {% if video_skill_form.url.errors %}has-error{% elif video_skill_form.data and video_skill_form.url %}has-success{% endif %}"}
-            %label.control-label{for: "id_url"}
-              Page de la vidéo
-            %input#id_url.form-control{type: "text", required: "", placeholder: "Page de la vidéo", name: "url", value: '{{ video_skill_form.url.value|default:"" }}'}
-            -for error in video_skill_form.url.errors
-              %span.help-block= error
-
-      .row
-        .col-md-6
-          .form-group{class: "{% if video_skill_form.duration.errors %}has-error{% elif video_skill_form.data and video_skill_form.duration %}has-success{% endif %}"}
-            %label.control-label{for: "id_duration"}
-              Durée (en minutes)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minutes)", name: "duration", value: '{{ video_skill_form.duration.value|default:"" }}'}
-            -for error in video_skill_form.duration.errors
-              %span.help-block= error
-
-        .col-md-6
-          .form-group{class: "{% if video_skill_form.difficulty.errors %}has-error{% elif video_skill_form.data and video_skill_form.difficulty %}has-success{% endif %}"}
-            %label.control-label{for: "id_difficulty"}
-              Difficulté
-
-            %br
-
-            %label.radio-inline
-              <input type="radio" required="required" name="difficulty" value="1" {% if video_skill_form.difficulty.data == "1" %}checked="checked"{% endif %}>1</input>
-            %label.radio-inline
-              <input type="radio" required="required" name="difficulty" value="2" {% if video_skill_form.difficulty.data == "2" %}checked="checked"{% endif %}>2</input>
-            %label.radio-inline
-              <input type="radio" required="required" name="difficulty" value="3" {% if video_skill_form.difficulty.data == "3" %}checked="checked"{% endif %}>3</input>
-
-            -for error in video_skill_form.difficulty.errors
-              %span.help-block= error
-
-
-      %p
-        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-    %button.show-form.btn.btn-primary{data-target: "#video-form", style: "{% if video_skill_form.errors %}display: none{% endif %}"}
-      Ajouter une vidéo
-
-  .well
     %h3 Exercices
 
-    %ul
-      -for exercice in object.exerciceskill_set.all
-        %li
-          %a{href: "{{ MEDIA_URL }}{{ exercice.questions }}"}
-            =exercice.title
-          \-
-          =exercice.duration
-          \-
-          difficulté:
-          =exercice.difficulty
-          -if exercice.answers
-            \-
-            %a{href: "{{ MEDIA_URL }}{{ exercice.answers }}"}
-              réponses
-          -if exercice.added_by == request.user
-            \-
-            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'exercice' exercice.id %}"}
-              -csrf_token
-              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                supprimer
-
-    %form#exercice-form{method: "POST", style: "{% if not exercice_skill_form.errors %}display: none{% endif %}", enctype: "multipart/form-data"}
-      -csrf_token
-
-      %input{type: "hidden", value: "exercice_skill", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-
-      .row
-        .col-md-6
-          .form-group{class: "{% if exercice_skill_form.title.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.title %}has-success{% endif %}"}
-            %label.control-label{for: "id_title"}
-              Titre
-            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: '{{ exercice_skill_form.title.value|default:"" }}'}
-            -for error in exercice_skill_form.title.errors
-              %span.help-block= error
-
-        .col-md-6
-          -bootstrap_field exercice_skill_form.questions
-
-      .row
-        .col-md-6
-          .form-group{class: "{% if exercice_skill_form.duration.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.duration %}has-success{% endif %}"}
-            %label.control-label{for: "id_duration"}
-              Durée (en minutes)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minutes)", name: "duration", value: '{{ exercice_skill_form.duration.value|default:"" }}'}
-            -for error in exercice_skill_form.duration.errors
-              %span.help-block= error
-
-        .col-md-6
-          -bootstrap_field exercice_skill_form.answers
-
-      .form-group{class: "{% if exercice_skill_form.difficulty.errors %}has-error{% elif exercice_skill_form.data and exercice_skill_form.difficulty %}has-success{% endif %}"}
-        %label.control-label{for: "id_difficulty"}
-          Difficulté
-
-        %br
-
-        %label.radio-inline
-          <input type="radio" required="required" name="difficulty" value="1" {% if exercice_skill_form.difficulty.data == "1" %}checked="checked"{% endif %}>1</input>
-        %label.radio-inline
-          <input type="radio" required="required" name="difficulty" value="2" {% if exercice_skill_form.difficulty.data == "2" %}checked="checked"{% endif %}>2</input>
-        %label.radio-inline
-          <input type="radio" required="required" name="difficulty" value="3" {% if exercice_skill_form.difficulty.data == "3" %}checked="checked"{% endif %}>3</input>
-
-        -for error in exercice_skill_form.difficulty.errors
-          %span.help-block= error
-
-      %p
-        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-    %button.show-form.btn.btn-primary{data-target: "#exercice-form", style: "{% if exercice_skill_form.errors %}display: none{% endif %}"}
-      Ajouter un exercice
-
   .well
-    %h3 Liens externes
+    %h3 Autres
 
-    %ul
-      -for external_link in object.externallinkskill_set.all
-        %li
-          %a{href: "{{ external_link.url }}"}
-            =external_link.title
-          \-
-          =external_link.duration
-          \-
-          difficulté:
-          =external_link.difficulty
-          -if external_link.added_by == request.user
-            \-
-            %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'external_link' external_link.id %}"}
-              -csrf_token
-              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                supprimer
-
-    %form#external-link-form{method: "POST", style: "{% if not external_link_skill_form.errors %}display: none{% endif %}"}
-      -csrf_token
-
-      %input{type: "hidden", value: "external_link_skill", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-
-      .row
-        .col-md-6
-          .form-group{class: "{% if external_link_skill_form.title.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.title %}has-success{% endif %}"}
-            %label.control-label{for: "id_title"}
-              Titre
-            %input#id_title.form-control{type: "text", required: "", placeholder: "Titre", name: "title", value: '{{ external_link_skill_form.title.value|default:"" }}'}
-            -for error in external_link_skill_form.title.errors
-              %span.help-block= error
-
-        .col-md-6
-          %div{class: "form-group {% if external_link_skill_form.url.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.url %}has-success{% endif %}"}
-            %label.control-label{for: "id_url"}
-              Adresse
-            %input#id_url.form-control{type: "text", required: "", placeholder: "Adresse", name: "url", value: '{{ external_link_skill_form.url.value|default:"" }}'}
-            -for error in external_link_skill_form.url.errors
-              %span.help-block= error
-
-      .row
-        .col-md-6
-          .form-group{class: "{% if external_link_skill_form.duration.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.duration %}has-success{% endif %}"}
-            %label.control-label{for: "id_duration"}
-              Durée estimée (en minutes)
-            %input#id_duration.form-control{type: "text", required: "", placeholder: "Durée (en minutes)", name: "duration", value: '{{ external_link_skill_form.duration.value|default:"" }}'}
-            -for error in external_link_skill_form.duration.errors
-              %span.help-block= error
-
-        .col-md-6
-          .form-group{class: "{% if external_link_skill_form.difficulty.errors %}has-error{% elif external_link_skill_form.data and external_link_skill_form.difficulty %}has-success{% endif %}"}
-            %label.control-label{for: "id_difficulty"}
-              Difficulté
-
-            %br
-
-            %label.radio-inline
-              <input type="radio" required="required" name="difficulty" value="1" {% if external_link_skill_form.difficulty.data == "1" %}checked="checked"{% endif %}>1</input>
-            %label.radio-inline
-              <input type="radio" required="required" name="difficulty" value="2" {% if external_link_skill_form.difficulty.data == "2" %}checked="checked"{% endif %}>2</input>
-            %label.radio-inline
-              <input type="radio" required="required" name="difficulty" value="3" {% if external_link_skill_form.difficulty.data == "3" %}checked="checked"{% endif %}>3</input>
-
-            -for error in external_link_skill_form.difficulty.errors
-              %span.help-block= error
-
-
-      %p
-        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-    %button.show-form.btn.btn-primary{data-target: "#external-link-form", style: "{% if external_link_skill_form.errors %}display: none{% endif %}"}
-      Ajouter un lien externe
 
   :css
     .level2 {
@@ -448,6 +232,10 @@
 
     .remove-form {
       display: inline;
+    }
+
+    h3 {
+      margin-top: 0px;
     }
 
 -block javascript

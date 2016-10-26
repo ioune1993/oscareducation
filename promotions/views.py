@@ -296,11 +296,8 @@ def regenerate_student_password(request):
 def update_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
-    video_skill_form = VideoSkillForm()
     khanacademy_skill_form = KhanAcademyVideoReferenceForm()
     sesamath_reference_form = SesamathReferenceForm()
-    exercice_skill_form = ExerciceSkillForm()
-    external_link_skill_form = ExternalLinkSkillForm()
     synthese_form = SyntheseForm()
 
     khanacademy_references = KhanAcademyVideoReference.objects.all()
@@ -308,28 +305,17 @@ def update_pedagogical_ressources(request, slug):
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "video_skill_form": video_skill_form,
             "khanacademy_skill_form": khanacademy_skill_form,
             "khanacademy_references": khanacademy_references,
             "sesamath_reference_form": sesamath_reference_form,
             "sesamath_references": sesamath_references,
-            "exercice_skill_form": exercice_skill_form,
-            "external_link_skill_form": external_link_skill_form,
             "synthese_form": synthese_form,
             "object": skill,
         })
 
     assert request.method == "POST"
 
-    if request.POST["form_type"] == "video_skill":
-        video_skill_form = VideoSkillForm(request.POST)
-        if video_skill_form.is_valid():
-            r = video_skill_form.save()
-            r.added_by = request.user
-            r.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-    elif request.POST["form_type"] == "khanacademy_skill":
+    if request.POST["form_type"] == "khanacademy_skill":
         khanacademy_skill_form = KhanAcademyVideoReferenceForm(request.POST)
 
         if khanacademy_skill_form.is_valid():
@@ -355,22 +341,6 @@ def update_pedagogical_ressources(request, slug):
             )
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
-    elif request.POST["form_type"] == "exercice_skill":
-        exercice_skill_form = ExerciceSkillForm(request.POST, request.FILES)
-        if exercice_skill_form.is_valid():
-            r = exercice_skill_form.save()
-            r.added_by = request.user
-            r.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-    elif request.POST["form_type"] == "external_link_skill":
-        external_link_skill_form = ExternalLinkSkillForm(request.POST)
-        if external_link_skill_form.is_valid():
-            r = external_link_skill_form.save()
-            r.added_by = request.user
-            r.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
     elif request.POST["form_type"] == "synthese_form":
         synthese_form = SyntheseForm(request.POST)
         if synthese_form.is_valid():
@@ -380,13 +350,10 @@ def update_pedagogical_ressources(request, slug):
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
-        "video_skill_form": video_skill_form,
         "khanacademy_skill_form": khanacademy_skill_form,
         "khanacademy_references": khanacademy_references,
         "sesamath_reference_form": sesamath_reference_form,
         "sesamath_references": sesamath_references,
-        "exercice_skill_form": exercice_skill_form,
-        "external_link_skill_form": external_link_skill_form,
         "synthese_form": synthese_form,
         "object": skill,
     })
