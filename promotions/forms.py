@@ -116,3 +116,11 @@ class GlobalResourcesForm(forms.ModelForm):
     class Meta:
         model = GlobalResources
         fields = ('title', 'file',)
+
+
+class ResourceForm(forms.Form):
+    title = forms.CharField(label="Titre")
+    author = forms.CharField(required=False, label="Auteur")
+
+    kind = forms.CharField(label="Type")
+    text = forms.CharField(required=False, label="Texte", widget=forms.Textarea)

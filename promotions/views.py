@@ -29,7 +29,7 @@ from examinations.models import Test, TestStudent, Exercice, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
-from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm, ResourceForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -296,6 +296,8 @@ def regenerate_student_password(request):
 def update_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
+    resource_form = ResourceForm()
+
     khanacademy_skill_form = KhanAcademyVideoReferenceForm()
     sesamath_reference_form = SesamathReferenceForm()
     synthese_form = SyntheseForm()
@@ -305,6 +307,7 @@ def update_pedagogical_ressources(request, slug):
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "resource_form": resource_form,
             "khanacademy_skill_form": khanacademy_skill_form,
             "khanacademy_references": khanacademy_references,
             "sesamath_reference_form": sesamath_reference_form,
@@ -350,6 +353,7 @@ def update_pedagogical_ressources(request, slug):
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
+        "resource_form": resource_form,
         "khanacademy_skill_form": khanacademy_skill_form,
         "khanacademy_references": khanacademy_references,
         "sesamath_reference_form": sesamath_reference_form,

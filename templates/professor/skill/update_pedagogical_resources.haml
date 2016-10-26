@@ -1,6 +1,7 @@
 -extends "base.haml"
 -load static
 -load bootstrap3
+-load crispy_forms_tags
 
 -block content
   %ol.breadcrumb
@@ -17,6 +18,78 @@
 
   .well
     %h3 Ressources
+
+    %form{method: "POST"}
+      .row
+        .col-md-6
+          =resource_form.title|as_crispy_field
+        .col-md-6
+          =resource_form.author|as_crispy_field
+
+      %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
+        %h4 Liens
+        %hr
+
+        %ul.list-group
+          %li.list-group-item{ng-repeat: "link in links"}
+            .row
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_link"}
+                    Adresse*
+                  %input#id_link.form-control{type: "text", required: "", placeholder: "https://...", name: "link_{& link &}", value: ""}
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_title"}
+                    Titre (optionnel)
+                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "title_{& link &}", value: ""}
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_kind"}
+                    Type*
+                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind_{& link &}", value: ""}
+
+            %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
+              %span.glyphicon.glyphicon-remove
+
+        %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
+          %span.glyphicon.glyphicon-plus
+          Ajouter un lien
+
+
+        %h4 Fichiers
+        %hr
+
+        %ul.list-group
+          %li.list-group-item{ng-repeat: "file in files"}
+            .row
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_file"}
+                    Fichier*
+                  %input#id_file{type: "file", required: "", placeholder: "", name: "file_{& file &}", value: "", multiple: "multiple"}
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_title"}
+                    Titre (optionnel)
+                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "title_{& file &}", value: ""}
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_kind"}
+                    Type*
+                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind_{& file &}", value: ""}
+
+            %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
+              %span.glyphicon.glyphicon-remove
+
+        %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
+          %span.glyphicon.glyphicon-plus
+          Ajouter un fichier
+
+      =resource_form.text|as_crispy_field
+
+      %button.btn.btn-primary{type: "submit"}
+        Ajouter
 
   .row
     .col-md-6
@@ -238,7 +311,18 @@
       margin-top: 0px;
     }
 
+    .remove {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      border-radius: 0px;
+      border-bottom-left-radius: 3px;
+      padding: 2px 6px;
+    }
+
+
 -block javascript
+  %script{src: "{% static 'js/professor_update_pedagogical_resources.js' %}"}
   :javascript
     $(".show-form").click(function(event) {
       $(event.currentTarget).hide();
