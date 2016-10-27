@@ -1,9 +1,9 @@
 -load crispy_forms_tags
 
 .well
-  %h3 Ressources personnels
+  %h3= title
     %small pour mes élèves uniquement
-    %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal-resource-form"}
+    %button.show-form.btn.btn-sm.btn-primary{data-target: "#{{ kind }}-form"}
       Ajouter
 
   %ul.list-group
@@ -45,7 +45,7 @@
                       =link.title|default:link.link
 
 
-  #personal-resource-form.panel.panel-default{style: "display: none"}
+  .panel.panel-default{style: "display: none", id: "{{ kind }}-form"}
     .panel-heading
       Nouvelle ressource personnelle
     .panel-body
@@ -55,7 +55,7 @@
         -if resource_form.errors
           =resource_form.errors
 
-        %input{type: "hidden", value: "personal_resource", name: "form_type"}
+        %input{type: "hidden", value: "{{ kind }}", name: "form_type"}
         %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
         .row
           .col-md-4

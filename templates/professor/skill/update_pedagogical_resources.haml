@@ -15,7 +15,8 @@
     %small= object.code
   %hr
 
-  -include "professor/skill/update_pedagogical_resources/resource.haml"
+  -with title="Ressources personnels" kind="personal_resource"
+    -include "professor/skill/update_pedagogical_resources/resource.haml"
 
   .row
     .col-md-6
