@@ -302,6 +302,13 @@ class Resource(models.Model):
 
     kind = models.CharField(max_length=255, verbose_name="Object")
 
+    section = models.CharField(max_length=255, choices=(
+        ('personal_resource', 'Resources Personnels'),
+        ('lesson_resource', 'Cours'),
+        ('exercices_resource', 'Exercices'),
+        ('other_resource', 'Autres'),
+    ))
+
     text = models.TextField(null=True, blank=True, verbose_name="Texte")
 
     created_at = models.DateTimeField(auto_now_add=True)
