@@ -309,6 +309,12 @@ class Resource(models.Model):
 
     added_by = models.ForeignKey(User)
 
+    def files(self):
+        return ResourceFile.objects.filter(resource=self)
+
+    def links(self):
+        return ResourceLink.objects.filter(resource=self)
+
 
 class ResourcePart(models.Model):
     resource = models.ForeignKey(Resource)

@@ -19,9 +19,44 @@
   .well
     %h3 Ressources personnels
 
-    %ul
+    %ul.list-group
       -for resource in object.resource_set.all
-        %li= resource
+        %li.list-group-item
+          %h4.list-group-item-heading= resource.title
+            -if resource.author
+              par
+              %i
+                =resource.author
+            %small= resource.kind
+          %p.list-group-text
+            -if resource.text
+              =resource.text
+
+          .row
+            -if resource.files.exists
+              .col-md-6
+                .panel.panel-default
+                  .panel-heading
+                    Fichiers
+
+                  .list-group
+                    -for file in resource.files.all
+                      %a.list-group-item{href: "{{ MEDIA_URL }}{{ file.file }}"}
+                        %span.badge= file.kind
+                        =file.title|default:file.file.name
+
+            -if resource.links.exists
+              .col-md-6
+                .panel.panel-default
+                  .panel-heading
+                    Liens
+
+                  .list-group
+                    -for link in resource.links.all
+                      %a.list-group-item{href: "{{ link.link }}", target: "_blank"}
+                        %span.badge= link.kind
+                        =link.title|default:link.link
+
 
     %form{method: "POST", enctype: "multipart/form-data"}
       -csrf_token
