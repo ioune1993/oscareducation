@@ -17,13 +17,26 @@
   %hr
 
   .well
-    %h3 Ressources
+    %h3 Ressources personnels
 
-    %form{method: "POST"}
+    %ul
+      -for resource in object.resource_set.all
+        %li= resource
+
+    %form{method: "POST", enctype: "multipart/form-data"}
+      -csrf_token
+
+      -if resource_form.errors
+        =resource_form.errors
+
+      %input{type: "hidden", value: "personal_resource", name: "form_type"}
+      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
       .row
-        .col-md-6
+        .col-md-4
           =resource_form.title|as_crispy_field
-        .col-md-6
+        .col-md-4
+          =resource_form.kind|as_crispy_field
+        .col-md-4
           =resource_form.author|as_crispy_field
 
       %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
@@ -37,17 +50,17 @@
                 .form-group
                   %label.control-label.prenom{for: "id_link"}
                     Adresse*
-                  %input#id_link.form-control{type: "text", required: "", placeholder: "https://...", name: "link_{& link &}", value: ""}
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_title"}
-                    Titre (optionnel)
-                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "title_{& link &}", value: ""}
+                  %input#id_link.form-control{type: "text", required: "", placeholder: "https://...", name: "link_link_{& link &}", value: ""}
               .col-md-4
                 .form-group
                   %label.control-label.prenom{for: "id_kind"}
                     Type*
-                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind_{& link &}", value: ""}
+                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: ""}
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_title"}
+                    Titre (optionnel)
+                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", value: ""}
 
             %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
               %span.glyphicon.glyphicon-remove
@@ -67,17 +80,17 @@
                 .form-group
                   %label.control-label.prenom{for: "id_file"}
                     Fichier*
-                  %input#id_file{type: "file", required: "", placeholder: "", name: "file_{& file &}", value: "", multiple: "multiple"}
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_title"}
-                    Titre (optionnel)
-                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "title_{& file &}", value: ""}
+                  %input#id_file{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", value: "", multiple: "multiple"}
               .col-md-4
                 .form-group
                   %label.control-label.prenom{for: "id_kind"}
                     Type*
-                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind_{& file &}", value: ""}
+                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: ""}
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "id_title"}
+                    Titre (optionnel)
+                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", value: ""}
 
             %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
               %span.glyphicon.glyphicon-remove

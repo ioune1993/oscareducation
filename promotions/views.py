@@ -29,7 +29,7 @@ from examinations.models import Test, TestStudent, Exercice, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
-from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm, ResourceForm
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm, ResourceForm, ResourceLinkForm, ResourceFileForm
 from .utils import generate_random_password, user_is_professor
 
 
@@ -318,7 +318,51 @@ def update_pedagogical_ressources(request, slug):
 
     assert request.method == "POST"
 
-    if request.POST["form_type"] == "khanacademy_skill":
+    request.POST["added_by"] = request.user.pk
+
+    if request.POST["form_type"] == "personal_resource":
+        with transaction.atomic():
+            resource_form = ResourceForm(request.POST, request.FILES)
+
+            if resource_form.is_valid():
+                resource = resource_form.save()
+
+                for i in filter(lambda x: x.startswith("link_link_"), request.POST.keys()):
+                    number = i.split("_")[-1]
+                    rlf = ResourceLinkForm({
+                        "resource": resource.pk,
+                        "link": request.POST["link_link_" + number],
+                        "title": request.POST["link_title_" + number],
+                        "kind": request.POST["link_kind_" + number],
+                        "added_by": request.user.pk,
+                    })
+
+                    if rlf.is_valid():
+                        rlf.save()
+                    else:
+                        raise Exception("Resource Link is unvalid: %s" % rlf.errors)
+
+                for i in filter(lambda x: x.startswith("file_file_"), request.POST.keys()):
+                    number = int(i.split("_")[-1])
+                    rff = ResourceFileForm({
+                        "resource": resource.pk,
+                        "file": request.POST["file_link_" + number],
+                        "title": request.POST["file_title_" + number],
+                        "kind": request.POST["file_kind_" + number],
+                        "added_by": request.user.pk,
+                    })
+
+                    if rff.is_valid():
+                        rff.save()
+                    else:
+                        raise Exception("Resource Link is unvalid: %s" % rlf.errors)
+
+                return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+            else:
+                print resource_form.errors
+
+    elif request.POST["form_type"] == "khanacademy_skill":
         khanacademy_skill_form = KhanAcademyVideoReferenceForm(request.POST)
 
         if khanacademy_skill_form.is_valid():

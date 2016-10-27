@@ -297,12 +297,12 @@ class GlobalResources(models.Model):
 class Resource(models.Model):
     skill = models.ForeignKey(Skill)
 
-    title = models.CharField(max_length=255)
-    author = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(max_length=255, verbose_name="Titre")
+    author = models.CharField(max_length=255, null=True, blank=True, verbose_name="Auteur")
 
-    kind = models.CharField(max_length=255)
+    kind = models.CharField(max_length=255, verbose_name="Object")
 
-    text = models.TextField(null=True, blank=True)
+    text = models.TextField(null=True, blank=True, verbose_name="Texte")
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

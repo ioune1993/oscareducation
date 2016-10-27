@@ -7,7 +7,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 
-from skills.models import KhanAcademyVideoReference, GlobalResources
+from skills.models import KhanAcademyVideoReference, GlobalResources, ResourceLink, ResourceFile, Resource
 from examinations.models import BaseTest
 
 from .models import Lesson
@@ -118,9 +118,20 @@ class GlobalResourcesForm(forms.ModelForm):
         fields = ('title', 'file',)
 
 
-class ResourceForm(forms.Form):
-    title = forms.CharField(label="Titre")
-    author = forms.CharField(required=False, label="Auteur")
-
-    kind = forms.CharField(label="Type")
+class ResourceForm(forms.ModelForm):
     text = forms.CharField(required=False, label="Texte", widget=forms.Textarea)
+    class Meta:
+        model = Resource
+        fields = ('skill', 'title', 'author', 'kind', 'text', 'added_by')
+
+
+class ResourceLinkForm(forms.ModelForm):
+    class Meta:
+        model = ResourceLink
+        fields = ('resource', 'kind', 'title', 'added_by', 'link')
+
+
+class ResourceFileForm(forms.ModelForm):
+    class Meta:
+        model = ResourceFile
+        fields = ('resource', 'kind', 'title', 'added_by', 'file')
