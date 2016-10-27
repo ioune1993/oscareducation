@@ -28,6 +28,15 @@ class Skill(models.Model):
 
     modified_by = models.ForeignKey(User, null=True)
 
+    def lesson_resource(self):
+        return Resource.objects.filter(skill=self, section="lesson_resource")
+
+    def exercice_resource(self):
+        return Resource.objects.filter(skill=self, section="exercice_resource")
+
+    def other_resource(self):
+        return Resource.objects.filter(skill=self, section="other_resource")
+
     class Meta:
         ordering = ['code']
 
@@ -305,7 +314,7 @@ class Resource(models.Model):
     section = models.CharField(max_length=255, choices=(
         ('personal_resource', 'Resources Personnels'),
         ('lesson_resource', 'Cours'),
-        ('exercices_resource', 'Exercices'),
+        ('exercice_resource', 'Exercices'),
         ('other_resource', 'Autres'),
     ))
 

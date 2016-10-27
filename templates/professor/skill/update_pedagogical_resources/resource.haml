@@ -2,12 +2,13 @@
 
 .well
   %h3= title
-    %small pour mes élèves uniquement
+    -if kind == "personal_resource"
+      %small pour mes élèves uniquement
     %button.show-form.btn.btn-sm.btn-primary{data-target: "#{{ kind }}-form"}
       Ajouter
 
   %ul.list-group
-    -for resource in object.resource_set.all
+    -for resource in queryset
       %li.list-group-item
         %h4.list-group-item-heading= resource.title
           -if resource.author
@@ -49,13 +50,14 @@
     .panel-heading
       Nouvelle ressource personnelle
     .panel-body
-      %form{method: "POST", enctype: "multipart/form-data"}
+      %form{method: "POST", enctype: "multipart/form-data", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
         -csrf_token
 
         -if resource_form.errors
           =resource_form.errors
 
         %input{type: "hidden", value: "{{ kind }}", name: "form_type"}
+        %input{type: "hidden", value: "{{ kind }}", name: "section"}
         %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
         .row
           .col-md-4
@@ -81,7 +83,7 @@
           .col-md-4
             =resource_form.author|as_crispy_field
 
-        %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
+        %div{ng-controller: "{{ kind }}Controller"}
           %br
           %p
             %b Liens

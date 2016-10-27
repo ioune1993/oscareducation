@@ -24,7 +24,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources, Resource
 from examinations.models import Test, TestStudent, Exercice, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
@@ -298,6 +298,8 @@ def update_pedagogical_ressources(request, slug):
 
     resource_form = ResourceForm()
 
+    personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource")
+
     khanacademy_skill_form = KhanAcademyVideoReferenceForm()
     sesamath_reference_form = SesamathReferenceForm()
     synthese_form = SyntheseForm()
@@ -313,6 +315,7 @@ def update_pedagogical_ressources(request, slug):
             "sesamath_reference_form": sesamath_reference_form,
             "sesamath_references": sesamath_references,
             "synthese_form": synthese_form,
+            "personal_resource": personal_resource,
             "object": skill,
         })
 
@@ -320,7 +323,7 @@ def update_pedagogical_ressources(request, slug):
 
     request.POST["added_by"] = request.user.pk
 
-    if request.POST["form_type"] == "personal_resource":
+    if request.POST["form_type"] in ("personal_resource", "lesson_resource", "exercice_resource", "other_resource"):
         with transaction.atomic():
             resource_form = ResourceForm(request.POST, request.FILES)
 
@@ -404,6 +407,7 @@ def update_pedagogical_ressources(request, slug):
         "sesamath_reference_form": sesamath_reference_form,
         "sesamath_references": sesamath_references,
         "synthese_form": synthese_form,
+        "personal_resource": personal_resource,
         "object": skill,
     })
 

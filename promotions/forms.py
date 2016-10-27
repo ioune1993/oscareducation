@@ -122,7 +122,7 @@ class ResourceForm(forms.ModelForm):
     text = forms.CharField(required=False, label="Texte", widget=forms.Textarea)
     class Meta:
         model = Resource
-        fields = ('skill', 'title', 'author', 'kind', 'text', 'added_by')
+        fields = ('skill', 'title', 'author', 'kind', 'text', 'added_by', 'section')
 
 
 class ResourceLinkForm(forms.ModelForm):

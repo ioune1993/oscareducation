@@ -3,168 +3,172 @@
 -load bootstrap3
 
 -block content
-  %ol.breadcrumb
-    %li
-      %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li.active
-      Compétence
-      =object.code
+  %div{ng-app: "oscar"}
+    %ol.breadcrumb
+      %li
+        %a{href: "{% url 'professor:dashboard' %}"} Oscar
+      %li.active
+        Compétence
+        =object.code
 
-  %h2 Compétence
-    =object.name
-    %small= object.code
-  %hr
+    %h2 Compétence
+      =object.name
+      %small= object.code
+    %hr
 
-  -with title="Ressources personnels" kind="personal_resource"
-    -include "professor/skill/update_pedagogical_resources/resource.haml"
+    -with title="Ressources personnels" kind="personal_resource" queryset=personal_resource
+      -include "professor/skill/update_pedagogical_resources/resource.haml"
 
-  .row
-    .col-md-6
-      .well
-        %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-        %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-          Ajouter une vidéo
+    .row
+      .col-md-6
+        .well
+          %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+          %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
+            Ajouter une vidéo
 
-        %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-          aller sur la section math
+          %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+            aller sur la section math
 
-        %ul
-          -for video in object.khanacademyvideoskill_set.all
-            %li
-              %a{href: "{{ video.url }}", target: "_blank"}
-                =video.reference.title|default:video.url
+          %ul
+            -for video in object.khanacademyvideoskill_set.all
+              %li
+                %a{href: "{{ video.url }}", target: "_blank"}
+                  =video.reference.title|default:video.url
 
-              -if video.added_by == request.user
-                \-
-                %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
-                  -csrf_token
-                  %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                    supprimer
+                -if video.added_by == request.user
+                  \-
+                  %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
+                    -csrf_token
+                    %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                      supprimer
 
-        %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
-          -csrf_token
+          %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
+            -csrf_token
 
-          %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
-          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+            %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
+            %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
-          .form-group
-            -bootstrap_form khanacademy_skill_form
+            .form-group
+              -bootstrap_form khanacademy_skill_form
 
-          %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+            %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
 
-          %p
-            %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+            %p
+              %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    .col-md-6
-      .well
-        %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
-        %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
-          Ajouter une ressource
+      .col-md-6
+        .well
+          %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+          %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
+            Ajouter une ressource
 
-        %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
-          aller sur la section manuels et cahiers
+          %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
+            aller sur la section manuels et cahiers
 
-        %ul
-          -for sesamath in object.sesamathskill_set.all
-            %li
-              %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
-                =sesamath.reference.title
+          %ul
+            -for sesamath in object.sesamathskill_set.all
+              %li
+                %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
+                  =sesamath.reference.title
 
-              -if sesamath.added_by == request.user
-                \-
-                %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
-                  -csrf_token
-                  %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                    supprimer
+                -if sesamath.added_by == request.user
+                  \-
+                  %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
+                    -csrf_token
+                    %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                      supprimer
 
-        %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
-          -csrf_token
+          %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
+            -csrf_token
 
-          %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
-          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+            %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
+            %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
 
-          .form-group
-            %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 33%;"}
-              -regroup sesamath_references by classe as classes
-              -for classe in classes
-                %li.dropdown-submenu
-                  %a{tabindex: "-1", href: "#"}= classe.grouper
-                  %ul.dropdown-menu
-                    -regroup classe.list by ressource_kind_with_year as ressource_kinds
-                    -for ressource_kind in ressource_kinds
-                      %li.dropdown-submenu
-                        %a{href: "#"}= ressource_kind.grouper
-                        %ul.dropdown-menu
-                          -regroup ressource_kind.list by chapitre as chapitres
-                          -for chapitre in chapitres
-                                -for ref in chapitre.list
-                                  %li
-                                    %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
-                                      -if chapitre.grouper
-                                        =chapitre.grouper
-                                        \-
-                                      -if ref.section_kind and ref.section_kind != "-"
-                                        [{{ ref.section_kind.strip }}]
-                                      =ref.title
+            .form-group
+              %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 33%;"}
+                -regroup sesamath_references by classe as classes
+                -for classe in classes
+                  %li.dropdown-submenu
+                    %a{tabindex: "-1", href: "#"}= classe.grouper
+                    %ul.dropdown-menu
+                      -regroup classe.list by ressource_kind_with_year as ressource_kinds
+                      -for ressource_kind in ressource_kinds
+                        %li.dropdown-submenu
+                          %a{href: "#"}= ressource_kind.grouper
+                          %ul.dropdown-menu
+                            -regroup ressource_kind.list by chapitre as chapitres
+                            -for chapitre in chapitres
+                                  -for ref in chapitre.list
+                                    %li
+                                      %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\")"}
+                                        -if chapitre.grouper
+                                          =chapitre.grouper
+                                          \-
+                                        -if ref.section_kind and ref.section_kind != "-"
+                                          [{{ ref.section_kind.strip }}]
+                                        =ref.title
 
-              -for error in sesamath_reference_form.ref_pk.errors
-                %span.help-block= error
+                -for error in sesamath_reference_form.ref_pk.errors
+                  %span.help-block= error
 
-            %span.help-block= sesamath_reference_form.errors
+              %span.help-block= sesamath_reference_form.errors
 
-          .form-group
-            .input-group
-              .input-group-addon Ressource sélectionnée :
-              %input#ref_pk_title.form-control{type: "text", value: "", name: "ref_pk_title", disabled: None}
+            .form-group
+              .input-group
+                .input-group-addon Ressource sélectionnée :
+                %input#ref_pk_title.form-control{type: "text", value: "", name: "ref_pk_title", disabled: None}
 
-          %input#ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+            %input#ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
 
-          #sesamath_pdf.panel.panel-default{style: "display: none"}
-            .panel-heading
-              Aperçu
-            .panel-body
-              %object{data: "", type: "application/pdf", width: "100%", height: "600px"}
-                %iframe{src: "", style: "border: none;", width: "100%", height: "600px"}
-                  Votre navigateur ne permet pas de voir des fichiers PDFs,
-                  %a{href: "/pdf/sample-3pp.pdf"}
-                    télécharger le PDF pour le voir
-                .
-
-
-          .form-group
-            %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-  .well
-    %h3 Synthèse <span style="color: #F58025">O</span>scar
-      %button.show-synthese-form.btn.btn-primary.btn-sm{data-target: "#synthese-form"}
-        Modifier
+            #sesamath_pdf.panel.panel-default{style: "display: none"}
+              .panel-heading
+                Aperçu
+              .panel-body
+                %object{data: "", type: "application/pdf", width: "100%", height: "600px"}
+                  %iframe{src: "", style: "border: none;", width: "100%", height: "600px"}
+                    Votre navigateur ne permet pas de voir des fichiers PDFs,
+                    %a{href: "/pdf/sample-3pp.pdf"}
+                      télécharger le PDF pour le voir
+                  .
 
 
-    %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}"}
-      -csrf_token
+            .form-group
+              %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-      %input{type: "hidden", value: "synthese_form", name: "form_type"}
+    .well
+      %h3 Synthèse <span style="color: #F58025">O</span>scar
+        %button.show-synthese-form.btn.btn-primary.btn-sm{data-target: "#synthese-form"}
+          Modifier
 
-      .form-group{class: "{% if synthese_form.synthese.errors %}has-error{% elif synthese_form.data and synthese_form.synthese %}has-success{% endif %}"}
-        %label.control-label{for: "id_synthese"}
-          Synthèse :
-        %textarea#id_synthese.form-control{placeholder: "Synthèse", name: "synthese", rows: "10"}= object.oscar_synthese|default:""
 
-        -for error in synthese_form.synthese.errors
-          %span.help-block= error
+      %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}"}
+        -csrf_token
 
-      %p
-        %input.btn.btn-primary{type: "submit", value: "Sauver"}
+        %input{type: "hidden", value: "synthese_form", name: "form_type"}
 
-    %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
-      .synthese
-        =object.oscar_synthese|default:""|safe
+        .form-group{class: "{% if synthese_form.synthese.errors %}has-error{% elif synthese_form.data and synthese_form.synthese %}has-success{% endif %}"}
+          %label.control-label{for: "id_synthese"}
+            Synthèse :
+          %textarea#id_synthese.form-control{placeholder: "Synthèse", name: "synthese", rows: "10"}= object.oscar_synthese|default:""
 
-  .well
-    %h3 Exercices
+          -for error in synthese_form.synthese.errors
+            %span.help-block= error
 
-  .well
-    %h3 Autres
+        %p
+          %input.btn.btn-primary{type: "submit", value: "Sauver"}
+
+      %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
+        .synthese
+          =object.oscar_synthese|default:""|safe
+
+    -with title="Cours" kind="lesson_resource" queryset=object.lesson_resource
+      -include "professor/skill/update_pedagogical_resources/resource.haml"
+
+    -with title="Exercices" kind="exercice_resource" queryset=object.exercice_resource
+      -include "professor/skill/update_pedagogical_resources/resource.haml"
+
+    -with title="Autres" kind="other_resource" queryset=object.other_resource
+      -include "professor/skill/update_pedagogical_resources/resource.haml"
 
 
   :css
