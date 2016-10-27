@@ -34,7 +34,7 @@
 
           .row
             -if resource.files.exists
-              .col-md-6
+              %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
                 .panel.panel-default
                   .panel-heading
                     Fichiers
@@ -46,7 +46,7 @@
                         =file.title|default:file.file.name
 
             -if resource.links.exists
-              .col-md-6
+              %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
                 .panel.panel-default
                   .panel-heading
                     Liens
@@ -75,10 +75,11 @@
           =resource_form.author|as_crispy_field
 
       %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
-        %h4 Liens
-        %hr
+        %br
+        %p
+          %b Liens
 
-        %ul.list-group
+        %ul.list-group{ng-if: "links.length"}
           %li.list-group-item{ng-repeat: "link in links"}
             .row
               .col-md-4
@@ -100,15 +101,18 @@
             %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
               %span.glyphicon.glyphicon-remove
 
-        %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
-          %span.glyphicon.glyphicon-plus
-          Ajouter un lien
+        %div
+          %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
+            %span.glyphicon.glyphicon-plus
+            Ajouter un lien
 
 
-        %h4 Fichiers
-        %hr
+        %br
 
-        %ul.list-group
+        %p
+          %b Fichiers
+
+        %ul.list-group{ng-if: "files.length"}
           %li.list-group-item{ng-repeat: "file in files"}
             .row
               .col-md-4
@@ -130,9 +134,12 @@
             %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
               %span.glyphicon.glyphicon-remove
 
-        %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
-          %span.glyphicon.glyphicon-plus
-          Ajouter un fichier
+        %div
+          %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
+            %span.glyphicon.glyphicon-plus
+            Ajouter un fichier
+
+      %br
 
       =resource_form.text|as_crispy_field
 
