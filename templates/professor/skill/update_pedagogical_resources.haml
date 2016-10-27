@@ -42,7 +42,7 @@
                     %button.btn.btn-danger.btn-xs.delete{type: "submit"}
                       supprimer
 
-          %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}"}
+          %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
             -csrf_token
 
             %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
@@ -78,7 +78,7 @@
                     %button.btn.btn-danger.btn-xs.delete{type: "submit"}
                       supprimer
 
-          %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}"}
+          %form#sesamath-form{method: "POST", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
             -csrf_token
 
             %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
@@ -141,7 +141,7 @@
           Modifier
 
 
-      %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}"}
+      %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
         -csrf_token
 
         %input{type: "hidden", value: "synthese_form", name: "form_type"}
