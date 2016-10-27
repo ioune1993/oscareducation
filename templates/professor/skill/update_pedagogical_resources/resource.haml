@@ -1,0 +1,182 @@
+-load crispy_forms_tags
+
+.well
+  %h3 Ressources personnels
+    %small pour mes élèves uniquement
+    %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal-resource-form"}
+      Ajouter
+
+  %ul.list-group
+    -for resource in object.resource_set.all
+      %li.list-group-item
+        %h4.list-group-item-heading= resource.title
+          -if resource.author
+            par
+            %i
+              =resource.author
+          %small= resource.kind
+        %p.list-group-text
+          -if resource.text
+            =resource.text
+
+        .row
+          -if resource.files.exists
+            %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
+              .panel.panel-default
+                .panel-heading
+                  Fichiers
+
+                .list-group
+                  -for file in resource.files.all
+                    %a.list-group-item{href: "{{ MEDIA_URL }}{{ file.file }}"}
+                      %span.badge= file.kind
+                      =file.title|default:file.file.name
+
+          -if resource.links.exists
+            %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
+              .panel.panel-default
+                .panel-heading
+                  Liens
+
+                .list-group
+                  -for link in resource.links.all
+                    %a.list-group-item{href: "{{ link.link }}", target: "_blank"}
+                      %span.badge= link.kind
+                      =link.title|default:link.link
+
+
+  #personal-resource-form.panel.panel-default{style: "display: none"}
+    .panel-heading
+      Nouvelle ressource personnelle
+    .panel-body
+      %form{method: "POST", enctype: "multipart/form-data"}
+        -csrf_token
+
+        -if resource_form.errors
+          =resource_form.errors
+
+        %input{type: "hidden", value: "personal_resource", name: "form_type"}
+        %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+        .row
+          .col-md-4
+            =resource_form.title|as_crispy_field
+          .col-md-4
+            .form-group{class: "{% if resource_form.kind.errors %}has-error{% elif resource_form.data and resource_form.kind %}has-success{% endif %}"}
+              %label.control-label{for: "id_kind"}
+                Objet
+              %input#id_kind.form-control{type: "text", required: "", placeholder: "Objet", name: "kind", value: "", list: "resource_kind"}
+              %datalist#resource_kind
+                %option{value: "Application pratique"}
+                %option{value: "Cours"}
+                %option{value: "Exercices"}
+                %option{value: "Exercices commentés"}
+                %option{value: "Correction d´exercices"}
+                %option{value: "Séquence d´apprentissage"}
+                %option{value: "Référence (presse, histoire)"}
+                %option{value: "Méthodologie/organisation"}
+                %option{value: "(autre)"}
+              -for error in resource_form.kind.errors
+                %span.help-block= error
+
+          .col-md-4
+            =resource_form.author|as_crispy_field
+
+        %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
+          %br
+          %p
+            %b Liens
+
+          %ul.list-group{ng-if: "links.length"}
+            %li.list-group-item{ng-repeat: "link in links"}
+              .row
+                .col-md-4
+                  .form-group
+                    %label.control-label.prenom{for: "id_link"}
+                      Adresse*
+                    %input#id_link.form-control{type: "text", required: "", placeholder: "https://...", name: "link_link_{& link &}", value: ""}
+                .col-md-4
+                  .form-group
+                    %label.control-label.prenom{for: "id_kind"}
+                      Type*
+                    %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: "", list: "type_list"}
+                    %datalist#type_list
+                      %option{value: "Application pratique"}
+                      %option{value: "Animation"}
+                      %option{value: "Application (ordinateur)"}
+                      %option{value: "Application (téléphone, tablette)"}
+                      %option{value: "Document / image"}
+                      %option{value: "Jeu"}
+                      %option{value: "Outil"}
+                      %option{value: "Projet / énigme"}
+                      %option{value: "Site"}
+                      %option{value: "Test"}
+                      %option{value: "Vidéo"}
+                      %option{value: "(autre)"}
+                .col-md-4
+                  .form-group
+                    %label.control-label.prenom{for: "id_title"}
+                      Titre (optionnel)
+                    %input#id_title.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", value: ""}
+
+              %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
+                %span.glyphicon.glyphicon-remove
+
+          %div
+            %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
+              %span.glyphicon.glyphicon-plus
+              Ajouter un lien
+
+
+          %br
+
+          %p
+            %b Fichiers
+
+          %ul.list-group{ng-if: "files.length"}
+            %li.list-group-item{ng-repeat: "file in files"}
+              .row
+                .col-md-4
+                  .form-group
+                    %label.control-label.prenom{for: "id_file"}
+                      Fichier*
+                    %input#id_file{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", value: "", multiple: "multiple"}
+                .col-md-4
+                  .form-group
+                    %label.control-label.prenom{for: "id_kind"}
+                      Type*
+                    %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: "", list: "type_list"}
+                    %datalist#type_list
+                      %option{value: "Application pratique"}
+                      %option{value: "Animation"}
+                      %option{value: "Application (ordinateur)"}
+                      %option{value: "Application (téléphone, tablette)"}
+                      %option{value: "Document / image"}
+                      %option{value: "Jeu"}
+                      %option{value: "Outil"}
+                      %option{value: "Projet / énigme"}
+                      %option{value: "Site"}
+                      %option{value: "Test"}
+                      %option{value: "Vidéo"}
+                      %option{value: "(autre)"}
+                .col-md-4
+                  .form-group
+                    %label.control-label.prenom{for: "id_title"}
+                      Titre (optionnel)
+                    %input#id_title.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", value: ""}
+
+              %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
+                %span.glyphicon.glyphicon-remove
+
+          %div
+            %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
+              %span.glyphicon.glyphicon-plus
+              Ajouter un fichier
+
+        %br
+
+        =resource_form.text|as_crispy_field
+
+        %button.btn.btn-primary{type: "submit"}
+          Ajouter
+
+
