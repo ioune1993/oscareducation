@@ -342,14 +342,15 @@ def update_pedagogical_ressources(request, slug):
                     else:
                         raise Exception("Resource Link is unvalid: %s" % rlf.errors)
 
-                for i in filter(lambda x: x.startswith("file_file_"), request.POST.keys()):
-                    number = int(i.split("_")[-1])
+                for i in filter(lambda x: x.startswith("file_file_"), request.FILES.keys()):
+                    number = i.split("_")[-1]
                     rff = ResourceFileForm({
                         "resource": resource.pk,
-                        "file": request.POST["file_link_" + number],
                         "title": request.POST["file_title_" + number],
                         "kind": request.POST["file_kind_" + number],
                         "added_by": request.user.pk,
+                    },{
+                        "file": request.FILES["file_file_" + number],
                     })
 
                     if rff.is_valid():
