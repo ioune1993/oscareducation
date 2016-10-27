@@ -60,93 +60,97 @@
                         =link.title|default:link.link
 
 
-    %form#personal-resource-form{method: "POST", enctype: "multipart/form-data", style: "display: none"}
-      -csrf_token
+    #personal-resource-form.panel.panel-default{style: "display: none"}
+      .panel-heading
+        Nouvelle ressource personnelle
+      .panel-body
+        %form{method: "POST", enctype: "multipart/form-data"}
+          -csrf_token
 
-      -if resource_form.errors
-        =resource_form.errors
+          -if resource_form.errors
+            =resource_form.errors
 
-      %input{type: "hidden", value: "personal_resource", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-      .row
-        .col-md-4
-          =resource_form.title|as_crispy_field
-        .col-md-4
-          =resource_form.kind|as_crispy_field
-        .col-md-4
-          =resource_form.author|as_crispy_field
+          %input{type: "hidden", value: "personal_resource", name: "form_type"}
+          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+          .row
+            .col-md-4
+              =resource_form.title|as_crispy_field
+            .col-md-4
+              =resource_form.kind|as_crispy_field
+            .col-md-4
+              =resource_form.author|as_crispy_field
 
-      %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
-        %br
-        %p
-          %b Liens
+          %div{ng-app: "oscar", ng-controller: "linksAndFilesController"}
+            %br
+            %p
+              %b Liens
 
-        %ul.list-group{ng-if: "links.length"}
-          %li.list-group-item{ng-repeat: "link in links"}
-            .row
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_link"}
-                    Adresse*
-                  %input#id_link.form-control{type: "text", required: "", placeholder: "https://...", name: "link_link_{& link &}", value: ""}
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_kind"}
-                    Type*
-                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: ""}
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_title"}
-                    Titre (optionnel)
-                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", value: ""}
+            %ul.list-group{ng-if: "links.length"}
+              %li.list-group-item{ng-repeat: "link in links"}
+                .row
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "id_link"}
+                        Adresse*
+                      %input#id_link.form-control{type: "text", required: "", placeholder: "https://...", name: "link_link_{& link &}", value: ""}
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "id_kind"}
+                        Type*
+                      %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: ""}
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "id_title"}
+                        Titre (optionnel)
+                      %input#id_title.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", value: ""}
 
-            %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
-              %span.glyphicon.glyphicon-remove
+                %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
+                  %span.glyphicon.glyphicon-remove
 
-        %div
-          %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
-            %span.glyphicon.glyphicon-plus
-            Ajouter un lien
+            %div
+              %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un lien
 
 
-        %br
+            %br
 
-        %p
-          %b Fichiers
+            %p
+              %b Fichiers
 
-        %ul.list-group{ng-if: "files.length"}
-          %li.list-group-item{ng-repeat: "file in files"}
-            .row
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_file"}
-                    Fichier*
-                  %input#id_file{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", value: "", multiple: "multiple"}
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_kind"}
-                    Type*
-                  %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: ""}
-              .col-md-4
-                .form-group
-                  %label.control-label.prenom{for: "id_title"}
-                    Titre (optionnel)
-                  %input#id_title.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", value: ""}
+            %ul.list-group{ng-if: "files.length"}
+              %li.list-group-item{ng-repeat: "file in files"}
+                .row
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "id_file"}
+                        Fichier*
+                      %input#id_file{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", value: "", multiple: "multiple"}
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "id_kind"}
+                        Type*
+                      %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: ""}
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "id_title"}
+                        Titre (optionnel)
+                      %input#id_title.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", value: ""}
 
-            %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
-              %span.glyphicon.glyphicon-remove
+                %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
+                  %span.glyphicon.glyphicon-remove
 
-        %div
-          %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
-            %span.glyphicon.glyphicon-plus
-            Ajouter un fichier
+            %div
+              %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un fichier
 
-      %br
+          %br
 
-      =resource_form.text|as_crispy_field
+          =resource_form.text|as_crispy_field
 
-      %button.btn.btn-primary{type: "submit"}
-        Ajouter
+          %button.btn.btn-primary{type: "submit"}
+            Ajouter
 
   .row
     .col-md-6
