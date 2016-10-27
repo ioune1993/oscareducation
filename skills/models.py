@@ -291,7 +291,7 @@ class GlobalResources(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    added_by = models.ForeignKey(User, null=True)
+    added_by = models.ForeignKey(User)
 
 
 class Resource(models.Model):
@@ -307,7 +307,7 @@ class Resource(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    added_by = models.ForeignKey(User, null=True)
+    added_by = models.ForeignKey(User)
 
 
 class ResourcePart(models.Model):
@@ -319,7 +319,7 @@ class ResourcePart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
-    added_by = models.ForeignKey(User, null=True)
+    added_by = models.ForeignKey(User)
 
 
 class ResourceLink(ResourcePart):
