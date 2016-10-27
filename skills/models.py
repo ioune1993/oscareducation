@@ -326,5 +326,5 @@ class ResourceLink(ResourcePart):
     link = models.URLField()
 
 
-class ResourceFile(models.Model):
+class ResourceFile(ResourcePart):
     file = models.FileField()
