@@ -18,6 +18,8 @@
 
   .well
     %h3 Ressources personnels
+      %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal-resource-form"}
+        Ajouter
 
     %ul.list-group
       -for resource in object.resource_set.all
@@ -58,7 +60,7 @@
                         =link.title|default:link.link
 
 
-    %form{method: "POST", enctype: "multipart/form-data"}
+    %form#personal-resource-form{method: "POST", enctype: "multipart/form-data", style: "display: none"}
       -csrf_token
 
       -if resource_form.errors
