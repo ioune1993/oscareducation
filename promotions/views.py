@@ -356,7 +356,7 @@ def update_pedagogical_ressources(request, slug):
                     if rff.is_valid():
                         rff.save()
                     else:
-                        raise Exception("Resource Link is unvalid: %s" % rlf.errors)
+                        raise Exception("Resource Link is unvalid: %s" % rff.errors)
 
                 return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
