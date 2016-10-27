@@ -47,6 +47,7 @@
 
             %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
             %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+            %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
 
             .form-group
               -bootstrap_form khanacademy_skill_form
@@ -83,6 +84,7 @@
 
             %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
             %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+            %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
 
             .form-group
               %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 33%;"}
@@ -145,6 +147,7 @@
         -csrf_token
 
         %input{type: "hidden", value: "synthese_form", name: "form_type"}
+        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
 
         .form-group{class: "{% if synthese_form.synthese.errors %}has-error{% elif synthese_form.data and synthese_form.synthese %}has-success{% endif %}"}
           %label.control-label{for: "id_synthese"}

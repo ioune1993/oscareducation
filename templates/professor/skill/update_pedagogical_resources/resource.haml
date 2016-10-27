@@ -59,6 +59,7 @@
         %input{type: "hidden", value: "{{ kind }}", name: "form_type"}
         %input{type: "hidden", value: "{{ kind }}", name: "section"}
         %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
         .row
           .col-md-4
             =resource_form.title|as_crispy_field

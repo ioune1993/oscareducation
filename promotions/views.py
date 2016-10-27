@@ -321,7 +321,7 @@ def update_pedagogical_ressources(request, slug):
 
     assert request.method == "POST"
 
-    request.POST["added_by"] = request.user.pk
+    assert int(request.POST["added_by"]) == request.user.pk
 
     if request.POST["form_type"] in ("personal_resource", "lesson_resource", "exercice_resource", "other_resource"):
         with transaction.atomic():
