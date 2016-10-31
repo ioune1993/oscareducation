@@ -62,21 +62,7 @@
             =resource_form.title|as_crispy_field
           .col-md-4
             .form-group{class: "{% if resource_form.kind.errors %}has-error{% elif resource_form.data and resource_form.kind %}has-success{% endif %}"}
-              %label.control-label{for: "id_kind"}
-                Objet
-              %input#id_kind.form-control{type: "text", required: "", placeholder: "Objet", name: "kind", value: "", list: "resource_kind"}
-              %datalist#resource_kind
-                %option{value: "Application pratique"}
-                %option{value: "Cours"}
-                %option{value: "Exercices"}
-                %option{value: "Exercices commentés"}
-                %option{value: "Correction d´exercices"}
-                %option{value: "Séquence d´apprentissage"}
-                %option{value: "Référence (presse, histoire)"}
-                %option{value: "Méthodologie/organisation"}
-                %option{value: "(autre)"}
-              -for error in resource_form.kind.errors
-                %span.help-block= error
+              =resource_form.kind|as_crispy_field
 
           .col-md-4
             =resource_form.author|as_crispy_field
@@ -98,20 +84,19 @@
                   .form-group
                     %label.control-label.prenom{for: "id_kind"}
                       Type*
-                    %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: "", list: "type_list"}
-                    %datalist#type_list
-                      %option{value: "Application pratique"}
-                      %option{value: "Animation"}
-                      %option{value: "Application (ordinateur)"}
-                      %option{value: "Application (téléphone, tablette)"}
-                      %option{value: "Document / image"}
-                      %option{value: "Jeu"}
-                      %option{value: "Outil"}
-                      %option{value: "Projet / énigme"}
-                      %option{value: "Site"}
-                      %option{value: "Test"}
-                      %option{value: "Vidéo"}
-                      %option{value: "(autre)"}
+                    %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: "", list: "type_list"}
+                      %option{value: "", selected: "selected"} ---------
+                      %option{value: "animation"} Animation
+                      %option{value: "software"} Application (ordinateur)
+                      %option{value: "mobile-app"} Application mobile
+                      %option{value: "image"} Image
+                      %option{value: "game"} Jeu
+                      %option{value: "tool"} Outil
+                      %option{value: "project"} Projet / énigme
+                      %option{value: "site"} Site
+                      %option{value: "test"} Test
+                      %option{value: "video"} Vidéo
+                      %option{value: "other"} (autre)
                 .col-md-4
                   .form-group
                     %label.control-label.prenom{for: "id_title"}

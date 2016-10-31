@@ -309,7 +309,16 @@ class Resource(models.Model):
     title = models.CharField(max_length=255, verbose_name="Titre")
     author = models.CharField(max_length=255, null=True, blank=True, verbose_name="Auteur")
 
-    kind = models.CharField(max_length=255, verbose_name="Object")
+    kind = models.CharField(max_length=255, verbose_name="Object", choices=(
+        ("practical-application", "Application pratique"),
+        ("lesson", "Cours"),
+        ("exercice", "Exercices"),
+        ("commented-exercice", "Exercices commentés"),
+        ("exercice-correction", "Correction d´exercices"),
+        ("learning-sequence", "Séquence d´apprentissage"),
+        ("reference", "Référence (presse, histoire)"),
+        ("other", "(autre)"),
+    ))
 
     section = models.CharField(max_length=255, choices=(
         ('personal_resource', 'Resources Personnels'),
