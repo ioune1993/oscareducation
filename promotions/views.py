@@ -608,6 +608,7 @@ def exercice_validation_form_pull_request(request):
     data = json.load(request)
     html = data["html"]
     skill_code = data["skill_code"]
+    image = None
 
     if data.get("image"):
         image_extension, image = data["image"].split(",", 1)
