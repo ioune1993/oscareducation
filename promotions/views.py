@@ -434,6 +434,7 @@ def remove_pedagogical_ressources(request, kind, id):
         "khanacademy": KhanAcademyVideoSkill,
         "exercice": ExerciceSkill,
         "external_link": ExternalLinkSkill,
+        "resource": Resource,
     }
 
     if kind not in kind_to_model:
