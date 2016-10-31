@@ -21,7 +21,7 @@
 
     .row
       .col-md-6
-        .well
+        .khan-well.well
           %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
           %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
             Ajouter une vidéo
@@ -58,7 +58,7 @@
               %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
       .col-md-6
-        .well
+        .well.sesamath-well
           %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
           %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
             Ajouter une ressource
@@ -252,6 +252,16 @@
       border-radius: 0px;
       border-bottom-left-radius: 3px;
       padding: 2px 6px;
+    }
+
+    .khan-well {
+      background-color: rgba(159, 182, 59, .4);
+      border-color: rgba(159, 182, 59, .8);
+    }
+
+    .sesamath-well {
+      background-color: rgba(229, 105, 10, .2);
+      border-color: rgba(229, 105, 10, .6);
     }
 
 
