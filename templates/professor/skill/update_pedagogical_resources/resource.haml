@@ -47,8 +47,7 @@
 
 
   .panel.panel-default{style: "display: none", id: "{{ kind }}-form"}
-    .panel-heading
-      Nouvelle ressource personnelle
+    .panel-heading= title
     .panel-body
       %form{method: "POST", enctype: "multipart/form-data", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
         -csrf_token
