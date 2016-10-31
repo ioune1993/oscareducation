@@ -10,3 +10,4 @@ yamlordereddictloader
 requests
 ruamel.yaml
 django-crispy-forms
+mechanize

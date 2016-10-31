@@ -7,6 +7,7 @@ import traceback
 
 import yaml
 import ruamel.yaml
+import mechanize
 import yamlordereddictloader
 
 from ruamel.yaml.comments import CommentedMap
@@ -332,10 +333,23 @@ def update_pedagogical_ressources(request, slug):
 
                 for i in filter(lambda x: x.startswith("link_link_"), request.POST.keys()):
                     number = i.split("_")[-1]
+                    link = request.POST["link_link_" + number]
+                    title = request.POST["link_title_" + number]
+                    if not title:
+                        try:
+                            b = mechanize.Browser()
+                            b.open(link)
+                            title = b.title()
+                        except Exception as e:
+                            import traceback
+                            traceback.print_exc(file=sys.stdout)
+                            print e
+                            print "Fail to get title for %s" % link
+
                     rlf = ResourceLinkForm({
                         "resource": resource.pk,
-                        "link": request.POST["link_link_" + number],
-                        "title": request.POST["link_title_" + number],
+                        "link": link,
+                        "title": title,
                         "kind": request.POST["link_kind_" + number],
                         "added_by": request.user.pk,
                     })

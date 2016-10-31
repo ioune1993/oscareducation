@@ -20,3 +20,4 @@ requests==2.10.0
 ruamel.ordereddict==0.4.9
 ruamel.yaml==0.12.13
 django-crispy-forms==1.6.1
+mechanize==0.2.5
