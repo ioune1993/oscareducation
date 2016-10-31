@@ -61,9 +61,7 @@
           .col-md-4
             =resource_form.title|as_crispy_field
           .col-md-4
-            .form-group{class: "{% if resource_form.kind.errors %}has-error{% elif resource_form.data and resource_form.kind %}has-success{% endif %}"}
-              =resource_form.kind|as_crispy_field
-
+            =resource_form.kind|as_crispy_field
           .col-md-4
             =resource_form.author|as_crispy_field
 
