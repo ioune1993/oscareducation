@@ -58,12 +58,19 @@
         %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
         %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
         .row
-          .col-md-4
-            =resource_form.title|as_crispy_field
-          .col-md-4
-            =resource_form.kind|as_crispy_field
-          .col-md-4
-            =resource_form.author|as_crispy_field
+          -if kind == "personal_resource" or kind == "other_resource"
+            .col-md-4
+              =resource_form.title|as_crispy_field
+            .col-md-4
+              =resource_form.kind|as_crispy_field
+            .col-md-4
+              =resource_form.author|as_crispy_field
+          -else
+            %input{type: "hidden", value: "{{ kind|slice:\":-9\" }}", name: "kind"}
+            .col-md-6
+              =resource_form.title|as_crispy_field
+            .col-md-6
+              =resource_form.author|as_crispy_field
 
         %div{ng-controller: "{{ kind }}Controller"}
           %br
