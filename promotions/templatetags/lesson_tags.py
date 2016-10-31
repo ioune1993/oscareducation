@@ -19,3 +19,15 @@ def get_skill_heatmap_class(skills_to_heatmap_class, skill):
 @register.simple_tag
 def get_stage_id(skill_short_name):
     return Stage.objects.get(short_name=skill_short_name).id
+
+
+@register.filter
+def clean_file_name(file_name):
+    if "/" in file_name:
+        file_name = file_name.split("/")[-1]
+
+    if "." in file_name:
+        file_name = ".".join(file_name.split(".")[:-1])
+    if "_" in file_name:
+        file_name = "_".join(file_name.split("_")[:-1])
+    return file_name
