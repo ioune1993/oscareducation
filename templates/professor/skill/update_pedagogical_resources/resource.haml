@@ -31,7 +31,10 @@
                   -for file in resource.files.all
                     %a.list-group-item{href: "{{ MEDIA_URL }}{{ file.file }}"}
                       %span.badge= file.kind
-                      =file.title|default:file.file.name
+                      -if file.title
+                        =file.title
+                      -else
+                        =file.file.name|slice:"2:"
 
           -if resource.links.exists
             %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
