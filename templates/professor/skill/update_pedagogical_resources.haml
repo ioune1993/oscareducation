@@ -137,6 +137,9 @@
             .form-group
               %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
+    -with title="Cours" kind="lesson_resource" queryset=object.lesson_resource
+      -include "professor/skill/update_pedagogical_resources/resource.haml"
+
     .well
       %h3 Synthèse <span style="color: #F58025">O</span>scar
         %button.show-synthese-form.btn.btn-primary.btn-sm{data-target: "#synthese-form"}
@@ -163,9 +166,6 @@
       %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
         .synthese
           =object.oscar_synthese|default:""|safe
-
-    -with title="Cours" kind="lesson_resource" queryset=object.lesson_resource
-      -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     -with title="Exercices" kind="exercice_resource" queryset=object.exercice_resource
       -include "professor/skill/update_pedagogical_resources/resource.haml"
