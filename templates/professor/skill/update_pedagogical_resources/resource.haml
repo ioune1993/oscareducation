@@ -23,9 +23,7 @@
         .row
           -if resource.files.exists
             %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
-              .panel.panel-default
-                .panel-heading
-                  Fichiers
+                  %h5 Fichiers
 
                 .list-group
                   -for file in resource.files.all
@@ -38,11 +36,8 @@
 
           -if resource.links.exists
             %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
-              .panel.panel-default
-                .panel-heading
-                  Liens
+                  %h5 Liens
 
-                .list-group
                   -for link in resource.links.all
                     %a.list-group-item{href: "{{ link.link }}", target: "_blank"}
                       %span.badge= link.kind
