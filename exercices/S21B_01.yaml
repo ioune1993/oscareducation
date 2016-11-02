@@ -1,0 +1,9 @@
+ÉCRIS les coordonnées du sommet D.:
+  type: text
+  answers:
+  - D(-1;1)
+  - D(-1,1)
+  - -1,1
+  - -1;1
+  - (-1,1)
+  - (-1;1)
