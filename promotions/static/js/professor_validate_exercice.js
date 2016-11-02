@@ -78,6 +78,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 $scope.html = "";
                 $scope.skillCode = "";
                 $scope.image = null;
+                $scope.base64img = "";
 
                 $scope.questions = [{
                     "instructions": "",
