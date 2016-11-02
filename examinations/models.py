@@ -144,9 +144,9 @@ class Exercice(models.Model):
     def is_valid(self, answers):
         for number, (key, value) in enumerate(self.get_questions().items()):
             answer = answers.get(str(number))
-            answer = answer.strip().replace(" ", "") if isinstance(answer, basestring) else answer
+            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
             if value["type"] == "text":
-                if not answer in map(unicode, value["answers"]):
+                if not answer in [unicode(x).lower() for x in value["answers"]]:
                     return False
             elif value["type"] == "radio":
                 if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
