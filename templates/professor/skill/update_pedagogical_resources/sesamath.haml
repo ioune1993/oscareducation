@@ -10,20 +10,24 @@
     %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
       aller sur la section manuels et cahiers
 
-  %ul
-    -for sesamath in resources
-      %li
-        %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
-          =sesamath.reference.title
-          %span.badge
+  .panel.panel-default
+    %table.table
+      -for sesamath in resources
+        %tr{style: "position: relative"}
+          %td.center
+            %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
+              =sesamath.reference.title
+          %td.center
             =sesamath.reference.classe
+          %td.center
+            =sesamath.reference.year
 
-        -if sesamath.added_by == request.user
-          \-
-          %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
-            -csrf_token
-            %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-              supprimer
+          %td{width: "100px"}
+            -if sesamath.added_by == request.user
+              %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
+                -csrf_token
+                %button.btn.btn-danger.btn-xs.delete.remove{type: "submit"}
+                  supprimer
 
   %form{method: "POST", id: "sesamath-{{ kind }}-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
     -csrf_token
