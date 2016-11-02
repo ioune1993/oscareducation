@@ -306,7 +306,9 @@ def update_pedagogical_ressources(request, slug):
     synthese_form = SyntheseForm()
 
     khanacademy_references = KhanAcademyVideoReference.objects.all()
-    sesamath_references = SesamathReference.objects.all()
+
+    sesamath_references_manuals = SesamathReference.objects.filter(ressource_kind__iexact="manuel")
+    sesamath_references_cahiers = SesamathReference.objects.filter(ressource_kind__iexact="cahier")
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
@@ -314,7 +316,8 @@ def update_pedagogical_ressources(request, slug):
             "khanacademy_skill_form": khanacademy_skill_form,
             "khanacademy_references": khanacademy_references,
             "sesamath_reference_form": sesamath_reference_form,
-            "sesamath_references": sesamath_references,
+            "sesamath_references_manuals": sesamath_references_manuals,
+            "sesamath_references_cahiers": sesamath_references_cahiers,
             "synthese_form": synthese_form,
             "personal_resource": personal_resource,
             "object": skill,
@@ -419,7 +422,8 @@ def update_pedagogical_ressources(request, slug):
         "khanacademy_skill_form": khanacademy_skill_form,
         "khanacademy_references": khanacademy_references,
         "sesamath_reference_form": sesamath_reference_form,
-        "sesamath_references": sesamath_references,
+        "sesamath_references_manuals": sesamath_references_manuals,
+        "sesamath_references_cahiers": sesamath_references_cahiers,
         "synthese_form": synthese_form,
         "personal_resource": personal_resource,
         "object": skill,

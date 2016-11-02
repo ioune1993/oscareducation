@@ -37,6 +37,12 @@ class Skill(models.Model):
     def other_resource(self):
         return Resource.objects.filter(skill=self, section="other_resource")
 
+    def sesamath_manuals(self):
+        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="manuel")
+
+    def sesamath_cahiers(self):
+        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="cahier")
+
     class Meta:
         ordering = ['code']
 
