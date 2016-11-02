@@ -309,7 +309,7 @@ class Resource(models.Model):
     title = models.CharField(max_length=255, verbose_name="Titre")
     author = models.CharField(max_length=255, null=True, blank=True, verbose_name="Auteur")
 
-    kind = models.CharField(max_length=255, verbose_name="Object", choices=(
+    kind = models.CharField(max_length=255, verbose_name="Objet", choices=(
         ("practical-application", "Application pratique"),
         ("lesson", "Cours"),
         ("exercice", "Exercices"),
