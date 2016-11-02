@@ -1,0 +1,22 @@
+Étape 1:
+  type: text
+  answers:
+  - c
+  - C
+  - c)
+  - C)
+Étape 2:
+  type: text
+  answers:
+  - a
+  - a)
+Étape 3:
+  type: text
+  answers:
+  - d)
+  - d
+Étape 4:
+  type: text
+  answers:
+  - b
+  - b)
