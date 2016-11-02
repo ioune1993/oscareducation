@@ -1,0 +1,4 @@
+CALCULE le nombre de fleurs qui composent ce bouquet.:
+  type: text
+  answers:
+  - '16'
