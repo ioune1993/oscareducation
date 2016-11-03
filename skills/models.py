@@ -38,10 +38,10 @@ class Skill(models.Model):
         return Resource.objects.filter(skill=self, section="other_resource")
 
     def sesamath_manuals(self):
-        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="manuel")
+        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="manuel").select_related("reference")
 
     def sesamath_cahiers(self):
-        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="cahier")
+        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="cahier").select_related("reference")
 
     class Meta:
         ordering = ['code']
