@@ -70,7 +70,7 @@
 
       %hr
 
-      -with title="Autres" kind="lesson_resource" queryset=object.lesson_resource
+      -with title="Autres cours" kind="lesson_resource" queryset=object.lesson_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     .well
@@ -80,7 +80,7 @@
 
       %hr
 
-      -with title="Autres " kind="exercice_resource" queryset=object.exercice_resource
+      -with title="Autres exercices" kind="exercice_resource" queryset=object.exercice_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     .well
