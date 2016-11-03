@@ -77,10 +77,6 @@
               =resource_form.author|as_crispy_field
 
         %div{ng-controller: "{{ kind }}Controller"}
-          %br
-          %p
-            %b Liens
-
           %ul.list-group{ng-if: "links.length"}
             %li.list-group-item{ng-repeat: "link in links"}
               .row
@@ -122,9 +118,6 @@
 
 
           %br
-
-          %p
-            %b Fichiers
 
           %ul.list-group{ng-if: "files.length"}
             %li.list-group-item{ng-repeat: "file in files"}
