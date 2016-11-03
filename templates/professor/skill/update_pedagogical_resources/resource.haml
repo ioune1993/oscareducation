@@ -138,20 +138,19 @@
                   .form-group
                     %label.control-label.prenom{for: "id_kind"}
                       Type*
-                    %input#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: "", list: "type_list"}
-                    %datalist#type_list
-                      %option{value: "Application pratique"}
-                      %option{value: "Animation"}
-                      %option{value: "Application (ordinateur)"}
-                      %option{value: "Application (téléphone, tablette)"}
-                      %option{value: "Document / image"}
-                      %option{value: "Jeu"}
-                      %option{value: "Outil"}
-                      %option{value: "Projet / énigme"}
-                      %option{value: "Site"}
-                      %option{value: "Test"}
-                      %option{value: "Vidéo"}
-                      %option{value: "(autre)"}
+                    %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: ""}
+                      %option{value: "", selected: "selected"} ---------
+                      %option{value: "animation"} Animation
+                      %option{value: "software"} Application (ordinateur)
+                      %option{value: "mobile-app"} Application mobile
+                      %option{value: "image"} Image
+                      %option{value: "game"} Jeu
+                      %option{value: "tool"} Outil
+                      %option{value: "project"} Projet / énigme
+                      %option{value: "site"} Site
+                      %option{value: "test"} Test
+                      %option{value: "video"} Vidéo
+                      %option{value: "other"} (autre)
                 .col-md-4
                   .form-group
                     %label.control-label.prenom{for: "id_title"}
