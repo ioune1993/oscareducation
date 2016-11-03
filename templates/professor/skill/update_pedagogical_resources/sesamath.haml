@@ -1,7 +1,6 @@
 -load static
 
-.well.sesamath-well
-  %h3
+  %h4
     =title
     %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
     %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-{{ kind }}-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}

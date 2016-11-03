@@ -1,12 +1,12 @@
 -load crispy_forms_tags
 -load lesson_tags
 
-.well
-  %h3= title
-    -if kind == "personal_resource"
-      %small pour mes élèves uniquement
-    %button.show-form.btn.btn-sm.btn-primary{data-target: "#{{ kind }}-form"}
-      Ajouter
+  -if title
+    %h4= title
+      -if kind == "personal_resource"
+        %small pour mes élèves uniquement
+      %button.show-form.btn.btn-sm.btn-primary{data-target: "#{{ kind }}-form"}
+        Ajouter
 
   %ul.list-group
     -for resource in queryset

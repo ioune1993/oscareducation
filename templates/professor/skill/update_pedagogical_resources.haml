@@ -16,13 +16,21 @@
       %small= object.code
     %hr
 
-    -with title="Ressources personnelles" kind="personal_resource" queryset=personal_resource
-      -include "professor/skill/update_pedagogical_resources/resource.haml"
+    .well
+      %h3 Ressources personnelles
+        %small pour mes élèves uniquement
+        %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
+          Ajouter
+      -with title="" kind="personal_resource" queryset=personal_resource
+        -include "professor/skill/update_pedagogical_resources/resource.haml"
 
-    .khan-well.well
-      %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-      %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-        Ajouter une vidéo
+    .well
+      %h3 Cours
+      %h4
+        Video
+        %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+          %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
+            Ajouter une vidéo
 
       %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
         aller sur la section math
@@ -55,11 +63,16 @@
         %p
           %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
-    -with title="Cours" kind="manuel" references=sesamath_references_manuals resources=object.sesamath_manuals
-      -include "professor/skill/update_pedagogical_resources/sesamath.haml"
+      %hr
 
-    -with title="Cours" kind="lesson_resource" queryset=object.lesson_resource
-      -include "professor/skill/update_pedagogical_resources/resource.haml"
+      -with title="Cours" kind="manuel" references=sesamath_references_manuals resources=object.sesamath_manuals
+        -include "professor/skill/update_pedagogical_resources/sesamath.haml"
+
+      %hr
+
+      -with title="Autres" kind="lesson_resource" queryset=object.lesson_resource
+        -include "professor/skill/update_pedagogical_resources/resource.haml"
+
 
     .well
       %h3 Synthèse <span style="color: #F58025">O</span>scar
@@ -85,17 +98,26 @@
           %input.btn.btn-primary{type: "submit", value: "Sauver"}
 
       %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
-        .synthese
-          =object.oscar_synthese|default:""|safe
+        %ul.list-group{style: "margin-bottom: 5px;"}
+          %li.list-group-item
+            =object.oscar_synthese|default:""|safe
 
-    -with title="Exercices" kind="cahier" references=sesamath_references_cahiers resources=object.sesamath_cahiers
-      -include "professor/skill/update_pedagogical_resources/sesamath.haml"
+    .well
+      %h3 Exercices
+      -with title="Exercices" kind="cahier" references=sesamath_references_cahiers resources=object.sesamath_cahiers
+        -include "professor/skill/update_pedagogical_resources/sesamath.haml"
 
-    -with title="Exercices" kind="exercice_resource" queryset=object.exercice_resource
-      -include "professor/skill/update_pedagogical_resources/resource.haml"
+      %hr
 
-    -with title="Autres" kind="other_resource" queryset=object.other_resource
-      -include "professor/skill/update_pedagogical_resources/resource.haml"
+      -with title="Autres" kind="exercice_resource" queryset=object.exercice_resource
+        -include "professor/skill/update_pedagogical_resources/resource.haml"
+
+    .well
+      %h3 Autres
+        %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
+          Ajouter
+      -with title="" kind="other_resource" queryset=object.other_resource
+        -include "professor/skill/update_pedagogical_resources/resource.haml"
 
 
   :css
@@ -165,8 +187,18 @@
       display: inline;
     }
 
-    h3 {
+    h3, h4 {
       margin-top: 0px;
+    }
+
+    h3 {
+      border-bottom: 1px solid #DDD;
+      padding-bottom: 5px;
+    }
+
+    .well hr {
+      margin-top: 35px;
+      margin-bottom: 35px;
     }
 
     .remove {
