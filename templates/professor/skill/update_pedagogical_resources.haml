@@ -29,11 +29,11 @@
       %h4
         Video
         %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-          %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-            Ajouter une vidéo
+        %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
+          Ajouter une vidéo
 
-      %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-        aller sur la section math
+        %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+          aller sur la section math
 
       %ul
         -for video in object.khanacademyvideoskill_set.all
