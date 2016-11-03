@@ -341,10 +341,14 @@ class Resource(models.Model):
     added_by = models.ForeignKey(User)
 
     def files(self):
-        return ResourceFile.objects.filter(resource=self)
+        if not hasattr(self, "_files"):
+            self._files = ResourceFile.objects.filter(resource=self)
+        return self._files
 
     def links(self):
-        return ResourceLink.objects.filter(resource=self)
+        if not hasattr(self, "_links"):
+            self._links = ResourceLink.objects.filter(resource=self)
+        return self._links
 
 
 class ResourcePart(models.Model):
