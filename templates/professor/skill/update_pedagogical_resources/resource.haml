@@ -19,7 +19,7 @@
           %small= resource.kind
         %p.list-group-text
           -if resource.text
-            =resource.text
+            =resource.text|safe
 
         .row
           -if resource.files.exists
