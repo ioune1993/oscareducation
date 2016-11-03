@@ -27,7 +27,7 @@
     .well
       %h3 Cours
       %h4
-        Video
+        Videos
         %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
         %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
           Ajouter une vidéo
@@ -80,11 +80,11 @@
 
       %hr
 
-      -with title="Autres" kind="exercice_resource" queryset=object.exercice_resource
+      -with title="Autres " kind="exercice_resource" queryset=object.exercice_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     .well
-      %h3 Autres
+      %h3 Autres ressources
         %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
           Ajouter
       -with title="" kind="other_resource" queryset=object.other_resource
