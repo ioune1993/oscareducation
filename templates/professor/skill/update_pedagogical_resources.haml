@@ -73,35 +73,6 @@
       -with title="Autres" kind="lesson_resource" queryset=object.lesson_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
-
-    .well
-      %h3 Synthèse <span style="color: #F58025">O</span>scar
-        %button.show-synthese-form.btn.btn-primary.btn-sm{data-target: "#synthese-form"}
-          Modifier
-
-
-      %form#synthese-form{method: "POST", style: "{% if not synthese_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
-        -csrf_token
-
-        %input{type: "hidden", value: "synthese_form", name: "form_type"}
-        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
-
-        .form-group{class: "{% if synthese_form.synthese.errors %}has-error{% elif synthese_form.data and synthese_form.synthese %}has-success{% endif %}"}
-          %label.control-label{for: "id_synthese"}
-            Synthèse :
-          %textarea#id_synthese.form-control{placeholder: "Synthèse", name: "synthese", rows: "10"}= object.oscar_synthese|default:""
-
-          -for error in synthese_form.synthese.errors
-            %span.help-block= error
-
-        %p
-          %input.btn.btn-primary{type: "submit", value: "Sauver"}
-
-      %div{style: "{% if synthese_form.errors %}display: none{% endif %}"}
-        %ul.list-group{style: "margin-bottom: 5px;"}
-          %li.list-group-item
-            =object.oscar_synthese|default:""|safe
-
     .well
       %h3 Exercices
       -with title="Exercices" kind="cahier" references=sesamath_references_cahiers resources=object.sesamath_cahiers
