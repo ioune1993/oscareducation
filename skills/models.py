@@ -322,6 +322,7 @@ class Resource(models.Model):
         ("commented-exercice", "Exercices commentés"),
         ("exercice-correction", "Correction d´exercices"),
         ("learning-sequence", "Séquence d´apprentissage"),
+        ("synthesis", "Synthèse"),
         ("reference", "Référence (presse, histoire)"),
         ("other", "(autre)"),
     ))
