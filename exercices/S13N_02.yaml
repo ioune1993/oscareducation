@@ -1,0 +1,48 @@
+t + 5 – 3t =:
+  type: text
+  answers:
+  - '- 2t + 5'
+  - 5-2t
+2x &#8901; 6x =:
+  type: text
+  answers:
+  - 12x²
+  - 12x carré
+  - 12x au carré
+  - 12x exposant deux
+  - 12x exposant 2
+2x³  + x³ =:
+  type: text
+  answers:
+  - 3x³
+  - 3x exposant 3
+  - 3x exposant trois
+y – (9 – y) =:
+  type: text
+  answers:
+  - 2y - 9
+  - -9 + 2y
+– 8 &#8901; (x – 5) =:
+  type: text
+  answers:
+  - '- 8x + 40'
+  - 40 - 8x
+4 &#8901; (3 + a) + 7a =:
+  type: text
+  answers:
+  - 12 + 11a
+  - 11a + 12
+(x – 3)² =:
+  type: text
+  answers:
+  - x² - 6x + 9
+  - -6x +  x² + 9
+  - x²+9-6x
+  - -6x+9+ x²
+  - 9-6x+ x²
+  - 9+ x²-6x
+(4d + 3) &#8901; (4d – 3) =:
+  type: text
+  answers:
+  - 16d² - 9
+  - -9 + 16d²
