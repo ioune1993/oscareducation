@@ -1,0 +1,13 @@
+t + 5 – 3t =:
+  type: text
+  answers:
+  - -2t + 5
+  - 5 - 2t
+2x &#8901; 6x =:
+  type: text
+  answers:
+  - 12x²
+2x³ + x³ =:
+  type: text
+  answers:
+  - 3x³
