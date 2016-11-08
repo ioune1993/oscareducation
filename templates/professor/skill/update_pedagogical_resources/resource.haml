@@ -44,8 +44,9 @@
                       %span.badge= link.kind
                       =link.title|default:link.link
 
-        %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:skill_remove_pedagogical_ressources' 'resource' resource.id %}"}
-          supprimer
+        -if resource.added_by == request.user
+          %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:skill_remove_pedagogical_ressources' 'resource' resource.id %}"}
+            supprimer
 
 
   .panel.panel-default{style: "display: none", id: "{{ kind }}-form"}
