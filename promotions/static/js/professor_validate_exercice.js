@@ -39,7 +39,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             .success(function(data) {
                 console.log("success");
                 if (data.yaml.result == "error") {
-                    // $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger"> <b>Erreur:</b> ' + data.yaml.message + '</b></div>');
+                    $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger"> <b>Erreur:</b> ' + data.yaml.message + '</b></div>');
                     $scope.exerciceIsValid = false;
                 } else {
                     $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">' + data.yaml.message + '</b></div>');
