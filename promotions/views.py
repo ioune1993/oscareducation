@@ -733,56 +733,6 @@ def exercice_validation_form_validate_exercice_yaml(request):
     }, indent=4), content_type="application/json")
 
 
-@require_POST
-@user_is_professor
-def exercice_validation_form_pull_request_yaml(request):
-    content = json.load(request)
-    yaml = content["yaml"]
-    html = content["html"]
-    skill_code = content["skill_code"]
-
-    existing_files = [x["name"] for x in requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()]
-
-    existing_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches").json()]
-
-    for i in range(1, 100):
-        base_name = ("%s_%.2d" % (skill_code, i)).upper()
-        if base_name + ".yaml" not in existing_files and base_name not in existing_branches:
-            break
-    else:
-        raise Exception()
-
-    master_sha = [x["object"]["sha"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/git/refs/heads").json() if x["ref"] == "refs/heads/master"][0]
-
-    requests.post("https://api.github.com/repos/oscardemo/oscar/git/refs", data=json.dumps({
-            "ref": "refs/heads/%s" % base_name,
-            "sha": master_sha
-        }),
-        auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
-
-    requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.yaml" % base_name, data=json.dumps({
-        "message": "yaml for new exercice for %s" % skill_code,
-        "content": b64encode(yaml.encode("Utf-8")),
-        "branch": base_name}),
-        auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
-
-    if html:
-        requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.html" % base_name, data=json.dumps({
-            "message": "html for new exercice for %s" % skill_code,
-            "content": b64encode(html.encode("Utf-8")),
-            "branch": base_name}),
-            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
-
-    answer = requests.post("https://api.github.com/repos/psycojoker/oscar/pulls", data=json.dumps({
-        "title": "New exercice for %s by %s" % (skill_code, request.user.username),
-        "head": "oscardemo:%s" % base_name,
-        "base": "master",
-    }),
-            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)).json()
-
-    return HttpResponse(answer["html_url"])
-
-
 @user_is_professor
 def contribute_page(request):
     data = {x.short_name: x for x in Stage.objects.all()}
