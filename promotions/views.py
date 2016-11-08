@@ -642,7 +642,15 @@ def exercice_validation_form_pull_request(request):
 
     existing_files = [x["name"] for x in requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()]
 
-    existing_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches").json()]
+    page = 1
+    stop = False
+    existing_branches = []
+    while not stop:
+        new_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches?page=%s" % page).json()]
+        page += 1
+
+        existing_branches += new_branches
+        stop = len(new_branches) == 0
 
     for i in range(1, 100):
         base_name = ("%s_%.2d" % (skill_code, i)).upper()
