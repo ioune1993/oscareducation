@@ -92,7 +92,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             .error(function() {
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
             })
-            .always(function() {
+            .finally(function() {
                 $timeout(function() {
                     $("#submit-pull-request").removeClass("disabled");
                 }, 0);
