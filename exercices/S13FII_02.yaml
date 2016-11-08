@@ -1,22 +1,3 @@
-t + 5 – 3t =:
-  type: text
-  answers:
-  - '- 2t + 5'
-  - 5-2t
-2x &#8901; 6x =:
-  type: text
-  answers:
-  - 12x²
-  - 12x carré
-  - 12x au carré
-  - 12x exposant deux
-  - 12x exposant 2
-2x³  + x³ =:
-  type: text
-  answers:
-  - 3x³
-  - 3x exposant 3
-  - 3x exposant trois
 y – (9 – y) =:
   type: text
   answers:
