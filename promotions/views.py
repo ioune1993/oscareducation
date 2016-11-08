@@ -14,6 +14,7 @@ from ruamel.yaml.comments import CommentedMap
 
 from base64 import b64encode
 from requests.auth import HTTPBasicAuth
+from collections import OrderedDict
 
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
@@ -569,7 +570,7 @@ def students_password_page(request, pk):
 def exercice_validation_form_validate_exercice(request):
     data = json.loads(request.read())
 
-    questions = {}
+    questions = OrderedDict()
     for question in data["questions"]:
         if question["type"] == "text":
             questions[question["instructions"]] = {
