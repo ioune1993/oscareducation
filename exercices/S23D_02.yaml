@@ -1,0 +1,18 @@
+'Amplitude de l''angle A :':
+  type: text
+  answers:
+  - '80'
+  - 80°
+  - 80 degrés
+'Amplitude de l''angle B1 :':
+  type: text
+  answers:
+  - '60'
+  - 60°
+  - 60 degrés
+'Amplitude de l''angle X :':
+  type: text
+  answers:
+  - '40'
+  - 40°
+  - 40 degrés
