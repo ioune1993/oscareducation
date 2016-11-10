@@ -1,0 +1,6 @@
+Coche les deux calculs qui peuvent remplacer le produit 45 x 3³ .:
+  type: checkbox
+  answers:
+    5 x 3^5: true
+    (45 x 3) x (45 x 3) x (45 x 3): false
+    40 x 3³ + 5 x 3³: true
