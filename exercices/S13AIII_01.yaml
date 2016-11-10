@@ -1,0 +1,14 @@
+La notation scientifique du nombre 312 500 000 000 est:
+  type: text
+  answers:
+  - 3,125 x 10^11
+  - 3.125 x 10^11
+La notation scientifique du nombre 0,0034 est:
+  type: text
+  answers:
+  - 3,4 x 10^-3
+  - 3.4 x 10^-3
+La notation scientifique 4,72 x 10^5 donne le nombre:
+  type: text
+  answers:
+  - 472 000
