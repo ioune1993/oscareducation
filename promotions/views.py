@@ -645,7 +645,8 @@ def exercice_validation_form_pull_request(request):
 
     yaml_file = ruamel.yaml.round_trip_dump(questions)
 
-    existing_files = [x["name"] for x in requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()]
+    data = requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()
+    existing_files = [x["name"] for x in data]
 
     page = 1
     stop = False
