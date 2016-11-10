@@ -1,0 +1,9 @@
+Coche le tableau qui montre une proportionnalité directe entre la grandeur x et la grandeur y.:
+  type: checkbox
+  answers:
+    Tableau A: true
+    Tableau B: false
+'Pour ce tableau, écris le coefficient de proportionnalité :':
+  type: text
+  answers:
+  - '3'
