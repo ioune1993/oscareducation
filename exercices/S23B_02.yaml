@@ -1,0 +1,7 @@
+Coche la figure qui correspond au programme de construction proposé.:
+  type: checkbox
+  answers:
+    Figure 1: false
+    Figure 2: false
+    Figure 3: true
+    Figure 4: false
