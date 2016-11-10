@@ -1,0 +1,16 @@
+(3²)³ = 3<SUP>...</SUP>:
+  type: text
+  answers:
+  - '6'
+3<SUP>4</SUP> x 3<SUP>2</SUP> = 3<SUP>...</SUP>:
+  type: text
+  answers:
+  - '6'
+5² x 3² = 15<SUP>...</SUP>:
+  type: text
+  answers:
+  - '2'
+4<SUP>6</SUP> / 4<SUP>3</SUP> = 4<SUP>...</SUP>:
+  type: text
+  answers:
+  - '3'
