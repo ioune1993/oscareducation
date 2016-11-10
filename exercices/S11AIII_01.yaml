@@ -1,0 +1,8 @@
+a) 10^2 x 10 x 10^-2 =:
+  type: text
+  answers:
+  - '10'
+b) 5 x 10^2  + 4 x 10^3  =:
+  type: text
+  answers:
+  - '4500'
