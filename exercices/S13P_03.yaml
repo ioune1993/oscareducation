@@ -1,0 +1,8 @@
+Si 9/n = 9 alors n =:
+  type: text
+  answers:
+  - '1'
+Si n/2 = 0 alors n =:
+  type: text
+  answers:
+  - '0'
