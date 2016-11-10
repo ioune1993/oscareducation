@@ -1,0 +1,15 @@
+58 - 5 x 4 =:
+  type: checkbox
+  answers:
+    58 - 20: false
+    53 x 4: true
+'9 : 3/4 =':
+  type: checkbox
+  answers:
+    3/4: false
+    '12': true
+'18 : 3 x 2 =':
+  type: checkbox
+  answers:
+    6 x 2: true
+    '18 : 6': false
