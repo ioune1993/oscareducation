@@ -1,0 +1,21 @@
+a) x =:
+  type: text
+  answers:
+  - 5/4
+  - 5:4
+  - x=5/4
+  - x=5:4
+b) x =:
+  type: text
+  answers:
+  - -5/2
+  - -5:2
+  - x=-5/2
+  - x=-5:2
+c) x =:
+  type: text
+  answers:
+  - 14/15
+  - 14:15
+  - x=14/15
+  - x=14:15
