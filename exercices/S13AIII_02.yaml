@@ -1,0 +1,12 @@
+a):
+  type: text
+  answers:
+  - '1'
+b):
+  type: text
+  answers:
+  - '-64'
+c):
+  type: text
+  answers:
+  - '-16'
