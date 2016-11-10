@@ -1,0 +1,12 @@
+L’amplitude de l’angle F vaut ... degrés.:
+  type: text
+  answers:
+  - '33'
+  - 33°
+  - 33 degrés
+L’amplitude de l’angle E vaut ... degrés.:
+  type: text
+  answers:
+  - '57'
+  - 57°
+  - 57 degrés
