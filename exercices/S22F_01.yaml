@@ -1,0 +1,14 @@
+Quelle est la longueur du côté [DC] ?:
+  type: text
+  answers:
+  - '4'
+  - 4cm
+  - 4 centimètres
+  - quatre
+  - quatre centimètres
+Quelle est l'amplitude de l'angle GCD du triangle GCD ?:
+  type: text
+  answers:
+  - '90'
+  - 90°
+  - 90 degrés
