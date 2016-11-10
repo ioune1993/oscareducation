@@ -1,0 +1,13 @@
+? 'DÉTERMINE la fréquence (chance) d’obtenir un sandwich au poulet.  (Écris ta réponse
+  sous la forme d''une fraction, par exemple: 1/2.)'
+: type: text
+  answers:
+  - 1/3
+  - un tiers
+  - 1:3
+Pierre a 2 chances sur 5 d'obtenir un sandwich au gout qu’il préfère. DÉTERMINE ce gout.:
+  type: radio
+  answers:
+    Crabe: false
+    Poulet: false
+    Fromage: true
