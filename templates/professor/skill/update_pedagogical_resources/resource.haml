@@ -75,6 +75,20 @@
               =resource_form.kind|as_crispy_field
             .col-md-4
               =resource_form.author|as_crispy_field
+          -elif kind == "exercice_resource"
+            .col-md-4
+              =resource_form.title|as_crispy_field
+            .col-md-4
+              .form-group
+                %label.control-label.prenom{for: "id_kind"}
+                  Type*
+                %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "id_kind", value: "", list: "type_list"}
+                  %option{value: "", selected: "selected"} ---------
+                  %option{value: "exercice"} Exercices
+                  %option{value: "commented-exercice"} Exercices commentés
+                  %option{value: "exercice-correction"} Correction d´exercices
+            .col-md-4
+              =resource_form.author|as_crispy_field
           -else
             %input{type: "hidden", value: "{{ kind|slice:\":-9\" }}", name: "kind"}
             .col-md-6
