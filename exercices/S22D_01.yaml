@@ -1,0 +1,10 @@
+'Caractéristique 1 (en un mot):':
+  type: text
+  answers:
+  - isocèle
+  - rectangle
+'Caractéristique 2 (en un mot):':
+  type: text
+  answers:
+  - isocèle
+  - rectangle
