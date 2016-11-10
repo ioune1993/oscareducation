@@ -63,7 +63,12 @@
         %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
         %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
         .row
-          -if kind == "personal_resource" or kind == "other_resource"
+          -if kind == "personal_resource"
+            .col-md-6
+              =resource_form.title|as_crispy_field
+            .col-md-6
+              =resource_form.kind|as_crispy_field
+          -elif kind == "other_resource"
             .col-md-4
               =resource_form.title|as_crispy_field
             .col-md-4
