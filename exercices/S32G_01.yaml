@@ -1,0 +1,18 @@
+Lorsque l’on double les longueurs des côtés d’un triangle, les amplitudes des angles sont aussi doublées.:
+  type: radio
+  answers:
+    Toujours vraie.: false
+    Toujours fausse.: true
+    On ne peut pas conclure.: false
+Lorsque l’on triple la longueur des côtés d’un carré, son périmètre est aussi triplé.:
+  type: radio
+  answers:
+    Toujours vraie.: true
+    Toujours fausse.: false
+    On ne peut pas conclure.: false
+Lorsque l’on augmente la longueur d’un rectangle et que l’on diminue sa largeur, son aire est toujours augmentée.:
+  type: radio
+  answers:
+    Toujours vraie.: false
+    Toujours fausse.: false
+    On ne peut pas conclure.: true
