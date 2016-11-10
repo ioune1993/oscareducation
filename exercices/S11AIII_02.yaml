@@ -1,0 +1,5 @@
+CALCULE la part de grenadine contenue dans le cocktail et EXPRIME ta réponse sous forme de fraction irréductible.:
+  type: text
+  answers:
+  - 1/5
+  - 1:5
