@@ -1,0 +1,6 @@
+  .form-group{class: "{% if resource_form.title.errors %}has-error{% elif resource_form.data and resource_form.title %}has-success{% endif %}"}
+    %label.control-label{for: "id_title"}
+      Titre*
+    %input#id_title.form-control{type: "text", required: "required", placeholder: "Titre*", name: "title", value: ""}
+    -for error in resource_form.title.errors
+      %span.help-block= error

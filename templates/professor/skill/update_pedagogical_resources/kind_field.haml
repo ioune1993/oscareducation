@@ -1,0 +1,9 @@
+  .form-group
+    %label.control-label.prenom{for: "id_kind"}
+      Type*
+    %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "id_kind", value: "", list: "type_list"}
+      -for value, text in resource_form.fields.kind.choices
+        -if forloop.first
+          %option{vlalue: "{{ value }}", selected: "selected"}= text
+        -else
+          %option{vlalue: "{{ value }}"}= text

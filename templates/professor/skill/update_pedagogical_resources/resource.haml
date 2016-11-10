@@ -65,19 +65,19 @@
         .row
           -if kind == "personal_resource"
             .col-md-6
-              =resource_form.title|as_crispy_field
+              -include "professor/skill/update_pedagogical_resources/title_field.haml"
             .col-md-6
-              =resource_form.kind|as_crispy_field
+              -include "professor/skill/update_pedagogical_resources/kind_field.haml"
           -elif kind == "other_resource"
             .col-md-4
-              =resource_form.title|as_crispy_field
+              -include "professor/skill/update_pedagogical_resources/title_field.haml"
             .col-md-4
-              =resource_form.kind|as_crispy_field
+              -include "professor/skill/update_pedagogical_resources/kind_field.haml"
             .col-md-4
               =resource_form.author|as_crispy_field
           -elif kind == "exercice_resource"
             .col-md-4
-              =resource_form.title|as_crispy_field
+              -include "professor/skill/update_pedagogical_resources/title_field.haml"
             .col-md-4
               .form-group
                 %label.control-label.prenom{for: "id_kind"}
@@ -92,7 +92,7 @@
           -else
             %input{type: "hidden", value: "{{ kind|slice:\":-9\" }}", name: "kind"}
             .col-md-6
-              =resource_form.title|as_crispy_field
+              -include "professor/skill/update_pedagogical_resources/title_field.haml"
             .col-md-6
               =resource_form.author|as_crispy_field
 
