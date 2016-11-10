@@ -114,3 +114,15 @@
             =skills_with_questions.count
             \/
             =skills.count
+
+          %table.table.table-bordered
+            %tr
+              %th Année
+              %th Compétences avec questions
+              %th Nombre de compétences
+
+            -for stage in stages_with_skills_with_questions
+              %tr
+                %td= stage.stage
+                %td= stage.skills_count_with_questions.count
+                %td= stage.stage.skills__count
