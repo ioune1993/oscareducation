@@ -1,0 +1,12 @@
+2/5 ... 0,75:
+  type: text
+  answers:
+  - <
+-3 ... -7/2:
+  type: text
+  answers:
+  - '>'
+0,08 ... -4/-5:
+  type: text
+  answers:
+  - <
