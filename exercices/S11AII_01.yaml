@@ -1,0 +1,16 @@
+ÉCRIS le chiffre manquant du tableau.:
+  type: text
+  answers:
+  - '7'
+DÉTERMINE le nombre de triangles de la figure composée de 7 carrés.:
+  type: text
+  answers:
+  - '13'
+DÉTERMINE le nombre de carrés de la figure composée de 35 triangles.:
+  type: text
+  answers:
+  - '18'
+PROPOSE une formule qui permet de calculer le nombre de triangles en fonction du nombre n de carrés.:
+  type: text
+  answers:
+  - 2n - 1
