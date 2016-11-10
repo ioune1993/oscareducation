@@ -1,0 +1,8 @@
+Détermine le nombre de segments nécessaires pour réaliser la 4e figure.:
+  type: text
+  answers:
+  - '21'
+Détermine le numéro de la figure que tu pourras réaliser avec 36 segments.:
+  type: text
+  answers:
+  - '7'
