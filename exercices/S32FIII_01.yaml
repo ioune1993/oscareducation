@@ -1,0 +1,5 @@
+'Coche le tableau adéquat:':
+  type: checkbox
+  answers:
+    Tableau A: true
+    Tableau B: false
