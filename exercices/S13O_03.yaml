@@ -1,0 +1,16 @@
+Un nombre est égal à son triple diminué de 19. Coche l'équation qui représente la situation si x représente ce nombre.:
+  type: checkbox
+  answers:
+    x = 3x + 19: false
+    x = 1/3x − 19: false
+    3x = x – 19: false
+    x = 3x – 19: true
+? À midi, des élèves ont acheté chacun un sandwich à 3 €. Le groupe a acheté en plus
+  une grappe de raisins à 2 €. Ils ont payé en tout 23 €. Coche l’équation qui représente
+  la situation si n représente le nombre d’élèves.
+: type: checkbox
+  answers:
+    3n = 23 + 2: false
+    3n = 23 + 2n: false
+    3n + 2 = 23: true
+    23 = 3n – 2: false
