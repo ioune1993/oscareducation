@@ -118,13 +118,13 @@
           %table.table.table-bordered
             %tr
               %th Année
+              %th # de questions
               %th Compétences avec questions
               %th # de compétences
-              %th # de questions
 
             -for stage in stages_with_skills_with_questions
               %tr
                 %td= stage.stage
+                %td= stage.stage.skills__exercice__count
                 %td= stage.skills_count_with_questions.count
                 %td= stage.stage.skills__count
-                %td= stage.stage.skills__exercice__count
