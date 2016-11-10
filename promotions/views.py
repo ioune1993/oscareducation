@@ -335,6 +335,10 @@ def update_pedagogical_ressources(request, slug):
             if resource_form.is_valid():
                 resource = resource_form.save()
 
+                if not resource.author:
+                    resource.author = unicode(request.user.professor)
+                    resource.save()
+
                 for i in filter(lambda x: x.startswith("link_link_"), request.POST.keys()):
                     number = i.split("_")[-1]
                     link = request.POST["link_link_" + number]
