@@ -1,0 +1,7 @@
+Coche le graphique qui correspond à cette situation.:
+  type: radio
+  answers:
+    Le premier graphique: false
+    Le second graphique: false
+    Le troisième graphique: true
+    Le quatrième graphique: false
