@@ -1,0 +1,8 @@
+10 500 × 10² = 105 × 10:
+  type: text
+  answers:
+  - '4'
+Le centième de 10^8 est 10^...:
+  type: text
+  answers:
+  - '6'
