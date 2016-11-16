@@ -1,0 +1,5 @@
+La proportion de bonbons verts dans le sachet est 6/8.:
+  type: radio
+  answers:
+    Vrai: false
+    Faux: true
