@@ -1,0 +1,8 @@
+a):
+  type: text
+  answers:
+  - B
+b):
+  type: text
+  answers:
+  - C
