@@ -1,0 +1,9 @@
+'La notation scientifique du nombre 0,000089 :':
+  type: text
+  answers:
+  - 8,9 x 10^-5
+  - 8.9 x 10^-5
+'Le nombre de 7,35 x 10^4 :':
+  type: text
+  answers:
+  - '73500'
