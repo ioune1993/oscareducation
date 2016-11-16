@@ -615,6 +615,8 @@ def exercice_validation_form_validate_exercice(request):
 @require_POST
 @user_is_professor
 def exercice_validation_form_pull_request(request):
+    auth = (settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)
+
     data = json.load(request)
     html = data["html"]
     skill_code = data["skill_code"]
@@ -645,14 +647,14 @@ def exercice_validation_form_pull_request(request):
 
     yaml_file = ruamel.yaml.round_trip_dump(questions)
 
-    data = requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/").json()
+    data = requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/", auth=auth).json()
     existing_files = [x["name"] for x in data]
 
     page = 1
     stop = False
     existing_branches = []
     while not stop:
-        new_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches?page=%s" % page).json()]
+        new_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches?page=%s" % page, auth=auth).json()]
         page += 1
 
         existing_branches += new_branches
@@ -665,19 +667,19 @@ def exercice_validation_form_pull_request(request):
     else:
         raise Exception()
 
-    master_sha = [x["object"]["sha"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/git/refs/heads").json() if x["ref"] == "refs/heads/master"][0]
+    master_sha = [x["object"]["sha"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/git/refs/heads", auth=auth).json() if x["ref"] == "refs/heads/master"][0]
 
     requests.post("https://api.github.com/repos/oscardemo/oscar/git/refs", data=json.dumps({
             "ref": "refs/heads/%s" % base_name,
             "sha": master_sha
         }),
-        auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+        auth=auth)
 
     requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.yaml" % base_name, data=json.dumps({
         "message": "yaml for new exercice for %s" % skill_code,
         "content": b64encode(yaml_file),
         "branch": base_name}),
-        auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+        auth=auth)
 
     if image:
         if html:
@@ -689,21 +691,21 @@ def exercice_validation_form_pull_request(request):
             "message": "image for new exercice for %s" % skill_code,
             "content": image,
             "branch": base_name}),
-            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+            auth=auth)
 
     if html:
         requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.html" % base_name, data=json.dumps({
             "message": "html for new exercice for %s" % skill_code,
             "content": b64encode(html.encode("Utf-8")),
             "branch": base_name}),
-            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD))
+            auth=auth)
 
     answer = requests.post("https://api.github.com/repos/psycojoker/oscar/pulls", data=json.dumps({
         "title": "New exercice for %s by %s" % (skill_code, request.user.username),
         "head": "oscardemo:%s" % base_name,
         "base": "master",
     }),
-            auth=HTTPBasicAuth(settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)).json()
+            auth=auth).json()
 
     return HttpResponse(answer["html_url"])
 
