@@ -1,0 +1,5 @@
+Le pourcentage de bonbons jaunes dans le sachet est de 15%.:
+  type: radio
+  answers:
+    Vrai: true
+    Faux: false
