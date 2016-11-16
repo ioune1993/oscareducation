@@ -1,0 +1,12 @@
+'- le triangle LQK sur le triangle JEK ?':
+  type: text
+  answers:
+  - symétrie centrale
+  - rotation
+  - une symétrie centrale
+  - une rotation
+'- le trapèze ABIG sur le trapèze NOVT ?':
+  type: text
+  answers:
+  - translation
+  - une translation
