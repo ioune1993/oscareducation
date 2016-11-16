@@ -1,0 +1,18 @@
+ÉCRIS le nombre d’élèves dans la classe A:
+  type: text
+  answers:
+  - '20'
+ÉCRIS le nombre d’élèves dans la classe B:
+  type: text
+  answers:
+  - '25'
+ÉCRIS le nombre d’élèves qui, dans la classe B, jouent « sur console et en ligne »:
+  type: text
+  answers:
+  - '6'
+ÉCRIS la classe où le pourcentage d’élèves qui jouent « sur console et en ligne » est le plus important:
+  type: text
+  answers:
+  - A
+  - classe A
+  - la classe A
