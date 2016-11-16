@@ -1,0 +1,7 @@
+Soit la fonction f(x) = 2x²-4x+3. Parmi les propositions suivantes, laquelle est incorrecte ?:
+  type: checkbox
+  answers:
+    Sommet en (1;1): false
+    Axe de symétrie x = 1: false
+    Elle possède un maximum: true
+    Elle passe par le point (2;3): false
