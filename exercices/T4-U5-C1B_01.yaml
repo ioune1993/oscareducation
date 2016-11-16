@@ -1,0 +1,7 @@
+'La fonction f(x) = 2x-3x+1 admet :':
+  type: checkbox
+  answers:
+    Une racine: false
+    Deux racines: true
+    Pas de réponse possible: false
+    On ne peut pas répondre à la question: false
