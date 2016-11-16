@@ -1,0 +1,15 @@
+Le point qui est à égale distance des trois côtés d’un triangle est le point d’intersection de ses…:
+  type: checkbox
+  answers:
+    médianes.: false
+    médiatrices.: false
+    hauteurs.: false
+    bissectrices.: true
+Les droites remarquables perpendiculaires aux côtés d’un triangle scalène sont…:
+  type: checkbox
+  answers:
+    les médianes et les médiatrices.: false
+    les médianes et les hauteurs.: false
+    les bissectrices et les médiatrices.: false
+    les hauteurs et les médiatrices.: true
+    les bissectrices et les hauteurs.: false
