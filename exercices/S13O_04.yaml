@@ -1,0 +1,18 @@
+? Johan choisit un nombre. Il soustrait 3 à ce nombre puis multiplie le résultat par
+  4. Il obtient alors le double du nombre de départ. Coche l’expression algébrique
+  qui traduit l’énoncé si n représente le nombre de départ.
+: type: checkbox
+  answers:
+    n – 3 . 4 = 2 + n: false
+    n – 3 . 4 = 2n: true
+    (n – 3) . 4 = 2 + n: false
+    (n – 3) . 4 = 2n: false
+? Maud a choisi une formule de vacances à 1 000 euros. Le vol aller-retour Bruxelles-Barcelone
+  coute 250 euros et le séjour à l’hôtel revient à 50 euros par jour. Coche l’expression
+  algébrique qui traduit l’énoncé si n représente le nombre de jours.
+: type: checkbox
+  answers:
+    250 + n + 50 = 1 000: false
+    250 + 50n = 1 000: true
+    (250 + 50)n = 1 000: false
+    250 . 2 + 50n = 1 000: false
