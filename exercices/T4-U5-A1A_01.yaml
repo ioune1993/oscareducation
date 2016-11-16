@@ -1,0 +1,8 @@
+? 'A l''aide d''un graphique (à réaliser sur le grapheur de votre choix), déterminer
+  les solutions de l''inéquation suivante : x²-2 > x'
+: type: checkbox
+  answers:
+    Aucune de ces réponses: true
+    '[1;-2]': false
+    '[-1;2]': false
+    ']-1;2[': false
