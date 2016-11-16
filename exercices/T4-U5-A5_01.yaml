@@ -1,0 +1,10 @@
+? Déterminer l'équation d'une fonction dont la courbe représentative est une parabole
+  dont le maximum est situé en (2;3) et dont les racines sont x=1 et x=3
+: type: text
+  answers:
+  - f(x)=-3x^2+12x-9
+  - f(x)=12x-3x^2-9
+  - f(x)=12x-9-3x^2
+  - f(x)=-3x^2-9+12x
+  - f(x)=-9-3x^2+12x
+  - f(x)=-9+12x-3x^2
