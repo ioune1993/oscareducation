@@ -1,0 +1,9 @@
+La quantité de protéines dans la canette classique de 33cl est de ... g:
+  type: text
+  answers:
+  - '2.31'
+  - 2,91
+La quantité de glucides dans la petite canette publicitaire de 10cl est de ... g:
+  type: text
+  answers:
+  - '9'
