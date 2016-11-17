@@ -1,0 +1,8 @@
+ÉCRIS l’abscisse du point C.:
+  type: text
+  answers:
+  - '-3'
+ÉCRIS les coordonnées du point A.:
+  type: text
+  answers:
+  - (2,4)
