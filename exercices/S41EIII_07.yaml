@@ -1,0 +1,9 @@
+DÉTERMINE la couleur qui correspond à une fréquence de 30 %.:
+  type: text
+  answers:
+  - Rouge
+? Youri a pris un bonbon. Il avait une chance sur 5 de prendre un bonbon de cette
+  couleur. DÉTERMINE la couleur du bonbon de Youri.
+: type: text
+  answers:
+  - Vert
