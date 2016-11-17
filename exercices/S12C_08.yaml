@@ -1,0 +1,8 @@
+Écris l’heure à laquelle ils sonneront à nouveau ensemble.:
+  type: text
+  answers:
+  - 11h16
+  - 11 heures 16
+  - 11 heures 16 minutes
+  - 11h16min
+  - 11:16
