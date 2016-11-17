@@ -1,0 +1,16 @@
+'Choisis l''ordre le numérotation juste :':
+  type: radio
+  answers:
+    1 - 3 - 2 - 4 - 5: false
+    3 - 1 - 4 - 2 - 5: false
+    4 - 3 - 1 - 2 - 5: false
+    2 - 3 - 4 - 1 - 5: false
+    4 - 1 - 2 - 3 - 5: false
+    1 - 4 - 3 - 2 - 5: false
+    2 - 1 - 4 - 3 - 5: false
+    3 - 2 - 4 - 1 - 5: false
+    4 - 1 - 3 - 2 - 5: true
+    1 - 2 - 4 - 3 - 5: false
+    4 - 2 - 3 - 1 - 5: false
+    1 - 3 - 4 - 2 - 5: false
+    2 - 4 - 1 - 3 - 5: false
