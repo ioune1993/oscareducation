@@ -1,0 +1,8 @@
+L'amplitude de l'angel ACB est de ... degrés.:
+  type: text
+  answers:
+  - '50'
+L'amplitude de l'angel DCB est de ... degrés.:
+  type: text
+  answers:
+  - '180'
