@@ -1,0 +1,16 @@
+u5 = 512 et q = 2:
+  type: radio
+  answers:
+    u5 = 32 et u10 = 16384: true
+u3 = 9/4 et q = 1/3:
+  type: radio
+  answers:
+    u1 = 81/4 et u10 = 1/972: true
+u4 = 0.001 et q = 0,2:
+  type: radio
+  answers:
+    u1 = 1/8 et u10 = 6,4 . 10 exposant -8: true
+u2 = 7 et q = 3:
+  type: radio
+  answers:
+    u1 = 7/3 et u10 = 45927: true
