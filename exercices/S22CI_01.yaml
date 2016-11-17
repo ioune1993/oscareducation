@@ -1,0 +1,5 @@
+Écris les coordonnées du point D.:
+  type: text
+  answers:
+  - (0,7)
+  - (-1,7)
