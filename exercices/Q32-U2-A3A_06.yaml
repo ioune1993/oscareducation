@@ -1,0 +1,12 @@
+u1 =:
+  type: text
+  answers:
+    - 0,02
+    - 0.02
+    - 2/100
+u15 =:
+  type: text
+  answers:
+    - -0,28
+    - -0.28
+    - -7/25
