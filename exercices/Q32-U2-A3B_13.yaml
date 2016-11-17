@@ -1,0 +1,62 @@
+u2 =:
+    - 64
+u3 =:
+  type: text
+  answers:
+    - 32
+u4 =:
+  type: text
+  answers:
+    - 16
+u5 =:
+  type: text
+  answers:
+    - 8
+Un =:
+  type: text
+  answers:
+    - 128.(1/2) exposant n-1
+    - 128.(1/2) exposant(n-1)
+    - 128x(1/2) exposant n-1
+    - 128x(1/2) exposant(n-1)
+    - 128.0,5 exposant n-1
+    - 128.0,5 exposant(n-1)
+    - 128x0,5 exposant n-1
+    - 128x0,5 exposant(n-1)
+    - 128x0.5 exposant n-1
+    - 128x0.5 exposant(n-1)
+
+    - 128.(1/2) e n-1
+    - 128.(1/2) e(n-1)
+    - 128x(1/2) e n-1
+    - 128x(1/2) e(n-1)
+    - 128.0,5 e n-1
+    - 128.0,5 e(n-1)
+    - 128x0,5 e n-1
+    - 128x0,5 e(n-1)
+    - 128x0.5 e n-1
+    - 128x0.5 e(n-1)
+
+    - 128.(1/2) ^ n-1
+    - 128.(1/2) ^(n-1)
+    - 128x(1/2) ^ n-1
+    - 128x(1/2) ^(n-1)
+    - 128.0,5 ^ n-1
+    - 128.0,5 ^(n-1)
+    - 128x0,5 ^ n-1
+    - 128x0,5 ^(n-1)
+    - 128x0.5 ^ n-1
+    - 128x0.5 ^(n-1)
+
+    - 2 exposant 8−n
+    - 2 exposant(8−n)
+    - 2 ^ 8−n
+    - 2 ^(8−n)
+    - 2 e 8−n
+    - 2 e(8−n)
+u10 =:
+  type: text
+  answers:
+    - 0,25
+    - 0.25
+    - 1/4
