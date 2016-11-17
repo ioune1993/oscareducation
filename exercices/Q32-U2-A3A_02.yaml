@@ -1,0 +1,16 @@
+u7 = 25 et u12 = 45:
+  type: radio
+  answers:
+    u1 =1 et u15 = 57: true
+u8 = 19 et u21 = -0,5:
+  type: radio
+  answers:
+    u1 = 29,5 et u15 = 8,5: true
+u13 = -0,34 et u2 = -0,01:
+  type: radio
+  answers:
+    u1 = 0,02 et u15 = -0,28: true
+u5 = 138/7 et u8 = 21:
+  type: radio
+  answers:
+    u1 = 18 et u15 = 24: true
