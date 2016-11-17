@@ -1,0 +1,8 @@
+q =:
+  type: text
+  answers:
+    - 1,07
+u1 =:
+  type: text
+  answers:
+    - 5000000

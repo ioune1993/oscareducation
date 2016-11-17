@@ -1,12 +1,10 @@
-u6 = 567 et u7 = 15309:
-  type: radio
+q =:
+  type: text
   answers:
-    q = 27 et u1 = 7/177147: true
-u2 = 392 et u5 = 49:
-  type: radio
+    - 27
+u1 =:
+  type: text
   answers:
-    q = 1/2 et u1 = 784: true
-u6 = 7012758,654 et u2 = 5350000:
-  type: radio
-  answers:
-    q = 1,07 et u1 = 5000000: true
+    - 7/177147
+    - "0,00003951520488633733"
+    - "0.00003951520488633733"
