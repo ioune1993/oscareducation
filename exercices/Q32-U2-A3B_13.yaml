@@ -1,4 +1,6 @@
 u2 =:
+  type: text
+  answers:
     - 64
 u3 =:
   type: text
