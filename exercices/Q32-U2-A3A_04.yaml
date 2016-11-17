@@ -1,0 +1,8 @@
+r =:
+  type: text
+  answers:
+    - 101
+S100 =:
+  type: text
+  answers:
+    - S100
