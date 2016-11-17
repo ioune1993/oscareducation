@@ -1,8 +1,10 @@
 u1 =:
   type: text
   answers:
-    - 32
+    - 81/4
+    - 20.25
+    - 20,25
 u10 =:
   type: text
   answers:
-    - 16384
+    - 1/972
