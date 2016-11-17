@@ -1,0 +1,4 @@
+DÉTERMINE, à partir de combien d’heures (nombre entier) de location, l’option 1 devient la plus intéressante.:
+  type: text
+  answers:
+  - '13'
