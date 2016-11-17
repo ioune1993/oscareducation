@@ -1,0 +1,8 @@
+Calculer S8, S12, S20 si u1 = -4 et r 3:
+  type: radio
+  answers:
+    S8 = 52 S12 =150 S20 = 490: true
+Calculer r et S100 si u10 = 10 et u1000 = 100000:
+  type: radio
+  answers:
+    r =101 et S100 = 410050: true
