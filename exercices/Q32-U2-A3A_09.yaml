@@ -1,8 +1,9 @@
 u1 =:
   type: text
   answers:
-    - 8
+    - 62
 u16 =:
   type: text
   answers:
-    - -37
+    - 39,5
+    - 39.5
