@@ -1,4 +1,20 @@
-u1 = 17 et r = 4:
-  type: radio
+u2 =:
+  type: text
   answers:
-    u2 = 21, u3 = 25, u4 = 29, u5 = 33, u100 = 413: true
+    - 21
+u3 =:
+  type: text
+  answers:
+    - 25
+u4 =:
+  type: text
+  answers:
+    - 29
+u5 =:
+  type: text
+  answers:
+    - 33
+u100 =:
+  type: text
+  answers:
+    - 413
