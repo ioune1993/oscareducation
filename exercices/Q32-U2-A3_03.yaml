@@ -1,20 +1,28 @@
 u2 =:
   type: text
   answers:
-    - 21
+    - -0,75
+    - -0.75
+    - 3/4
 u3 =:
   type: text
   answers:
-    - 25
+    - -0,5
+    - -0.5
+    - -1/2
 u4 =:
   type: text
   answers:
-    - 29
+    - -0,25
+    - -0.25
+    - -1/4
 u5 =:
   type: text
   answers:
-    - 33
+    - 0
 u100 =:
   type: text
   answers:
-    - 413
+    - 23,75
+    - 23.75
+    - 95/4
