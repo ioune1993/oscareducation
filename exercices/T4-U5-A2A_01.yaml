@@ -1,0 +1,8 @@
+? 'Soit la fonction f(x) = 3*(x-1)*(x+2), déterminer le graphique de sa courbe représentative
+  parmi les propositions suivantes :'
+: type: checkbox
+  answers:
+    Graphe 1: true
+    Graphe 2: false
+    Graphe 3: false
+    Graphe 4: false
