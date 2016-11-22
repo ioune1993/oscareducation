@@ -1,0 +1,16 @@
+u3 = 2 et r = -3:
+  type: radio
+  answers:
+    u1 = 8 et u16 = -37: true
+u10 = -9 et r = 4:
+  type: radio
+  answers:
+    u1 = 22 et u16 = -0,5: true
+u31 = 17 et r = 2/3:
+  type: radio
+  answers:
+    u1 = 62 et u16 = 39,5: true
+u7 = 13 et r = -1,5:
+  type: radio
+  answers:
+    u1 = -21/3 et u16 = 13: true
