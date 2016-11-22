@@ -1,0 +1,4 @@
+u1 = 17 et r = 4:
+  type: radio
+  answers:
+    u2 = 21, u3 = 25, u4 = 29, u5 = 33, u100 = 413: true
