@@ -1,8 +1,8 @@
 # encoding: utf-8
 
+import os
 import sys
 import json
-import requests
 import traceback
 
 import yaml
@@ -12,8 +12,7 @@ import yamlordereddictloader
 
 from ruamel.yaml.comments import CommentedMap
 
-from base64 import b64encode
-from requests.auth import HTTPBasicAuth
+from base64 import b64decode
 from collections import OrderedDict
 
 from django.conf import settings
@@ -615,17 +614,10 @@ def exercice_validation_form_validate_exercice(request):
 @require_POST
 @user_is_professor
 def exercice_validation_form_pull_request(request):
-    auth = (settings.OSCAR_GITHUB_LOGIN, settings.OSCAR_GITHUB_PASSWORD)
-
     data = json.load(request)
     html = data["html"]
     skill_code = data["skill_code"]
     image = None
-
-    if data.get("image"):
-        image_extension, image = data["image"].split(",", 1)
-
-        image_extension = image_extension.split("/")[1].split(";")[0]
 
     questions = CommentedMap()
     for question in data["questions"]:
@@ -647,67 +639,41 @@ def exercice_validation_form_pull_request(request):
 
     yaml_file = ruamel.yaml.round_trip_dump(questions)
 
-    data = requests.get("https://api.github.com/repos/psycojoker/oscar/contents/exercices/", auth=auth).json()
-    existing_files = [x["name"] for x in data]
 
-    page = 1
-    stop = False
-    existing_branches = []
-    while not stop:
-        new_branches = [x["name"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/branches?page=%s" % page, auth=auth).json()]
-        page += 1
+    if data.get("image"):
+        existing_images = {x for x in os.listdir(os.path.join(settings.BASE_DIR, "exercices"))}
 
-        existing_branches += new_branches
-        stop = len(new_branches) == 0
+        image_extension, image = data["image"].split(",", 1)
 
-    for i in range(1, 100):
-        base_name = ("%s_%.2d" % (skill_code, i)).upper()
-        if base_name + ".yaml" not in existing_files and base_name not in existing_branches:
-            break
-    else:
-        raise Exception()
+        image_extension = image_extension.split("/")[1].split(";")[0]
 
-    master_sha = [x["object"]["sha"] for x in requests.get("https://api.github.com/repos/oscardemo/oscar/git/refs/heads", auth=auth).json() if x["ref"] == "refs/heads/master"][0]
-
-    requests.post("https://api.github.com/repos/oscardemo/oscar/git/refs", data=json.dumps({
-            "ref": "refs/heads/%s" % base_name,
-            "sha": master_sha
-        }),
-        auth=auth)
-
-    requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.yaml" % base_name, data=json.dumps({
-        "message": "yaml for new exercice for %s" % skill_code,
-        "content": b64encode(yaml_file),
-        "branch": base_name}),
-        auth=auth)
-
-    if image:
-        if html:
-            html = ('<img src="/static/exercices/%s.%s" />\n' % (base_name, image_extension)) + html
+        for i in range(1, 100):
+            name = ("%s_%.2d.%s" % (skill_code, i, image_extension)).upper()
+            if name not in existing_images:
+                break
         else:
-            html = '<img src="/static/exercices/%s.%s" />\n' % (base_name, image_extension)
+            raise Exception()
 
-        requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.%s" % (base_name, image_extension), data=json.dumps({
-            "message": "image for new exercice for %s" % skill_code,
-            "content": image,
-            "branch": base_name}),
-            auth=auth)
+        if html:
+            html = ('<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)) + html
+        else:
+            html = '<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)
 
-    if html:
-        requests.put("https://api.github.com/repos/oscardemo/oscar/contents/exercices/%s.html" % base_name, data=json.dumps({
-            "message": "html for new exercice for %s" % skill_code,
-            "content": b64encode(html.encode("Utf-8")),
-            "branch": base_name}),
-            auth=auth)
+        exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
+        if not os.path.exists(exercices_folder):
+            os.makedirs(exercices_folder)
 
-    answer = requests.post("https://api.github.com/repos/psycojoker/oscar/pulls", data=json.dumps({
-        "title": "New exercice for %s by %s" % (skill_code, request.user.username),
-        "head": "oscardemo:%s" % base_name,
-        "base": "master",
-    }),
-            auth=auth).json()
+        open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
 
-    return HttpResponse(answer["html_url"])
+    with transaction.atomic():
+        Exercice.objects.create(
+            file_name="submitted",
+            skill=Skill.objects.get(code=skill_code),
+            answer=yaml_file,
+            content=html,
+        )
+
+    return HttpResponse()
 
 
 @require_POST
