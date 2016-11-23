@@ -7,6 +7,8 @@
     =exercice.skill.code
     %small
       =exercice.skill.name
+    %a.btn.btn-sm.btn-primary.pull-right{href: "{% url 'professor:exercice_list' %}"}
+      Voir toutes les questions
 
   %hr
 
@@ -42,11 +44,6 @@
                   =option
       -else
         =question.type
-
-
-  %p
-    %a{href: "{% url 'professor:exercice_list' %}"}
-      Voir toutes les questions
 
   %p
     -if exercice.content
