@@ -1,6 +1,12 @@
 -extends "base.haml"
 
 -block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li
+      Questions
+
   %h2 Questions
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
