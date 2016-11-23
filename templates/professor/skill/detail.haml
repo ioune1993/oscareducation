@@ -89,6 +89,9 @@
             %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
               Question n°
               =exercice.id
+            -if not exercice.approved
+              %span.label.label-warning
+                en attente d'approbation
         -empty
           %p
             %i Il n'y a pas de questions disponibles pour cette compétence pour l'instant.
