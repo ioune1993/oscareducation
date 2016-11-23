@@ -11,6 +11,8 @@
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
         Ajouter une question
+      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
+        Compétences et ressources
   %hr
 
   -regroup exercice_list by skill as exercices_by_skills
