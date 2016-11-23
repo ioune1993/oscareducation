@@ -135,6 +135,8 @@ class Exercice(models.Model):
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
 
+    approved = models.BooleanField(default=False)
+
     def __unicode__(self):
         return "on %s" % self.skill.code
 
