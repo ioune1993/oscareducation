@@ -546,6 +546,13 @@ def exercice_list(request):
     })
 
 
+@user_is_professor
+def exercice_to_approve_list(request):
+    return render(request, 'professor/exercice/list_to_approve.haml', {
+        "exercice_list": Exercice.objects.filter(approved=False).select_related('skill'),
+    })
+
+
 #@require_POST
 @user_is_professor
 def students_password_page(request, pk):

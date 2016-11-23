@@ -55,6 +55,7 @@ urlpatterns = [
     url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', views.lesson_tests_and_skills, name='lesson_tests_and_skills'),
 
     url(r'^exercices/$', views.exercice_list, name='exercice_list'),
+    url(r'^exercices/to_approve/$', views.exercice_to_approve_list, name='exercice_list'),
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
     url(r'^exercices/validation_form/$', user_is_professor(ListView.as_view(model=Stage, template_name="professor/exercice/validation_form.haml")), name='exercice_validation_form'),
     url(r'^exercices/validation_form/validate/$', views.exercice_validation_form_validate_exercice, name='exercice_validation_form_validate_exercice'),
