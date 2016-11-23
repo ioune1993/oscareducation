@@ -87,8 +87,8 @@
         -for exercice in skill.exercice_set.all
           %li
             %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-              Question
-              =exercice.file_name
+              Question n°
+              =exercice.id
         -empty
           %p
             %i Il n'y a pas de questions disponibles pour cette compétence pour l'instant.

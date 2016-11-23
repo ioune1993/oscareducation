@@ -18,8 +18,8 @@
       %ul
         %li
           %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-            Question
-            =exercice.file_name
+            Question n°
+            =exercice.id
 
   %h2 Compétences sans questions
 

@@ -39,10 +39,13 @@
                 %b Compétence :
                 =i.test_exercice.skill
                 %br
-                %b Question :
-                =i.test_exercice.exercice.file_name|default:"pas de questions disponible"
+                -if i.test_exercice.exercice.id
+                  %b Question n°
+                  =i.test_exercice.exercice.id
+                -else
+                  Pas de questions disponible
             %td{colspan: 2}
-              -if not i.test_exercice.exercice.file_name and not i.automatic
+              -if not i.test_exercice.exercice and not i.automatic
                 %i pas de questions disponible
               -elif not i.automatic
                 %table.full-width
