@@ -83,14 +83,14 @@
                 Aucune compétence ne dépend de celle-ci.
 
       %h3 Questions
-      %ul
+      %ul.list-group
         -for exercice in skill.exercice_set.all
-          %li
+          %li.list-group-item
             %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
               Question n°
               =exercice.id
             -if not exercice.approved
-              %span.label.label-warning
+              %span.badge.badge-warning
                 en attente d'approbation
         -empty
           %p
