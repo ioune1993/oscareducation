@@ -11,6 +11,10 @@
       Question n°
       =exercice.id
 
+  -if not exercice.approved
+    %div.alert.alert-warning
+      Exercice en attente d'approbation
+
   %h2 Question n°
     =exercice.id
     sur
