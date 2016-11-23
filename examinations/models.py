@@ -130,7 +130,7 @@ class TestSkillFromClass(models.Model):
 
 
 class Exercice(models.Model):
-    file_name = models.CharField(max_length=255, unique=True)
+    file_name = models.CharField(max_length=255)
     content = models.TextField(null=True, blank=True)
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
