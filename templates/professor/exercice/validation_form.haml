@@ -17,6 +17,11 @@
   .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
     .panel-heading
       Formulaire pour proposer une question
+      .pull-right
+        %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_list' %}"}
+          Questions
+        %a.btn.btn-success.btn-xs{href: "{% url 'professor:skill_list' %}"}
+          Compétences et ressources
 
     .panel-body
       .form-group
