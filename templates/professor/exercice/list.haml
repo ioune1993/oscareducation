@@ -20,6 +20,9 @@
           %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
             Question n°
             =exercice.id
+          -if not exercice.approved
+            %span.label.label-warning
+              en attente d'approbation
 
   %h2 Compétences sans questions
 
