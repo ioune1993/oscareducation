@@ -13,6 +13,15 @@ from examinations import generation
 from promotions.models import Lesson
 from skills.models import Skill, StudentSkill
 
+EMPTY_ENV = {
+    "locals": None,
+    "globals": None,
+    "__name__": None,
+    "__name__": None,
+    "__file__": None,
+    "__builtins__": None
+}
+
 
 class BaseTest(models.Model):
     name = models.CharField(max_length=255, verbose_name="Nom")
@@ -150,29 +159,6 @@ class Exercice(models.Model):
     def get_questions(self):
         return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
 
-    def is_valid(self, answers):
-        for number, (key, value) in enumerate(self.get_questions().items()):
-            answer = answers.get(str(number))
-            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
-            if value["type"] == "text":
-                if not answer in [unicode(x).lower() for x in value["answers"]]:
-                    return False
-            elif value["type"] == "radio":
-                if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
-                    return False
-            elif value["type"] == "checkbox":
-                checkbox_answers = answers.getlist(str(number))
-                for checkbox_number, is_correct in enumerate(value["answers"].values()):
-                    if is_correct and str(checkbox_number) not in checkbox_answers:
-                        return False
-                    if not is_correct and str(checkbox_number) in checkbox_answers:
-                        return False
-            else:
-                assert False
-
-        return True
-
-
 class TestExercice(models.Model):
     test = models.ForeignKey(Test)
     # it can happen that we need to test something but that we don't have an
@@ -195,14 +181,51 @@ class TestExercice(models.Model):
         if not self.variables:
             return yaml.load(self.exercice.answer, Loader=yamlordereddictloader.Loader)
 
+        variables = json.loads(self.variables)
+
         result = OrderedDict()
         for key, value in yaml.load(self.exercice.answer, Loader=yamlordereddictloader.Loader).items():
             if generation.needs_to_be_generated(key):
-                key = generation.render(key, json.loads(self.variables))
+                key = generation.render(key, variables)
+
+            if value["type"] == "text":
+                value = value.copy()
+                answers = []
+                for i in value["answers"]:
+                    if generation.needs_to_be_generated(i):
+                        i = generation.render(i, variables)
+                        i = eval(i, EMPTY_ENV)
+
+                    answers.append(i)
+
+                value["answers"] = answers
 
             result[key] = value
 
         return result
+
+    def is_valid(self, answers):
+        for number, (key, value) in enumerate(self.get_questions().items()):
+            answer = answers.get(str(number))
+            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
+            if value["type"] == "text":
+                if not answer in [unicode(x).lower() for x in value["answers"]]:
+                    return False
+            elif value["type"] == "radio":
+                if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
+                    return False
+            elif value["type"] == "checkbox":
+                checkbox_answers = answers.getlist(str(number))
+                for checkbox_number, is_correct in enumerate(value["answers"].values()):
+                    if is_correct and str(checkbox_number) not in checkbox_answers:
+                        return False
+                    if not is_correct and str(checkbox_number) in checkbox_answers:
+                        return False
+            else:
+                assert False
+
+        return True
+
 
     def __unicode__(self):
         return "on test %s on skill %s" % (self.test.name, self.skill.code)
