@@ -9,6 +9,7 @@ from collections import OrderedDict
 from django.db import models
 from django.contrib.auth.models import User
 
+from examinations import generation
 from promotions.models import Lesson
 from skills.models import Skill, StudentSkill
 
@@ -180,6 +181,28 @@ class TestExercice(models.Model):
     # therefor we need to remember which skill we are testing
     skill = models.ForeignKey(Skill)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    variables = models.TextField(null=True, blank=True)
+    rendered_content = models.TextField(null=True, blank=True)
+
+    def get_content(self):
+        if self.rendered_content:
+            return self.rendered_content
+
+        return self.exercice.content
+
+    def get_questions(self):
+        if not self.variables:
+            return yaml.load(self.exercice.answer, Loader=yamlordereddictloader.Loader)
+
+        result = OrderedDict()
+        for key, value in yaml.load(self.exercice.answer, Loader=yamlordereddictloader.Loader).items():
+            if generation.needs_to_be_generated(key):
+                key = generation.render(key, json.loads(self.variables))
+
+            result[key] = value
+
+        return result
 
     def __unicode__(self):
         return "on test %s on skill %s" % (self.test.name, self.skill.code)

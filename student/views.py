@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.db import transaction
 
+from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
 from skills.models import StudentSkill
 
@@ -70,6 +71,12 @@ def pass_test(request, pk):
             count = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True).count()
             exercice = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True)[random.choice(range(count))]
             next_not_answered_test_exercice.exercice = exercice
+
+            if generation.needs_to_be_generated(exercice.content):
+                variables = generation.get_variable_list(exercice.content)
+                next_not_answered_test_exercice.rendered_content = generation.render(exercice.content, variables)
+                next_not_answered_test_exercice.variables = json.dumps(variables)
+
             next_not_answered_test_exercice.save()
 
     return render(request, "examinations/take_exercice.haml", {

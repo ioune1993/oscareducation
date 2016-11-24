@@ -28,5 +28,5 @@
         =test_exercice.skill.code
 
       .panel-body
-        -with content=test_exercice.exercice.content questions=test_exercice.exercice.get_questions
+        -with content=test_exercice.get_content questions=test_exercice.get_questions
           -include "examinations/exercice_rendering.haml"
