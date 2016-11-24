@@ -1,4 +1,4 @@
-from generation import needs_to_be_generated, get_variable_list
+from generation import needs_to_be_generated, get_variable_list, PositiveIntegerVariable
 
 
 def test_detection_empty():
@@ -14,12 +14,12 @@ def test_get_variable_list_empty():
 
 
 def test_get_variable_list_one():
-    assert get_variable_list("{a}") == {"a": None}
+    assert get_variable_list("{a}") == {"a": PositiveIntegerVariable()}
 
 
 def test_get_variable_list_more():
-    assert get_variable_list("{a} {b}") == {"a": None, "b": None}
+    assert get_variable_list("{a} {b}") == {"a": PositiveIntegerVariable(), "b": PositiveIntegerVariable()}
 
 
 def test_get_variable_list_long():
-    assert get_variable_list("{pouet}") == {"pouet": None}
+    assert get_variable_list("{pouet}") == {"pouet": PositiveIntegerVariable()}
