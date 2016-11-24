@@ -678,6 +678,7 @@ def exercice_validation_form_pull_request(request):
             skill=Skill.objects.get(code=skill_code),
             answer=yaml_file,
             content=html,
+            added_by=request.user,
         )
 
     return HttpResponse()
