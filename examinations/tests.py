@@ -1,4 +1,12 @@
-from generation import needs_to_be_generated, get_variable_list, PositiveIntegerVariable, render
+from generation import needs_to_be_generated, get_variable_list, render
+
+
+class IntInRange():
+    def __eq__(self, a):
+        if a in range(1, 11):
+            return True
+
+        return False
 
 
 def test_detection_empty():
@@ -14,15 +22,15 @@ def test_get_variable_list_empty():
 
 
 def test_get_variable_list_one():
-    assert get_variable_list("{a}") == {"a": PositiveIntegerVariable()}
+    assert get_variable_list("{a}") == {"a": IntInRange()}
 
 
 def test_get_variable_list_more():
-    assert get_variable_list("{a} {b}") == {"a": PositiveIntegerVariable(), "b": PositiveIntegerVariable()}
+    assert get_variable_list("{a} {b}") == {"a": IntInRange(), "b": IntInRange()}
 
 
 def test_get_variable_list_long():
-    assert get_variable_list("{pouet}") == {"pouet": PositiveIntegerVariable()}
+    assert get_variable_list("{pouet}") == {"pouet": IntInRange()}
 
 
 def test_render_empty():

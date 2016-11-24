@@ -11,13 +11,6 @@ class PositiveIntegerVariable(object):
     def _generate_value(self):
         self.value = random.randint(1, 10)
 
-    def __eq__(self, a):
-        # XXX meh
-        if isinstance(a, self.__class__):
-            return True
-
-        return False
-
     def get_value(self):
         if self.value is None:
             self._generate_value()
@@ -30,12 +23,12 @@ def needs_to_be_generated(exercice_body):
 
 
 def get_variable_list(exercice_body):
-    return {x.lower(): PositiveIntegerVariable() for x in re.findall(VARIABLES_REGEX, exercice_body)}
+    return {x.lower(): PositiveIntegerVariable().get_value() for x in re.findall(VARIABLES_REGEX, exercice_body)}
 
 
 def replace_variables(exercice_body, variables):
     for variable, value in variables.items():
-        exercice_body = re.sub(r"{ *%s *}" % variable, str(value.get_value()), exercice_body, flags=re.IGNORECASE)
+        exercice_body = re.sub(r"{ *%s *}" % variable, str(value), exercice_body, flags=re.IGNORECASE)
 
     return exercice_body
 
