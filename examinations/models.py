@@ -7,6 +7,7 @@ import yamlordereddictloader
 from collections import OrderedDict
 
 from django.db import models
+from django.contrib.auth.models import User
 
 from promotions.models import Lesson
 from skills.models import Skill, StudentSkill
@@ -136,6 +137,11 @@ class Exercice(models.Model):
     skill = models.ForeignKey(Skill)
 
     approved = models.BooleanField(default=False)
+
+    added_by = models.ForeignKey(User, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    modified_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
         return "on %s" % self.skill.code
