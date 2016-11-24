@@ -34,24 +34,24 @@ def test_get_variable_list_long():
 
 
 def test_render_empty():
-    assert render("") == ""
+    assert render("", {}) == ""
 
 
 def test_render():
-    assert render("{a}") in map(str, range(1, 11))
+    assert render("{a}", {"a": 1}) in "1"
 
 
 def test_render_space():
-    assert render("{ a }") in map(str, range(1, 11))
+    assert render("{ a }", {"a": 1}) in "1"
 
 
 def test_render_always_the_same():
-    a, a2 = render("{a} {a}").split(" ")
+    a, a2 = render("{a} {a}", {"a": 1}).split(" ")
 
     assert a == a2
 
 
 def test_render_always_lower_case():
-    a, a2 = render("{a} {A}").split(" ")
+    a, a2 = render("{a} {A}", {"a": 1}).split(" ")
 
     assert a == a2

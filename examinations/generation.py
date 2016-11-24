@@ -26,17 +26,11 @@ def get_variable_list(exercice_body):
     return {x.lower(): PositiveIntegerVariable().get_value() for x in re.findall(VARIABLES_REGEX, exercice_body)}
 
 
-def replace_variables(exercice_body, variables):
+def render(exercice_body, variables):
+    if not needs_to_be_generated(exercice_body):
+        return exercice_body
+
     for variable, value in variables.items():
         exercice_body = re.sub(r"{ *%s *}" % variable, str(value), exercice_body, flags=re.IGNORECASE)
 
     return exercice_body
-
-
-def render(exercice_body):
-    if not needs_to_be_generated(exercice_body):
-        return exercice_body
-
-    variables = get_variable_list(exercice_body)
-
-    return replace_variables(exercice_body, variables)
