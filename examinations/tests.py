@@ -41,3 +41,9 @@ def test_render_always_the_same():
     a, a2 = render("{a} {a}").split(" ")
 
     assert a == a2
+
+
+def test_render_always_lower_case():
+    a, a2 = render("{a} {A}").split(" ")
+
+    assert a == a2

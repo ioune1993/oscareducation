@@ -30,12 +30,12 @@ def needs_to_be_generated(exercice_body):
 
 
 def get_variable_list(exercice_body):
-    return {x: PositiveIntegerVariable() for x in re.findall(VARIABLES_REGEX, exercice_body)}
+    return {x.lower(): PositiveIntegerVariable() for x in re.findall(VARIABLES_REGEX, exercice_body)}
 
 
 def replace_variables(exercice_body, variables):
     for variable, value in variables.items():
-        exercice_body = re.sub(r"{ *%s *}" % variable, str(value.get_value()), exercice_body)
+        exercice_body = re.sub(r"{ *%s *}" % variable, str(value.get_value()), exercice_body, flags=re.IGNORECASE)
 
     return exercice_body
 
