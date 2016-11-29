@@ -1,0 +1,13 @@
+Le premier terme est 2 et la raison est -0,5.:
+  type: text
+  answers:
+  - 2;-1;0,5;-0,25;0,125
+  - 2;-1;0.5;-0.25;0.125
+Le premier terme est 3 et la raison est 2.:
+  type: text
+  answers:
+  - 3;6;12;24;48
+Le premier terme est 320 et la raison est 0,25.:
+  type: text
+  answers:
+  - 320;80;20;5;1,25
