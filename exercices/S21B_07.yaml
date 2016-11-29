@@ -1,0 +1,15 @@
+Quelles sont les coordonnées du point A représentant le panier ?:
+  type: text
+  answers:
+  - (5;3)
+  - (5,3)
+  - 5;3
+  - 5,3
+Quelle est l’ordonnée du point B, sommet de la trajectoire  qu’empruntera le ballon ?:
+  type: text
+  answers:
+  - '4'
+Quelle est l’abscisse du point C, position de la main gauche du basketteur ?:
+  type: text
+  answers:
+  - '0'
