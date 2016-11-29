@@ -1,0 +1,8 @@
+Pour le nuage de points ci-dessus, quelle est la valeur du coefficient de corrélation linéaire?:
+  type: checkbox
+  answers:
+    valeur largement inférieure à -1: false
+    valeur proche de -1: false
+    valeur proche de 0: true
+    valeur proche de 1: false
+    valeur largement supérieure à 1: false
