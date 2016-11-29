@@ -1,0 +1,7 @@
+Coche la bonne proposition.:
+  type: checkbox
+  answers:
+    Le segment [AB] est en position verticale.: false
+    Le segment [AB] est en position horizontale.: true
+    Le segment [AB] est en position oblique.: false
+    Les points A et B sont confondus.: false
