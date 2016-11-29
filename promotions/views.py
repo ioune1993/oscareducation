@@ -589,9 +589,13 @@ def exercice_validation_form_validate_exercice(request):
             }
 
         else:
+            answers = OrderedDict()
+            for x in question["answers"]:
+                answers[x["text"]] = x["correct"]
+
             questions[question["instructions"]] = {
                 "type": question["type"],
-                "answers": {x["text"]: x["correct"] for x in question["answers"]},
+                "answers": answers,
             }
 
     result = validate_exercice_yaml_structure(questions)
