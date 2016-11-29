@@ -1,0 +1,17 @@
+Le premier terme est -1 et la raison est 3.:
+  type: text
+  answers:
+  - '11'
+Le troisième terme est 8 et le sixième est 14.:
+  type: text
+  answers:
+  - '12'
+Le quatrième terme est 13 et la raison est 2.:
+  type: text
+  answers:
+  - '15'
+Le premier terme est 4 et la raison est -0,6.:
+  type: text
+  answers:
+  - 1,6
+  - '1.6'
