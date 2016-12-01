@@ -54,7 +54,7 @@
         %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>..."}
 
       %form.form-group{ng-submit: "validateExercice()"}
-        %ul.list-group
+        %ul.list-group{ng-if: "testable_online"}
           %li.list-group-item{ng-repeat: "question in questions"}
             .form-horizontal
               .form-group
