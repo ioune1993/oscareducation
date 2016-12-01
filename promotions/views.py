@@ -598,7 +598,10 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": answers,
             }
 
-    result = validate_exercice_yaml_structure(questions)
+    if data["testable_online"]:
+        result = validate_exercice_yaml_structure(questions)
+    else:
+        result = True
 
     if result is not True:
         return HttpResponse(json.dumps({
