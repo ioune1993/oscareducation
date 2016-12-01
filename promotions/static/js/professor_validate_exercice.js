@@ -6,6 +6,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     $scope.htmlRendering = "";
     $scope.image = null;
     $scope.base64img = "";
+    $scope.testable_online = true;
 
     $scope.questions = [{
         "instructions": "",
