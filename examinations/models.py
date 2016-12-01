@@ -146,6 +146,8 @@ class Exercice(models.Model):
     answer = models.TextField()
     skill = models.ForeignKey(Skill)
 
+    testable_online = models.BooleanField(default=True)
+
     approved = models.BooleanField(default=False)
 
     added_by = models.ForeignKey(User, null=True)
