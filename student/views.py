@@ -66,10 +66,10 @@ def pass_test(request, pk):
             "test_student": test_student
         })
 
-    if next_not_answered_test_exercice.exercice is None and next_not_answered_test_exercice.skill.exercice_set.filter(approved=True).exists():
+    if next_not_answered_test_exercice.exercice is None and next_not_answered_test_exercice.skill.exercice_set.filter(approved=True, testable_online=True).exists():
         with transaction.atomic():
-            count = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True).count()
-            exercice = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True)[random.choice(range(count))]
+            count = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True, testable_online=True).count()
+            exercice = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True, testable_online=True)[random.choice(range(count))]
             next_not_answered_test_exercice.exercice = exercice
 
             if generation.needs_to_be_generated(exercice.content):
