@@ -94,7 +94,8 @@ class Test(BaseTest):
 
         def recursivly_get_skills_to_test(skill):
             for i in skill.depends_on.all():
-                if i not in to_test_skills:
+                # we don't add dependancies that can't be tested online
+                if i not in to_test_skills and skill.exercice_set.filter(testable_online=True).exists():
                     to_test_skills.append(i)
                     recursivly_get_skills_to_test(i)
 
