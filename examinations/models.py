@@ -51,6 +51,18 @@ class Test(BaseTest):
         ("skills-dependencies", "skills-dependencies"),
     ))
 
+    def testexercice_with_skills(self):
+        return self.testexercice_set.select_related("skill")
+
+    def teststudent_with_student(self):
+        return self.teststudent_set.select_related("student", "student__user")
+
+    def testexercice_testable_online(self):
+        return self.testexercice_set.filter(exercice__isnull=False).select_related("skill")
+
+    def testexercice_not_testable_online(self):
+        return self.testexercice_set.filter(exercice__isnull=True).select_related("skill")
+
     def add_student(self, student):
         TestStudent.objects.create(
             test=self,

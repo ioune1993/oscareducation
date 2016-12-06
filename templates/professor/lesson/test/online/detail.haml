@@ -40,19 +40,33 @@
 
   %hr
 
-  -if not test.fully_testable_online
+  -if not test.fully_testable_online and object.testexercice_not_testable_online.exists
     .alert.alert-warning
       %b Attention
       : ce test n'est pas entièrement faisable en ligne
 
   %h3 Compétences sélectionnées
-  %ul.heatmap-list
-    -for skill in object.skills.all
-      %li
-        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
-          %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+  -if not test.fully_testable_online and object.testexercice_not_testable_online.exists
+    %h4 À évaluer en classe
+    %ul.heatmap-list
+      -for test_exercice in object.testexercice_not_testable_online
+        %li
+          %a.btn.btn-warning.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
+            %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
 
-        =skill.name
+          =test_exercice.skill.name
+
+    %h4 Évaluable en ligne
+
+  %ul.heatmap-list
+    -for test_exercice in object.testexercice_testable_online
+      %li
+        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
+          %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
+
+        =test_exercice.skill.name
+    -empty
+      Il n'y a pas de compétences évaluables en ligne pour ce test.
 
   -if object.prerequisistes
     %h3 Compétences prérequises
@@ -70,10 +84,10 @@
     %thead
       %th{width: "20%"}
         Élève / Compétences
-      -for i in object.testexercice_set.all
+      -for i in object.testexercice_with_skills
         %th
           =i.skill.code
-    -for test_student in object.teststudent_set.all
+    -for test_student in object.teststudent_with_student
       %tr
         %td
           %a{href: "{% url 'professor:lesson_student_test' lesson.pk test_student.student.pk test_student.pk %}"}
