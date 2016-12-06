@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import json
+import random
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -73,6 +74,16 @@ def lesson_test_add_json(request):
             test.generate_skills_dependencies_test()
         else:
             raise Exception()
+
+        # assign exercices when it's possible
+        for test_exercice in test.testexercice_set.all():
+            exercices = test_exercice.skill.exercice_set.filter(approved=True, testable_online=True)
+            if not exercices.exists():
+                continue
+
+            test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
+            test_exercice.save()
+
 
         test.save()
 
