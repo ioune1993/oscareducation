@@ -1,0 +1,41 @@
+%p.header
+  %i
+    Classe {{ object.lesson }}
+
+  %i{style: "text-align: right; float: right"}
+    Par {{ object.lesson.professors.first }}
+
+%h1.title Évaluation
+  =object.name
+
+.exercices
+  -for test_exercice in object.testexercice_not_testable_online
+    -if test_exercice.exercice
+      %h4{style: "text-decoration: underline"} Exercice numéro
+        =test_exercice.exercice.id
+
+      =test_exercice.exercice.content|safe
+
+:css
+  body {
+    margin: auto;
+    max-width: 800px;
+    font: 12pt Georgia, "Times New Roman", Times, serif;
+  }
+
+  .title {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 50px;
+  }
+
+  .header {
+    margin-top: 20px;
+  }
+
+  .exercices {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
