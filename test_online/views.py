@@ -105,4 +105,4 @@ def lesson_test_add_json(request):
 
         test.save()
 
-    return HttpResponse("ok")
+    return HttpResponse(str(test.id))

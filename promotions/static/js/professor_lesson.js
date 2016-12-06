@@ -21,7 +21,7 @@ function createTestController($scope, $http) {
             "type": $scope.testType,
         }).success(function(data, status, headers, config) {
             // TODO: don't do that in javascript
-            window.location.href = "../..";
+            window.location.href = "../" + data;
         })
     }
 
