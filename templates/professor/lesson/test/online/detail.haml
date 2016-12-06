@@ -48,6 +48,8 @@
   %h3 Compétences sélectionnées
   -if not test.fully_testable_online and object.testexercice_not_testable_online.exists
     %h4 À évaluer en classe
+      %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
+        imprimer les questions
     %ul.heatmap-list
       -for test_exercice in object.testexercice_not_testable_online
         %li
@@ -97,3 +99,18 @@
         -empty
           -for i in object.testexercice_set.all
             %th
+
+-block javascript
+  :javascript
+    $(
+      $(".print-questions").click(function(event) {
+        event.preventDefault();
+        $.get("{% url 'professor:lesson_test_online_print' lesson.pk object.pk %}").success(function(data) {
+          var w = window.open();
+          w.document.write(data);
+          w.window.print();
+          w.document.close();
+        });
+        return false;
+      })
+    )
