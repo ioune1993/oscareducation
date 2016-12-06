@@ -83,7 +83,15 @@ def lesson_test_add_json(request):
                 if test.fully_testable_online:
                     test.fully_testable_online = False
                     test.save()
-                continue
+
+                test_exercice.testable_online = False
+
+                # switch to offline exercices
+                exercices = test_exercice.skill.exercice_set.filter(approved=True, testable_online=False)
+
+                if not exercices.exists():
+                    test_exercice.save()
+                    continue
 
             test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
 
