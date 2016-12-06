@@ -40,6 +40,11 @@
 
   %hr
 
+  -if not test.fully_testable_online
+    .alert.alert-warning
+      %b Attention
+      : ce test n'est pas entièrement faisable en ligne
+
   %h3 Compétences sélectionnées
   %ul.heatmap-list
     -for skill in object.skills.all
