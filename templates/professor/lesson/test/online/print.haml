@@ -11,8 +11,10 @@
 .exercices
   -for test_exercice in object.testexercice_not_testable_online
     -if test_exercice.exercice
-      %h4{style: "text-decoration: underline"} Exercice numéro
+      %h4{style: "text-decoration: underline"} Exercice n°
         =test_exercice.exercice.id
+        sur
+        =test_exercice.skill.code
 
       =test_exercice.exercice.content|safe
 
