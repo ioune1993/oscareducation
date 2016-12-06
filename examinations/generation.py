@@ -19,6 +19,8 @@ class PositiveIntegerVariable(object):
 
 
 def needs_to_be_generated(exercice_body):
+    if exercice_body is None:
+        return False
     return bool(re.search(VARIABLES_REGEX, exercice_body))
 
 
