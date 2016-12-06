@@ -79,6 +79,9 @@ def lesson_test_add_json(request):
         for test_exercice in test.testexercice_set.all():
             exercices = test_exercice.skill.exercice_set.filter(approved=True, testable_online=True)
             if not exercices.exists():
+                if test.fully_testable_online:
+                    test.fully_testable_online = False
+                    test.save()
                 continue
 
             test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
