@@ -70,7 +70,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
         $("#submit-pull-request").addClass("disabled");
 
-        $http.post("pull-request/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img})
+        $http.post("pull-request/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img, "testable_online": $scope.testable_online})
             .success(function(data) {
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, nous le validerons prochainement, un grand merci !');
                 console.log(data);
@@ -83,6 +83,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 $scope.exerciceIsValid = ""
                 $scope.htmlRendering = ""
                 $scope.yamlRendering = ""
+                $scope.testable_online = true;
 
                 $scope.questions = [{
                     "instructions": "",

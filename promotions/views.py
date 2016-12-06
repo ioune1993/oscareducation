@@ -632,26 +632,30 @@ def exercice_validation_form_pull_request(request):
     html = data["html"]
     skill_code = data["skill_code"]
     image = None
+    testable_online = data["testable_online"]
 
-    questions = CommentedMap()
-    for question in data["questions"]:
-        if question["type"] == "text":
-            questions[question["instructions"]] = {
-                "type": question["type"],
-                "answers": [x["text"] for x in question["answers"]],
-            }
+    if testable_online:
+        questions = CommentedMap()
+        for question in data["questions"]:
+            if question["type"] == "text":
+                questions[question["instructions"]] = {
+                    "type": question["type"],
+                    "answers": [x["text"] for x in question["answers"]],
+                }
 
-        else:
-            answers = CommentedMap()
-            for i in question["answers"]:
-                answers[i["text"]] = i["correct"]
+            else:
+                answers = CommentedMap()
+                for i in question["answers"]:
+                    answers[i["text"]] = i["correct"]
 
-            questions[question["instructions"]] = {
-                "type": question["type"],
-                "answers": answers,
-            }
+                questions[question["instructions"]] = {
+                    "type": question["type"],
+                    "answers": answers,
+                }
 
-    yaml_file = ruamel.yaml.round_trip_dump(questions)
+        yaml_file = ruamel.yaml.round_trip_dump(questions)
+    else:
+        yaml_file = ""
 
 
     if data.get("image"):
@@ -685,6 +689,7 @@ def exercice_validation_form_pull_request(request):
             skill=Skill.objects.get(code=skill_code),
             answer=yaml_file,
             content=html,
+            testable_online=testable_online,
             added_by=request.user,
         )
 
