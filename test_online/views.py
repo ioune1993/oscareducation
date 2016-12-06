@@ -13,6 +13,7 @@ from django.db import transaction
 
 from skills.models import Skill
 from examinations.models import Test
+from examinations import generation
 
 from promotions.models import Lesson
 from promotions.utils import user_is_professor
@@ -85,6 +86,12 @@ def lesson_test_add_json(request):
                 continue
 
             test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
+
+            if generation.needs_to_be_generated(test_exercice.exercice.content):
+                variables = generation.get_variable_list(test_exercice.exercice.content)
+                test_exercice.rendered_content = generation.render(test_exercice.exercice.content, variables)
+                test_exercice.variables = json.dumps(variables)
+
             test_exercice.save()
 
 
