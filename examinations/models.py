@@ -43,6 +43,7 @@ class BaseTest(models.Model):
 
 class Test(BaseTest):
     running = models.BooleanField(default=True)
+    fully_testable_online = models.BooleanField(default=True)
 
     type = models.CharField(max_length=255, choices=(
         ("skills", "skills"),
