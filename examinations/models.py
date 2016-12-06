@@ -187,6 +187,8 @@ class TestExercice(models.Model):
     variables = models.TextField(null=True, blank=True)
     rendered_content = models.TextField(null=True, blank=True)
 
+    testable_online = models.BooleanField(default=True)
+
     def get_content(self):
         if self.rendered_content:
             return self.rendered_content
