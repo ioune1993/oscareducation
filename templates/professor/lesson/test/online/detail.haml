@@ -50,6 +50,8 @@
     %h4 À évaluer en classe
       %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
         imprimer les questions
+      %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk object.pk %}"}
+        entrer les résultats
     %ul.heatmap-list
       -for test_exercice in object.testexercice_not_testable_online
         %li

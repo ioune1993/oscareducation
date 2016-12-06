@@ -106,3 +106,13 @@ def lesson_test_add_json(request):
         test.save()
 
     return HttpResponse(str(test.id))
+
+
+def lesson_test_online_insert_results(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test = get_object_or_404(Test, pk=pk)
+
+    return render(request, "professor/lesson/test/online/fill.haml", {
+        "lesson": lesson,
+        "test": test,
+    })

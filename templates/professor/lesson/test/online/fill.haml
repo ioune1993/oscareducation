@@ -1,0 +1,86 @@
+-extends "base.haml"
+
+-block content
+  %h2 Sélectionner les compétences résultantes de l'évaluation libre
+    %i= test.name
+  %hr
+
+  %form{method: "post", action: ""}
+    -csrf_token
+    %table.table.table-striped.table-bordered
+      %col{width: "120px"}
+      -for skill in test.testexercice_not_testable_online
+        %col{width: "1"}
+      %tr
+        %th Élèves
+        -for test_exercice in test.testexercice_not_testable_online
+          %th
+            .center
+              =test_exercice.skill.code
+              %br
+              =test_exercice.skill.name
+      -for student in lesson.students.all
+        %tr
+          %td= student
+          -for test_exercice in test.testexercice_not_testable_online
+            %td
+              .center
+                .btn-group-vertical{data-toggle: "buttons"}
+                  %label.btn.btn-default.good
+                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.skill.id }}", value: "good_{{ student.id }}_{{ test_exercice.skill.id }}", autocomplete: "off"}
+                    acquise
+                  %label.btn.btn-default.bad
+                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.skill.id }}", value: "bad_{{ student.id }}_{{ test_exercice.skill.id }}", autocomplete: "off"}
+                    non acquise
+                  %label.btn.btn-default.active.unknown
+                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.skill.id }}", value: "unknown_{{ student.id }}_{{ test_exercice.skill.id }}", autocomplete: "off", checked: "checked"}
+                    non testée
+
+    %button.btn.btn-primary{type: "submit"}
+      Valider
+    %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+      Encoder plus tard
+
+-block javascript
+  %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}
+
+  :javascript
+    $(function() {
+      $(".good").click(function() {
+        var btn = $(this)
+        btn.addClass("btn-success");
+
+        var td = btn.parent().parent().parent();
+        td.addClass("success");
+        td.removeClass("warning");
+
+        var bad_btn = btn.parent().find(".bad");
+        bad_btn.removeClass("btn-warning");
+      });
+
+      $(".bad").click(function() {
+        var btn = $(this)
+        btn.addClass("btn-warning");
+
+        var td = btn.parent().parent().parent();
+        td.addClass("warning");
+        td.removeClass("success");
+
+        var good_btn = btn.parent().find(".good");
+        good_btn.removeClass("btn-success");
+      });
+
+      $(".unknown").click(function() {
+        var btn = $(this)
+
+        var td = btn.parent().parent().parent();
+        td.removeClass("success");
+        td.removeClass("warning");
+
+        var good_btn = btn.parent().find(".good");
+        good_btn.removeClass("btn-success");
+
+        var bad_btn = btn.parent().find(".bad");
+        bad_btn.removeClass("btn-warning");
+      });
+    })
