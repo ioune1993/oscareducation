@@ -88,7 +88,7 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
                 SkillHistory.objects.create(
                     skill=student_skill.skill,
                     student=student_skill.student,
-                    value="unknown",
+                    value="acquired" if result == "god" else "not acquired",
                     by_who=request.user,
                     reason="Évaluation libre (seconde passe)",
                     reason_object=test_from_class,
