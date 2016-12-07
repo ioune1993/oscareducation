@@ -281,6 +281,8 @@ class Answer(models.Model):
     # hand
     correct = models.NullBooleanField()
 
+    from_test_hybride = models.BooleanField(default=False)
+
     # if the answer is generated because the top skill was ok
     automatic = models.BooleanField(default=False)
 
