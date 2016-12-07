@@ -1,0 +1,8 @@
+Une cliente achète 1 pain et 2 baguettes. Elle paie avec un billet de 20 €. Combien la boulangère lui rend-elle d’argent ?:
+  type: text
+  answers:
+  - '2'
+Un autre client a 5 €. Combien de pains au chocolat peut-il acheter?:
+  type: text
+  answers:
+  - '2'
