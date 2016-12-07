@@ -129,5 +129,3 @@ def lesson_test_from_class_add_json(request):
         test.save()
 
     return HttpResponse(str(test.id))
-
-
