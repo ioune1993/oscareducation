@@ -1,0 +1,12 @@
+L’enfant portant une casquette peut-il être Tom ?:
+  type: radio
+  answers:
+    Oui: false
+    Non: true
+Dans la bande dessinée, le symbole "?" représente la question du problème. Coche la bonne question.:
+  type: radio
+  answers:
+    Combien de billes Assam avait-il au départ ?: false
+    Combien de billes Assam gagne-t-il lors de la première partie ?: false
+    Combien de billes Assam perd-il lors de la deuxième partie ?: true
+    Combien de billes Assam a-t-il à la fin de la deuxième partie ?: false
