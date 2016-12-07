@@ -1,0 +1,15 @@
+Il y a 9 garçons.:
+  type: radio
+  answers:
+    Oui: true
+    Non: false
+Il y a 3 adultes.:
+  type: radio
+  answers:
+    Oui: true
+    Non: false
+Aucun enfant ne peut dormir seul.:
+  type: radio
+  answers:
+    Oui: true
+    Non: false
