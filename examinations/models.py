@@ -52,7 +52,7 @@ class Test(BaseTest):
     ))
 
     def testexercice_with_skills(self):
-        return self.testexercice_set.select_related("skill")
+        return self.testexercice_set.select_related("skill").order_by('-skill__code')
 
     def teststudent_with_student(self):
         return self.teststudent_set.select_related("student", "student__user")
@@ -262,6 +262,11 @@ class TestStudent(models.Model):
 
     class Meta:
         ordering = ['test__created_at']
+
+    def get_maybe_answer_list(self):
+        answers = {x.test_exercice: x for x in self.answer_set.all().select_related("test_exercice").order_by("-test_exercice__skill__code")}
+
+        return [answers.get(x) for x in TestExercice.objects.filter(test=self.test).order_by("-skill__code")]
 
     def get_state(self):
         if not self.started_at:
