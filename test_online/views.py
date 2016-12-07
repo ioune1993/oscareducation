@@ -2,6 +2,7 @@
 
 import json
 import random
+from datetime import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -11,11 +12,11 @@ from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from skills.models import Skill
-from examinations.models import Test
+from skills.models import Skill, StudentSkill, SkillHistory
+from examinations.models import Test, Answer, TestExercice, TestStudent
 from examinations import generation
 
-from promotions.models import Lesson
+from promotions.models import Lesson, Student
 from promotions.utils import user_is_professor
 
 
@@ -111,6 +112,73 @@ def lesson_test_add_json(request):
 def lesson_test_online_insert_results(request, lesson_pk, pk):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(Test, pk=pk)
+
+    if request.method == "POST":
+        second_run = []
+        print request.POST.items()
+
+        with transaction.atomic():
+            for key in filter(lambda x: x.startswith(("good", "bad", "unknown")), request.POST.values()):
+                result, student, test_exercice = key.split("_", 2)
+                print result, student, test_exercice
+                student = Student.objects.get(pk=student)
+                test_exercice = TestExercice.objects.select_related("skill").get(pk=test_exercice)
+                test_student = TestStudent.objects.get(student=student, test=test)
+
+                answer, _ = Answer.objects.get_or_create(
+                    from_test_hybride=True,
+                    test_exercice=test_exercice,
+                    test_student=test_student,
+                )
+
+                student_skill = StudentSkill.objects.get(
+                    student=student,
+                    skill=test_exercice.skill,
+                )
+
+                reasons = {
+                    "who": request.user,
+                    "reason": "Exercice hors lignes pour un test hybride",
+                    "reason_object": answer,
+                }
+
+                if result == "god":
+                    student_skill.validate(**reasons)
+                    answer.correct = True
+                    answer.save()
+                elif result == "bad":
+                    student_skill.unvalidate(**reasons)
+                    answer.correct = False
+                    answer.save()
+
+                second_run.append([result, student_skill])
+
+            # I redo a second run here because we can end up in a situation where
+            # the teacher has enter value that would be overwritten by the
+            # recursive walk and we want the resulting skills to match the teacher
+            # input
+            for result, student_skill in second_run:
+                if result not in ("god", "bad"):
+                    continue
+
+                if result == "god":
+                    student_skill.acquired = datetime.now()
+                elif result == "bad":
+                    student_skill.acquired = None
+                    student_skill.tested = datetime.now()
+
+                SkillHistory.objects.create(
+                    skill=student_skill.skill,
+                    student=student_skill.student,
+                    value="acquired" if result =="god" else "not acquired",
+                    by_who=request.user,
+                    reason="Exercice hors lignes pour un test hybride (seconde passe)",
+                    reason_object=answer,
+                )
+
+                student_skill.save()
+
+        return HttpResponseRedirect(reverse('professor:lesson_test_online_detail', args=(lesson.pk, test.pk)))
 
     return render(request, "professor/lesson/test/online/fill.haml", {
         "lesson": lesson,

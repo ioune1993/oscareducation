@@ -27,13 +27,13 @@
               .center
                 .btn-group-vertical{data-toggle: "buttons"}
                   %label.btn.btn-default.good
-                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.skill.id }}", value: "good_{{ student.id }}_{{ test_exercice.skill.id }}", autocomplete: "off"}
+                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.id }}", value: "good_{{ student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
                     acquise
                   %label.btn.btn-default.bad
-                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.skill.id }}", value: "bad_{{ student.id }}_{{ test_exercice.skill.id }}", autocomplete: "off"}
+                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.id }}", value: "bad_{{ student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
                     non acquise
                   %label.btn.btn-default.active.unknown
-                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.skill.id }}", value: "unknown_{{ student.id }}_{{ test_exercice.skill.id }}", autocomplete: "off", checked: "checked"}
+                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.id }}", value: "unknown_{{ student.id }}_{{ test_exercice.id }}", autocomplete: "off", checked: "checked"}
                     non testée
 
     %button.btn.btn-primary{type: "submit"}
