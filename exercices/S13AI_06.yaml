@@ -1,0 +1,20 @@
+? Pendant la récréation, Mathis et Dylan jouent une partie de billes. Avant de commencer
+  à jouer, Mathis a 19 billes. Lors de la partie, Dylan gagne 7 billes. Combien Mathis
+  a-t-il de billes après la partie ?
+: type: text
+  answers:
+  - '12'
+? Narjis et Célia collectionnent des images d’animaux sauvages. Pendant la récréation,
+  Célia donne 12 images à Narjis. À la fin de la récréation, Narjis compte ses cartes,
+  elle en a 21. Combien d’images Narjis avait-elle au début de la récréation ?
+: type: text
+  answers:
+  - '9'
+? 'Nicolas a joué deux parties de billes aujourd’hui contre Cécilia : une à la récréation
+  du matin, et l’autre, après le diner. Le matin, Nicolas a gagné 3 billes et après
+  le diner, c’est Cécilia qui en a gagné 5. À la fin de la journée, Nicolas compte
+  ses billes : il en a 28. Combien de billes Nicolas avait-il en arrivant à 8 heures
+  à l’école ?'
+: type: text
+  answers:
+  - '30'
