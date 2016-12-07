@@ -1,0 +1,11 @@
+? Quel moment conviendra aux trois filles pour aller ensemble à la foire ? (Tu peux
+  réaliser un tableau, un schéma ou un dessin sur papier pour t'aider)
+: type: checkbox
+  answers:
+    Lundi: false
+    Mardi: true
+    Mercredi: false
+    Jeudi: false
+    Vendredi: false
+    Samedi: false
+    Dimanche: false
