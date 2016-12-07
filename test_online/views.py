@@ -142,14 +142,16 @@ def lesson_test_online_insert_results(request, lesson_pk, pk):
                     "reason_object": answer,
                 }
 
-                if result == "god":
+                if result == "good":
                     student_skill.validate(**reasons)
                     answer.correct = True
-                    answer.save()
                 elif result == "bad":
                     student_skill.unvalidate(**reasons)
                     answer.correct = False
-                    answer.save()
+                else:
+                    answer.correct = None
+
+                answer.save()
 
                 second_run.append([result, student_skill])
 
@@ -158,10 +160,10 @@ def lesson_test_online_insert_results(request, lesson_pk, pk):
             # recursive walk and we want the resulting skills to match the teacher
             # input
             for result, student_skill in second_run:
-                if result not in ("god", "bad"):
+                if result not in ("good", "bad"):
                     continue
 
-                if result == "god":
+                if result == "good":
                     student_skill.acquired = datetime.now()
                 elif result == "bad":
                     student_skill.acquired = None
@@ -170,7 +172,7 @@ def lesson_test_online_insert_results(request, lesson_pk, pk):
                 SkillHistory.objects.create(
                     skill=student_skill.skill,
                     student=student_skill.student,
-                    value="acquired" if result =="god" else "not acquired",
+                    value="acquired" if result == "good" else "not acquired",
                     by_who=request.user,
                     reason="Exercice hors lignes pour un test hybride (seconde passe)",
                     reason_object=answer,
