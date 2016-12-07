@@ -64,7 +64,7 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
                     "reason": "Évaluation libre",
                     "reason_object": test_from_class,
                 }
-                if result == "god":
+                if result == "good":
                     student_skill.validate(**reasons)
                 elif result == "bad":
                     student_skill.unvalidate(**reasons)
@@ -76,10 +76,10 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
             # recursive walk and we want the resulting skills to match the teacher
             # input
             for result, student_skill in second_run:
-                if result not in ("god", "bad"):
+                if result not in ("good", "bad"):
                     continue
 
-                if result == "god":
+                if result == "good":
                     student_skill.acquired = datetime.now()
                 elif result == "bad":
                     student_skill.acquired = None
