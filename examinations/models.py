@@ -175,6 +175,7 @@ class Exercice(models.Model):
     def get_questions(self):
         return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
 
+
 class TestExercice(models.Model):
     test = models.ForeignKey(Test)
     # it can happen that we need to test something but that we don't have an
