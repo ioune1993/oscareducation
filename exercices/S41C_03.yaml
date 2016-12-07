@@ -1,0 +1,23 @@
+La caissette de pommes coute 4 €.:
+  type: checkbox
+  answers:
+    Utile: true
+    Non utile: false
+Deux raviers de fruits rouges coutent 4 €.:
+  type: checkbox
+  answers:
+    Utile: true
+    Non utile: false
+Avant la promotion, le prix des kiwis était de 2,94 € pour six.:
+  type: checkbox
+  answers:
+    Utile: false
+    Non utile: true
+? D’après la recette et les informations présentes dans la publicité, combien de caissettes
+  de pommes va-t-il devoir acheter ?
+: type: checkbox
+  answers:
+    1 caissette: true
+    2 caissettes: false
+    12 caissettes: false
+    31 caissettes: false
