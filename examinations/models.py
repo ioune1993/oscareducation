@@ -263,6 +263,11 @@ class TestStudent(models.Model):
     class Meta:
         ordering = ['test__created_at']
 
+    def test_exercice_answer_for_offline_test(self):
+        answers = {x.test_exercice: x for x in self.answer_set.all().select_related("test_exercice")}
+
+        return [(x, answers.get(x)) for x in TestExercice.objects.filter(test=self.test, testable_online=False)]
+
     def get_maybe_answer_list(self):
         answers = {x.test_exercice: x for x in self.answer_set.all().select_related("test_exercice").order_by("-test_exercice__skill__code")}
 

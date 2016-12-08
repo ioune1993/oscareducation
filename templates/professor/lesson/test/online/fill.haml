@@ -1,7 +1,7 @@
 -extends "base.haml"
 
 -block content
-  %h2 Sélectionner les compétences résultantes de l'évaluation libre
+  %h2 Résultats de l'évaluation hors ligne du test
     %i= test.name
   %hr
 
@@ -9,7 +9,7 @@
     -csrf_token
     %table.table.table-striped.table-bordered
       %col{width: "120px"}
-      -for skill in test.testexercice_not_testable_online
+      -for width in test.testexercice_not_testable_online
         %col{width: "1"}
       %tr
         %th Élèves
@@ -19,22 +19,39 @@
               =test_exercice.skill.code
               %br
               =test_exercice.skill.name
-      -for student in lesson.students.all
+      -for test_student in test.teststudent_with_student
         %tr
-          %td= student
-          -for test_exercice in test.testexercice_not_testable_online
+          %td= test_student.student
+          -for test_exercice, answer in test_student.test_exercice_answer_for_offline_test
             %td
               .center
                 .btn-group-vertical{data-toggle: "buttons"}
-                  %label.btn.btn-default.good
-                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.id }}", value: "good_{{ student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
-                    acquise
-                  %label.btn.btn-default.bad
-                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.id }}", value: "bad_{{ student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
-                    non acquise
-                  %label.btn.btn-default.active.unknown
-                    %input{type: "radio", name: "{{ student.id }}_{{ test_exercice.id }}", value: "unknown_{{ student.id }}_{{ test_exercice.id }}", autocomplete: "off", checked: "checked"}
-                    non testée
+                  -if answer and answer.correct
+                    %label.btn.btn-default.good.active
+                      %input{type: "radio", name: "{{ test_student.student.id }}_{{ test_exercice.id }}", value: "good_{{ test_student.student.id }}_{{ test_exercice.id }}", autocomplete: "off", checked: "checked"}
+                        réponse correcte
+                  -else
+                    %label.btn.btn-default.good
+                      %input{type: "radio", name: "{{ test_student.student.id }}_{{ test_exercice.id }}", value: "good_{{ test_student.student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
+                        réponse correcte
+
+                  -if answer != None and answer.correct != None and answer.correct != True
+                    %label.btn.btn-default.bad.active
+                      %input{type: "radio", name: "{{ test_student.student.id }}_{{ test_exercice.id }}", value: "bad_{{ test_student.student.id }}_{{ test_exercice.id }}", autocomplete: "off", checked: "checked"}
+                        réponse incorrecte
+                  -else
+                    %label.btn.btn-default.bad
+                      %input{type: "radio", name: "{{ test_student.student.id }}_{{ test_exercice.id }}", value: "bad_{{ test_student.student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
+                        réponse incorrecte
+
+                  -if not answer or answer.correct == None
+                    %label.btn.btn-default.unknown.active
+                      %input{type: "radio", name: "{{ test_student.student.id }}_{{ test_exercice.id }}", value: "unknown_{{ test_student.student.id }}_{{ test_exercice.id }}", autocomplete: "off", checked: "checked"}
+                        pas encore fait
+                  -else
+                    %label.btn.btn-default.unknown
+                      %input{type: "radio", name: "{{ test_student.student.id }}_{{ test_exercice.id }}", value: "unknown_{{ test_student.student.id }}_{{ test_exercice.id }}", autocomplete: "off"}
+                        pas encore fait
 
     %button.btn.btn-primary{type: "submit"}
       Valider
@@ -46,7 +63,7 @@
 
   :javascript
     $(function() {
-      $(".good").click(function() {
+      var color_good = function() {
         var btn = $(this)
         btn.addClass("btn-success");
 
@@ -56,9 +73,9 @@
 
         var bad_btn = btn.parent().find(".bad");
         bad_btn.removeClass("btn-warning");
-      });
+      }
 
-      $(".bad").click(function() {
+      var color_bad = function() {
         var btn = $(this)
         btn.addClass("btn-warning");
 
@@ -68,9 +85,9 @@
 
         var good_btn = btn.parent().find(".good");
         good_btn.removeClass("btn-success");
-      });
+      }
 
-      $(".unknown").click(function() {
+      var color_unknown = function() {
         var btn = $(this)
 
         var td = btn.parent().parent().parent();
@@ -82,5 +99,14 @@
 
         var bad_btn = btn.parent().find(".bad");
         bad_btn.removeClass("btn-warning");
-      });
+      }
+
+      $(".good").click(color_good);
+      $(".bad").click(color_bad);
+      $(".unknown").click(color_unknown);
+
+      $(".good.active").each(color_good);
+      $(".bad.active").each(color_bad);
+      $(".unknow.active").each(color_unknow);
+
     })
