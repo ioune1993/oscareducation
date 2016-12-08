@@ -51,7 +51,7 @@ def pass_test(request, pk):
 
     # the order_by here is used to make the order of the exercices deterministics
     # so each student will have the exercices in the same order
-    next_not_answered_test_exercice = TestExercice.objects.filter(test=test_student.test, exercice__isnull=False).exclude(answer__in=test_student.answer_set.all()).order_by('created_at').first()
+    next_not_answered_test_exercice = TestExercice.objects.filter(test=test_student.test, exercice__isnull=False, testable_online=True).exclude(answer__in=test_student.answer_set.all()).order_by('created_at').first()
 
     if request.method == "POST":
         # There is normally not way for a student to answer another exercice
