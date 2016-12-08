@@ -51,7 +51,7 @@ def pass_test(request, pk):
 
     # the order_by here is used to make the order of the exercices deterministics
     # so each student will have the exercices in the same order
-    next_not_answered_test_exercice = TestExercice.objects.filter(test=test_student.test).exclude(answer__in=test_student.answer_set.all()).order_by('created_at').first()
+    next_not_answered_test_exercice = TestExercice.objects.filter(test=test_student.test, exercice__isnull=False).exclude(answer__in=test_student.answer_set.all()).order_by('created_at').first()
 
     if request.method == "POST":
         # There is normally not way for a student to answer another exercice
@@ -65,19 +65,6 @@ def pass_test(request, pk):
         return render(request, "examinations/test_finished.haml", {
             "test_student": test_student
         })
-
-    if next_not_answered_test_exercice.exercice is None and next_not_answered_test_exercice.skill.exercice_set.filter(approved=True, testable_online=True).exists():
-        with transaction.atomic():
-            count = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True, testable_online=True).count()
-            exercice = next_not_answered_test_exercice.skill.exercice_set.filter(approved=True, testable_online=True)[random.choice(range(count))]
-            next_not_answered_test_exercice.exercice = exercice
-
-            if generation.needs_to_be_generated(exercice.content):
-                variables = generation.get_variable_list(exercice.content)
-                next_not_answered_test_exercice.rendered_content = generation.render(exercice.content, variables)
-                next_not_answered_test_exercice.variables = json.dumps(variables)
-
-            next_not_answered_test_exercice.save()
 
     return render(request, "examinations/take_exercice.haml", {
         "test_exercice": next_not_answered_test_exercice,
