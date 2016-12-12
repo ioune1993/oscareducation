@@ -55,7 +55,7 @@
     %ul.heatmap-list
       -for test_exercice in object.testexercice_not_testable_online
         %li
-          %a.btn.btn-warning.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
+          %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
             %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
 
           =test_exercice.skill.name
