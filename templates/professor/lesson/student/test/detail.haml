@@ -101,6 +101,10 @@
 
   -if not student_test.fully_testable_online
     %h3 Réponse des questions hors ligne
+      %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
+        imprimer les questions
+      %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk student_test.test.pk %}"}
+        entrer les résultats
     -if student_test.has_offline_answers
       %table.table.table-bordered
         %colgroup
@@ -142,3 +146,8 @@
 
     -else
       %p Vous n'avez pas encore rentré les réponses pour cet élève pour les questions hors ligne.
+      %p
+        %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
+          imprimer les questions
+        %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk student_test.test.pk %}"}
+          entrer les résultats
