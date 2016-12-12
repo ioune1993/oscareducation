@@ -80,9 +80,9 @@
               -include "professor/skill/update_pedagogical_resources/title_field.haml"
             .col-md-4
               .form-group
-                %label.control-label.prenom{for: "id_kind"}
+                %label.control-label.prenom{for: "kind"}
                   Type*
-                %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "id_kind", value: "", list: "type_list"}
+                %select#kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind", value: "", list: "type_list"}
                   %option{value: "", selected: "selected"} ---------
                   %option{value: "exercice"} Exercices
                   %option{value: "commented-exercice"} Exercices commentés
@@ -102,14 +102,14 @@
               .row
                 .col-md-4
                   .form-group
-                    %label.control-label.prenom{for: "id_link"}
+                    %label.control-label.prenom{for: "link_link_{& link &}"}
                       Adresse*
-                    %input#id_link.form-control{type: "url", required: "", placeholder: "https://...", name: "link_link_{& link &}", value: ""}
+                    %input.form-control{type: "url", required: "", placeholder: "https://...", name: "link_link_{& link &}", id: "link_link_{& link &}", value: ""}
                 .col-md-4
                   .form-group
-                    %label.control-label.prenom{for: "id_kind"}
+                    %label.control-label.prenom{for: "link_kind_{& link &}"}
                       Type*
-                    %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", value: "", list: "type_list"}
+                    %select.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", id: "link_kind_{& link &}", value: "", list: "type_list"}
                       %option{value: "", selected: "selected"} ---------
                       %option{value: "animation"} Animation
                       %option{value: "software"} Application (ordinateur)
@@ -126,9 +126,9 @@
                       %option{value: "other"} (autre)
                 .col-md-4
                   .form-group
-                    %label.control-label.prenom{for: "id_title"}
+                    %label.control-label.prenom{for: "link_title_{& link &}"}
                       Nom (optionnel)
-                    %input#id_title.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", value: ""}
+                    %input.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", id: "link_title_{& link &}", value: ""}
 
               %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
                 %span.glyphicon.glyphicon-remove
@@ -146,14 +146,14 @@
               .row
                 .col-md-4
                   .form-group
-                    %label.control-label.prenom{for: "id_file"}
+                    %label.control-label.prenom{for: "file_file_{& file &}"}
                       Fichier*
-                    %input#id_file{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", value: "", multiple: "multiple"}
+                    %input{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", id: "file_file_{& file &}", value: "", multiple: "multiple"}
                 .col-md-4
                   .form-group
-                    %label.control-label.prenom{for: "id_kind"}
+                    %label.control-label.prenom{for: "file_kind_{& file &}"}
                       Type*
-                    %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", value: ""}
+                    %select.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", id: "file_kind_{& file &}", value: ""}
                       %option{value: "", selected: "selected"} ---------
                       %option{value: "animation"} Animation
                       %option{value: "software"} Application (ordinateur)
@@ -170,9 +170,9 @@
                       %option{value: "other"} (autre)
                 .col-md-4
                   .form-group
-                    %label.control-label.prenom{for: "id_title"}
+                    %label.control-label.prenom{for: "file_title_{& file &}"}
                       Nom (optionnel)
-                    %input#id_title.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", value: ""}
+                    %input.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", id: "file_title_{& file &}", value: ""}
 
               %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
                 %span.glyphicon.glyphicon-remove

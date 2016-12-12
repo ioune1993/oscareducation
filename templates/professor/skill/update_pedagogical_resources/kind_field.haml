@@ -1,7 +1,7 @@
   .form-group
-    %label.control-label.prenom{for: "id_kind"}
+    %label.control-label.kind{for: "kind"}
       Type*
-    %select#id_kind.form-control{type: "text", required: "", placeholder: "Type", name: "id_kind", value: "", list: "type_list"}
+    %select#kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind", value: "", list: "type_list"}
       -for value, text in resource_form.fields.kind.choices
         -if forloop.first
           %option{value: "{{ value }}", selected: "selected"}= text
