@@ -26,6 +26,10 @@
     -if not student_test.fully_testable_online
       %h3 Réponse des questions en ligne
     %table.table.table-bordered
+      %colgroup
+        %col{width: "20%"}
+        %col
+        %col
       %thead
         %th
           Compétence / question
@@ -100,32 +104,41 @@
     -if student_test.has_offline_answers
       %table.table.table-bordered
         %colgroup
-          %col{width: "25%"}
-          %col{width: "25%"}
-          %col{width: "50%"}
+          %col{width: "20%"}
+          %col
+          %col
         %thead
-          %tr
-            %th Compétence
-            %th Exercice
-            %th Réponse
+          %th
+            Compétence / question
+          %th
+            Énoncé
         %tbody
           -for test_exercice, answer in student_test.test_exercice_answer_for_offline_test
             %tr
-              %td
-                %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk test_exercice.skill.code %}"}
+              %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
+                %p
+                  %b Compétence :
                   =test_exercice.skill
+                  %br
+                  -if test_exercice.exercice.id
+                    %b Question n°
+                      =test_exercice.exercice.id
+                  -else
+                    Pas de questions disponible
+                  %br
+                  %b Réponse :
+                  -if answer and answer.correct
+                    correcte
+                  -elif answer and not answer.correct
+                    incorrecte
+                  -elif answer == None
+                    pas encore encodée
               %td
-                %a{href: "{% url 'professor:exercice_detail' test_exercice.exercice.pk %}"}
-                  Exercice n° {{ test_exercice.exercice.id }}
-              -if answer.correct
-                %td.success
-              -elif answer and not answer.correct
-                %td.warning
-              -elif answer and answer.correct == None
-                %td
-              -if answer == None
-                %td
-                  La réponse n'a pas été encodé
+                %table.full-width
+                  %tr
+                    %td{colspan: 2}
+                      -if test_exercice.exercice.content
+                        %i= test_exercice.exercice.content|safe
 
     -else
       %p Vous n'avez pas encore rentré les réponses pour cet élève pour les questions hors ligne.
