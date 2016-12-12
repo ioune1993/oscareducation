@@ -34,6 +34,9 @@
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
           Effacer
       %td.center{width: "20px"}
+        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test.pk %}"}
+          Exercices
+      %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
           Tests
 
