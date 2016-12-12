@@ -48,11 +48,13 @@
             %td{class: "{% if i.correct %}success{% elif i.correct == False %}warning{% endif %}"}
               %p
                 %b Compétence :
-                =i.test_exercice.skill
+                %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk i.test_exercice.skill %}"}
+                  =i.test_exercice.skill
                 %br
                 -if i.test_exercice.exercice.id
-                  %b Question n°
-                    =i.test_exercice.exercice.id
+                  %a{href: "{% url 'professor:exercice_detail' i.test_exercice.exercice.id %}"}
+                    %b Question n°
+                      =i.test_exercice.exercice.id
                 -else
                   Pas de questions disponible
             %td{colspan: 2}
@@ -127,11 +129,13 @@
               %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
                 %p
                   %b Compétence :
-                  =test_exercice.skill
+                  %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk test_exercice.skill %}"}
+                    =test_exercice.skill
                   %br
                   -if test_exercice.exercice.id
-                    %b Question n°
-                      =test_exercice.exercice.id
+                    %a{href: "{% url 'professor:exercice_detail' test_exercice.exercice.id %}"}
+                      %b Question n°
+                        =test_exercice.exercice.id
                   -else
                     Pas de questions disponible
                   %br
