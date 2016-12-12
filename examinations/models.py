@@ -162,7 +162,7 @@ class Exercice(models.Model):
 
     testable_online = models.BooleanField(default=True)
 
-    approved = models.BooleanField(default=False)
+    approved = models.BooleanField(default=True)
 
     added_by = models.ForeignKey(User, null=True)
 
