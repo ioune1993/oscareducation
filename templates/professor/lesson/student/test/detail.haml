@@ -23,6 +23,8 @@
   %hr
 
   -if student_test.started_at
+    -if not student_test.fully_testable_online
+      %h3 Réponse des questions en ligne
     %table.table.table-bordered
       %thead
         %th
@@ -41,7 +43,7 @@
                 %br
                 -if i.test_exercice.exercice.id
                   %b Question n°
-                  =i.test_exercice.exercice.id
+                    =i.test_exercice.exercice.id
                 -else
                   Pas de questions disponible
             %td{colspan: 2}
@@ -92,3 +94,38 @@
 
   -else
     %p L'élève n'a pas encore commencé le test en ligne.
+
+  -if not student_test.fully_testable_online
+    %h3 Réponse des questions hors ligne
+    -if student_test.has_offline_answers
+      %table.table.table-bordered
+        %colgroup
+          %col{width: "25%"}
+          %col{width: "25%"}
+          %col{width: "50%"}
+        %thead
+          %tr
+            %th Compétence
+            %th Exercice
+            %th Réponse
+        %tbody
+          -for test_exercice, answer in student_test.test_exercice_answer_for_offline_test
+            %tr
+              %td
+                %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk test_exercice.skill.code %}"}
+                  =test_exercice.skill
+              %td
+                %a{href: "{% url 'professor:exercice_detail' test_exercice.exercice.pk %}"}
+                  Exercice n° {{ test_exercice.exercice.id }}
+              -if answer.correct
+                %td.success
+              -elif answer and not answer.correct
+                %td.warning
+              -elif answer and answer.correct == None
+                %td
+              -if answer == None
+                %td
+                  La réponse n'a pas été encodé
+
+    -else
+      %p Vous n'avez pas encore rentré les réponses pour cet élève pour les questions hors ligne.

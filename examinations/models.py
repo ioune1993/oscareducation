@@ -268,6 +268,9 @@ class TestStudent(models.Model):
 
         return [(x, answers.get(x)) for x in TestExercice.objects.filter(test=self.test, testable_online=False)]
 
+    def has_offline_answers(self):
+        return self.answer_set.filter(test_exercice__testable_online=False).exists()
+
     def get_maybe_answer_list(self):
         answers = {x.test_exercice: x for x in self.answer_set.all().select_related("test_exercice").order_by("-test_exercice__skill__code")}
 
@@ -324,6 +327,9 @@ class Answer(models.Model):
                 }
             })
         """
+
+        if not self.test_exercice.testable_online:
+            return []
 
         if not self.test_exercice.exercice:
             return []
