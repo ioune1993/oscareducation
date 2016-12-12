@@ -16,38 +16,46 @@
         =test_exercice.skill.code
 
       .panel-body
-        -if test_exercice.exercice.content
-          .well
-            =test_exercice.exercice.content|safe
+        -if test_exercice.exercice
+          -if not test_exercice.exercice.testable_online
+            .alert.alert-warning
+              Cet exercice devra être testé hors ligne
 
-        -for label, question in test_exercice.exercice.get_questions.items
-          .form-group
-            %label{for: "{{ forloop.counter0 }}"}= label|safe
-            -if question.type == "text"
-              %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
-              %div{style: "margin-left: 20px; margin-top: 10px"}
-                %p Réponses correctes :
-                %ul
-                  -for answer in question.answers
-                    %li= answer
-            -elif question.type == "radio"
-              -with name=forloop.counter0
-                -for option, valid in question.answers.items
-                  .radio
-                    %label
-                      %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-                      %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
-                        =option
-            -elif question.type == "checkbox"
-              -with name=forloop.counter0
-                -for option, valid in question.answers.items
-                  .radio
-                    %label
-                      %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-                      %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
-                        =option
-            -else
-              =question.type
+          -if test_exercice.exercice.content
+            .well
+              =test_exercice.exercice.content|safe
+
+          -for label, question in test_exercice.exercice.get_questions.items
+            .form-group
+              %label{for: "{{ forloop.counter0 }}"}= label|safe
+              -if question.type == "text"
+                %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
+                %div{style: "margin-left: 20px; margin-top: 10px"}
+                  %p Réponses correctes :
+                  %ul
+                    -for answer in question.answers
+                      %li= answer
+              -elif question.type == "radio"
+                -with name=forloop.counter0
+                  -for option, valid in question.answers.items
+                    .radio
+                      %label
+                        %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
+                        %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
+                          =option
+              -elif question.type == "checkbox"
+                -with name=forloop.counter0
+                  -for option, valid in question.answers.items
+                    .radio
+                      %label
+                        %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
+                        %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
+                          =option
+              -else
+                =question.type
+
+        -else
+          Nous n'avons pas encore de questions pour cette compétence
 
   .center
     %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
