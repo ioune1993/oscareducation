@@ -201,12 +201,12 @@ class TestExercice(models.Model):
 
     def get_questions(self):
         if not self.variables:
-            return yaml.load(self.exercice.answer, Loader=yamlordereddictloader.Loader)
+            return self.exercice.get_questions()
 
         variables = json.loads(self.variables)
 
         result = OrderedDict()
-        for key, value in yaml.load(self.exercice.answer, Loader=yamlordereddictloader.Loader).items():
+        for key, value in self.exercice.get_questions().items():
             if generation.needs_to_be_generated(key):
                 key = generation.render(key, variables)
 
