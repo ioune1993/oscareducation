@@ -173,7 +173,10 @@ class Exercice(models.Model):
         return "on %s" % self.skill.code
 
     def get_questions(self):
-        return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
+        if self.answer:
+            return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
+
+        return {}
 
 
 class TestExercice(models.Model):
