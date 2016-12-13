@@ -39,14 +39,14 @@
           %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
             aller sur la section math
 
-      %ul
-        -for video in object.khanacademyvideoskill_set.all
-          %li
+      -for video in object.khanacademyvideoskill_set.all
+        %center
+          <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+          %p
             %a{href: "{{ video.url }}", target: "_blank"}
               =video.reference.title|default:video.url
 
             -if user.professor and video.added_by == request.user
-              \-
               %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
                 -csrf_token
                 %button.btn.btn-danger.btn-xs.delete{type: "submit"}
