@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 import json
-import random
 
 from datetime import datetime
 
@@ -12,7 +11,7 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.db import transaction
 
-from examinations import generation
+# from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
 from skills.models import StudentSkill
 
