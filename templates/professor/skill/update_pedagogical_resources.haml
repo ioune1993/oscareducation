@@ -17,10 +17,13 @@
     %hr
 
     .well
-      %h3 Ressources personnelles
-        %small pour mes élèves uniquement
-        %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
-          Ajouter
+      -if user.professor
+        %h3 Ressources personnelles
+          %small pour mes élèves uniquement
+          %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
+            Ajouter
+      -else
+        %h3 Ressources de ma classe
       -with title="" kind="personal_resource" queryset=personal_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
@@ -29,11 +32,12 @@
       %h4
         Videos
         %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-        %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-          Ajouter une vidéo
+        -if user.professor
+          %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
+            Ajouter une vidéo
 
-        %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-          aller sur la section math
+          %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+            aller sur la section math
 
       %ul
         -for video in object.khanacademyvideoskill_set.all
@@ -41,27 +45,28 @@
             %a{href: "{{ video.url }}", target: "_blank"}
               =video.reference.title|default:video.url
 
-            -if video.added_by == request.user
+            -if user.professor and video.added_by == request.user
               \-
               %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
                 -csrf_token
                 %button.btn.btn-danger.btn-xs.delete{type: "submit"}
                   supprimer
 
-      %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
-        -csrf_token
+      -if user.professor
+        %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
+          -csrf_token
 
-        %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
-        %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+          %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
+          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+          %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
 
-        .form-group
-          -bootstrap_form khanacademy_skill_form
+          .form-group
+            -bootstrap_form khanacademy_skill_form
 
-        %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+          %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
 
-        %p
-          %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+          %p
+            %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
       %hr
 
@@ -85,8 +90,9 @@
 
     .well
       %h3 Autres ressources
-        %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
-          Ajouter
+        -if user.professor
+          %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
+            Ajouter
       -with title="" kind="other_resource" queryset=object.other_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
