@@ -31,3 +31,13 @@ def clean_file_name(file_name):
     if "_" in file_name:
         file_name = "_".join(file_name.split("_")[:-1])
     return file_name
+
+
+@register.filter
+def split_skill_as_section(skill_code):
+    return "-".join(skill_code.split("-")[:2])
+
+
+@register.filter
+def split_skill_as_subsection(skill_code):
+    return skill_code.split("-")[-1]

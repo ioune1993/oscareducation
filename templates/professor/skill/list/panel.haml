@@ -1,3 +1,5 @@
+-load lesson_tags
+
 .panel.panel-default
   .panel-heading{id: "heading{{ stage.id }}", role: "tab"}
     %h4.panel-title
@@ -17,9 +19,9 @@
           %col
             %tr.color-title{style: "background-color: {{ color }}"}
               -with code=section.list|first
-                %th.center= code.code|slice:":6"
+                %th.center= code.code|split_skill_as_section
               %th{colspan: 5}= section.grouper
-          -regroup section.list by code|slice:"7:8" as categories
+          -regroup section.list by code|split_skill_as_subsection|slice:":1" as categories
           -for category in categories
             %tr.active
               %th.center= category.grouper
@@ -33,7 +35,7 @@
             -for skill in category.list
               %tr
                 %td.center
-                  %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|slice:"7:"
+                  %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|split_skill_as_subsection
                 %td
                   =skill.name
                 %td
