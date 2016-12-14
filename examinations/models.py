@@ -170,7 +170,7 @@ class Exercice(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "on %s" % self.skill.code
+        return "exercice n° %s on %s" % (self.id, self.skill.code)
 
     def get_questions(self):
         if self.answer:
