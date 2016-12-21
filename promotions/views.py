@@ -25,7 +25,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources, Resource
+from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources, Resource, CodeR
 from examinations.models import Test, TestStudent, Exercice, BaseTest
 from examinations.utils import validate_exercice_yaml_structure
 
@@ -746,6 +746,7 @@ def contribute_page(request):
 
     data["form"] = form
     data["global_resources"] = GlobalResources.objects.all()
+    data["code_r"] = CodeR.objects.all()
 
     if request.method == "POST" and form.is_valid():
         gr = form.save()

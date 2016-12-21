@@ -383,3 +383,4 @@ class CodeR(models.Model):
 
     class Meta:
         unique_together = ('section', 'sub_code')
+        ordering = ['section', 'sub_code']
