@@ -370,3 +370,16 @@ class ResourceLink(ResourcePart):
 
 class ResourceFile(ResourcePart):
     file = models.FileField()
+
+
+class CodeR(models.Model):
+    section = models.CharField(max_length=10)
+    sub_code = models.CharField(max_length=10)
+    name = models.CharField(max_length=255)
+
+    @property
+    def code(self):
+        return self.section + u"_" + self.sub_code
+
+    class Meta:
+        unique_together = ('section', 'sub_code')
