@@ -13,7 +13,8 @@ from django.db import transaction
 
 # from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
-from skills.models import StudentSkill
+from skills.models import StudentSkill, Skill, Resource
+
 
 from utils import user_is_student
 
@@ -141,3 +142,15 @@ def start_test(request, pk):
     test_student.save()
 
     return HttpResponseRedirect(reverse('student_pass_test', args=(test_student.pk,)))
+
+
+def skill_pedagogic_ressources(request, slug):
+    skill = get_object_or_404(Skill, code=slug)
+
+    personal_resource = Resource.objects.filter(added_by__professor__lesson__students=request.user.student, section="personal_resource", skill=skill)
+
+    return render(request, "professor/skill/update_pedagogical_resources.haml", {
+        "object": skill,
+        "skill": skill,
+        "personal_resource": personal_resource,
+    })
