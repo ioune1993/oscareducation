@@ -299,7 +299,7 @@ def update_pedagogical_ressources(request, slug):
 
     resource_form = ResourceForm()
 
-    personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource")
+    personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource", skill=skill)
 
     khanacademy_skill_form = KhanAcademyVideoReferenceForm()
     sesamath_reference_form = SesamathReferenceForm()
