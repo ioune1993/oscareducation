@@ -25,13 +25,13 @@
           Socles de compétences - S1 S2 S3
 
       .panel-body{style: "padding-top: 10px"}
-        -with stage=1e title="1er cycle primaire"
+        -with stage=1e title="2e cycle (1-2 primaire)"
           -include "professor/skill/list/panel-socles.haml"
 
-        -with stage=2e title="2ème et 3ème cycles primaire"
+        -with stage=2e title="3e et 4e cycles (3-6 primaire)"
           -include "professor/skill/list/panel-socles.haml"
 
-        -with stage=3e title="1er cycle secondaire"
+        -with stage=3e title="5e cycle (1-2 secondaire)"
           -include "professor/skill/list/panel-socles.haml"
 
     %br
@@ -43,11 +43,11 @@
 
       .panel-body
         -with color="#962424"
-          -with stage=2p title="Deuxième cycle - P2D"
+          -with stage=2p title="Deuxième degré - P2D"
             %h5.color-title{style: "background-color: {{ color }}"} Mathématiques de base
             -include "professor/skill/list/panel.haml"
 
-          -with stage=3p title="Troisième cycle - P3D"
+          -with stage=3p title="Troisième degré - P3D"
             -include "professor/skill/list/panel.haml"
 
     %br
@@ -59,11 +59,11 @@
 
       .panel-body
         -with color="#318631"
-          -with stage=2d2 title="Deuxième cycle - Q22"
+          -with stage=2d2 title="Deuxième degré - Q22"
             %h5.color-title{style: "background-color: {{ color }}"} Mathématiques actives dans la formation qualifiante
             -include "professor/skill/list/panel.haml"
 
-          -with stage=3d2 title="Troisième cycle - Q32"
+          -with stage=3d2 title="Troisième degré - Q32"
             -include "professor/skill/list/panel.haml"
 
     %br
@@ -76,7 +76,7 @@
       .panel-body
         -with color="#962424"
           -with stage=3t title="Troisième année - T3"
-            %h5.color-title{style: "background-color: {{ color }}"} Deuxième cycle de transition
+            %h5.color-title{style: "background-color: {{ color }}"} Deuxième degré de transition
             -include "professor/skill/list/panel.haml"
 
           -with stage=4t title="Quatrième année - T4"
@@ -86,7 +86,7 @@
 
         -with color="#B02459"
           -with stage=5tb title="Cinquième année - TB5"
-            %h5.color-title{style: "background-color: {{ color }}"} Troisième cycle de transition - Mathématiques de base
+            %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques de base
             -include "professor/skill/list/panel.haml"
 
           -with stage=6tb title="Sixième année - TB6"
@@ -96,7 +96,7 @@
 
         -with color="#C991D2"
           -with stage=5tg title="Cinquième année - TG5"
-            %h5.color-title{style: "background-color: {{ color }}"} Troisième cycle de transition - Mathématiques générales
+            %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques générales
             -include "professor/skill/list/panel.haml"
 
           -with stage=6tg title="Sixième année - TG6"
