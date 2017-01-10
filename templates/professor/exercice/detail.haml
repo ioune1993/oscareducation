@@ -21,8 +21,12 @@
     =exercice.skill.code
     %small
       =exercice.skill.name
-    %a.btn.btn-sm.btn-primary.pull-right{href: "{% url 'professor:exercice_list' %}"}
-      Voir toutes les questions
+    .pull-right
+      -if user.is_superuser
+        %a.btn.btn-sm.btn-success{href: "/admin/examinations/exercice/{{ exercice.id }}/"}
+          Éditer
+      %a.btn.btn-sm.btn-primary{href: "{% url 'professor:exercice_list' %}"}
+        Voir toutes les questions
 
   %hr
 
