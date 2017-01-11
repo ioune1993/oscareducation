@@ -627,7 +627,7 @@ def exercice_validation_form_validate_exercice(request):
 
 @require_POST
 @user_is_professor
-def exercice_validation_form_pull_request(request):
+def exercice_validation_form_submit(request):
     data = json.load(request)
     html = data["html"]
     skill_code = data["skill_code"]
