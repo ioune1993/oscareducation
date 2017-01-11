@@ -1,25 +1,4 @@
 function validateExerciceController($scope, $http, $sce, $timeout, $location) {
-    $scope.skillCode = $location.search().code;
-    $scope.html = "";
-    $scope.yaml = "";
-    $scope.yamlRendering = "";
-    $scope.htmlRendering = "";
-    $scope.image = null;
-    $scope.base64img = "";
-    $scope.testable_online = true;
-
-    $scope.questions = [{
-        "instructions": "",
-        "type": "",
-        "answers": [{
-            "text": "",
-            "correct": false,
-        }],
-    }]
-
-    $scope.yamlValidationResult = "";
-    $scope.exerciceIsValid = false;
-
     $scope.uploadFile = function(files) {
         var reader = new FileReader();
         reader.readAsDataURL(files[0]);
@@ -145,4 +124,24 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         $scope.questions.splice($scope.questions.indexOf(question), 1);
     }
 
+    $scope.skillCode = $location.search().code;
+    $scope.html = "";
+    $scope.yaml = "";
+    $scope.yamlRendering = "";
+    $scope.htmlRendering = "";
+    $scope.image = null;
+    $scope.base64img = "";
+    $scope.testable_online = true;
+
+    $scope.questions = [{
+        "instructions": "",
+        "type": "",
+        "answers": [{
+            "text": "",
+            "correct": false,
+        }],
+    }]
+
+    $scope.yamlValidationResult = "";
+    $scope.exerciceIsValid = false;
 }
