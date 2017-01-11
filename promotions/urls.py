@@ -59,6 +59,7 @@ urlpatterns = [
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
     url(r'^exercices/(?P<pk>\d+)/update/$', views.exercice_update, name='exercice_update'),
     url(r'^exercices/(?P<pk>\d+)/update/json/$', views.exercice_update_json, name='exercice_update_json'),
+    url(r'^exercices/(?P<pk>\d+)/update/submit/$', views.exercice_validation_form_submit, name='exercice_update_submit'),
     url(r'^exercices/\d+/update/validate/$', views.exercice_validation_form_validate_exercice, name='exercice_update_validate'),
     url(r'^exercices/validation_form/$', user_is_professor(ListView.as_view(model=Stage, template_name="professor/exercice/validation_form.haml")), name='exercice_validation_form'),
     url(r'^exercices/validation_form/validate/$', views.exercice_validation_form_validate_exercice, name='exercice_validation_form_validate_exercice'),

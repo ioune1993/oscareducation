@@ -51,6 +51,10 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
         $http.post("submit/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img, "testable_online": $scope.testable_online})
             .success(function(data) {
+                if (inUpdateMode) {
+                    window.location.href = "..";
+                }
+
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, nous le validerons prochainement, un grand merci !');
                 console.log(data);
 
@@ -134,6 +138,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             return;
         }
 
+        inUpdateMode = true;
+
         $http.get("json/").success(function(data) {
             $scope.skillCode = data.skillCode;
             $scope.html = data.html;
@@ -152,6 +158,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     $scope.image = null;
     $scope.base64img = "";
     $scope.testable_online = true;
+
+    var inUpdateMode = false;
 
     $scope.questions = [{
         "instructions": "",

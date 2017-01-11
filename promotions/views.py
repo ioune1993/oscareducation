@@ -627,12 +627,17 @@ def exercice_validation_form_validate_exercice(request):
 
 @require_POST
 @user_is_professor
-def exercice_validation_form_submit(request):
+def exercice_validation_form_submit(request, pk=None):
     data = json.load(request)
     html = data["html"]
     skill_code = data["skill_code"]
     image = None
     testable_online = data["testable_online"]
+
+    if pk is not None:
+        exercice = get_object_or_404(Exercice, pk=pk)
+    else:
+        exercice = None
 
     if testable_online:
         questions = CommentedMap()
@@ -684,14 +689,22 @@ def exercice_validation_form_submit(request):
         open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
 
     with transaction.atomic():
-        Exercice.objects.create(
-            file_name="submitted",
-            skill=Skill.objects.get(code=skill_code),
-            answer=yaml_file,
-            content=html,
-            testable_online=testable_online,
-            added_by=request.user,
-        )
+        if exercice is not None:
+            exercice.skill = Skill.objects.get(code=skill_code)
+            exercice.answer = yaml_file
+            exercice.content = html
+            exercice.testable_online = testable_online
+
+            exercice.save()
+        else:
+            Exercice.objects.create(
+                file_name="submitted",
+                skill=Skill.objects.get(code=skill_code),
+                answer=yaml_file,
+                content=html,
+                testable_online=testable_online,
+                added_by=request.user,
+            )
 
     return HttpResponse()
 
