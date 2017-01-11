@@ -124,6 +124,26 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         $scope.questions.splice($scope.questions.indexOf(question), 1);
     }
 
+    var checkIfEditingExercice = function() {
+        // this is a horrible hack to get to make this code works both for
+        // create and edition of exercices :(
+        let uri = window.location.href.split("/").filter(function(a) { return a }).slice(-1);
+
+        if (!uri[0] == "update") {
+            console.log("New ercercice mode");
+            return;
+        }
+
+        $http.get("json/").success(function(data) {
+            $scope.skillCode = data.skillCode;
+            $scope.html = data.html;
+            $scope.yaml = data.yaml;
+            $scope.questions = data.questions;
+
+            // TODO yamlRendering/htmlRendering et image
+        })
+    }
+
     $scope.skillCode = $location.search().code;
     $scope.html = "";
     $scope.yaml = "";
@@ -144,4 +164,6 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
     $scope.yamlValidationResult = "";
     $scope.exerciceIsValid = false;
+
+    checkIfEditingExercice();
 }

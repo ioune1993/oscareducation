@@ -736,6 +736,44 @@ def exercice_validation_form_validate_exercice_yaml(request):
 
 
 @user_is_professor
+def exercice_update(request, pk):
+    exercice = get_object_or_404(Exercice, pk=pk)
+
+    return render(request, "professor/exercice/validation_form.haml", {
+        "exercice": exercice,
+        "object": exercice,
+        "stage_list": Stage.objects.all(),
+    })
+
+
+@user_is_professor
+def exercice_update_json(request, pk):
+    exercice = get_object_or_404(Exercice, pk=pk)
+
+    questions = []
+    for text, data in exercice.get_questions().items():
+        question_type = data["type"]
+
+        if question_type == "text":
+            answers = [{"text": key, "correct": True} for key in data["answers"]]
+        else:
+            answers = [{"text": key, "correct": value} for key, value in data["answers"].items()]
+
+        questions.append({
+            "instructions": text,
+            "type": question_type,
+            "answers": answers,
+        })
+
+    return HttpResponse(json.dumps({
+        "skillCode": exercice.skill.code,
+        "html": exercice.content,
+        "yaml": exercice.answer,
+        "questions": questions,
+    }))
+
+
+@user_is_professor
 def contribute_page(request):
     data = {x.short_name: x for x in Stage.objects.all()}
 
