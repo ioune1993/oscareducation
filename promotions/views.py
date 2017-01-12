@@ -767,9 +767,10 @@ def exercice_update_json(request, pk):
     for text, data in exercice.get_questions().items():
         question_type = data["type"]
 
-        if question_type == "text":
+        if isinstance(data["answers"], list):
             answers = [{"text": key, "correct": True} for key in data["answers"]]
-        else:
+        else:  # assuming dict
+            print data["answers"]
             answers = [{"text": key, "correct": value} for key, value in data["answers"].items()]
 
         questions.append({
