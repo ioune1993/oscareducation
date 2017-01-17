@@ -18,9 +18,11 @@ from collections import OrderedDict
 from django.conf import settings
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
 from django.core.exceptions import PermissionDenied
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, resolve_url
 from django.core.urlresolvers import reverse
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
+from django.contrib.auth.views import redirect_to_login
 from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
@@ -752,6 +754,9 @@ def exercice_validation_form_validate_exercice_yaml(request):
 def exercice_update(request, pk):
     exercice = get_object_or_404(Exercice, pk=pk)
 
+    if exercice.added_by != request.user and not request.user.is_superuser:
+        return redirect_to_login(request.get_full_path(), resolve_url(settings.LOGIN_URL), REDIRECT_FIELD_NAME)
+
     return render(request, "professor/exercice/validation_form.haml", {
         "exercice": exercice,
         "object": exercice,
@@ -762,6 +767,9 @@ def exercice_update(request, pk):
 @user_is_professor
 def exercice_update_json(request, pk):
     exercice = get_object_or_404(Exercice, pk=pk)
+
+    if exercice.added_by != request.user and not request.user.is_superuser:
+        return redirect_to_login(request.get_full_path(), resolve_url(settings.LOGIN_URL), REDIRECT_FIELD_NAME)
 
     questions = []
     for text, data in exercice.get_questions().items():

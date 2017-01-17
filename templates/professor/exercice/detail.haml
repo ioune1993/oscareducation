@@ -22,8 +22,8 @@
     %small
       =exercice.skill.name
     .pull-right
-      -if user.is_superuser
-        %a.btn.btn-sm.btn-success{href: "/admin/examinations/exercice/{{ exercice.id }}/"}
+      -if user.is_superuser or exercice.added_by == user
+        %a.btn.btn-sm.btn-success{href: "{% url 'professor:exercice_update' exercice.id %}"}
           Éditer
       %a.btn.btn-sm.btn-primary{href: "{% url 'professor:exercice_list' %}"}
         Voir toutes les questions
