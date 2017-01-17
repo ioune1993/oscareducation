@@ -770,7 +770,6 @@ def exercice_update_json(request, pk):
         if isinstance(data["answers"], list):
             answers = [{"text": key, "correct": True} for key in data["answers"]]
         else:  # assuming dict
-            print data["answers"]
             answers = [{"text": key, "correct": value} for key, value in data["answers"].items()]
 
         questions.append({
