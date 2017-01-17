@@ -12,11 +12,17 @@
       %a{href: "{% url 'professor:exercice_list' %}"}
         Questions
     %li.active
-      Formulaire de proposition d'une question
+      -if exercice
+        Formulaire de modification d'une question
+      -else
+        Formulaire de proposition d'une question
 
   .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
     .panel-heading
-      Formulaire pour proposer une question
+      -if exercice
+        Formulaire de modification d'une question
+      -else
+        Formulaire de proposition d'une question
       .pull-right
         %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_list' %}"}
           Questions
@@ -103,7 +109,10 @@
           %button#validate-yaml.btn.btn-primary{type: "submit"}
             Prévisualiser
           %button#submit-pull-request.btn.btn-primary{ng-click: "proposeToOscar()", ng-if: "exerciceIsValid", ng-required: "exerciceIsValid", type: "button"}
-            Proposer à Oscar
+            -if exercice
+              Enregistrer
+            -else
+              Proposer à Oscar
 
       #yaml-validation-result{ng-bind-html: "yamlValidationResult"}
 
