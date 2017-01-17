@@ -138,3 +138,7 @@
     background-color: #950000 !important;
     border-color: #740000 !important;
 }
+
+.exercice-content img {
+    width: 100%;
+}
