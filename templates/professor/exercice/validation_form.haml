@@ -57,7 +57,7 @@
 
       .form-group
         %label Énoncé
-        %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>..."}
+        %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>... Pour utiliser du latex mettez le entre \( et \) ou $$ et $$"}
 
       %form.form-group{ng-submit: "validateExercice()"}
         %ul.list-group{ng-if: "testable_online"}
