@@ -7,6 +7,8 @@
 -block bootstrap3_extra_head
   %script{type: "text/javascript", src: "{% static 'js/angular.js' %}"}
   %script{type: "text/javascript", src: "{% static 'js/angular-cookies.js' %}"}
+  %script{type: "text/javascript", async: None, src: "//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"}
+
 
   %link{href: "{% static 'css/style.css' %}", rel: "stylesheet"}
   %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", rel: "stylesheet"}
