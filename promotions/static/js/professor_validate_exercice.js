@@ -133,7 +133,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         // create and edition of exercices :(
         let uri = window.location.href.split("/").filter(function(a) { return a }).slice(-1);
 
-        if (!uri[0] == "update") {
+        if (uri[0] != "update") {
             console.log("New ercercice mode");
             return;
         }
