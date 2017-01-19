@@ -106,7 +106,7 @@
   -else
     %p L'élève n'a pas encore commencé le test en ligne.
 
-  -if not student_test.fully_testable_online
+  -if not student_test.test.fully_testable_online
     %h3 Réponse des questions hors ligne
       %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
         imprimer les questions
