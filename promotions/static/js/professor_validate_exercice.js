@@ -237,11 +237,11 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     var inUpdateMode = false;
 
     $scope.questions = [{
-        "instructions": "",
-        "type": "",
-        "answers": [{
-            "text": "",
-            "correct": false,
+        instructions: "",
+        type: "",
+        answers: [{
+            text: "",
+            correct: false,
         }],
     }]
 
