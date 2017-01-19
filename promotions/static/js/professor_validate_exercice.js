@@ -90,7 +90,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
     $scope.onChangeQuestionType = function(question) {
         if (question.type == "math") {
-            $timeout(function() { renderMathquil(question) }, 100);
+            $timeout(function() { $scope.renderMathquil(question) }, 100);
         }
     }
 
@@ -157,14 +157,14 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             $timeout(function() {
                 for (var i = 0; i < $scope.questions.length; ++i) {
                     if ($scope.questions[i].type == "math") {
-                        renderMathquil($scope.questions[i])
+                        $scope.renderMathquil($scope.questions[i])
                     }
                 }
             }, 100);
         })
     }
 
-    var renderMathquil = function(question) {
+    $scope.renderMathquil = function(question) {
         console.log("renderMathquil");
         var MQ = MathQuill.getInterface(2);
 
