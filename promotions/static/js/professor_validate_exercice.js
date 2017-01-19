@@ -87,6 +87,12 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             })
     }
 
+    $scope.onChangeQuestionType = function(question_type) {
+        if (question_type == "math") {
+            $timeout(renderMathquil, 100);
+        }
+    }
+
     $scope.onChangeRadio = function(question, answer) {
         if (question.type != "radio")
             return;
@@ -148,6 +154,75 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
             // TODO yamlRendering/htmlRendering et image
         })
+    }
+
+    var renderMathquil = function() {
+        console.log("renderMathquil");
+        var MQ = MathQuill.getInterface(2);
+
+        var specialKeys = {
+            right: "Right",
+            left: "Left",
+            Down: "Down",
+            Up: "Up",
+            bksp: "Backspace",
+            tab: "Tab"
+        }
+
+        // add special keys, but don't override previous keyaction definitions
+        Object.keys(specialKeys).forEach(function(key){
+            if (!$.keyboard.keyaction[key]) {
+                $.keyboard.keyaction[key] = specialKeys[key];
+            }
+        });
+
+        $(".mathquill").each(function(_, mq) {
+            var mathquill = MQ.MathField(mq);
+
+            var keyboard = $($(mq).parent().children()[0]);
+
+            $(mq).click(function(){
+                // keyboard.getkeyboard().reveal();
+                keyboard.getkeyboard().reveal();
+            })
+
+            keyboard
+                .on('keyboardChange', function(e, keyboard, el) {
+                    console.log(e.action);
+                    if (specialKeys[e.action]) {
+                        mathquill.keystroke(specialKeys[e.action]);
+                    } else {
+                        mathquill.cmd(e.action);
+                    }
+                    // $('#mathquill').focus();
+                })
+            .keyboard({
+                usePreview: false,
+                lockInput: true,
+                noFocus: true,
+                layout: 'custom',
+                display: {
+                    "Down": "&darr;",
+                    "Up": "&uarr;"
+                },
+                customLayout: {
+                    'default': [
+                        'sin cos tan \u03c0 {b}',
+                        '7 8 9 + -',
+                        '4 5 6 * frac',
+                        '1 2 3 ^ {Up} sqrt',
+                        '0 . , {left} {Down} {right}',
+                        '< > = {clear} {a}'
+                    ]
+                },
+                useCombos: false
+            })
+            // activate the typing extension
+            .addTyping({
+                showTyping: true,
+                delay: 250
+            });
+        });
     }
 
     $scope.skillCode = $location.search().code;

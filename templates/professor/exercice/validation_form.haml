@@ -73,9 +73,10 @@
               .form-group
                 %label.control-label.col-sm-2 Type de la question
                 .col-sm-10
-                  %select.form-control{ng-model: "question.type", ng-required: "true"}
+                  %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(question.type)"}
                     %option{value: ""}
-                    %option{value: "text"} Réponse libre (text)
+                    %option{value: "text"} Réponse textuelle
+                    %option{value: "math"} Réponse mathématique simple
                     %option{value: "radio"} Une seule réponse unique possible parmis toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
 
@@ -85,11 +86,14 @@
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
                     .col-sm-9
-                      %input.form-control{type: "text", ng-model: "answer.text", ng-required: "true"}
+                      %input.form-control{type: "text", ng-if: "question.type != \"math\"", ng-model: "answer.text", ng-required: "true"}
+                      %span{ng-if: "question.type == \"math\"", ng-required: "true"}
+                        %textarea.keyboard
+                        %span.mathquill
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
-                  .form-group.no-bottom{ng-if: "question.type != \"text\""}
+                  .form-group.no-bottom{ng-if: "question.type != \"text\" && question.type != \"math\""}
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
@@ -131,4 +135,48 @@
   :css
     .no-bottom {
       margin-bottom: 0px;
+    }
+
+    .keyboard {
+      display: none;
+    }
+
+    .ui-keyboard-frac span {
+      background-image: url(https://cloud.githubusercontent.com/assets/2561440/12258775/26781542-b937-11e5-88b9-4a0b926dc8c0.png);
+      background-position: -10px -5px;
+      text-indent: -99em;
+      width: 1.2em;
+    }
+
+    .ui-keyboard-sqrt span {
+      background-image: url(https://cloud.githubusercontent.com/assets/2561440/12258775/26781542-b937-11e5-88b9-4a0b926dc8c0.png);
+      background-position: -203px -5px;
+      text-indent: -99em;
+      width: 1.2em;
+    }
+
+
+    /* position keyboard at bottom of the screen - jQuery UI isn't even loaded! */
+
+    .ui-keyboard {
+      border-radius: 0;
+      left: 0;
+      top: auto;
+      bottom: 0;
+      position: fixed;
+      width: 100%;
+    }
+
+    .ui-keyboard div {
+      font-size: 1.2em;
+    }
+
+    .mathquill {
+      width: 100%;
+    }
+
+    #wrap {
+      display: block;
+      margin: 0 auto;
+      text-align: center;
     }
