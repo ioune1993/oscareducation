@@ -26,33 +26,7 @@
               =test_exercice.exercice.content|safe
 
           -for label, question in test_exercice.exercice.get_questions.items
-            .form-group
-              %label{for: "{{ forloop.counter0 }}"}= label|safe
-              -if question.type == "text"
-                %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
-                %div{style: "margin-left: 20px; margin-top: 10px"}
-                  %p Réponses correctes :
-                  %ul
-                    -for answer in question.answers
-                      %li= answer
-              -elif question.type == "radio"
-                -with name=forloop.counter0
-                  -for option, valid in question.answers.items
-                    .radio
-                      %label
-                        %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-                        %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
-                          =option
-              -elif question.type == "checkbox"
-                -with name=forloop.counter0
-                  -for option, valid in question.answers.items
-                    .radio
-                      %label
-                        %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-                        %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
-                          =option
-              -else
-                =question.type
+            -include "professor/exercice/exercice_with_answers_rendering.haml"
 
         -else
           Nous n'avons pas encore de questions pour cette compétence
