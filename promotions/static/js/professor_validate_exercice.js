@@ -154,6 +154,13 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             $scope.questions = data.questions;
 
             // TODO yamlRendering/htmlRendering et image
+            $timeout(function() {
+                for (var i = 0; i < $scope.questions.length; ++i) {
+                    if ($scope.questions[i].type == "math") {
+                        renderMathquil($scope.questions[i])
+                    }
+                }
+            }, 100);
         })
     }
 
@@ -186,6 +193,10 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     }
                 }
             });
+
+            if (question.answers[index].text) {
+                mathquill.latex(question.answers[index].text);
+            }
 
             var keyboard = $($(mq).parent().children()[0]);
 
