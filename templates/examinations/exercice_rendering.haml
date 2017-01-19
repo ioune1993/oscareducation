@@ -7,7 +7,7 @@
   -for label, question in questions.items
     .form-group
       %label{for: "{{ forloop.counter0 }}"}= label|safe
-      -if question.type == "text"
+      -if question.type == "text" or question.type == "math"
         %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
       -elif question.type == "radio"
         -with name=forloop.counter0

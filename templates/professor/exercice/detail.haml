@@ -44,6 +44,13 @@
           %ul
             -for answer in question.answers
               %li= answer
+      -elif question.type == "math"
+        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
+        %div{style: "margin-left: 20px; margin-top: 10px"}
+          %p Réponses correctes :
+          %ul
+            -for answer in question.answers
+              %li \({{answer}}\) (code latex: <code>{{ answer }}</code>)
       -elif question.type == "radio"
         -with name=forloop.counter0
           -for option, valid in question.answers.items
