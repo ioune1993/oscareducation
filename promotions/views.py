@@ -590,6 +590,12 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": [x["text"] for x in question["answers"]],
             }
 
+        elif question["type"] == "math":
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": [x["latex"] for x in question["answers"]],
+            }
+
         else:
             answers = OrderedDict()
             for x in question["answers"]:
@@ -650,6 +656,12 @@ def exercice_validation_form_submit(request, pk=None):
                     "answers": [x["text"] for x in question["answers"]],
                 }
 
+            elif question["type"] == "math":
+                questions[question["instructions"]] = {
+                    "type": question["type"],
+                    "answers": [x["latex"] for x in question["answers"]],
+                }
+
             else:
                 answers = CommentedMap()
                 for i in question["answers"]:
@@ -663,7 +675,6 @@ def exercice_validation_form_submit(request, pk=None):
         yaml_file = ruamel.yaml.round_trip_dump(questions)
     else:
         yaml_file = ""
-
 
     if data.get("image"):
         existing_images = {x for x in os.listdir(os.path.join(settings.BASE_DIR, "exercices"))}
