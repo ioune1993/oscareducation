@@ -114,6 +114,10 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             "text": "",
             "correct": false,
         })
+
+        if (question.type == "math") {
+            $timeout(function() { $scope.renderMathquil(question) }, 100);
+        }
     }
 
     $scope.removeAnswer = function(question, answer) {
