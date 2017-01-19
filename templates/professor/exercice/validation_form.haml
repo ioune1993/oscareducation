@@ -73,7 +73,7 @@
               .form-group
                 %label.control-label.col-sm-2 Type de la question
                 .col-sm-10
-                  %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(question.type)"}
+                  %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(question)"}
                     %option{value: ""}
                     %option{value: "text"} Réponse textuelle
                     %option{value: "math"} Réponse mathématique simple

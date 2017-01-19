@@ -73,6 +73,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     "type": "",
                     "answers": [{
                         "text": "",
+                        "latex": "",
                         "correct": false,
                     }],
                 }]
@@ -87,9 +88,9 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             })
     }
 
-    $scope.onChangeQuestionType = function(question_type) {
-        if (question_type == "math") {
-            $timeout(renderMathquil, 100);
+    $scope.onChangeQuestionType = function(question) {
+        if (question.type == "math") {
+            $timeout(function() { renderMathquil(question) }, 100);
         }
     }
 
@@ -156,7 +157,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         })
     }
 
-    var renderMathquil = function() {
+    var renderMathquil = function(question) {
         console.log("renderMathquil");
         var MQ = MathQuill.getInterface(2);
 
@@ -176,8 +177,15 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             }
         });
 
-        $(".mathquill").each(function(_, mq) {
-            var mathquill = MQ.MathField(mq);
+        $(".mathquill").each(function(index, mq) {
+            var mathquill = MQ.MathField(mq, {
+                handlers: {
+                    edit: function() {
+                        question.answers[index].latex = mathquill.latex();
+                        console.log(question.answers[index].latex);
+                    }
+                }
+            });
 
             var keyboard = $($(mq).parent().children()[0]);
 
@@ -241,6 +249,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         type: "",
         answers: [{
             text: "",
+            latex: "",
             correct: false,
         }],
     }]
