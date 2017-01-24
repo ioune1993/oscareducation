@@ -142,3 +142,52 @@
 .exercice-content img {
     width: 100%;
 }
+
+.no-bottom {
+    margin-bottom: 0px;
+}
+
+.keyboard {
+    display: none;
+}
+
+.ui-keyboard-frac span {
+    background-image: url(https://cloud.githubusercontent.com/assets/2561440/12258775/26781542-b937-11e5-88b9-4a0b926dc8c0.png);
+    background-position: -10px -5px;
+    text-indent: -99em;
+    width: 1.2em;
+}
+
+.ui-keyboard-sqrt span {
+    background-image: url(https://cloud.githubusercontent.com/assets/2561440/12258775/26781542-b937-11e5-88b9-4a0b926dc8c0.png);
+    background-position: -203px -5px;
+    text-indent: -99em;
+    width: 1.2em;
+}
+
+
+/* position keyboard at bottom of the screen - jQuery UI isn't even loaded! */
+
+.ui-keyboard {
+    border-radius: 0;
+    left: 0;
+    top: auto;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+
+.ui-keyboard div {
+    font-size: 1.2em;
+}
+
+.mathquill {
+    width: 100%;
+}
+
+#wrap {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
