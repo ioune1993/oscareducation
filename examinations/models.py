@@ -231,10 +231,10 @@ class TestExercice(models.Model):
             answer = answers.get(str(number))
             answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
             if value["type"] == "text":
-                if not answer in [unicode(x).lower() for x in value["answers"]]:
+                if answer not in [unicode(x).lower() for x in value["answers"]]:
                     return False
             elif value["type"] == "math":
-                if not answer in [unicode(x).strip() for x in value["answers"]]:
+                if answer not in [unicode(x).strip() for x in value["answers"]]:
                     return False
             elif value["type"] == "radio":
                 if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
