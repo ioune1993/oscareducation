@@ -353,21 +353,21 @@ class Answer(models.Model):
                     "answer": answers["answers"].items()[student_answer][0] if student_answer is not None else "",
                     "is_correct": answers["answers"].items()[student_answer][1] if student_answer is not None else False,
                     "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
-               }
+                }
             elif answers["type"] == "text":
                 result[question] = {
                     "type": answers["type"],
                     "answer": student_answer,
                     "is_correct": student_answer in answers["answers"],
                     "correct": answers["answers"],
-               }
+                }
             elif answers["type"] == "checkbox":
                 result[question] = {
                     "type": answers["type"],
                     "answer": [answers["answers"].items()[int(x)][0] for x in student_answer],
                     "is_correct": [x[0] for x in enumerate(answers["answers"].items()) if x[1][1]] == student_answer,
                     "correct": [x[0] for x in answers["answers"].items() if x[1]],
-               }
+                }
             else:
                 print "Warning: unknown question type:", question, answers, self, self.test_exercice.exercice
 
