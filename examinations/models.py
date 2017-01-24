@@ -231,7 +231,7 @@ class TestExercice(models.Model):
             answer = answers.get(str(number))
             answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
             if value["type"] == "text":
-                if answer not in [unicode(x).lower() for x in value["answers"]]:
+                if answer not in [unicode(x).lower().strip() for x in value["answers"]]:
                     return False
             elif value["type"] == "math":
                 if answer not in [unicode(x).strip() for x in value["answers"]]:
