@@ -354,7 +354,7 @@ class Answer(models.Model):
                     "is_correct": answers["answers"].items()[student_answer][1] if student_answer is not None else False,
                     "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
                 }
-            elif answers["type"] == "text":
+            elif answers["type"] in ("text", "math"):
                 result[question] = {
                     "type": answers["type"],
                     "answer": student_answer,

@@ -92,6 +92,23 @@
                                     %ul
                                       -for j in answer.correct
                                         %li= j
+                              -elif answer.type == "math"
+                                %tr
+                                  %td.right-border{width: "50%"}
+                                    \\(
+                                    =answer.answer
+                                    \\)
+
+                                    (code latex : <code>{{ answer.answer }})
+                                  %td{width: "50%"}
+                                    %ul
+                                      -for j in answer.correct
+                                        %li
+                                          \\(
+                                          =j
+                                          \\)
+
+                                          (code latex : <code>{{ j }})
                               -else
                                 -# radio
                                 %tr
