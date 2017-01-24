@@ -7,8 +7,13 @@
   -for label, question in questions.items
     .form-group
       %label{for: "{{ forloop.counter0 }}"}= label|safe
-      -if question.type == "text" or question.type == "math"
+      -if question.type == "text"
         %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
+      -elif question.type == "math"
+        %span
+          %textarea.keyboard
+          %span.mathquill
+          %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", style: "display: none"}
       -elif question.type == "radio"
         -with name=forloop.counter0
           -for option in question.answers
