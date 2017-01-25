@@ -688,7 +688,7 @@ def exercice_validation_form_submit(request, pk=None):
 
         image_extension = image_extension.split("/")[1].split(";")[0]
 
-        for i in range(1, 100):
+        for i in range(1, 1000):
             name = ("%s_%.2d.%s" % (skill_code, i, image_extension)).upper()
             if name not in existing_images:
                 break
