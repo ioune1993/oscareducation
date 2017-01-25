@@ -677,7 +677,12 @@ def exercice_validation_form_submit(request, pk=None):
         yaml_file = ""
 
     if data.get("image"):
+        exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
+        if not os.path.exists(exercices_folder):
+            os.makedirs(exercices_folder)
+
         existing_images = {x for x in os.listdir(os.path.join(settings.BASE_DIR, "exercices"))}
+        existing_images = existing_images.union({x for x in os.listdir(exercices_folder)})
 
         image_extension, image = data["image"].split(",", 1)
 
@@ -694,10 +699,6 @@ def exercice_validation_form_submit(request, pk=None):
             html = ('<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)) + html
         else:
             html = '<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)
-
-        exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
-        if not os.path.exists(exercices_folder):
-            os.makedirs(exercices_folder)
 
         open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
 
