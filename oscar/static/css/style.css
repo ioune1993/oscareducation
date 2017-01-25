@@ -175,6 +175,14 @@
 }
 
 
+.ui-keyboard-94 span {
+    background-image: url("/static/img/keyboard/math-advanced.png");
+    background-position: -106px -5px;
+    text-indent: -99em;
+    width: 1.2em;
+}
+
+
 /* position keyboard at bottom of the screen - jQuery UI isn't even loaded! */
 
 .ui-keyboard {
