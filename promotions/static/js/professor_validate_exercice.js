@@ -29,6 +29,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
                     $timeout(function() {
                         $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
+                        MathJax.Hub.Typeset();
                     }, 0);
 
                     $scope.exerciceIsValid = true;
