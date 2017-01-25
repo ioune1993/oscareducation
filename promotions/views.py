@@ -543,7 +543,7 @@ def lesson_tests_and_skills(request, lesson_id):
 @user_is_professor
 def exercice_list(request):
     return render(request, 'professor/exercice/list.haml', {
-        "exercice_list": Exercice.objects.select_related('skill').order_by("skill__stage__level", "-skill__code", "id"),
+        "exercice_list": Exercice.objects.select_related('skill').order_by("skill__stage__level", "skill__code", "id"),
         "skills_without_exercices": Skill.objects.filter(exercice__isnull=True).order_by("skill__stage__level", "-skill__code", "id"),
     })
 
