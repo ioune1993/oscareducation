@@ -151,6 +151,15 @@
     display: none;
 }
 
+.ui-keyboard-times span {
+    font-size: 0px;
+}
+
+.ui-keyboard-times span:after {
+    content: '\274C';
+    font-size: 19px;
+}
+
 .ui-keyboard-frac span {
     background-image: url("/static/img/keyboard/frac.png");
     background-position: -10px -5px;
