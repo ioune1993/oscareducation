@@ -88,9 +88,9 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             })
     }
 
-    $scope.onChangeQuestionType = function(question) {
+    $scope.onChangeQuestionType = function(topIndex, question) {
         if (question.type == "math") {
-            $timeout(function() { $scope.renderMathquil(question) }, 100);
+            $timeout(function() { $scope.renderMathquil(topIndex, question) }, 100);
         }
     }
 
@@ -109,14 +109,14 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         }
     }
 
-    $scope.addAnswer = function(question) {
+    $scope.addAnswer = function(topIndex, question) {
         question["answers"].push({
             "text": "",
             "correct": false,
         })
 
         if (question.type == "math") {
-            $timeout(function() { $scope.renderMathquil(question) }, 100);
+            $timeout(function() { $scope.renderMathquil(topIndex, question) }, 100);
         }
     }
 
@@ -161,15 +161,15 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             $timeout(function() {
                 for (var i = 0; i < $scope.questions.length; ++i) {
                     if ($scope.questions[i].type == "math") {
-                        $scope.renderMathquil($scope.questions[i])
+                        $scope.renderMathquil(i, $scope.questions[i])
                     }
                 }
             }, 100);
         })
     }
 
-    $scope.renderMathquil = function(question) {
-        console.log("renderMathquil");
+    $scope.renderMathquil = function(topIndex, question) {
+        console.log("renderMathquil, topIndex: " + topIndex);
         var MQ = MathQuill.getInterface(2);
 
         var specialKeys = {
@@ -188,7 +188,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             }
         });
 
-        $(".mathquill").each(function(index, mq) {
+        console.log($(".mathquill-" + topIndex));
+        $(".mathquill-" + topIndex).each(function(index, mq) {
             var mathquill = MQ.MathField(mq, {
                 handlers: {
                     edit: function() {

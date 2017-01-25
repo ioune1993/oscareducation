@@ -61,7 +61,7 @@
 
       %form.form-group{ng-submit: "validateExercice()"}
         %ul.list-group{ng-if: "testable_online"}
-          %li.list-group-item{ng-repeat: "question in questions"}
+          %li.list-group-item{ng-repeat: "question in questions", ng-init: "topIndex = $index.toString()"}
             .form-horizontal
               .form-group
                 %label.control-label.col-sm-2 Énoncé de la sous question
@@ -73,7 +73,7 @@
               .form-group
                 %label.control-label.col-sm-2 Type de la question
                 .col-sm-10
-                  %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(question)"}
+                  %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(topIndex, question)"}
                     %option{value: ""}
                     %option{value: "text"} Réponse textuelle
                     %option{value: "math"} Réponse mathématique simple
@@ -89,7 +89,7 @@
                       %input.form-control{type: "text", ng-if: "question.type != \"math\"", ng-model: "answer.text", ng-required: "true"}
                       %span{ng-if: "question.type == \"math\"", ng-required: "true"}
                         %textarea.keyboard
-                        %span.mathquill
+                        %span.mathquill{class: "mathquill-{& topIndex &}"}
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
@@ -98,7 +98,7 @@
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
 
-            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(question)", type: "button"}
+            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 
