@@ -13,7 +13,7 @@
         %span
           %textarea.keyboard
           %span.mathquill
-          %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", style: "display: none"}
+          %input.form-control.hidden-math-form{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
       -elif question.type == "radio"
         -with name=forloop.counter0
           -for option in question.answers
