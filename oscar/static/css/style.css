@@ -152,14 +152,14 @@
 }
 
 .ui-keyboard-frac span {
-    background-image: url(https://cloud.githubusercontent.com/assets/2561440/12258775/26781542-b937-11e5-88b9-4a0b926dc8c0.png);
+    background-image: url("/static/img/keyboard/frac.png");
     background-position: -10px -5px;
     text-indent: -99em;
     width: 1.2em;
 }
 
 .ui-keyboard-sqrt span {
-    background-image: url(https://cloud.githubusercontent.com/assets/2561440/12258775/26781542-b937-11e5-88b9-4a0b926dc8c0.png);
+    background-image: url("/static/img/keyboard/sqrt.png");
     background-position: -203px -5px;
     text-indent: -99em;
     width: 1.2em;
