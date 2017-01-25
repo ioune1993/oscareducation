@@ -555,7 +555,7 @@ def exercice_to_approve_list(request):
     })
 
 
-#@require_POST
+# @require_POST
 @user_is_professor
 def students_password_page(request, pk):
     # TODO: a professor can only do this on one of his student
