@@ -15,22 +15,26 @@
         Compétences et ressources
   %hr
 
-  -regroup exercice_list by skill as exercices_by_skills
+  -regroup exercice_list by skill.stage_set.first as stages
+  -for stage in stages
+    %h3= stage.grouper
 
-  -for skill in exercices_by_skills
-    %h3
-      =skill.grouper.code
-      %small
-        =skill.grouper.name
-    -for exercice in skill.list
-      %ul
-        %li
-          %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-            Question n°
-            =exercice.id
-          -if not exercice.approved
-            %span.label.label-warning
-              en attente d'approbation
+    -regroup stage.list by skill as exercices_by_skills
+
+    -for skill in exercices_by_skills
+      %h4
+        =skill.grouper.code
+        %small
+          =skill.grouper.name
+      -for exercice in skill.list
+        %ul
+          %li
+            %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
+              Question n°
+              =exercice.id
+            -if not exercice.approved
+              %span.label.label-warning
+                en attente d'approbation
 
   %h2 Compétences sans questions
 
