@@ -700,6 +700,7 @@ def exercice_validation_form_submit(request, pk=None):
         else:
             html = '<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)
 
+        assert not os.path.exists(os.path.join(exercices_folder, name))
         open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
 
     with transaction.atomic():
