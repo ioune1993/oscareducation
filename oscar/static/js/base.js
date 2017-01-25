@@ -30,3 +30,16 @@ var app = angular.module('oscar', ['ngCookies'])
     .run(function($http, $cookies){
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
     })
+
+
+MATH_CUSTOM_LAYOUT = {
+    'default': [
+        '+ - * frac {b}',
+        '7 8 9 sqrt (',
+        '4 5 6 ^ )',
+        '1 2 3 {Up} %',
+        '0 , {left} {Down} {right}',
+        'x y n t u',
+        '< > = {sp:1} {a}'
+    ]
+}

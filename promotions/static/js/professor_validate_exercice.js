@@ -228,16 +228,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     "Down": "&darr;",
                     "Up": "&uarr;"
                 },
-                customLayout: {
-                    'default': [
-                        'sin cos tan \u03c0 {b}',
-                        '7 8 9 + -',
-                        '4 5 6 * frac',
-                        '1 2 3 ^ {Up} sqrt',
-                        '0 . , {left} {Down} {right}',
-                        '< > = {clear} {a}'
-                    ]
-                },
+                customLayout: MATH_CUSTOM_LAYOUT,
                 useCombos: false
             })
             // activate the typing extension
