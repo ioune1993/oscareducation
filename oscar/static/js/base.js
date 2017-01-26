@@ -35,8 +35,8 @@ var app = angular.module('oscar', ['ngCookies'])
 MATH_CUSTOM_LAYOUT = {
     'default': [
         '+ - times frac {b}',
-        '7 8 9 sqrt (',
-        '4 5 6 ^ )',
+        '7 8 9 sqrt ()',
+        '4 5 6 ^ {sp:1}',
         '1 2 3 {Up} %',
         '0 , {left} {Down} {right}',
         'x y n t u',
