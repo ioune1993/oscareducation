@@ -90,7 +90,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     }
 
     $scope.onChangeQuestionType = function(topIndex, question) {
-        if (question.type == "math") {
+        if (question.type.startsWith("math")) {
             $timeout(function() { $scope.renderMathquil(topIndex, question) }, 100);
         }
     }
@@ -116,7 +116,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             "correct": false,
         })
 
-        if (question.type == "math") {
+        if (question.type.startsWith("math")) {
             $timeout(function() { $scope.renderMathquil(topIndex, question) }, 100);
         }
     }
@@ -161,7 +161,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             // TODO yamlRendering/htmlRendering et image
             $timeout(function() {
                 for (var i = 0; i < $scope.questions.length; ++i) {
-                    if ($scope.questions[i].type == "math") {
+                    if ($scope.questions[i].type.startsWith("math")) {
                         $scope.renderMathquil(i, $scope.questions[i])
                     }
                 }

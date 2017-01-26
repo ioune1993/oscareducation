@@ -76,7 +76,8 @@
                   %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(topIndex, question)"}
                     %option{value: ""}
                     %option{value: "text"} Réponse textuelle
-                    %option{value: "math"} Réponse mathématique simple
+                    %option{value: "math-simple"} Réponse mathématique simple
+                    %option{value: "math-advanced"} Réponse mathématique avancée
                     %option{value: "radio"} Une seule réponse unique possible parmis toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
 
@@ -86,14 +87,17 @@
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
                     .col-sm-9
-                      %input.form-control{type: "text", ng-if: "question.type != \"math\"", ng-model: "answer.text", ng-required: "true"}
-                      %span{ng-if: "question.type == \"math\"", ng-required: "true"}
+                      %input.form-control{type: "text", ng-if: "!question.type.startsWith(\"math\")", ng-model: "answer.text", ng-required: "true"}
+                      %span{ng-if: "question.type == \"math-simple\"", ng-required: "true"}
                         %textarea.keyboard
-                        %span.mathquill{class: "mathquill-{& topIndex &}"}
+                        %span.mathquill{class: "mathquill-{& topIndex &} {& question.type &}"}
+                      %span{ng-if: "question.type == \"math-advanced\"", ng-required: "true"}
+                        %textarea.keyboard
+                        %span.mathquill{class: "mathquill-{& topIndex &} {& question.type &}"}
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
-                  .form-group.no-bottom{ng-if: "question.type != \"text\" && question.type != \"math\""}
+                  .form-group.no-bottom{ng-if: "question.type != \"text\" && ! question.type.startsWith(\"math\")"}
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
