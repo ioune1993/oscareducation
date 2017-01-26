@@ -234,7 +234,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     "Down": "&darr;",
                     "Up": "&uarr;"
                 },
-                customLayout: MATH_CUSTOM_LAYOUT,
+                customLayout: MATH_CUSTOM_LAYOUT[$(mq).attr("data-keyboard-type")],
                 useCombos: false
             })
             // activate the typing extension
