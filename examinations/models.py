@@ -233,7 +233,7 @@ class TestExercice(models.Model):
             if value["type"] == "text":
                 if answer not in [unicode(x).lower().strip() for x in value["answers"]]:
                     return False
-            elif value["type"] == "math":
+            elif value["type"].startswith("math"):
                 if answer not in [unicode(x).strip() for x in value["answers"]]:
                     return False
             elif value["type"] == "radio":
@@ -354,7 +354,7 @@ class Answer(models.Model):
                     "is_correct": answers["answers"].items()[student_answer][1] if student_answer is not None else False,
                     "correct": filter(lambda x: x[1], answers["answers"].items())[0][0],
                 }
-            elif answers["type"] in ("text", "math"):
+            elif answers["type"] == "text" or answers["type"].startswith("math"):
                 result[question] = {
                     "type": answers["type"],
                     "answer": student_answer,

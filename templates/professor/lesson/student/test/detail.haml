@@ -92,7 +92,7 @@
                                     %ul
                                       -for j in answer.correct
                                         %li= j
-                              -elif answer.type == "math"
+                              -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
                                 %tr
                                   %td.right-border{width: "50%"}
                                     \\(

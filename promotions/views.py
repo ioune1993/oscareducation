@@ -590,7 +590,7 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": [x["text"] for x in question["answers"]],
             }
 
-        elif question["type"] == "math":
+        elif question["type"].startswith("math"):
             questions[question["instructions"]] = {
                 "type": question["type"],
                 "answers": [x["latex"] for x in question["answers"]],
@@ -656,7 +656,7 @@ def exercice_validation_form_submit(request, pk=None):
                     "answers": [x["text"] for x in question["answers"]],
                 }
 
-            elif question["type"] == "math":
+            elif question["type"].startswith("math"):
                 questions[question["instructions"]] = {
                     "type": question["type"],
                     "answers": [x["latex"] for x in question["answers"]],
