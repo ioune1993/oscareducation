@@ -216,6 +216,11 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     console.log(e.action);
                     if (specialKeys[e.action]) {
                         mathquill.keystroke(specialKeys[e.action]);
+                    } else if (e.action == "cos" || e.action == "sin" || e.action == "tan") {
+                        mathquill.cmd(e.action);
+                        mathquill.cmd("(");
+                        mathquill.cmd(")");
+                        mathquill.keystroke("Left");
                     } else if (e.action == "()") {
                         mathquill.cmd("(");
                         mathquill.cmd(")");
