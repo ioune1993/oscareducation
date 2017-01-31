@@ -43,10 +43,10 @@ MATH_CUSTOM_LAYOUT = {
     },
     "math-advanced": {
         'default': [
-            '7 8 9 frac  {b}  {sp:1} cos    sin    tan     <',
-            '4 5 6 times sqrt {sp:1} x      y      u       >',
-            '1 2 3 -     ^    {sp:1} neq     {Up}   =       leq',
-            '0 ( ) +     ,    {sp:1} {left} {Down} {right} geq'
+            '7 8 9 frac  {b}  {sp:1} <      leq    geq     >',
+            '4 5 6 times sqrt {sp:1} x      y      u       cos',
+            '1 2 3 -     ^    {sp:1} neq     {Up}   =      sin',
+            '0 ( ) +     ,    {sp:1} {left} {Down} {right} tan'
 
             // '()',
             // 'x y n t u',
