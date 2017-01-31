@@ -151,6 +151,18 @@
     display: none;
 }
 
+.ui-keyboard-cos span {
+    font-size: 12px;
+}
+
+.ui-keyboard-sin span {
+    font-size: 12px;
+}
+
+.ui-keyboard-tan span {
+    font-size: 12px;
+}
+
 .ui-keyboard-times span {
     font-size: 0px;
 }
