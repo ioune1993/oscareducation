@@ -38,7 +38,7 @@ MATH_CUSTOM_LAYOUT = {
             '7 8 9 frac {left}',
             '4 5 6 times {right}',
             '1 2 3 - {b}',
-            '() 0 , + %',
+            '0 ( ) + ,',
         ]
     },
     "math-advanced": {
