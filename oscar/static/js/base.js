@@ -43,13 +43,15 @@ MATH_CUSTOM_LAYOUT = {
     },
     "math-advanced": {
         'default': [
-            '+ - times frac {b}',
-            '7 8 9 sqrt ()',
-            '4 5 6 ^ {sp:1}',
-            '1 2 3 {Up} %',
-            '0 , {left} {Down} {right}',
-            'x y n t u',
-            '< > = {sp:1} {a}'
+            '7 8 9 frac  {b}  {sp:1} cos    sin    tan     <',
+            '4 5 6 times sqrt {sp:1} x      y      u       >',
+            '1 2 3 -     ^    {sp:1} neq     {Up}   =       leq',
+            '0 ( ) +     ,    {sp:1} {left} {Down} {right} geq'
+
+            // '()',
+            // 'x y n t u',
+            // '< > = {sp:1} {a}',
+            // 'log logn ln x² x³ sqrt[x]{y} sqrt[3]'
         ]
     }
 }
