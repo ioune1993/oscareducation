@@ -172,6 +172,15 @@
     font-size: 19px;
 }
 
+.ui-keyboard-pi span {
+    font-size: 0px;
+}
+
+.ui-keyboard-pi span:after {
+    content: '\03A0';
+    font-size: 19px;
+}
+
 .ui-keyboard-neq span {
     font-size: 0px;
 }
@@ -201,7 +210,7 @@
 
 .ui-keyboard-frac span {
     background-image: url("/static/img/keyboard/math-advanced.png");
-    background-position: -10px -5px;
+    background-position: -12px -5px;
     text-indent: -99em;
     width: 1.2em;
 }
@@ -216,7 +225,15 @@
 
 .ui-keyboard-94 span {
     background-image: url("/static/img/keyboard/math-advanced.png");
-    background-position: -106px -5px;
+    background-position: -108px -5px;
+    text-indent: -99em;
+    width: 1.2em;
+}
+
+
+.ui-keyboard-_ span {
+    background-image: url("/static/img/keyboard/math-advanced.png");
+    background-position: -155px -5px;
     text-indent: -99em;
     width: 1.2em;
 }
