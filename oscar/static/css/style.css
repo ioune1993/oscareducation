@@ -160,6 +160,33 @@
     font-size: 19px;
 }
 
+.ui-keyboard-neq span {
+    font-size: 0px;
+}
+
+.ui-keyboard-neq span:after {
+    content: '\2260';
+    font-size: 19px;
+}
+
+.ui-keyboard-leq span {
+    font-size: 0px;
+}
+
+.ui-keyboard-leq span:after {
+    content: '\2264';
+    font-size: 19px;
+}
+
+.ui-keyboard-geq span {
+    font-size: 0px;
+}
+
+.ui-keyboard-geq span:after {
+    content: '\2265';
+    font-size: 19px;
+}
+
 .ui-keyboard-frac span {
     background-image: url("/static/img/keyboard/math-advanced.png");
     background-position: -10px -5px;
