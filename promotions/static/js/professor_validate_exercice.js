@@ -173,6 +173,16 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         console.log("renderMathquil, topIndex: " + topIndex);
         var MQ = MathQuill.getInterface(2);
 
+        var composedKeys = {
+            cos: ["cos", "(", ")", "left"],
+            sin: ["sin", "(", ")", "left"],
+            tan: ["tan", "(", ")", "left"],
+            log: ["log", "(", ")", "left"],
+            log_: ["log", "_", "right", "(", ")", "left", "left", "left"],
+            ln: ["ln", "(", ")", "left"],
+            "()": ["(", ")", "left"],
+        }
+
         var specialKeys = {
             right: "Right",
             left: "Left",
@@ -216,15 +226,14 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     console.log(e.action);
                     if (specialKeys[e.action]) {
                         mathquill.keystroke(specialKeys[e.action]);
-                    } else if (e.action == "cos" || e.action == "sin" || e.action == "tan") {
-                        mathquill.cmd(e.action);
-                        mathquill.cmd("(");
-                        mathquill.cmd(")");
-                        mathquill.keystroke("Left");
-                    } else if (e.action == "()") {
-                        mathquill.cmd("(");
-                        mathquill.cmd(")");
-                        mathquill.keystroke("Left");
+                    } else if (composedKeys[e.action]) {
+                        $(composedKeys[e.action]).each(function(index, value) {
+                            if (specialKeys[value]) {
+                                mathquill.keystroke(specialKeys[value]);
+                            } else {
+                                mathquill.cmd(value);
+                            }
+                        });
                     } else {
                         mathquill.cmd(e.action);
                     }
