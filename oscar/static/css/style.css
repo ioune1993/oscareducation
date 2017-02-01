@@ -208,6 +208,15 @@
     font-size: 19px;
 }
 
+.ui-keyboard-int span {
+    font-size: 0px;
+}
+
+.ui-keyboard-int span:after {
+    content: '\222B';
+    font-size: 19px;
+}
+
 .ui-keyboard-frac span {
     background-image: url("/static/img/keyboard/math-advanced.png");
     background-position: -12px -5px;
