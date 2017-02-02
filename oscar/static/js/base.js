@@ -30,28 +30,3 @@ var app = angular.module('oscar', ['ngCookies'])
     .run(function($http, $cookies){
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
     })
-
-
-MATH_CUSTOM_LAYOUT = {
-    "math-simple": {
-        'default': [
-            '7 8 9 frac  {b}',
-            '4 5 6 times {left}',
-            '1 2 3 -     {right}',
-            '0 ( ) +     ,',
-        ]
-    },
-    "math-advanced": {
-        'default': [
-            '7 8 9 frac  {b}  {sp:1} <      leq    geq     >   {sp:1} pi',
-            '4 5 6 times sqrt {sp:1} x      y      u       cos {sp:1} %',
-            '1 2 3 -     ^    {sp:1} neq     {Up}   =      sin {sp:1} int',
-            '0 ( ) +     ,    {sp:1} {left} {Down} {right} tan {sp:1} _'
-
-            // '()',
-            // 'x y n t u',
-            // '< > = {sp:1} {a}',
-            // 'log logn ln x² x³ sqrt[x]{y} sqrt[3]'
-        ]
-    }
-}

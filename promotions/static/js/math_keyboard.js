@@ -1,3 +1,28 @@
+MATH_CUSTOM_LAYOUT = {
+    "math-simple": {
+        'default': [
+            '7 8 9 frac  {b}',
+            '4 5 6 times {left}',
+            '1 2 3 -     {right}',
+            '0 ( ) +     ,',
+        ]
+    },
+    "math-advanced": {
+        'default': [
+            '7 8 9 frac  {b}  {sp:1} <      leq    geq     >   {sp:1} pi  log  {sp:1} lim_',
+            '4 5 6 times sqrt {sp:1} x      y      u       cos {sp:1} %   log_ {sp:1} lim__',
+            '1 2 3 -     ^    {sp:1} neq     {Up}   =      sin {sp:1} int ln   {sp:1} rightarrow',
+            '0 ( ) +     ,    {sp:1} {left} {Down} {right} tan {sp:1} _   €    {sp:1} infty'
+
+            // '()',
+            // 'x y n t u',
+            // '< > = {sp:1} {a}',
+            // 'log logn ln x² x³ sqrt[x]{y} sqrt[3]'
+        ]
+    }
+}
+
+
 renderMathquil = function(query, initMathQuill) {
     console.log(query)
     var MQ = MathQuill.getInterface(2);
