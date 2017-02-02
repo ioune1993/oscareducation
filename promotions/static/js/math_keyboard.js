@@ -9,10 +9,10 @@ MATH_CUSTOM_LAYOUT = {
     },
     "math-advanced": {
         'default': [
-            '7 8 9 frac  {b}  {sp:1} <      leq    geq     >   {sp:1} pi  log  {sp:1} lim_',
-            '4 5 6 times sqrt {sp:1} x      y      u       cos {sp:1} %   log_ {sp:1} lim__',
-            '1 2 3 -     ^    {sp:1} neq     {Up}   =      sin {sp:1} int ln   {sp:1} rightarrow',
-            '0 ( ) +     ,    {sp:1} {left} {Down} {right} tan {sp:1} _   €    {sp:1} infty'
+            '7 8 9 frac  {b}  {sp:1} <      leq    geq     >      pi  {sp:1} log  lim_ rightarrow infty',
+            '4 5 6 cdot sqrt {sp:1} x      y      u       arccos cos {sp:1} log_ %    f          a',
+            '1 2 3 -     ^    {sp:1} neq     {Up}   =      arcsin sin {sp:1} ln   int  g          b',
+            '0 ( ) +     ,    {sp:1} {left} {Down} {right} arctan tan {sp:1} €    _    h          c'
 
             // '()',
             // 'x y n t u',
@@ -31,9 +31,14 @@ renderMathquil = function(query, initMathQuill) {
         cos: ["cos", "(", ")", "left"],
         sin: ["sin", "(", ")", "left"],
         tan: ["tan", "(", ")", "left"],
+        arccos: ["arccos", "(", ")", "left"],
+        arcsin: ["arcsin", "(", ")", "left"],
+        arctan: ["arctan", "(", ")", "left"],
         log: ["log", "(", ")", "left"],
         log_: ["log", "_", "right", "(", ")", "left", "left", "left"],
         ln: ["ln", "(", ")", "left"],
+        lim_: ["lim", "_"],
+        lim__: ["lim", "_"],
         "()": ["(", ")", "left"],
     }
 

@@ -151,10 +151,40 @@
     display: none;
 }
 
+.ui-keyboard-arccos span,
+.ui-keyboard-arcsin span,
+.ui-keyboard-arctan span,
 .ui-keyboard-cos span,
 .ui-keyboard-sin span,
 .ui-keyboard-tan span,
 .ui-keyboard-log span {
+    font-size: 12px;
+}
+
+.ui-keyboard-cdot span {
+    font-size: 0px;
+}
+
+.ui-keyboard-cdot span:after {
+    content: '·';
+    font-size: 19px;
+}
+
+.ui-keyboard-rightarrow span {
+    font-size: 0px;
+}
+
+.ui-keyboard-rightarrow span:after {
+    content: '→';
+    font-size: 19px;
+}
+
+.ui-keyboard-lim_ span {
+    font-size: 0px;
+}
+
+.ui-keyboard-lim_ span:after {
+    content: 'lim';
     font-size: 12px;
 }
 
