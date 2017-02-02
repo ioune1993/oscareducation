@@ -163,6 +163,15 @@
     font-size: 12px;
 }
 
+.ui-keyboard-infty span {
+    font-size: 0px;
+}
+
+.ui-keyboard-infty span:after {
+    content: '\221E';
+    font-size: 19px;
+}
+
 .ui-keyboard-times span {
     font-size: 0px;
 }
