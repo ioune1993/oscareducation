@@ -151,15 +151,10 @@
     display: none;
 }
 
-.ui-keyboard-cos span {
-    font-size: 12px;
-}
-
-.ui-keyboard-sin span {
-    font-size: 12px;
-}
-
-.ui-keyboard-tan span {
+.ui-keyboard-cos span,
+.ui-keyboard-sin span,
+.ui-keyboard-tan span,
+.ui-keyboard-log span {
     font-size: 12px;
 }
 
