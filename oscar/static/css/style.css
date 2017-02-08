@@ -151,14 +151,29 @@
     display: none;
 }
 
-.ui-keyboard-arccos span,
+.ui-keyboard-arccos span {
+    font-size: 7px;
+}
+
 .ui-keyboard-arcsin span,
-.ui-keyboard-arctan span,
+.ui-keyboard-arctan span {
+    font-size: 8px;
+}
+
 .ui-keyboard-cos span,
 .ui-keyboard-sin span,
 .ui-keyboard-tan span,
 .ui-keyboard-log span {
     font-size: 12px;
+}
+
+.ui-keyboard-log_ span {
+    font-size: 0px;
+}
+
+.ui-keyboard-log_ span:after {
+    content: 'log\2093';
+    font-size: 11px;
 }
 
 .ui-keyboard-cdot span {
