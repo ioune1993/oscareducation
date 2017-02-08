@@ -10,8 +10,8 @@ MATH_CUSTOM_LAYOUT = {
     "math-advanced": {
         'default': [
             '7 8 9 frac  {b}  {sp:1} <      leq    geq     >      pi  {sp:1} log  lim_ rightarrow infty',
-            '4 5 6 cdot sqrt {sp:1} x      y      u       arccos cos {sp:1} log_ %    f          a',
-            '1 2 3 -     ^    {sp:1} neq     {Up}   =      arcsin sin {sp:1} ln   int  g          b',
+            '4 5 6 cdot sqrt  {sp:1} x      y      u       arccos cos {sp:1} log_ %    f          a',
+            '1 2 3 -     ^    {sp:1} neq    {Up}   =       arcsin sin {sp:1} ln   int  g          b',
             '0 ( ) +     ,    {sp:1} {left} {Down} {right} arctan tan {sp:1} €    _    h          c'
 
             // '()',
