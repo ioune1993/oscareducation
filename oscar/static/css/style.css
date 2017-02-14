@@ -167,6 +167,15 @@
     font-size: 12px;
 }
 
+.ui-keyboard-bksp,
+.ui-keyboard-left,
+.ui-keyboard-Up,
+.ui-keyboard-right,
+.ui-keyboard-Down {
+    border: 1px solid #fbd850 !important;
+    color: #eb8f00 !important;
+}
+
 .ui-keyboard-log_ span {
     font-size: 0px;
 }
