@@ -31,7 +31,7 @@
   %hr
 
   -if exercice.content
-    .well
+    .well.exercice-content
       =exercice.content|safe
 
   -for label, question in exercice.get_questions.items
