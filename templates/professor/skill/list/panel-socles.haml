@@ -15,30 +15,35 @@
           %col
           %col
           %col
-          %tr.active
+          %tr.active{id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
             -with code=section.list|first
-              %th.center= code.code|slice:":2"
-            %th{colspan: 5}= section.grouper
-          -for skill in section.list
-            %tr
-              %td.center
-                %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|slice:"2:"
-              %td
-                =skill.name
-              %td
-                -if skill.exercice__count
-                  =skill.exercice__count
-                  question{{ skill.exercice__count|pluralize }}
-                -else
-                  %i Pas de questions disponibles.
-              %td
-                %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
-                  Ajouter une question
-              %td
-                %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-                  Ajouter une ressource
-              %td
-                %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
-                  Signaler un problème
-                  %br
-                  avec cette compétence
+              %th.center{role: "tab", id: "heading-{{ stage.id }}-{{ section.id }}", width: "68px"}
+                %a{role: "button", data-toggle: "collapse", data-parent: "#accordion-{{ stage.id }}-{{ section.id }}", href: "#collapse-{{ stage.id }}-{{ section.id }}", aria-expanded: "true", aria-controls: "collapse-{{ stage.id }}-{{ section.id }}"}
+                  =code.code|slice:":2"
+            %th{colspan: 5}
+              %a{role: "button", data-toggle: "collapse", data-parent: "#accordion-{{ stage.id }}-{{ section.id }}", href: "#collapse-{{ stage.id }}-{{ section.id }}", aria-expanded: "true", aria-controls: "collapse-{{ stage.id }}-{{ section.id }}"}
+                =section.grouper
+          %tbody.panel-collapse.collapse{id: "collapse-{{ stage.id }}-{{ section.id }}", role: "tabpanel", aria-labelledby: "heading-{{ stage.id }}-{{ section.id }}"}
+            -for skill in section.list
+              %tr
+                %td.center
+                  %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|slice:"2:"
+                %td
+                  =skill.name
+                %td
+                  -if skill.exercice__count
+                    =skill.exercice__count
+                    question{{ skill.exercice__count|pluralize }}
+                  -else
+                    %i Pas de questions disponibles.
+                %td
+                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
+                    Ajouter une question
+                %td
+                  %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                    Ajouter une ressource
+                %td
+                  %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
+                    Signaler un problème
+                    %br
+                    avec cette compétence
