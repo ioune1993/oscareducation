@@ -17,10 +17,10 @@
           %col
           %col
           %col
-            %tr.color-title{style: "background-color: {{ color }}"}
-              -with code=section.list|first
-                %th.center= code.code|split_skill_as_section
-              %th{colspan: 5}= section.grouper
+          %tr.color-title{style: "background-color: {{ color }}"}
+            -with code=section.list|first
+              %th.center= code.code|split_skill_as_section
+            %th{colspan: 5}= section.grouper
           %tr.active
             %th.center R
             %th{colspan: 6} Ressources
