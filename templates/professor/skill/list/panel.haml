@@ -17,50 +17,51 @@
           %col
           %col
           %col
-          %tr.color-title{style: "background-color: {{ color }}"}
+          %tr.color-title.clickable{style: "background-color: {{ color }}", data-toggle: "collapse", data-target: "#collapse-{{ stage.id }}-{{ section.grouper|slugify }}", id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
             -with code=section.list|first
-              %th.center= code.code|split_skill_as_section
+              %th.center{width: "69px"}= code.code|split_skill_as_section
             %th{colspan: 5}= section.grouper
-          %tr.active
-            %th.center R
-            %th{colspan: 6} Ressources
-            -with code=section.list|first
-              -for r in code_r
-                -if r.section == code.code|split_skill_as_section
-                  %tr
-                    %td.center= r.sub_code
-                    %td{colspan: 6}= r.name
-          -regroup section.list by code|split_skill_as_subsection|slice:":1" as categories
-          -for category in categories
+          %tbody.collapse{id: "collapse-{{ stage.id }}-{{ section.grouper|slugify }}"}
             %tr.active
-              %th.center= category.grouper
-              %th{colspan: 6}
-                -if category.grouper == "A"
-                  Appliquer
-                -elif category.grouper == "C"
-                  Connaitre
-                -elif category.grouper == "T"
-                  Transférer
-            -for skill in category.list
-              %tr
-                %td.center
-                  %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|split_skill_as_subsection
-                %td
-                  =skill.name
-                %td
-                  -if skill.exercice__count
-                    =skill.exercice__count
-                    question{{ skill.exercice__count|pluralize }}
-                  -else
-                    %i Pas de questions disponibles.
-                %td
-                  %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
-                    Ajouter une question
-                %td
-                  %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-                    Ajouter une ressource
-                %td
-                  %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
-                    Signaler un problème
-                    %br
-                    avec cette compétence
+              %th.center R
+              %th{colspan: 6} Ressources
+              -with code=section.list|first
+                -for r in code_r
+                  -if r.section == code.code|split_skill_as_section
+                    %tr
+                      %td.center= r.sub_code
+                      %td{colspan: 6}= r.name
+            -regroup section.list by code|split_skill_as_subsection|slice:":1" as categories
+            -for category in categories
+              %tr.active
+                %th.center= category.grouper
+                %th{colspan: 6}
+                  -if category.grouper == "A"
+                    Appliquer
+                  -elif category.grouper == "C"
+                    Connaitre
+                  -elif category.grouper == "T"
+                    Transférer
+              -for skill in category.list
+                %tr
+                  %td.center
+                    %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|split_skill_as_subsection
+                  %td
+                    =skill.name
+                  %td
+                    -if skill.exercice__count
+                      =skill.exercice__count
+                      question{{ skill.exercice__count|pluralize }}
+                    -else
+                      %i Pas de questions disponibles.
+                  %td
+                    %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
+                      Ajouter une question
+                  %td
+                    %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                      Ajouter une ressource
+                  %td
+                    %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
+                      Signaler un problème
+                      %br
+                      avec cette compétence
