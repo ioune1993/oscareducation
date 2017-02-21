@@ -91,7 +91,7 @@
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
 
             %ul.list-group
-              %li.list-group-item{ng-repeat: "answer in question.answers"}
+              %li.list-group-item{ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
                 .form-horizontal
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
@@ -99,10 +99,10 @@
                       %input.form-control{type: "text", ng-if: "!question.type.startsWith(\"math\")", ng-model: "answer.text", ng-required: "true"}
                       %span{ng-if: "question.type == \"math-simple\"", ng-required: "true"}
                         %textarea.keyboard
-                        %span.mathquill{class: "mathquill-{& topIndex &}", data-keyboard-type: "{& question.type &}"}
+                        %span.mathquill{class: "mathquill-{& topIndex &} mathquill-{& topIndex &}-{& answerIndex &}", data-keyboard-type: "{& question.type &}"}
                       %span{ng-if: "question.type == \"math-advanced\"", ng-required: "true"}
                         %textarea.keyboard
-                        %span.mathquill{class: "mathquill-{& topIndex &}", data-keyboard-type: "{& question.type &}"}
+                        %span.mathquill{class: "mathquill-{& topIndex &} mathquill-{& topIndex &}-{& answerIndex &}", data-keyboard-type: "{& question.type &}"}
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
@@ -111,7 +111,7 @@
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
 
-            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, question)", type: "button"}
+            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, answerIndex + 1, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 

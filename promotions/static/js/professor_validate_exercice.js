@@ -91,7 +91,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
     $scope.onChangeQuestionType = function(topIndex, question) {
         if (question.type.startsWith("math")) {
-            $timeout(function() { $scope.renderMathquil(topIndex, question) }, 100);
+            $timeout(function() { $scope.renderMathquil(topIndex, null, question) }, 100);
         }
     }
 
@@ -110,14 +110,14 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         }
     }
 
-    $scope.addAnswer = function(topIndex, question) {
+    $scope.addAnswer = function(topIndex, answerIndex, question) {
         question["answers"].push({
             "text": "",
             "correct": false,
         })
 
         if (question.type.startsWith("math")) {
-            $timeout(function() { $scope.renderMathquil(topIndex, question) }, 100);
+            $timeout(function() { $scope.renderMathquil(topIndex, answerIndex, question) }, 100);
         }
     }
 
@@ -169,9 +169,15 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         })
     }
 
-    $scope.renderMathquil = function(topIndex, question) {
+    $scope.renderMathquil = function(topIndex, answerIndex, question) {
         console.log("pouet");
-        renderMathquil($(".mathquill-" + topIndex), function(MQ, index, mq) {
+        console.log(answerIndex)
+        if (answerIndex != null) {
+            query = $(".mathquill-" + topIndex + "-" + answerIndex);
+        } else {
+            query = $(".mathquill-" + topIndex);
+        }
+        renderMathquil(query, function(MQ, index, mq) {
             var mathquill = MQ.MathField(mq, {
                 handlers: {
                     edit: function() {
