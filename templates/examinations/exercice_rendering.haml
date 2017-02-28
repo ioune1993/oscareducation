@@ -28,6 +28,8 @@
               %label
                 %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
                 =option
+      -elif question.type == "graph"
+        .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
       -else
         =question.type
 

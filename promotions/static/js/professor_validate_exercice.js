@@ -29,6 +29,13 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     $timeout(function() {
                         $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
                         MathJax.Hub.Typeset();
+
+                        $($scope.questions).each(function(index, value) {
+                            if (value.type == "graph") {
+                                JXG.JSXGraph.initBoard('graph-' + index, {boundingbox: [-5, 5, 5, -5], axis: true});
+                            }
+                        })
+
                     }, 0);
 
                     $scope.exerciceIsValid = true;
