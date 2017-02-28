@@ -15,8 +15,8 @@ def validate_exercice_yaml_structure(exercice):
         if "type" not in data:
             return (u"chaque question doit avoir un type, or la question '%s' n'a pas de type" % (question)).encode("Utf-8")
 
-        if data["type"] not in ("radio", "text", "checkbox", "math", "math-simple", "math-advanced"):
-            return (u"la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox', 'math', 'math-simple', 'math-advanced' et 'radio' " % (question, data["type"])).encode("Utf-8")
+        if data["type"] not in ("radio", "text", "checkbox", "math", "math-simple", "math-advanced", "graph"):
+            return (u"la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox', 'math', 'math-simple', 'math-advanced', 'graph' et 'radio' " % (question, data["type"])).encode("Utf-8")
 
         if "answers" not in data:
             return (u"chaque question doit avoir une section 'answers' contenant les réponses, or la question '%s' ne contient pas cette section" % (question)).encode("Utf-8")
@@ -62,6 +62,20 @@ def validate_exercice_yaml_structure(exercice):
 
             if len(data["answers"]) < 1:
                 return (u"la question '%s' ne possède pas de réponses possibles" % (question)).encode("Utf-8")
+
+        elif data["type"] == "graph":
+            for answer in data["answers"]:
+                graph = answer["graph"]
+                if "type" not in graph or not graph["type"]:
+                    return (u"Une réponse de type graph doit avoir un sous type ('point par exemple').")
+
+                elif graph["type"] == "point":
+                    assert "coodinates" in graph
+                    assert isinstance(graph["coodinates"], dict)
+                    assert isinstance(graph["coodinates"].get("X"), int)
+                    assert isinstance(graph["coodinates"].get("Y"), int)
+
+                    # XXX put warning if X/Y is our of graph
 
         else:
             raise Exception("This case shouldn't happen as all possible questions type have been checked before")

@@ -596,6 +596,12 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": [x["latex"] for x in question["answers"] if x.get("latex")],
             }
 
+        elif question["type"] == "graph":
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": question["answers"],
+            }
+
         else:
             answers = OrderedDict()
             for x in question["answers"]:
