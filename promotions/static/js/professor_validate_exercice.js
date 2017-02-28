@@ -109,10 +109,21 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         }
     }
 
+    $scope.onChangeGraphAnswerType = function(graph) {
+        if (graph.type == "point") {
+            graph["coodinates"] = {
+                "X": "",
+                "Y": "",
+            }
+        }
+    };
+
     $scope.addAnswer = function(topIndex, answerIndex, question) {
         question["answers"].push({
-            "text": "",
-            "correct": false,
+            text: "",
+            latex: "",
+            graph: {type: ""},
+            correct: false
         })
 
         if (question.type.startsWith("math")) {
@@ -130,8 +141,10 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             "type": "",
             "answers": [{
                 "text": "",
-                "correct": false,
-            }],
+                latex: "",
+                graph: {type: ""},
+                "correct": false
+            }]
         })
     }
 
@@ -213,6 +226,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         answers: [{
             text: "",
             latex: "",
+            graph: {type: ""},
             correct: false,
         }],
     }]
