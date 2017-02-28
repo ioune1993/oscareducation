@@ -29,7 +29,7 @@ from django.db.models import Count
 
 from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources, Resource, CodeR
 from examinations.models import Test, TestStudent, Exercice, BaseTest
-from examinations.utils import validate_exercice_yaml_structure
+from examinations.validate import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
 from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm, ResourceForm, ResourceLinkForm, ResourceFileForm
