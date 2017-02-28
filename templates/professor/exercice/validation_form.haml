@@ -89,10 +89,11 @@
                     %option{value: "math-advanced"} Réponse mathématique avancée
                     %option{value: "radio"} Une seule réponse unique possible parmis toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
+                    %option{value: "graph"} Réponse sur un graphique
 
             %ul.list-group
               %li.list-group-item{ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
-                .form-horizontal
+                .form-horizontal{ng-if: "question.type != \"graph\""}
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
                     .col-sm-9
@@ -110,6 +111,24 @@
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
+
+                .form-horizontal{ng-if: "question.type == \"graph\""}
+                  .form-group
+                    %label.control-label.col-sm-2 Type
+                    .col-sm-10
+                      %select.form-control{kg-required: "true", ng-change: "onChangeQuestionType(topIndex, question)"}
+                        %option{value: ""}
+                        %option{value: "point"} Point
+                  -# ng-if: point
+                  .form-group
+                    %label.control-label.col-sm-2 Coodonnées
+                    .form-inline.col-sm-10
+                      .input-group
+                        .input-group-addon X
+                        %input.form-control{type: "text", ng-required: "true", placeholder: "0"}
+                      .input-group
+                        .input-group-addon Y
+                        %input.form-control{type: "text", ng-required: "true", placeholder: "0"}
 
             %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, answerIndex + 1, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
