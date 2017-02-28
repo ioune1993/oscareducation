@@ -116,19 +116,19 @@
                   .form-group
                     %label.control-label.col-sm-2 Type
                     .col-sm-10
-                      %select.form-control{kg-required: "true", ng-change: "onChangeQuestionType(topIndex, question)"}
+                      %select.form-control{kg-required: "true", ng-model: "answer.graph.type", ng-change: "onChangeGraphAnswerType(answer.graph)"}
                         %option{value: ""}
                         %option{value: "point"} Point
                   -# ng-if: point
-                  .form-group
+                  .form-group{ng-if: "answer.graph.type == \"point\""}
                     %label.control-label.col-sm-2 Coodonnées
                     .form-inline.col-sm-10
-                      .input-group
+                      .input-group.col-sm-5
                         .input-group-addon X
-                        %input.form-control{type: "text", ng-required: "true", placeholder: "0"}
-                      .input-group
+                        %input.form-control{type: "number", ng-required: "true", placeholder: "0", ng-model: "answer.graph.coodinates.X"}
+                      .input-group.col-sm-5
                         .input-group-addon Y
-                        %input.form-control{type: "text", ng-required: "true", placeholder: "0"}
+                        %input.form-control{type: "number", ng-required: "true", placeholder: "0", ng-model: "answer.graph.coodinates.Y"}
 
             %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, answerIndex + 1, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
