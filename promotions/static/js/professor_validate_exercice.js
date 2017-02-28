@@ -10,7 +10,6 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     }
 
     $scope.validateExercice = function() {
-        var content = $scope.yaml;
         $http.post("validate/", {"questions": $scope.questions, "testable_online": $scope.testable_online})
             .error(function() {
                 console.log("error")
