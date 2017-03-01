@@ -787,6 +787,18 @@ def exercice_validation_form_validate_exercice_yaml(request):
 
 
 @user_is_professor
+def exercice_test(request, pk ):
+    exercice = get_object_or_404(Exercice, pk=pk)
+
+    if request.method == "GET":
+        return render(request, "professor/exercice/test.haml", {
+            "exercice": exercice,
+            "object": exercice,
+        })
+
+
+
+@user_is_professor
 def exercice_update(request, pk):
     exercice = get_object_or_404(Exercice, pk=pk)
 

@@ -1,0 +1,55 @@
+-extends "base.haml"
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li
+      %a{href: "{% url 'professor:exercice_list' %}"} Oscar
+        Questions
+    %li
+      Tester la question n°
+      =exercice.id
+
+  .panel.panel-default
+    .panel-heading
+      Question n° {{ test_exercice.exercice.id }} sur
+      =exercice.skill.code
+
+    .panel-body
+      -with content=exercice.get_content questions=exercice.get_questions
+        -include "examinations/exercice_rendering.haml"
+
+-block javascript
+  :javascript
+    $(function() {
+      console.log("renderMathquil");
+      renderMathquil($(".mathquill"), function(MQ, index, mq) {
+          var input = $($(mq).parent().find("input")[0]);
+
+          var mathquill = MQ.MathField(mq, {
+                handlers: {
+                    edit: function() {
+                        input.val(mathquill.latex());
+                        console.log(input.val());
+                    }
+                }
+            });
+
+          var keyboard = $($(mq).parent().children()[0]);
+
+          return [mathquill, keyboard]
+      });
+
+      {% for _, question in exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+      var graph = new Graph('graph-' + {{ forloop.counter0 }})
+
+      {% for answer in question.answers %}
+      // assuming points for now
+      graph.addPoint({{ answer.graph.coodinates.X }}, {{ answer.graph.coodinates.Y }})
+      {% endfor %}
+
+      {% endif %}
+      {% endfor %}
+    });
