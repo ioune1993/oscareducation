@@ -65,7 +65,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     window.location.href = "..";
                 }
 
-                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, nous le validerons prochainement, un grand merci !');
+                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, merci !<br>Vous pouvez le voir <a href="' + data.url + '" target="_blank">ici</a>.</div>');
                 console.log(data);
 
                 $scope.yaml = "";

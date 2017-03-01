@@ -718,7 +718,7 @@ def exercice_validation_form_submit(request, pk=None):
 
             exercice.save()
         else:
-            Exercice.objects.create(
+            exercice = Exercice.objects.create(
                 file_name="submitted",
                 skill=Skill.objects.get(code=skill_code),
                 answer=yaml_file,
@@ -727,7 +727,9 @@ def exercice_validation_form_submit(request, pk=None):
                 added_by=request.user,
             )
 
-    return HttpResponse()
+    return HttpResponse(json.dumps({
+        "url": reverse('professor:exercice_detail', args=(exercice.id,))
+    }))
 
 
 @require_POST
