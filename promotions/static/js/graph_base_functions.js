@@ -38,7 +38,6 @@ down = function(e) {
 }
 
 // var brd = JXG.JSXGraph.initBoard('box', {boundingbox: [-5, 5, 5, -5], axis:true});
-// brd.options.point.showInfobox = false;
 
 // brd.create("line", [[1, 1], [2, 3]], {strokeColor: 'green'})
 // brd.create("line", [[-3, 4], [4, 3]], {strokeColor: 'red', straightFirst: false})
@@ -52,6 +51,7 @@ function Graph(html_id) {
     var that = this;
 
     this.brd = JXG.JSXGraph.initBoard(html_id, {boundingbox: [-5, 5, 5, -5], axis: true});
+    this.brd.options.point.showInfobox = false;
     this.points = [];
 
     this.addPoint = function(X, Y) {
