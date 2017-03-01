@@ -48,10 +48,19 @@ down = function(e) {
 
 // brd.on('down', down);
 
-restrictPointDeplacementToInt = function(brd) {
-    brd.on('move', function(){
-        for (var i = 0; i < points.length; ++i) {
-            var point = points[i];
+function Graph(html_id) {
+    var that = this;
+
+    this.brd = JXG.JSXGraph.initBoard(html_id, {boundingbox: [-5, 5, 5, -5], axis: true});
+    this.points = [];
+
+    this.addPoint = function(X, Y) {
+        that.points.push(that.brd.create('point', [X, Y]));
+    }
+
+    this.brd.on('move', function(){
+        for (var i = 0; i < that.points.length; ++i) {
+            var point = that.points[i];
             point.moveTo([round(point.X()), round(point.Y())]);
         }
     });

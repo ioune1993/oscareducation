@@ -32,9 +32,9 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
                         $($scope.questions).each(function(index, value) {
                             if (value.type == "graph") {
-                                var brd = JXG.JSXGraph.initBoard('graph-' + index, {boundingbox: [-5, 5, 5, -5], axis: true});
+                                var graph = new Graph('graph-' + index)
                                 $(value.answers).each(function(_, answer) {
-                                    brd.create('point', [answer.graph.coodinates.X, answer.graph.coodinates.Y]);
+                                    graph.addPoint(answer.graph.coodinates.X, answer.graph.coodinates.Y)
                                 })
                             }
                         })
