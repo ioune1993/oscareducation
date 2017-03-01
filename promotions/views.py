@@ -668,6 +668,21 @@ def exercice_validation_form_submit(request, pk=None):
                     "answers": [x["latex"] for x in question["answers"] if x.get("latex")],
                 }
 
+            elif question["type"] == "graph":
+                answers = []
+
+                for answer in question["answers"]:
+                    print answer
+                    del answer["latex"]
+                    del answer["correct"]
+                    del answer["text"]
+                    answers.append(answer)
+
+                questions[question["instructions"]] = {
+                    "type": question["type"],
+                    "answers": question["answers"],
+                }
+
             else:
                 answers = CommentedMap()
                 for i in question["answers"]:
