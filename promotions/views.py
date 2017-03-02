@@ -796,6 +796,9 @@ def exercice_test(request, pk ):
             "object": exercice,
         })
 
+    assert request.method == "POST"
+
+    # return validate_exercice(request, test_student, next_not_answered_test_exercice)
 
 
 @user_is_professor

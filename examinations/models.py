@@ -178,6 +178,31 @@ class Exercice(models.Model):
 
         return {}
 
+    def is_valid(self, answers):
+        for number, (key, value) in enumerate(self.get_questions().items()):
+            answer = answers.get(str(number))
+            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
+            if value["type"] == "text":
+                if answer not in [unicode(x).lower().strip() for x in value["answers"]]:
+                    return False
+            elif value["type"].startswith("math"):
+                if answer not in [unicode(x).strip() for x in value["answers"]]:
+                    return False
+            elif value["type"] == "radio":
+                if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
+                    return False
+            elif value["type"] == "checkbox":
+                checkbox_answers = answers.getlist(str(number))
+                for checkbox_number, is_correct in enumerate(value["answers"].values()):
+                    if is_correct and str(checkbox_number) not in checkbox_answers:
+                        return False
+                    if not is_correct and str(checkbox_number) in checkbox_answers:
+                        return False
+            else:
+                assert False
+
+        return True
+
 
 class TestExercice(models.Model):
     test = models.ForeignKey(Test)
@@ -227,29 +252,7 @@ class TestExercice(models.Model):
         return result
 
     def is_valid(self, answers):
-        for number, (key, value) in enumerate(self.get_questions().items()):
-            answer = answers.get(str(number))
-            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
-            if value["type"] == "text":
-                if answer not in [unicode(x).lower().strip() for x in value["answers"]]:
-                    return False
-            elif value["type"].startswith("math"):
-                if answer not in [unicode(x).strip() for x in value["answers"]]:
-                    return False
-            elif value["type"] == "radio":
-                if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
-                    return False
-            elif value["type"] == "checkbox":
-                checkbox_answers = answers.getlist(str(number))
-                for checkbox_number, is_correct in enumerate(value["answers"].values()):
-                    if is_correct and str(checkbox_number) not in checkbox_answers:
-                        return False
-                    if not is_correct and str(checkbox_number) in checkbox_answers:
-                        return False
-            else:
-                assert False
-
-        return True
+        return self.exercice.is_valid(answers)
 
 
     def __unicode__(self):
