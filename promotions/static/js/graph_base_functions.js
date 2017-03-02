@@ -62,6 +62,8 @@ function Graph(html_id) {
         for (var i = 0; i < that.points.length; ++i) {
             var point = that.points[i];
             point.moveTo([round(point.X()), round(point.Y())]);
+            document.getElementById(html_id + "-" + "point" + "-" + i + "-X").value = round(point.X());
+            document.getElementById(html_id + "-" + "point" + "-" + i + "-Y").value = round(point.Y());
         }
     });
 }
