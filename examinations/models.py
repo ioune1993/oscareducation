@@ -191,6 +191,15 @@ class Exercice(models.Model):
             elif value["type"] == "radio":
                 if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
                     return False
+            elif value["type"] == "graph":
+                for subnumber, graph_answers in enumerate(value["answers"]):
+                    if graph_answers["graph"]["type"] == "point":
+                        X = int(answers["graph-%s-point-%s-X" % (number, subnumber)])
+                        Y = int(answers["graph-%s-point-%s-Y" % (number, subnumber)])
+                        if {"X": X, "Y": Y} != graph_answers["graph"]["coordinates"]:
+                            return False
+                    else:
+                        assert False
             elif value["type"] == "checkbox":
                 checkbox_answers = answers.getlist(str(number))
                 for checkbox_number, is_correct in enumerate(value["answers"].values()):
