@@ -673,9 +673,12 @@ def exercice_validation_form_submit(request, pk=None):
 
                 for answer in question["answers"]:
                     print answer
-                    del answer["latex"]
-                    del answer["correct"]
-                    del answer["text"]
+                    if "latex" in answer:
+                        del answer["latex"]
+                    if "correct" in answer:
+                        del answer["correct"]
+                    if "text" in answer:
+                        del answer["text"]
                     answers.append(answer)
 
                 questions[question["instructions"]] = {
