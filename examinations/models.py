@@ -178,39 +178,68 @@ class Exercice(models.Model):
 
         return {}
 
-    def is_valid(self, answers):
-        for number, (key, value) in enumerate(self.get_questions().items()):
+    def check_answers(self, answers):
+        result = {
+            "answers": []
+        }
+
+        for number, (question, value) in enumerate(self.get_questions().items()):
+            result_answer = {"type": value["type"], "value": value, "correct": True, "question": question}
+            result["answers"].append(result_answer)
+
             answer = answers.get(str(number))
+            result_answer["answer"] = answer
             answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
+            result_answer["answer_cleaned"] = answer
+
             if value["type"] == "text":
-                if answer not in [unicode(x).lower().strip() for x in value["answers"]]:
-                    return False
+                result_answer["correct_answers"] = [unicode(x).lower().strip() for x in value["answers"]]
+                if answer not in result_answer["correct_answers"]:
+                    result_answer["correct"] = False
+
             elif value["type"].startswith("math"):
-                if answer not in [unicode(x).strip() for x in value["answers"]]:
-                    return False
+                result_answer["correct_answers"] = [unicode(x).strip() for x in value["answers"]]
+                if answer not in result_answer["correct_answers"]:
+                    result_answer["correct"] = False
+
             elif value["type"] == "radio":
+                result_answer["correct_answers"] = value["answers"].values()
                 if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
-                    return False
+                    result_answer["correct"] = False
+
             elif value["type"] == "graph":
+                result_answer["answers"] = []
                 for subnumber, graph_answers in enumerate(value["answers"]):
                     if graph_answers["graph"]["type"] == "point":
                         X = int(answers["graph-%s-point-%s-X" % (number, subnumber)])
                         Y = int(answers["graph-%s-point-%s-Y" % (number, subnumber)])
+
+                        result_answer["answers"].append({
+                            "answer": {"X": X, "Y": Y},
+                            "correct": True,
+                            "type": "point",
+                            "correct_answer": graph_answers["graph"]["coordinates"],
+                        })
                         if {"X": X, "Y": Y} != graph_answers["graph"]["coordinates"]:
-                            return False
+                            result_answer["answers"][-1]["correct"] = False
                     else:
                         assert False
+
+                    result_answer["correct"] = all([x["correct"] for x in result_answer["answers"]])
+
             elif value["type"] == "checkbox":
                 checkbox_answers = answers.getlist(str(number))
+                result_answer["correct_answers"] = value["answers"]
                 for checkbox_number, is_correct in enumerate(value["answers"].values()):
                     if is_correct and str(checkbox_number) not in checkbox_answers:
-                        return False
+                        result_answer["correct"] = False
                     if not is_correct and str(checkbox_number) in checkbox_answers:
-                        return False
+                        result_answer["correct"] = False
             else:
                 assert False
 
-        return True
+        result["is_valid"] = all([x["correct"] for x in result["answers"]])
+        return result
 
 
 class TestExercice(models.Model):
@@ -261,7 +290,7 @@ class TestExercice(models.Model):
         return result
 
     def is_valid(self, answers):
-        return self.exercice.is_valid(answers)
+        return self.exercice.check_answers(answers)["is_valid"]
 
     def __unicode__(self):
         return "on test %s on skill %s" % (self.test.name, self.skill.code)

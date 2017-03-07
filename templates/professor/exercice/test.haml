@@ -20,6 +20,98 @@
       -with content=exercice.get_content questions=exercice.get_questions
         -include "examinations/exercice_rendering.haml"
 
+  -if request.method == "POST"
+    %div{class: "panel {% if checked_answers.is_valid %}panel-success{% else %}panel-danger{% endif %}"}
+      .panel-heading
+        Réponse
+        -if checked_answers.is_valid
+          correcte !
+        -else
+          non correcte
+
+      .panel-body
+        %table.table.table-bordered
+          %colgroup
+            %col{width: "50%"}
+            %col{width: "50%"}
+          %thead
+            %th
+              Réponse
+            %th
+              Réponse attendue
+          %tbody
+            %tr
+              %td{colspan: 2}
+                %table.full-width
+                  %tr
+                    %td{colspan: 2}
+                      -if exercice.content
+                        %i= exercice.content|safe
+                  -for answer in checked_answers.answers
+                    %tr
+                      %td{colspan: 2}
+                        .answers-panel.panel{class: "{% if answer.correct %}panel-success{% else %}panel-warning{% endif %}"}
+                          .panel-heading
+                            =answer.question|safe
+                          .panel-body.answers-panel
+                            %table.answers-table
+                              %tr
+                                -if answer.type == "checkbox"
+                                  %td.right-border{width: "50%"}
+                                    %ul
+                                      -for j in answer.answer
+                                        %li= j
+                                  %td{width: "50%"}
+                                    %ul
+                                      -for j in answer.correct
+                                        %li= j
+                                -elif answer.type == "text"
+                                  %td.right-border{width: "50%"}
+                                    =answer.answer
+                                  %td{width: "50%"}
+                                    %ul
+                                      -for j in answer.correct
+                                        %li= j
+                                -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
+                                  %td.right-border{width: "50%"}
+                                    \\(
+                                    =answer.answer
+                                    \\)
+
+                                    (code latex : <code>{{ answer.answer }})
+                                  %td{width: "50%"}
+                                    %ul
+                                      -for j in answer.correct
+                                        %li
+                                          \\(
+                                          =j
+                                          \\)
+
+                                          (code latex : <code>{{ j }})
+                                -elif answer.type == "radio"
+                                  %td.right-border{width: "50%"}
+                                    =answer.answer
+                                  %td{width: "50%"}
+                                    =answer.correct
+                                -elif answer.type == "graph"
+                                  -for subanswer in answer.answers
+                                    -if subanswer.type == "point"
+                                      %td.right-border{width: "50%"}
+                                        X:
+                                         =subanswer.answer.X
+                                        %br
+                                        Y:
+                                         =subanswer.answer.Y
+                                      %td{width: "50%"}
+                                        X:
+                                         =subanswer.correct_answer.X
+                                        %br
+                                        Y:
+                                         =subanswer.correct_answer.Y
+                                -else
+                                  Unsupported answer type:
+                                    %i= answer.type
+
 -block javascript
   :javascript
     $(function() {

@@ -790,7 +790,7 @@ def exercice_validation_form_validate_exercice_yaml(request):
 
 
 @user_is_professor
-def exercice_test(request, pk ):
+def exercice_test(request, pk):
     exercice = get_object_or_404(Exercice, pk=pk)
 
     if request.method == "GET":
@@ -801,7 +801,12 @@ def exercice_test(request, pk ):
 
     assert request.method == "POST"
 
-    # return validate_exercice(request, test_student, next_not_answered_test_exercice)
+    return render(request, "professor/exercice/test.haml", {
+        "exercice": exercice,
+        "object": exercice,
+        "checked_answers": exercice.check_answers(request.POST),
+        "raw_answers": request.POST,
+    })
 
 
 @user_is_professor
