@@ -34,7 +34,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                             if (value.type == "graph") {
                                 var graph = new Graph('graph-' + index)
                                 $(value.answers).each(function(_, answer) {
-                                    graph.addPoint(answer.graph.coodinates.X, answer.graph.coodinates.Y)
+                                    graph.addPoint(answer.graph.coordinates.X, answer.graph.coordinates.Y)
                                 })
                             }
                         })
@@ -121,7 +121,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
     $scope.onChangeGraphAnswerType = function(graph) {
         if (graph.type == "point") {
-            graph["coodinates"] = {
+            graph["coordinates"] = {
                 "X": "",
                 "Y": "",
             }

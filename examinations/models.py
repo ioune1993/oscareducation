@@ -254,7 +254,6 @@ class TestExercice(models.Model):
     def is_valid(self, answers):
         return self.exercice.is_valid(answers)
 
-
     def __unicode__(self):
         return "on test %s on skill %s" % (self.test.name, self.skill.code)
 

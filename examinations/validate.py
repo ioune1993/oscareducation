@@ -70,10 +70,10 @@ def validate_exercice_yaml_structure(exercice):
                     return (u"Une réponse de type graph doit avoir un sous type ('point par exemple').")
 
                 elif graph["type"] == "point":
-                    assert "coodinates" in graph
-                    assert isinstance(graph["coodinates"], dict)
-                    assert isinstance(graph["coodinates"].get("X"), int)
-                    assert isinstance(graph["coodinates"].get("Y"), int)
+                    assert "coordinates" in graph
+                    assert isinstance(graph["coordinates"], dict)
+                    assert isinstance(graph["coordinates"].get("X"), int)
+                    assert isinstance(graph["coordinates"].get("Y"), int)
 
                     # XXX put warning if X/Y is our of graph
 
