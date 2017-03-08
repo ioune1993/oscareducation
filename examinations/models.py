@@ -209,6 +209,10 @@ class Exercice(models.Model):
 
             elif value["type"] == "graph":
                 result_answer["answers"] = []
+                points_student_answers = []
+                points_good_answers = []
+
+                # first we need to get all student answer and all good answers
                 for subnumber, graph_answers in enumerate(value["answers"]):
                     if graph_answers["graph"]["type"] == "point":
                         X = answers["graph-%s-point-%s-X" % (number, subnumber)]
@@ -217,18 +221,32 @@ class Exercice(models.Model):
                         X = int(X) if X.isdigit() else None
                         Y = int(Y) if Y.isdigit() else None
 
-                        result_answer["answers"].append({
-                            "answer": {"X": X, "Y": Y},
-                            "correct": True,
-                            "type": "point",
-                            "correct_answer": graph_answers["graph"]["coordinates"],
-                        })
-                        if {"X": X, "Y": Y} != graph_answers["graph"]["coordinates"]:
-                            result_answer["answers"][-1]["correct"] = False
+                        points_student_answers.append({"X": X, "Y": Y})
+                        points_good_answers.append(graph_answers["graph"]["coordinates"])
                     else:
                         assert False
 
-                    result_answer["correct"] = all([x["correct"] for x in result_answer["answers"]])
+                # now we need to see if the student answers are in the good answers
+                for point in points_student_answers:
+                    print point
+                    result_answer["answers"].append({
+                        "answer": point,
+                        "correct": True,
+                        "type": "point",
+                    })
+                    if point not in points_good_answers:
+                        result_answer["answers"][-1]["correct"] = False
+                        result_answer["answers"][-1]["correct_answer"] = None
+                    else:
+                        points_good_answers.remove(point)
+                        result_answer["answers"][-1]["correct_answer"] = point
+
+                # and for all bad answers lets put a correct answer next to it
+                for i in result_answer["answers"]:
+                    if i["correct_answer"] is None:
+                        i["correct_answer"] = points_good_answers.pop()
+
+                result_answer["correct"] = all([x["correct"] for x in result_answer["answers"]])
 
             elif value["type"] == "checkbox":
                 checkbox_answers = answers.getlist(str(number))
