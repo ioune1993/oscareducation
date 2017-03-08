@@ -55,8 +55,8 @@
                             =answer.question|safe
                           .panel-body.answers-panel
                             %table.answers-table
-                              %tr
-                                -if answer.type == "checkbox"
+                              -if answer.type == "checkbox"
+                                %tr
                                   %td.right-border{width: "50%"}
                                     %ul
                                       -for j in answer.answer
@@ -65,14 +65,16 @@
                                     %ul
                                       -for j in answer.correct
                                         %li= j
-                                -elif answer.type == "text"
+                              -elif answer.type == "text"
+                                %tr
                                   %td.right-border{width: "50%"}
                                     =answer.answer
                                   %td{width: "50%"}
                                     %ul
                                       -for j in answer.correct
                                         %li= j
-                                -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
+                              -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
+                                %tr
                                   %td.right-border{width: "50%"}
                                     \\(
                                     =answer.answer
@@ -88,13 +90,15 @@
                                           \\)
 
                                           (code latex : <code>{{ j }})
-                                -elif answer.type == "radio"
+                              -elif answer.type == "radio"
+                                %tr
                                   %td.right-border{width: "50%"}
                                     =answer.answer
                                   %td{width: "50%"}
                                     =answer.correct
-                                -elif answer.type == "graph"
-                                  -for subanswer in answer.answers
+                              -elif answer.type == "graph"
+                                -for subanswer in answer.answers
+                                  %tr
                                     -if subanswer.type == "point"
                                       %td.right-border{width: "50%"}
                                         X:
@@ -108,7 +112,8 @@
                                         %br
                                         Y:
                                          =subanswer.correct_answer.Y
-                                -else
+                              -else
+                                %tr
                                   Unsupported answer type:
                                     %i= answer.type
 
