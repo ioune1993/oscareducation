@@ -211,8 +211,11 @@ class Exercice(models.Model):
                 result_answer["answers"] = []
                 for subnumber, graph_answers in enumerate(value["answers"]):
                     if graph_answers["graph"]["type"] == "point":
-                        X = int(answers["graph-%s-point-%s-X" % (number, subnumber)])
-                        Y = int(answers["graph-%s-point-%s-Y" % (number, subnumber)])
+                        X = answers["graph-%s-point-%s-X" % (number, subnumber)]
+                        Y = answers["graph-%s-point-%s-Y" % (number, subnumber)]
+
+                        X = int(X) if X.isdigit() else None
+                        Y = int(Y) if Y.isdigit() else None
 
                         result_answer["answers"].append({
                             "answer": {"X": X, "Y": Y},
