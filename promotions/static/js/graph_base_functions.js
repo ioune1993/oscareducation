@@ -2,7 +2,7 @@ round = function(value) {
     return Number(value.toFixed(0));
 }
 
-var getMouseCoords = function(e, i) {
+var getMouseCoords = function(brd, e, i) {
     var cPos = brd.getCoordsTopLeftCorner(e, i),
     absPos = JXG.getPosition(e, i),
     dx = absPos[0]-cPos[0],
@@ -11,31 +11,6 @@ var getMouseCoords = function(e, i) {
     return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], brd);
 }
 
-down = function(e) {
-    var canCreate = true, i, coords, el;
-
-    if (e[JXG.touchProperty]) {
-        // index of the finger that is used to extract the coordinates
-        i = 0;
-    }
-    coords = getMouseCoords(e, i);
-
-    for (el in brd.objects) {
-        if(JXG.isPoint(brd.objects[el]) && brd.objects[el].hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
-            canCreate = false;
-            break;
-        }
-    }
-
-    if (canCreate && points.length < 2) {
-        var point = brd.create('point', [round(coords.usrCoords[1]), round(coords.usrCoords[2])]);
-        points.push(point);
-
-        if (points.length == 2) {
-            brd.create('line', [points[0], points[1]])
-        }
-    }
-}
 
 // var brd = JXG.JSXGraph.initBoard('box', {boundingbox: [-5, 5, 5, -5], axis:true});
 
@@ -53,9 +28,10 @@ function Graph(html_id) {
     this.brd = JXG.JSXGraph.initBoard(html_id, {boundingbox: [-5, 5, 5, -5], axis: true});
     this.brd.options.point.showInfobox = false;
     this.points = [];
+    this.to_add_entries = [];
 
-    this.addPoint = function(X, Y) {
-        that.points.push(that.brd.create('point', [X, Y]));
+    this.addAvailableGraphentry = function(kind) {
+        that.to_add_entries.push(kind);
     }
 
     this.brd.on('move', function(){
@@ -64,6 +40,28 @@ function Graph(html_id) {
             point.moveTo([round(point.X()), round(point.Y())]);
             document.getElementById(html_id + "-" + "point" + "-" + i + "-X").value = round(point.X());
             document.getElementById(html_id + "-" + "point" + "-" + i + "-Y").value = round(point.Y());
+        }
+    });
+
+    this.brd.on('down', function(e) {
+        var canCreate = true, i, coords, el;
+
+        if (e[JXG.touchProperty]) {
+            // index of the finger that is used to extract the coordinates
+            i = 0;
+        }
+        coords = getMouseCoords(that.brd, e, i);
+
+        for (el in that.brd.objects) {
+            if(JXG.isPoint(that.brd.objects[el]) && that.brd.objects[el].hasPoint(coords.scrCoords[1], coords.scrCoords[2])) {
+                canCreate = false;
+                break;
+            }
+        }
+
+        if (canCreate && that.to_add_entries.length > 0) {
+            var point = that.brd.create(that.to_add_entries.shift(), [round(coords.usrCoords[1]), round(coords.usrCoords[2])]);
+            that.points.push(point);
         }
     });
 }

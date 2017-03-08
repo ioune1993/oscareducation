@@ -139,7 +139,7 @@
 
       {% for answer in question.answers %}
       // assuming points for now
-      graph.addPoint({{ answer.graph.coordinates.X }}, {{ answer.graph.coordinates.Y }})
+      graph.addAvailableGraphentry("{{ answer.graph.type }}")
       {% endfor %}
 
       {% endif %}
