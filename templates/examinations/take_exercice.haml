@@ -51,4 +51,16 @@
 
           return [mathquill, keyboard]
       });
+
+      {% for _, question in test_exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+      var graph = new Graph('graph-' + {{ forloop.counter0 }})
+
+      {% for answer in question.answers %}
+      // assuming points for now
+      graph.addAvailableGraphentry("{{ answer.graph.type }}")
+      {% endfor %}
+
+      {% endif %}
+      {% endfor %}
     });
