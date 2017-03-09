@@ -834,7 +834,9 @@ def exercice_update_json(request, pk):
     for text, data in exercice.get_questions().items():
         question_type = data["type"]
 
-        if isinstance(data["answers"], list):
+        if data["type"] == "graph":
+            answers = data["answers"]
+        elif isinstance(data["answers"], list):
             answers = [{"text": key, "correct": True} for key in data["answers"]]
         else:  # assuming dict
             answers = [{"text": key, "correct": value} for key, value in data["answers"].items()]
