@@ -43,66 +43,66 @@
         %th
           Réponse attendue
       %tbody
-        -for i in student_test.answer_set.all
+        -for answer in student_test.answer_set.all
           %tr
-            %td{class: "{% if i.correct %}success{% elif i.correct == False %}warning{% endif %}"}
+            %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
               %p
                 %b Compétence :
-                %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk i.test_exercice.skill %}"}
-                  =i.test_exercice.skill
+                %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
+                  =answer.test_exercice.skill
                 %br
-                -if i.test_exercice.exercice.id
-                  %a{href: "{% url 'professor:exercice_detail' i.test_exercice.exercice.id %}"}
+                -if answer.test_exercice.exercice.id
+                  %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
                     %b Question n°
-                      =i.test_exercice.exercice.id
+                      =answer.test_exercice.exercice.id
                 -else
                   Pas de questions disponible
             %td{colspan: 2}
-              -if not i.test_exercice.exercice and not i.automatic
+              -if not answer.test_exercice.exercice and not answer.automatic
                 %i pas de questions disponible
-              -elif not i.automatic
+              -elif not answer.automatic
                 %table.full-width
                   %tr
                     %td{colspan: 2}
-                      -if i.test_exercice.exercice.content
-                        %i= i.test_exercice.exercice.content|safe
-                  -for question, answer in i.get_answers.items
+                      -if answer.test_exercice.exercice.content
+                        %i= answer.test_exercice.exercice.content|safe
+                  -for question, subanswer in answer.get_answers.items
                     %tr
                       %td{colspan: 2}
-                        .answers-panel.panel{class: "{% if answer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
+                        .answers-panel.panel{class: "{% if subanswer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
                           .panel-heading
                             =question|safe
                           .panel-body.answers-panel
                             %table.answers-table
-                              -if answer.type == "checkbox"
+                              -if subanswer.type == "checkbox"
                                 %tr
                                   %td.right-border{width: "50%"}
                                     %ul
-                                      -for j in answer.answer
+                                      -for j in subanswer.answer
                                         %li= j
                                   %td{width: "50%"}
                                     %ul
-                                      -for j in answer.correct
+                                      -for j in subanswer.correct
                                         %li= j
-                              -elif answer.type == "text"
+                              -elif subanswer.type == "text"
                                 %tr
                                   %td.right-border{width: "50%"}
-                                    =answer.answer
+                                    =subanswer.answer
                                   %td{width: "50%"}
                                     %ul
-                                      -for j in answer.correct
+                                      -for j in subanswer.correct
                                         %li= j
-                              -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
+                              -elif subanswer.type == "math" or subanswer.type == "math-simple" or subanswer.type == "math-advanced"
                                 %tr
                                   %td.right-border{width: "50%"}
                                     \\(
-                                    =answer.answer
+                                    =subanswer.answer
                                     \\)
 
-                                    (code latex : <code>{{ answer.answer }})
+                                    (code latex : <code>{{ subanswer.answer }})
                                   %td{width: "50%"}
                                     %ul
-                                      -for j in answer.correct
+                                      -for j in subanswer.correct
                                         %li
                                           \\(
                                           =j
@@ -113,9 +113,9 @@
                                 -# radio
                                 %tr
                                   %td.right-border{width: "50%"}
-                                    =answer.answer
+                                    =subanswer.answer
                                   %td{width: "50%"}
-                                    =answer.correct
+                                    =subanswer.correct
               -else
                 %i Déduit depuis les autres réponses
 
