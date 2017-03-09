@@ -32,5 +32,17 @@
               =option
   -elif question.type == "graph"
     .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
+
+    %p Réponses :
+
+    %table.table.table-bordered
+      %tr
+        %th X
+        %th Y
+      -for answer in question.answers
+        %tr
+          %td= answer.graph.coordinates.X
+          %td= answer.graph.coordinates.Y
+
   -else
     =question.type
