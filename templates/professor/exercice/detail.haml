@@ -36,3 +36,13 @@
 
   -for label, question in exercice.get_questions.items
     -include "professor/exercice/exercice_with_answers_rendering.haml"
+
+-block javascript
+  :javascript
+    $(function() {
+      {% for _, question in exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+      new Graph('graph-' + {{ forloop.counter0 }})
+      {% endif %}
+      {% endfor %}
+    });
