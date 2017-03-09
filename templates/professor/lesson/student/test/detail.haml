@@ -109,16 +109,30 @@
                                           \\)
 
                                           (code latex : <code>{{ j }})
-                              -else
-                                -# radio
+                              -elif subanswer.type == "radio"
                                 %tr
                                   %td.right-border{width: "50%"}
                                     =subanswer.answer
                                   %td{width: "50%"}
                                     =subanswer.correct
+                              -else
+                                -for i in subanswer.answers
+                                  -for a in subanswer.answers
+                                    %tr
+                                      %td
+                                        X:
+                                        =a.answer.X
+                                        %br
+                                        Y:
+                                        =a.answer.Y
+                                      %td
+                                        X:
+                                        =a.correct_answer.X
+                                        %br
+                                        Y:
+                                        =a.correct_answer.Y
               -else
                 %i Déduit depuis les autres réponses
-
 
   -else
     %p L'élève n'a pas encore commencé le test en ligne.

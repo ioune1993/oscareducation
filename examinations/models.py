@@ -429,6 +429,50 @@ class Answer(models.Model):
                     "is_correct": [x[0] for x in enumerate(answers["answers"].items()) if x[1][1]] == student_answer,
                     "correct": [x[0] for x in answers["answers"].items() if x[1]],
                 }
+            elif answers["type"] == "graph":
+                r = []
+                points_student_answers = []
+                points_good_answers = []
+
+                # first we need to get all student answer and all good answers
+                for subnumber, graph_answers in enumerate(answers["answers"]):
+                    if graph_answers["graph"]["type"] == "point":
+                        X = student_answer["graph-%s-point-%s-X" % (number, subnumber)]
+                        Y = student_answer["graph-%s-point-%s-Y" % (number, subnumber)]
+
+                        X = int(X) if X.isdigit() else None
+                        Y = int(Y) if Y.isdigit() else None
+
+                        points_student_answers.append({"X": X, "Y": Y})
+                        points_good_answers.append(graph_answers["graph"]["coordinates"])
+                    else:
+                        assert False
+
+                # now we need to see if the student answers are in the good answers
+                for point in points_student_answers:
+                    print point
+                    r.append({
+                        "answer": dict(point),
+                        "correct": True,
+                        "type": "point",
+                    })
+                    if point not in points_good_answers:
+                        r[-1]["correct"] = False
+                        r[-1]["correct_answer"] = None
+                    else:
+                        points_good_answers.remove(point)
+                        r[-1]["correct_answer"] = point
+
+                # and for all bad answers lets put a correct answer next to it
+                for i in r:
+                    if i["correct_answer"] is None:
+                        i["correct_answer"] = points_good_answers.pop()
+
+                result[question] = {
+                    "type": answers["type"],
+                    "answers": r,
+                    "is_correct": all([x["correct"] for x in r]),
+                }
             else:
                 print "Warning: unknown question type:", question, answers, self, self.test_exercice.exercice
 
