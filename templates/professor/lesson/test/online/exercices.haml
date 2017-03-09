@@ -41,3 +41,15 @@
     .hidden-math-form {
       display: inline;
     }
+
+-block javascript
+  :javascript
+    $(function() {
+      {% for test_exercice in object.testexercice_set.all %}
+      {% for _, question in test_exercice.exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+      new Graph('graph-' + {{ forloop.counter0 }})
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+    });
