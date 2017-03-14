@@ -15,6 +15,17 @@
         sur
         =test_exercice.skill.code
 
+        .pull-right
+          %td.center{width: "20px"}
+            %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
+              changer d'exercice
+          %td.center{width: "20px"}
+            %a.btn.btn-primary.btn-xs{href: ""}
+              adapter
+          %td.center{width: "20px"}
+            %a.btn.btn-primary.btn-xs{href: ""}
+              remplacer
+
       .panel-body
         -if test_exercice.exercice
           -if not test_exercice.exercice.testable_online
@@ -29,18 +40,19 @@
             -include "professor/exercice/exercice_with_answers_rendering.haml"
 
         -else
-          Nous n'avons pas encore de questions pour cette compétence
+          %p
+            Nous n'avons pas encore de questions pour cette compétence
+
+          %p
+            %td.center{width: "20px"}
+              %a.btn.btn-primary.btn-xs{href: ""}
+                Écrire un exercice pour cette question
 
   .center
     %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
       Continuer
 
   %br
-
-  :css
-    .hidden-math-form {
-      display: inline;
-    }
 
 -block javascript
   :javascript

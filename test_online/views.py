@@ -187,3 +187,15 @@ def lesson_test_online_insert_results(request, lesson_pk, pk):
         "lesson": lesson,
         "test": test,
     })
+
+
+def lesson_test_online_change_exercice(request, lesson_pk, test_pk, test_exercice_pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test = get_object_or_404(Test, pk=test_pk)
+    test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
+
+    return render(request, "professor/lesson/test/online/change.haml", {
+        "lesson": lesson,
+        "test": test,
+        "test_exercice": test_exercice,
+    })

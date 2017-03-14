@@ -1,0 +1,79 @@
+-extends "base.haml"
+
+-load bootstrap3
+
+-block content
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li= lesson.stage.name
+    %li
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Classe
+        =lesson.name
+    %li
+      %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+        Test
+        =test.name
+    %li.active
+      Changer l'exercice pour {{ test_exercice.skill }}
+
+  %h2 Changer l'exercice pour la compétence {{ test_exercice.skill }}
+  %hr
+
+  %h3 Exercice actuellement sélectionné
+  %hr
+
+  .panel.panel-primary
+    .panel-heading
+      Exercice n°
+      =test_exercice.exercice.id
+      sur
+      =test_exercice.skill.code
+
+    .panel-body
+      -if not test_exercice.exercice.testable_online
+        .alert.alert-warning
+          Cet exercice devra être testé hors ligne
+
+      -if test_exercice.exercice.content
+        .well
+          =test_exercice.exercice.content|safe
+
+      -for label, question in test_exercice.exercice.get_questions.items
+        -include "professor/exercice/exercice_with_answers_rendering.haml"
+
+  %h3 Exercices disponibles
+  %hr
+
+  -for other_exercice in test_exercice.skill.exercice_set.all
+    -if other_exercice != test_exercice.exercice
+      .panel.panel-default
+        .panel-heading
+          Exercice n°
+          =test_exercice.exercice.id
+          sur
+          =test_exercice.skill.code
+
+        .panel-body
+          -if not test_exercice.exercice.testable_online
+            .alert.alert-warning
+              Cet exercice devra être testé hors ligne
+
+          -if test_exercice.exercice.content
+            .well
+              =test_exercice.exercice.content|safe
+
+          -for label, question in test_exercice.exercice.get_questions.items
+            -include "professor/exercice/exercice_with_answers_rendering.haml"
+
+
+-block javascript
+  :javascript
+    $(function() {
+      {% for _, question in test_exercice.exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+      new Graph('graph-' + {{ forloop.counter0 }})
+      {% endif %}
+      {% endfor %}
+    });

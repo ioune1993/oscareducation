@@ -349,3 +349,7 @@
     height: 500px;
     width: 500px;
 }
+
+.hidden-math-form {
+    display: inline;
+}
