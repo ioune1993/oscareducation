@@ -16,9 +16,10 @@
         =test_exercice.skill.code
 
         .pull-right
-          %td.center{width: "20px"}
-            %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
-              changer d'exercice
+          -if test_exercice.skill.exercice_set.count > 1
+            %td.center{width: "20px"}
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
+                changer d'exercice
           %td.center{width: "20px"}
             %a.btn.btn-primary.btn-xs{href: ""}
               adapter

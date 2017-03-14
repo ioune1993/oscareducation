@@ -51,29 +51,37 @@
       .panel.panel-default
         .panel-heading
           Exercice n°
-          =test_exercice.exercice.id
+          =other_exercice.id
           sur
           =test_exercice.skill.code
 
         .panel-body
-          -if not test_exercice.exercice.testable_online
+          -if not other_exercice.testable_online
             .alert.alert-warning
               Cet exercice devra être testé hors ligne
 
-          -if test_exercice.exercice.content
+          -if other_exercice.content
             .well
-              =test_exercice.exercice.content|safe
+              =other_exercice.content|safe
 
-          -for label, question in test_exercice.exercice.get_questions.items
+          -for label, question in other_exercice.get_questions.items
             -include "professor/exercice/exercice_with_answers_rendering.haml"
+
+          %form{method: "POST"}
+            -csrf_token
+            %input{type: "hidden", name: "exercice_id", value: "{{ other_exercice.id }}"}
+            %button.btn.btn-primary{type: "submit"}
+              Choisir cet exercice
 
 
 -block javascript
   :javascript
     $(function() {
-      {% for _, question in test_exercice.exercice.get_questions.items %}
+      {% for exercice in test_exercice.skill.exercice_set.all %}
+      {% for _, question in exercice.get_questions.items %}
       {% if question.type == "graph" %}
       new Graph('graph-' + {{ forloop.counter0 }})
       {% endif %}
+      {% endfor %}
       {% endfor %}
     });

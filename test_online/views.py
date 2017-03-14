@@ -13,7 +13,7 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 from skills.models import Skill, StudentSkill, SkillHistory
-from examinations.models import Test, Answer, TestExercice, TestStudent
+from examinations.models import Test, Answer, TestExercice, TestStudent, Exercice
 from examinations import generation
 
 from promotions.models import Lesson, Student
@@ -193,6 +193,15 @@ def lesson_test_online_change_exercice(request, lesson_pk, test_pk, test_exercic
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(Test, pk=test_pk)
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
+
+    if request.method == "POST":
+        new_exercice_id = request.POST["exercice_id"]
+        with transaction.atomic():
+            exercice = Exercice.objects.get(id=new_exercice_id)
+            test_exercice.exercice = exercice
+            test_exercice.save()
+
+            return HttpResponseRedirect(reverse("professor:lesson_test_online_exercices", args=(lesson.pk, test.pk)))
 
     return render(request, "professor/lesson/test/online/change.haml", {
         "lesson": lesson,
