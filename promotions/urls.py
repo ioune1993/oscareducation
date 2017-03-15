@@ -54,6 +54,7 @@ urlpatterns = [
 
     url(r'^lesson_tests_and_skills/(?P<lesson_id>\d+).json$', views.lesson_tests_and_skills, name='lesson_tests_and_skills'),
 
+    # TODO "exercices" -> "question"
     url(r'^exercices/$', views.exercice_list, name='exercice_list'),
     url(r'^exercices/to_approve/$', views.exercice_to_approve_list, name='exercice_to_approve_list'),
     url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
