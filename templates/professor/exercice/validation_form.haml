@@ -143,12 +143,12 @@
           %button#validate-yaml.btn.btn-primary{type: "submit"}
             Prévisualiser
           %button#submit-pull-request.btn.btn-primary{ng-click: "proposeToOscar()", ng-if: "exerciceIsValid", ng-required: "exerciceIsValid", type: "button"}
-            -if exercice
-              Enregistrer
-            -else
-              %span{ng-if: "forTestExercice"}
-                Utiliser pour mon test
-              %span{ng-if: "!forTestExercice"}
+            %span{ng-if: "forTestExercice"}
+              Utiliser pour mon test
+            %span{ng-if: "!forTestExercice"}
+              -if exercice
+                Enregistrer
+              -else
                 Proposer à Oscar
 
       #yaml-validation-result{ng-bind-html: "yamlValidationResult"}

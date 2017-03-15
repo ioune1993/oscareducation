@@ -869,6 +869,25 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 
 
 @user_is_professor
+def exercice_adapt_test_exercice(request, test_exercice_pk):
+    test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
+    exercice = test_exercice.exercice
+
+    with transaction.atomic():
+        new_exercice = Exercice.objects.create(
+            file_name="adapted",
+            content=exercice.content,
+            answer=exercice.answer,
+            skill=exercice.skill,
+            testable_online=exercice.testable_online,
+            approved=exercice.approved,
+            added_by=request.user,
+        )
+
+        return HttpResponseRedirect(reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, exercice.skill))
+
+
+@user_is_professor
 def contribute_page(request):
     data = {x.short_name: x for x in Stage.objects.all()}
 

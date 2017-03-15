@@ -61,10 +61,12 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
         $http.post("submit/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img, "testable_online": $scope.testable_online})
             .success(function(data) {
-                if (inUpdateMode) {
-                    window.location.href = "..";
+                if ($scope.forTestExercice && inUpdateMode) {
+                    window.location.href =  "../../" + data.id + "/for_test_exercice/" + $scope.forTestExercice + "/";
                 } else if ($scope.forTestExercice) {
                     window.location.href =  "../" + data.id + "/for_test_exercice/" + $scope.forTestExercice + "/";
+                } else if (inUpdateMode) {
+                    window.location.href = "..";
                 }
 
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, merci !<br>Vous pouvez le voir <a href="' + data.url + '" target="_blank">ici</a>.</div>');
@@ -167,7 +169,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     var checkIfEditingExercice = function() {
         // this is a horrible hack to get to make this code works both for
         // create and edition of exercices :(
-        let uri = window.location.href.split("/").filter(function(a) { return a }).slice(-1);
+        let uri = window.location.href.split("#")[0].split("/").filter(function(a) { return a }).slice(-1);
 
         if (uri[0] != "update") {
             console.log("New ercercice mode");
