@@ -63,6 +63,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             .success(function(data) {
                 if (inUpdateMode) {
                     window.location.href = "..";
+                } else if ($scope.forTestExercice) {
+                    window.location.href =  "../" + data.id + "/for_test_exercice/" + $scope.forTestExercice + "/";
                 }
 
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, merci !<br>Vous pouvez le voir <a href="' + data.url + '" target="_blank">ici</a>.</div>');
@@ -220,6 +222,9 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     }
 
     $scope.skillCode = $location.search().code;
+
+    // if we are creating a question for a skill for a test
+    $scope.forTestExercice = $location.search().for_test_exercice;
     $scope.html = "";
     $scope.yaml = "";
     $scope.yamlRendering = "";

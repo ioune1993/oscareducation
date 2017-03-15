@@ -134,8 +134,6 @@
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 
-
-
         .form-group
           %button.btn.btn-success{ng-click: "addQuestion()", type: "button"}
             %span.glyphicon.glyphicon-plus
@@ -148,7 +146,10 @@
             -if exercice
               Enregistrer
             -else
-              Proposer à Oscar
+              %span{ng-if: "forTestExercice"}
+                Utiliser pour mon test
+              %span{ng-if: "!forTestExercice"}
+                Proposer à Oscar
 
       #yaml-validation-result{ng-bind-html: "yamlValidationResult"}
 

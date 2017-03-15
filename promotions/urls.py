@@ -65,6 +65,7 @@ urlpatterns = [
     url(r'^exercices/validation_form/$', user_is_professor(ListView.as_view(model=Stage, template_name="professor/exercice/validation_form.haml")), name='exercice_validation_form'),
     url(r'^exercices/validation_form/validate/$', views.exercice_validation_form_validate_exercice, name='exercice_validation_form_validate_exercice'),
     url(r'^exercices/validation_form/submit/$', views.exercice_validation_form_submit, name='exercice_validation_form_pull_request'),
+    url(r'^exercices/(?P<exercice_pk>\d+)/for_test_exercice/(?P<test_exercice_pk>\d+)/$', views.exercice_for_test_exercice, name='exercice_for_test_exercice'),
 
     url(r'^lesson/(?P<pk>\d+)/students_password_page/$', views.students_password_page, name='lesson_student_password_page'),
 ]

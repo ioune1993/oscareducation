@@ -28,7 +28,7 @@ from django.db import transaction
 from django.db.models import Count
 
 from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources, Resource, CodeR
-from examinations.models import Test, TestStudent, Exercice, BaseTest
+from examinations.models import Test, TestStudent, Exercice, BaseTest, TestExercice
 from examinations.validate import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
@@ -746,7 +746,8 @@ def exercice_validation_form_submit(request, pk=None):
             )
 
     return HttpResponse(json.dumps({
-        "url": reverse('professor:exercice_detail', args=(exercice.id,))
+        "url": reverse('professor:exercice_detail', args=(exercice.id,)),
+        "id": exercice.id,
     }))
 
 
@@ -853,6 +854,18 @@ def exercice_update_json(request, pk):
         "yaml": exercice.answer,
         "questions": questions,
     }))
+
+
+@user_is_professor
+def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
+    exercice = get_object_or_404(Exercice, pk=exercice_pk)
+    test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
+
+    with transaction.atomic():
+        test_exercice.exercice = exercice
+        test_exercice.save()
+
+    return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(test_exercice.test.lesson.pk, test_exercice.test.pk,)) + "#%s" % test_exercice_pk)
 
 
 @user_is_professor
