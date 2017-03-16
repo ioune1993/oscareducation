@@ -9,7 +9,7 @@
   =object.name
 
 .exercices
-  -for test_exercice in object.testexercice_not_testable_online
+  -for test_exercice in object.testexercice_testable_offline
     -if test_exercice.exercice
       %h4{style: "text-decoration: underline"} Exercice n°
         =test_exercice.exercice.id

@@ -9,11 +9,11 @@
     -csrf_token
     %table.table.table-striped.table-bordered
       %col{width: "120px"}
-      -for width in test.testexercice_not_testable_online
+      -for width in test.testexercice_testable_offline
         %col{width: "1"}
       %tr
         %th Élèves
-        -for test_exercice in test.testexercice_not_testable_online
+        -for test_exercice in test.testexercice_testable_offline
           %th
             .center
               =test_exercice.skill.code

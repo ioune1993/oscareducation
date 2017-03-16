@@ -47,20 +47,20 @@
 
   %hr
 
-  -if not test.fully_testable_online and object.testexercice_not_testable_online.exists
+  -if not test.fully_testable_online and object.testexercice_testable_offline.exists
     .alert.alert-warning
       %b Attention
       : ce test n'est pas entièrement faisable en ligne
 
   %h3 Compétences sélectionnées
-  -if not test.fully_testable_online and object.testexercice_not_testable_online.exists
+  -if not test.fully_testable_online and object.testexercice_testable_offline.exists
     %h4 À évaluer en classe
       %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
         imprimer les questions
       %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk object.pk %}"}
         entrer les résultats
     %ul.heatmap-list
-      -for test_exercice in object.testexercice_not_testable_online
+      -for test_exercice in object.testexercice_testable_offline
         %li
           %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
             %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
