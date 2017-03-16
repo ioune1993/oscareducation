@@ -9,6 +9,7 @@
 
   -for test_exercice in object.testexercice_set.all
     .panel.panel-default
+      %a.anchor{name: "{{ test_exercice.id }}"}
       .panel-heading
         Exercice n°
         =test_exercice.exercice.id
@@ -48,6 +49,7 @@
             %td.center{width: "20px"}
               %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
                 Écrire un exercice pour cette question
+
 
   .center
     %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}

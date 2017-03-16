@@ -353,3 +353,8 @@
 .hidden-math-form {
     display: inline;
 }
+
+.anchor {
+    position: relative;
+    top: -100px;
+}
