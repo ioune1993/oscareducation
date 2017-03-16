@@ -21,27 +21,30 @@
   %h2 Changer l'exercice pour la compétence {{ test_exercice.skill }}
   %hr
 
-  %h3 Exercice actuellement sélectionné
-  %hr
+  -if test_exercice.exercice
+    %h3 Exercice actuellement sélectionné
+    %hr
 
-  .panel.panel-primary
-    .panel-heading
-      Exercice n°
-      =test_exercice.exercice.id
-      sur
-      =test_exercice.skill.code
+    .panel.panel-primary
+      .panel-heading
+        Exercice n°
+        =test_exercice.exercice.id
+        sur
+        =test_exercice.skill.code
 
-    .panel-body
-      -if not test_exercice.exercice.testable_online
-        .alert.alert-warning
-          Cet exercice devra être testé hors ligne
+      .panel-body
+        -if not test_exercice.exercice.testable_online
+          .alert.alert-warning
+            Cet exercice devra être testé hors ligne
 
-      -if test_exercice.exercice.content
-        .well
-          =test_exercice.exercice.content|safe
+        -if test_exercice.exercice.content
+          .well
+            =test_exercice.exercice.content|safe
 
-      -for label, question in test_exercice.exercice.get_questions.items
-        -include "professor/exercice/exercice_with_answers_rendering.haml"
+        -for label, question in test_exercice.exercice.get_questions.items
+          -include "professor/exercice/exercice_with_answers_rendering.haml"
+  -else
+    %h3 Il n'y a pas d'exercice sélectionné pour cette compétence
 
   %h3 Exercices disponibles
   %hr
