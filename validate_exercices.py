@@ -4,7 +4,7 @@ import os
 import sys
 import yaml
 
-from examinations.utils import validate_exercice_yaml_structure
+from examinations.validate import validate_exercice_yaml_structure
 
 def main():
     failed = False
