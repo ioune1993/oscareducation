@@ -65,7 +65,7 @@ class Test(BaseTest):
         return self.testexercice_set.filter(testable_online=True).select_related("skill")
 
     def testexercice_not_testable_online(self):
-        return self.testexercice_set.filter(testable_online=False).select_related("skill")
+        return self.testexercice_set.filter(testable_online=False, exercice__isnull=False).select_related("skill")
 
     def add_student(self, student):
         TestStudent.objects.create(
