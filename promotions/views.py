@@ -861,6 +861,8 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
     exercice = get_object_or_404(Exercice, pk=exercice_pk)
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
 
+    assert test_exercice.test.can_change_exercice() or not test_exercice.exercice, "Can't write an exercice if the test has started or that the test exercice already has an exercice"
+
     with transaction.atomic():
         test_exercice.exercice = exercice
         test_exercice.save()
@@ -872,6 +874,8 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 def exercice_adapt_test_exercice(request, test_exercice_pk):
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
     exercice = test_exercice.exercice
+
+    assert test_exercice.test.can_change_exercice(), "Can't change an exercice if the test has started"
 
     with transaction.atomic():
         new_exercice = Exercice.objects.create(

@@ -51,6 +51,10 @@ class Test(BaseTest):
         ("skills-dependencies", "skills-dependencies"),
     ))
 
+    def can_change_exercice(self):
+        # not one has started its test
+        return not self.teststudent_set.filter(started_at__isnull=False).exists()
+
     def testexercice_with_skills(self):
         return self.testexercice_set.select_related("skill").order_by('-skill__code')
 

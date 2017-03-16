@@ -32,16 +32,18 @@
         =test_exercice.skill.code
 
         .pull-right
-          -if test_exercice.skill.exercice_set.count > 1
+          -if test_exercice.test.can_change_exercice
+            -if test_exercice.skill.exercice_set.count > 1
+              %td.center{width: "20px"}
+                %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
+                  changer d'exercice
             %td.center{width: "20px"}
-              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
-                changer d'exercice
-          %td.center{width: "20px"}
-            %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}"}
-              adapter
-          %td.center{width: "20px"}
-            %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
-              écrire
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}"}
+                adapter
+          -if test_exercice.test.can_change_exercice or not test_exercice.exercice
+            %td.center{width: "20px"}
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
+                écrire
 
       .panel-body
         -if test_exercice.exercice
@@ -60,7 +62,7 @@
           %p
             Nous n'avons pas encore de questions pour cette compétence
 
-          -if test_exercice.skill.exercice_set.count > 0
+          -if test_exercice.test.can_change_exercice and test_exercice.skill.exercice_set.count > 0
             %p Mais il y en a des disponibles :
               %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}}"}
                 en choisir un

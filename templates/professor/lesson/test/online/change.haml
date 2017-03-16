@@ -18,73 +18,81 @@
     %li.active
       Changer l'exercice pour {{ test_exercice.skill }}
 
-  %h2 Changer l'exercice pour la compétence {{ test_exercice.skill }}
-  %hr
-
-  -if test_exercice.exercice
-    %h3 Exercice actuellement sélectionné
+  -if test_exercice.test.can_change_exercice
+    %h2 Changer l'exercice pour la compétence {{ test_exercice.skill }}
     %hr
 
-    .panel.panel-primary
-      .panel-heading
-        Exercice n°
-        =test_exercice.exercice.id
-        sur
-        =test_exercice.skill.code
+    -if test_exercice.exercice
+      %h3 Exercice actuellement sélectionné
+      %hr
 
-      .panel-body
-        -if not test_exercice.exercice.testable_online
-          .alert.alert-warning
-            Cet exercice devra être testé hors ligne
+      .panel.panel-primary
+        .panel-heading
+          Exercice n°
+          =test_exercice.exercice.id
+          sur
+          =test_exercice.skill.code
 
-        -if test_exercice.exercice.content
-          .well
-            =test_exercice.exercice.content|safe
+        .panel-body
+          -if not test_exercice.exercice.testable_online
+            .alert.alert-warning
+              Cet exercice devra être testé hors ligne
 
-        -for label, question in test_exercice.exercice.get_questions.items
-          -include "professor/exercice/exercice_with_answers_rendering.haml"
-  -else
-    %h3 Il n'y a pas d'exercice sélectionné pour cette compétence
+          -if test_exercice.exercice.content
+            .well
+              =test_exercice.exercice.content|safe
 
-  %h3 Exercices disponibles
-  %hr
+          -for label, question in test_exercice.exercice.get_questions.items
+            -include "professor/exercice/exercice_with_answers_rendering.haml"
+    -else
+      %h3 Il n'y a pas d'exercice sélectionné pour cette compétence
 
-  -if test_exercice.skill.exercice_set.all.count > 1
-    -for other_exercice in test_exercice.skill.exercice_set.all
-      -if other_exercice != test_exercice.exercice
-        .panel.panel-success
-          .panel-heading
-            Exercice n°
-            =other_exercice.id
-            sur
-            =test_exercice.skill.code
+    %h3 Exercices disponibles
+    %hr
 
-          .panel-body
-            -if not other_exercice.testable_online
-              .alert.alert-warning
-                Cet exercice devra être testé hors ligne
+    -if test_exercice.skill.exercice_set.all.count > 1
+      -for other_exercice in test_exercice.skill.exercice_set.all
+        -if other_exercice != test_exercice.exercice
+          .panel.panel-success
+            .panel-heading
+              Exercice n°
+              =other_exercice.id
+              sur
+              =test_exercice.skill.code
 
-            -if other_exercice.content
-              .well
-                =other_exercice.content|safe
+            .panel-body
+              -if not other_exercice.testable_online
+                .alert.alert-warning
+                  Cet exercice devra être testé hors ligne
 
-            -for label, question in other_exercice.get_questions.items
-              -include "professor/exercice/exercice_with_answers_rendering.haml"
+              -if other_exercice.content
+                .well
+                  =other_exercice.content|safe
 
-            %form{method: "POST"}
-              -csrf_token
-              %input{type: "hidden", name: "exercice_id", value: "{{ other_exercice.id }}"}
-              %button.btn.btn-primary{type: "submit"}
-                Choisir cet exercice
+              -for label, question in other_exercice.get_questions.items
+                -include "professor/exercice/exercice_with_answers_rendering.haml"
 
-  -else
-    %p
-      Nous n'avons pas encore de questions pour cette compétence
+              %form{method: "POST"}
+                -csrf_token
+                %input{type: "hidden", name: "exercice_id", value: "{{ other_exercice.id }}"}
+                %button.btn.btn-primary{type: "submit"}
+                  Choisir cet exercice
 
-    %p
-      %td.center{width: "20px"}
-        %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.test.pk }}&code={{ test_exercice.skill.code }}"}
-          Écrire une question pour cette compétence
+    -else
+      %p
+        Nous n'avons pas encore de questions pour cette compétence
+
+      %p
+        %td.center{width: "20px"}
+          %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.test.pk }}&code={{ test_exercice.skill.code }}"}
+            Écrire une question pour cette compétence
+
+    -else
+      %h2 Au moins un élève a commencé le test, il n'est plus possible de changer les exercices.
+
+      %p
+        %a{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test_exercice.test.pk %}"}
+          Retourner sur la liste des exercices
 
 -block javascript
   :javascript
