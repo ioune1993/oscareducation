@@ -201,7 +201,7 @@ def lesson_test_online_change_exercice(request, lesson_pk, test_pk, test_exercic
             test_exercice.exercice = exercice
             test_exercice.save()
 
-            return HttpResponseRedirect(reverse("professor:lesson_test_online_exercices", args=(lesson.pk, test.pk)))
+            return HttpResponseRedirect(reverse("professor:lesson_test_online_exercices", args=(lesson.pk, test.pk)) + "#%s" % test_exercice.id)
 
     return render(request, "professor/lesson/test/online/change.haml", {
         "lesson": lesson,
