@@ -281,6 +281,10 @@ class TestExercice(models.Model):
 
     testable_online = models.BooleanField(default=True)
 
+    def save(self, *args, **kwargs):
+        self.testable_online = self.exercice and self.exercice.testable_online
+        super(TestExercice, self).save(*args, **kwargs)
+
     def get_content(self):
         if self.rendered_content:
             return self.rendered_content
