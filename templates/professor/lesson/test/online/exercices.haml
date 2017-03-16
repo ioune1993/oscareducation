@@ -45,8 +45,14 @@
           %p
             Nous n'avons pas encore de questions pour cette compétence
 
-          %p
-            %td.center{width: "20px"}
+          -if test_exercice.skill.exercice_set.count > 0
+            %p Mais il y en a des disponibles :
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}}"}
+                en choisir un
+
+
+          -else
+            %p
               %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
                 Écrire une question pour cette compétence
 
