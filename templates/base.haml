@@ -19,39 +19,42 @@
   %link{rel: "icon", type: "image/png", href: "{% static 'img/favicon.png' %}"}
   %link{href: "{% static 'css/style.css' %}", rel: "stylesheet"}
 
-  :css
-    body {
-        padding-top: 51px; /*for navbar*/
-    }
-
   -block head
 
 
 -block bootstrap3_content
-  .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
-    .navbar-inner
-      .container
-        .navbar-header
-          %button.hidden-md.hidden-lg{type: "button", class: "navbar-toggle collapsed", data-toggle: "collapse", data-target: "#toCollapse"}
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.brand.navbar-brand{href: "/"}
-            <span style="color: #F58025">O</span>scar
-        %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
-          %li
-            %a{href: "{% url 'logout' %}"}
-              Déconnexion
-        #toCollapse.collapse.navbar-collapse
-          %ul.nav.navbar-nav.hidden-md.hidden-lg
+  .fond
+    .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
+      .navbar-inner
+        .container
+          .navbar-header
+            %button.hidden-md.hidden-lg{type: "button", class: "navbar-toggle collapsed", data-toggle: "collapse", data-target: "#toCollapse"}
+              %span.sr-only Toggle navigation
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            %a.brand.navbar-brand{href: "/"}
+              <span style="color: #F58025">O</span>scar
+          %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             %li
               %a{href: "{% url 'logout' %}"}
-                Déconnexion
+                %img{src: "images/ico.logout.png"}
+          #toCollapse.collapse.navbar-collapse
+            %ul.nav.navbar-nav.hidden-md.hidden-lg
+              %li
+                %a{href: "{% url 'logout' %}"}
+                  %img{src: "images/ico.logout.png"}
 
+    -block breadcrumb
 
-  .container
-    -block content
+    .container.centralcontainer
+      -block content
+
+    #footer
+      .copyright
+        Vous souhaitez contribuer à l’amélioration d’Oscar ?
+        %br
+        Contactez-nous sur support@oscar.education
 
 -block bootstrap3_extra_script
   %script{type: "text/javascript", src: "{% static 'js/base.js' %}"}

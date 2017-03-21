@@ -3,7 +3,7 @@
 
 -load bootstrap3
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -12,6 +12,7 @@
       Classe
       =lesson.name
 
+-block content
   %h3
     =lesson.name
     .pull-right

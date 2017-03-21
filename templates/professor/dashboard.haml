@@ -3,34 +3,35 @@
 -load bootstrap3
 
 -block content
-  %h2 Mes classes
+  .row
+    .col-md-6
+      %a{type: "button", class: "btn btn-default btn-circle btn-xl", href: "/professor/skill/"}
+        %img{src: "http://i68.tinypic.com/332szu9.png", class: "buttonimg"}
+        .buttontxt
+          Compétences
+          %br
+          et ressources
 
-    .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_add' %}"}
-        Ajouter une nouvelle classe
-      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
-        Compétences et ressources
+    .col-md-6
+      %ul.nav.orange.nav-tabs
+        <li role="presentation" class="active"><a href="#">Mes classes</a></li>
 
-  %table.table
-    -for lesson in lessons
-      %tr
-        %td
-          %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-            =lesson.name|capfirst
-        %td
-          =lesson.stage
-        %td
-          -if lesson.students__count
-            =lesson.students__count
-            élève{{ lesson.students__count|pluralize }}
-          -else
-            pas encore d'élèves
-        %td.center{width: "20px"}
-          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-            Vue Globale
-        %td.center{width: "20px"}
-          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-            Liste des tests
-        %td.center{width: "20px"}
-          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-            Création d'un test
+      .ligneorange
+
+      .container-fluid.boxclassetitle
+
+        .pull-right
+          %a{href: "{% url 'professor:lesson_add' %}"}
+            %img{src: "images/new.classe.png"}
+          %a{href: "{% url 'professor:skill_list' %}"}
+            %img{src: "images/new.classe.png"}
+
+      .ligneorangefine
+
+      .container-fluid.boxclasse
+        %table.table
+          -for lesson in lessons
+            %tr
+              %td
+                %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+                  =lesson.name|capfirst

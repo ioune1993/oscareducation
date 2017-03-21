@@ -1,6 +1,267 @@
+h2 {
+    font-family:'Open Sans', sans-serif;
+    font-size: 15px;
+    color:#AAA;
+    word-spacing: 2px;
+    line-height: 1.5;
+}
+
+
+h3, hr {
+    font-family:minion, serif;
+    text-align:center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    color:white;
+    word-spacing: 2px;
+    line-height: 1.5;
+}
+
+h5 {
+    font-family:minion, serif;
+    font-size: 24px;
+    color:black;
+    color: #f58025;
+    word-spacing: 2px;
+    line-height: 1.5;
+}
+
+/* Buttons */
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    margin: 10px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-circle.btn-xl {
+    width: 150px;
+    height: 150px;
+    padding: 10px 16px;
+    margin: 100px 50px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 90px;
+}
+
+.buttontxt
+{
+    margin-top: 4%;
+    font-family: 'Open Sans', sans-serif;
+    color: #f58025;
+    font-size: 12px;
+}
+
+.buttonimg
+{
+    size: 50%;
+    margin-top: 6%;
+}
+
+/* Onglet */
+
+.principalonglet
+{
+
+    width: 200px;
+    height: 50px;
+    background:#f58025;
+    margin-top: 50px;
+    margin-left: 500px;
+}
+
+ul.orange > li.inactive
+{
+    width: 250px;
+    margin-left: 40px;
+    background:#ccc;
+}
+
+ul.orange > li.inactive > a
+{
+    font-family:minion, serif;
+    font-size: 17px;
+    color:white;
+    width: 250px;
+    background:#ccc;
+    border: 0;
+}
+
+ul.orange > li.active
+{
+    font-family:minion, serif;
+    font-size: 17px;
+    color:white;
+    margin-left: 20px;
+    background:#f58025;
+}
+
+ul.orange > li.active > a
+{
+    font-family:minion, serif;
+    font-size: 17px;
+    color:white;
+    background:#f58025;
+    border: 0
+}
+
+.center.orange.nav-tabs {
+    border: 0;
+}
+
+.nav-tabs
+{
+    width: 80%;
+    margin-left: 10%;
+}
+
+/* Onglet intérieur */
+
+.panel-default>.panel-heading {
+    background-color:#f58025;
+    border-radius:0px;
+    color: white;
+    font-family:'Open Sans', sans-serif;
+    text-transform: uppercase;
+}
+
+.panel-default {
+    border: 0;
+}
+
+/* Principal Content */
+
+.ligneorangefinecenter
+{
+    border-top : 2px solid #f1be9c;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.nav.orange.nav-tabs {
+    border: none;
+}
+
+.ligneorangecenter
+{
+    border-top : 6px solid #f58025;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ligneorangefine
+{
+    border-top : 2px solid #f1be9c;
+}
+
+.ligneorange
+{
+    border-top : 6px solid #f58025;
+}
+
+.boxcentertitle{
+    padding: 20px;
+    background-color:white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boxcenter {
+    background-color:white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.boxclassetitle{
+    padding: 20px;
+    background-color:white;
+}
+
+.boxclasse {
+    padding-top: 20px;
+    background-color:white;
+}
+
+/* container */
+
+.centralcontainer {
+    margin-top: 10px;
+    width: 800px;
+}
+
+.principalcontent {
+    margin-top: 30px;
+    /* width: 800px; */
+}
+
+/* Divers */
+
+
+
+.fond {
+    background-image:url(http://i66.tinypic.com/21jdflg.png);
+    background-attachment:fixed;
+    background-repeat:repeat;
+    padding-top: 50px;
+}
+
+body {
+    color:black;
+    background-color:black;
+    background-image:url(http://i65.tinypic.com/hugbr4.jpg);
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    word-spacing: 2px;
+    line-height: 1.5;
+}
+
+#footer { background-color:#f58025;
+    position:fixed;
+    bottom:0px;
+    left:0px;
+    height:60px;
+    width:100%;
+    color:#fff;
+}
+
+.copyright {
+    font-size: 12px;
+    text-align:center;
+    padding: 15px 0 15px 0;
+}
+
+/* breadcrumb */
+
+.breadcrumb>.active {
+    color:#f58025;
+}
+
+.text-white {
+    color:white;
+}
+
+.breadcrumb {
+    border-radius: 0;
+    background-color: transparent;
+    margin: 10px 200px;
+    color:white;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+
+}
+
 .navbar-inverse {
     background-color: white;
-    border-color: #F58025;
+    border: 0;
 }
 
 .navbar-inverse .navbar-brand {
@@ -42,10 +303,6 @@
 .legend-list {
     list-style-type: none;
     padding-left: 0;
-}
-
-.breadcrumb {
-    margin-top: 10px;
 }
 
 .center {
@@ -350,11 +607,10 @@
     width: 500px;
 }
 
-.hidden-math-form {
-    display: inline;
+html, body, .fond {
+    height: 100%;
 }
 
-.anchor {
-    position: relative;
-    top: -100px;
+ol.breadcrumb > li:first-child > a {
+    color: white;
 }
