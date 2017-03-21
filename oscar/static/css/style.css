@@ -615,6 +615,7 @@ html, body {
 
 .fond {
     min-height: 100%;
+    padding-bottom: 100px;
 }
 
 ol.breadcrumb > li:first-child > a {
@@ -623,4 +624,16 @@ ol.breadcrumb > li:first-child > a {
 
 .panel, .panel-group .panel {
     border-radius: 0px;
+}
+
+.choose-test {
+    margin-top: 70px;
+}
+
+.table {
+    background-color: white;
+}
+
+h3 {
+    color: black;
 }
