@@ -875,6 +875,10 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
     exercice = test_exercice.exercice
 
+    # user shouldn't end up there in that situation but we never know
+    if exercice is None:
+        return HttpResponseRedirect(reverse('professor:exercice_validation_form') + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, test_exercice.skill))
+
     assert test_exercice.test.can_change_exercice(), "Can't change an exercice if the test has started"
 
     with transaction.atomic():
