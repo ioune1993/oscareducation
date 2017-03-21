@@ -1,12 +1,13 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li
       Questions
 
+-block content
   %h2 Questions non approuvées
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
@@ -15,21 +16,22 @@
         Compétences et ressources
   %hr
 
-  -regroup exercice_list by skill as exercices_by_skills
+  .boxclasse.container-fluid
+    -regroup exercice_list by skill as exercices_by_skills
 
-  -for skill in exercices_by_skills
-    %h3
-      =skill.grouper.code
-      %small
-        =skill.grouper.name
-    -for exercice in skill.list
-      %ul
-        %li
-          %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-            Question n°
-            =exercice.id
-          -if not exercice.approved
-            %span.label.label-warning
-              en attente d'approbation
-  -empty
-    Il n'y a pas de questions non approuvées.
+    -for skill in exercices_by_skills
+      %h3
+        =skill.grouper.code
+        %small
+          =skill.grouper.name
+      -for exercice in skill.list
+        %ul
+          %li
+            %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
+              Question n°
+              =exercice.id
+            -if not exercice.approved
+              %span.label.label-warning
+                en attente d'approbation
+    -empty
+      Il n'y a pas de questions non approuvées.

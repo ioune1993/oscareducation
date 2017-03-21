@@ -15,7 +15,7 @@
 -block content
   %h3
     =lesson.name
-    .pull-right
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
         Modifier
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
@@ -26,7 +26,6 @@
         Ajouter un test
       %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
         Supprimer
-  %hr
 
   -if lesson.students.count
     .panel.panel-default

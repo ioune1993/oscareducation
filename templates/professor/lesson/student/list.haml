@@ -3,7 +3,7 @@
 
 -load bootstrap3
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -14,6 +14,7 @@
         =lesson.name
     %li Gérer mes élèves
 
+-block content
   %h3 Élèves de {{ lesson.name }}
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
@@ -21,23 +22,24 @@
       %a.btn.btn-danger{href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
         générer les mots de passe pour toute la classe
 
-  -if lesson.students.count
-    %table.table
-      -for student in lesson.students.all
-        %tr
-          %td
-            %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
-          %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
-              Vue détaillée
-          %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
-              Modifier
-          %td.center{width: "20px"}
-            %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
-              Supprimer
+  .boxclasse.container-fluid
+    -if lesson.students.count
+      %table.table
+        -for student in lesson.students.all
+          %tr
+            %td
+              %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
+                Vue détaillée
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
+                Modifier
+            %td.center{width: "20px"}
+              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+                Supprimer
 
-  -else
-    %p
-      %i
-        Vous n'avez pas encore d'élèves dans cette classe.
+    -else
+      %p
+        %i
+          Vous n'avez pas encore d'élèves dans cette classe.

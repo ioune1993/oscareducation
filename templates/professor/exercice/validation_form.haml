@@ -4,7 +4,7 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_validate_exercice.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -17,6 +17,7 @@
       -else
         Formulaire de proposition d'une question
 
+-block content
   .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
     .panel-heading
       -if exercice

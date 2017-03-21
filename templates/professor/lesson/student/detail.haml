@@ -18,21 +18,23 @@
     })
 
 
--block content
-    %ol.breadcrumb
-      -with lesson=student.lesson_set.first
-        %li
-          %a{href: "{% url 'professor:dashboard' %}"} Oscar
-        %li= lesson.stage.name
-        %li
-          %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
-            Classe
-            =lesson.name
-      %li.active
-        Élève
-        =student.user.first_name
-        =student.user.last_name
+-block breadcrumb
+  %ol.breadcrumb
+    -with lesson=student.lesson_set.first
+      %li
+        %a{href: "{% url 'professor:dashboard' %}"} Oscar
+      %li= lesson.stage.name
+      %li
+        %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
+          Classe
+          =lesson.name
+    %li.active
+      Élève
+      =student.user.first_name
+      =student.user.last_name
 
+-block content
+  -with lesson=student.lesson_set.first
     %h2
       =student.user.first_name|title
       =student.user.last_name|title
@@ -100,16 +102,17 @@
       %h3 Compétences recommandées
       %hr
 
-      -for stage in lesson.stages_in_unchronological_order
-        -get_students_skills of student at stage as "student_skills"
-        -for student_skill in student_skills
-          -if student_skill.recommanded_to_learn
-            %ul.legend-list
-              %li.legend
-                %a.right-space{type: "button", style: "border: black solid;", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
-                  =student_skill.skill.code
-                %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
-                  {{ student_skill.skill.name }}
+      .boxclasse.container-fluid
+        -for stage in lesson.stages_in_unchronological_order
+          -get_students_skills of student at stage as "student_skills"
+          -for student_skill in student_skills
+            -if student_skill.recommanded_to_learn
+              %ul.legend-list
+                %li.legend
+                  %a.right-space{type: "button", style: "border: black solid;", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
+                    =student_skill.skill.code
+                  %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
+                    {{ student_skill.skill.name }}
 
     %h3
       %a{name: "skills"}

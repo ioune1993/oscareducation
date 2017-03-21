@@ -3,7 +3,7 @@
 -load student_tags
 -load lesson_tags
 
--block content
+-block breadcrumb
   -with lesson=user.student.lesson_set.first
     %ol.breadcrumb
       %li= lesson.stage.name
@@ -11,6 +11,8 @@
         Classe
         =lesson.name
 
+-block content
+  -with lesson=user.student.lesson_set.first
     %h2 <span style="color: #F58025">O</span>scar
       .pull-right
         %a.btn.btn-info{href: "{% url 'student_test_finished' %}"}

@@ -1,6 +1,6 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -12,64 +12,66 @@
     %li.active
       Liste des tests
 
+-block content
   %h3 Tests pour la classe {{ lesson.name }}
     %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
       Ajouter un test
 
-  -if all_tests.exists
-    %table.table
-      -for basetest in all_tests
-        %tr
-          %td{width: "30px"}
-            =basetest.created_at|date:"d/m/Y"
+  .boxclasse.container-fluid
+    -if all_tests.exists
+      %table.table
+        -for basetest in all_tests
+          %tr
+            %td{width: "30px"}
+              =basetest.created_at|date:"d/m/Y"
 
-          -if basetest.test
-            %td{width: "8px"}
-              %i.fa.fa-desktop{title: "test en ligne"}
-            %td
-              %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
-                =basetest
-              -if not basetest.test.running
-                %span.label.label-danger
-                  Clôturé
-            %td.center{width: "20px"}
-              %form{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
-                -csrf_token
-                %button.btn.btn-sm.btn-default{type: "submit"}
-                  -if basetest.test.running
-                    Clôturer
-                  -else
-                    Rendre disponible
-            %td.center{width: "20px"}
-              %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
-                Modifier
-            %td.center{width: "20px"}
-              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
-                Supprimer
+            -if basetest.test
+              %td{width: "8px"}
+                %i.fa.fa-desktop{title: "test en ligne"}
+              %td
+                %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
+                  =basetest
+                -if not basetest.test.running
+                  %span.label.label-danger
+                    Clôturé
+              %td.center{width: "20px"}
+                %form{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
+                  -csrf_token
+                  %button.btn.btn-sm.btn-default{type: "submit"}
+                    -if basetest.test.running
+                      Clôturer
+                    -else
+                      Rendre disponible
+              %td.center{width: "20px"}
+                %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
+                  Modifier
+              %td.center{width: "20px"}
+                %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
+                  Supprimer
 
-          -else
-            %td{width: "8px"}
-              %i.fa.fa-commenting-o{title: "évaluation libre"}
-            %td
-              %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk basetest.pk %}"}
-                =basetest
-              -if not basetest.testfromclass.testskillfromclass_set.exists
-                %span.label.label-warning
-                  pas encore encodé
-            %td.center{width: "20px"}
-              -if not basetest.testfromclass.testskillfromclass_set.exists
-                %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
-                  L'encoder
-            %td.center{width: "20px"}
-              %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
-                Modifier
-            %td.center{width: "20px"}
-              %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
-                Supprimer
+            -else
+              %td{width: "8px"}
+                %i.fa.fa-commenting-o{title: "évaluation libre"}
+              %td
+                %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk basetest.pk %}"}
+                  =basetest
+                -if not basetest.testfromclass.testskillfromclass_set.exists
+                  %span.label.label-warning
+                    pas encore encodé
+              %td.center{width: "20px"}
+                -if not basetest.testfromclass.testskillfromclass_set.exists
+                  %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
+                    L'encoder
+              %td.center{width: "20px"}
+                %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
+                  Modifier
+              %td.center{width: "20px"}
+                %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
+                  Supprimer
 
-  -else
-    %p
-      Cette classe ne comporte pas encore de tests.
-      %a{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-        Ajouter un test
-      .
+    -else
+      %p
+        Cette classe ne comporte pas encore de tests.
+        %a{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+          Ajouter un test
+        .

@@ -9,7 +9,7 @@
       lessonId: {{ lesson.id }}
     };
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -21,6 +21,7 @@
     %li.active
       Ajouter un test
 
+-block content
   %div#alerts
 
   %div{ng-app: "oscar", ng-controller: "createTestController"}

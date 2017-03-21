@@ -2,7 +2,7 @@
 
 -load student_tags
 
--block content
+-block breadcrumb
   -with lesson=user.student.lesson_set.first
     %ol.breadcrumb
       %li= lesson.stage.name
@@ -11,12 +11,13 @@
           Classe
           =lesson.name
 
-    %h2 Tests passés
-    %hr
+-block content
+  %h2 Tests passés
+  %hr
 
-    %ul
-      -for student_test in user.student.teststudent_set.all
-        -if student_test.finished
-          %li
-            {{ student_test.test.created_at|date:"d/m/Y" }}
-            = student_test.test.name
+  %ul
+    -for student_test in user.student.teststudent_set.all
+      -if student_test.finished
+        %li
+          {{ student_test.test.created_at|date:"d/m/Y" }}
+          = student_test.test.name

@@ -5,7 +5,7 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     -with lesson=student.lesson_set.first
       %li
@@ -23,6 +23,7 @@
     %li.active
       modifier l'élève
 
+-block content
   .panel.panel-default
     .panel-heading
       =student.user.first_name|title

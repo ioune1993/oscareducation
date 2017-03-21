@@ -5,7 +5,7 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -17,10 +17,7 @@
     %li.active
       supprimer la classe
 
-  %h1
-
-  %hr
-
+-block content
   .center
     %form.form{method: "POST", action: ""}
       -csrf_token

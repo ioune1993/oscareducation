@@ -2,7 +2,7 @@
 
 -load bootstrap3
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -14,6 +14,7 @@
     %li.active
       Modifier
 
+-block content
   .panel.panel-default
     .panel-heading Modifier la classe <i>{{ lesson.name }}</i>
 

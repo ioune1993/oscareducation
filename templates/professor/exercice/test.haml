@@ -1,6 +1,6 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -11,6 +11,7 @@
       Tester la question n°
       =exercice.id
 
+-block content
   .panel.panel-default
     .panel-heading
       Question n° {{ test_exercice.exercice.id }} sur

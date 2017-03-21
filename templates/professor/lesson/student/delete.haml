@@ -5,7 +5,7 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     -with lesson=student.lesson_set.first
       %li
@@ -23,19 +23,21 @@
     %li.active
       supprimer l'élève
 
+-block content
   %h1
 
   %hr
 
-  .center
-    %form.form{method: "POST", action: ""}
-      -csrf_token
-      %p
-        %button.btn.btn-danger.btn-lg{type: "submit"}
-          Supprimer l'élève
-          =student.user.first_name
-          =student.user.last_name
+  .boxclasse.container-fluid
+    .center
+      %form.form{method: "POST", action: ""}
+        -csrf_token
+        %p
+          %button.btn.btn-danger.btn-lg{type: "submit"}
+            Supprimer l'élève
+            =student.user.first_name
+            =student.user.last_name
 
-    %p
-      %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk object.pk %}"}
-        Annuler
+      %p
+        %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk object.pk %}"}
+          Annuler

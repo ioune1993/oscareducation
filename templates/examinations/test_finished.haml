@@ -1,6 +1,6 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'student_dashboard' %}"} Oscar
@@ -8,6 +8,7 @@
       Test
       =test_student.test
 
+-block content
   %h2 Félicitations, vous avez terminé le test "{{ test_student.test.name }}" !
 
   %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil

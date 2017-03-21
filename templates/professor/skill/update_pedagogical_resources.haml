@@ -2,7 +2,7 @@
 -load static
 -load bootstrap3
 
--block content
+-block breadcrumb
   %div{ng-app: "oscar"}
     %ol.breadcrumb
       %li
@@ -11,6 +11,7 @@
         Compétence
         =object.code
 
+-block content
     %h2 Compétence
       =object.name
       %small= object.code

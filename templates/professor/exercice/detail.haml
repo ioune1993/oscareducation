@@ -1,6 +1,6 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -11,6 +11,7 @@
       Question n°
       =exercice.id
 
+-block content
   -if not exercice.approved
     %div.alert.alert-warning
       Exercice en attente d'approbation
@@ -30,12 +31,13 @@
 
   %hr
 
-  -if exercice.content
-    .well.exercice-content
-      =exercice.content|safe
+  .boxclasse.container-fluid
+    -if exercice.content
+      .well.exercice-content
+        =exercice.content|safe
 
-  -for label, question in exercice.get_questions.items
-    -include "professor/exercice/exercice_with_answers_rendering.haml"
+    -for label, question in exercice.get_questions.items
+      -include "professor/exercice/exercice_with_answers_rendering.haml"
 
 -block javascript
   :javascript

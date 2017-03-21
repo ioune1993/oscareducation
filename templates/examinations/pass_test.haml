@@ -1,6 +1,6 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'student_dashboard' %}"} Oscar
@@ -8,6 +8,7 @@
       Test
       =test_student.test
 
+-block content
   %h3 Test:
     =test.name
   %hr

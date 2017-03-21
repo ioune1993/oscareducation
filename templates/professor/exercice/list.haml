@@ -1,12 +1,13 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li
       Questions
 
+-block content
   %h2 Questions
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
@@ -15,32 +16,33 @@
         Compétences et ressources
   %hr
 
-  -regroup exercice_list by skill.stage_set.first as stages
-  -for stage in stages
-    %h3= stage.grouper
+  .boxclasse.container-fluid
+    -regroup exercice_list by skill.stage_set.first as stages
+    -for stage in stages
+      %h3= stage.grouper
 
-    -regroup stage.list by skill as exercices_by_skills
+      -regroup stage.list by skill as exercices_by_skills
 
-    -for skill in exercices_by_skills
-      %h4
-        =skill.grouper.code
-        %small
-          =skill.grouper.name
-      -for exercice in skill.list
-        %ul
-          %li
-            %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-              Question n°
-              =exercice.id
-            -if not exercice.approved
-              %span.label.label-warning
-                en attente d'approbation
+      -for skill in exercices_by_skills
+        %h4
+          =skill.grouper.code
+          %small
+            =skill.grouper.name
+        -for exercice in skill.list
+          %ul
+            %li
+              %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
+                Question n°
+                =exercice.id
+              -if not exercice.approved
+                %span.label.label-warning
+                  en attente d'approbation
 
-  %h2 Compétences sans questions
+    %h2 Compétences sans questions
 
-  %ul
-    -for skill in skills_without_exercices
-      %li
-        =skill.code
-        \-
-        =skill.name
+    %ul
+      -for skill in skills_without_exercices
+        %li
+          =skill.code
+          \-
+          =skill.name

@@ -1,13 +1,14 @@
 -extends "base.haml"
 -load crispy_forms_tags
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li.active
       Compétences et ressources
 
+-block content
   %h2 Compétences et ressources
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}

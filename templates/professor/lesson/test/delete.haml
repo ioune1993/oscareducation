@@ -5,7 +5,7 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -30,26 +30,24 @@
       -else
         l'évaluation libre
 
-  %h1
+-block content
+  .boxclasse.container-fluid.choose-test
+    .center
+      %form.form{method: "POST", action: ""}
+        -csrf_token
+        %p
+          %button.btn.btn-danger.btn-lg{type: "submit"}
+            -if test.test
+              Supprimer le test
+            -else
+              Supprimer l'évaluation libre
+            %i
+              =test.name
 
-  %hr
-
-  .center
-    %form.form{method: "POST", action: ""}
-      -csrf_token
       %p
-        %button.btn.btn-danger.btn-lg{type: "submit"}
-          -if test.test
-            Supprimer le test
-          -else
-            Supprimer l'évaluation libre
-          %i
-            =test.name
-
-    %p
-      -if test.test
-        %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
-          Annuler
-      -else
-        %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
-          Annuler
+        -if test.test
+          %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+            Annuler
+        -else
+          %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+            Annuler
