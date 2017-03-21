@@ -619,3 +619,7 @@ html, body {
 ol.breadcrumb > li:first-child > a {
     color: white;
 }
+
+.panel, .panel-group .panel {
+    border-radius: 0px;
+}
