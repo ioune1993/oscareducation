@@ -20,20 +20,20 @@
     =exercice.id
     sur
     =exercice.skill.code
-    %small
-      =exercice.skill.name
-    %br
+  %hr
+  %h4
+    =exercice.skill.name
+
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
+    .pull-right
       -if user.is_superuser or exercice.added_by == user
         %a.btn.btn-sm.btn-success{href: "{% url 'professor:exercice_update' exercice.id %}"}
           Éditer
       %a.btn.btn-sm.btn-primary{href: "{% url 'professor:exercice_list' %}"}
         Voir toutes les questions
-
-  %hr
-
-  .ligneorange
-
-  .container-fluid.boxclassetitle
 
   .ligneorangefine
 

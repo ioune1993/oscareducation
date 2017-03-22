@@ -9,16 +9,16 @@
 
 -block content
   %h3 Questions
-    %br
-      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        Ajouter une question
-      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
-        Compétences et ressources
   %hr
 
   .ligneorange
 
   .container-fluid.boxclassetitle
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
+        Ajouter une question
+      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
+        Compétences et ressources
 
   .ligneorangefine
 

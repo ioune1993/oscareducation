@@ -15,8 +15,6 @@
           %col
           %col{width: "200px"}
           %col
-          %col
-          %col
           %tr.color-title.clickable{style: "background-color: {{ color }}", data-toggle: "collapse", data-target: "#collapse-{{ stage.id }}-{{ section.grouper|slugify }}", id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
             -with code=section.list|first
               %th.center{width: "69px"}= code.code|split_skill_as_section
@@ -24,7 +22,7 @@
           %tbody.collapse{id: "collapse-{{ stage.id }}-{{ section.grouper|slugify }}"}
             %tr.active
               %th.center R
-              %th{colspan: 6} Ressources
+              %th{colspan: 4} Ressources
               -with code=section.list|first
                 -for r in code_r
                   -if r.section == code.code|split_skill_as_section
@@ -54,13 +52,15 @@
                       question{{ skill.exercice__count|pluralize }}
                     -else
                       %i Pas de questions disponibles.
-                  %td
+                  %td.center
                     %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
                       Ajouter une question
-                  %td
+                    %br
+                    %br
                     %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
                       Ajouter une ressource
-                  %td
+                    %br
+                    %br
                     %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
                       Signaler un problème
                       %br

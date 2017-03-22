@@ -14,14 +14,14 @@
 
 -block content
   %h3 Tests pour la classe {{ lesson.name }}
-    %br
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-        Ajouter un test
   %hr
 
   .ligneorange
 
   .container-fluid.boxclassetitle
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+        Ajouter un test
 
   .ligneorangefine
 

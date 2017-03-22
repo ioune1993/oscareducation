@@ -21,16 +21,16 @@
 
 -block content
   %h3 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
-    %br
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}"}
-        Test
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_student_detail' lesson.pk student_test.student.pk %}"}
-        Élève
   %hr
 
   .ligneorange
 
   .container-fluid.boxclassetitle
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}"}
+        Test
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_student_detail' lesson.pk student_test.student.pk %}"}
+        Élève
 
   .ligneorangefine
 

@@ -15,7 +15,12 @@
 -block content
   %h3
     =lesson.name
-    %br
+  %hr
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
+    .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
         Modifier
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
@@ -26,46 +31,48 @@
         Ajouter un test
       %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
         Supprimer
-  %hr
 
-  -if lesson.students.count
-    .panel.panel-default
-      .panel-heading
-        Élèves
-        .pull-right
-          Dernier test
-      %ul.list-group
-        -for student in lesson.students.all
-          %li.list-group-item
-            %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
-            .pull-right
-              -with student_test=student.get_last_test
-                -if student_test
-                  %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk student_test.pk %}"}
-                    =student_test.test
-                  <span class="label {% if not student_test.started_at %}label-warning{% elif not student_test.finished_at %}label-success{% else %}label-info{% endif %}">{{ student_test.get_state }}</span>
-                  -if not student_test.test.running
-                    %span.label.label-danger
-                      clôturé
+  .ligneorangefine
 
-  -else
-    %p
-      %i
-        Vous n'avez pas encore d'élèves dans cette classe.
-      %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
-        Ajouter un élève
-      .
+  .container-fluid.boxclasse
+    -if lesson.students.count
+      .panel.panel-default
+        .panel-heading
+          Élèves
+          .pull-right
+            Dernier test
+        %ul.list-group
+          -for student in lesson.students.all
+            %li.list-group-item
+              %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
+              .pull-right
+                -with student_test=student.get_last_test
+                  -if student_test
+                    %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk student_test.pk %}"}
+                      =student_test.test
+                    <span class="label {% if not student_test.started_at %}label-warning{% elif not student_test.finished_at %}label-success{% else %}label-info{% endif %}">{{ student_test.get_state }}</span>
+                    -if not student_test.test.running
+                      %span.label.label-danger
+                        clôturé
 
-  -include "professor/lesson/detail/heatmap.haml"
+    -else
+      %p
+        %i
+          Vous n'avez pas encore d'élèves dans cette classe.
+        %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
+          Ajouter un élève
+        .
 
--block javascript
-  :javascript
-    $(function () {
-      $('[data-toggle="popover"]').popover({
-        html: true
+    -include "professor/lesson/detail/heatmap.haml"
+
+  -block javascript
+    :javascript
+      $(function () {
+        $('[data-toggle="popover"]').popover({
+          html: true
+        })
+
+        $('#legend').each(function(index, node) {
+          node.setAttribute("data-content", node.nextSibling.nextSibling.innerHTML);
+        })
       })
-
-      $('#legend').each(function(index, node) {
-        node.setAttribute("data-content", node.nextSibling.nextSibling.innerHTML);
-      })
-    })

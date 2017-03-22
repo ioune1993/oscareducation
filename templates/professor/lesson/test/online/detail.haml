@@ -15,11 +15,16 @@
 
 -block content
   %h3 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
-    %small
-      -if not test.running
-        %span.label.label-danger
-          Clôturé
-    %br
+  %hr
+  %h4
+    -if not test.running
+      %span.label.label-danger
+        Clôturé
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
+    .pull-right
       %td.center{width: "20px"}
         %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk test.pk %}", method: "post"}
           -csrf_token
@@ -44,13 +49,6 @@
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
           Tests
-
-
-  %hr
-
-  .ligneorange
-
-  .container-fluid.boxclassetitle
 
   .ligneorangefine
 

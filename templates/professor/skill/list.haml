@@ -10,122 +10,129 @@
 
 -block content
   %h3 Compétences et ressources
-    %br
+  %hr
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
+    .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
         Ajouter une question
       %a.btn.btn-success{href: "https://framateam.org/oscarpilote/", target: "_blank"}
         Forum Enseignants Pilote
       %a.btn.btn-default{href: "{% url 'professor:exercice_list' %}"}
         Questions
-  %hr
 
-  #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
-    .panel.panel-default
-      .panel-heading
-        %b
-          Socles de compétences - S1 S2 S3
+  .ligneorangefine
 
-      .panel-body{style: "padding-top: 10px"}
-        -with stage=1e title="2e cycle (1-2 primaire)"
-          -include "professor/skill/list/panel-socles.haml"
+  .container-fluid.boxclasse
+    #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
+      .panel.panel-default
+        .panel-heading
+          %b
+            Socles de compétences - S1 S2 S3
 
-        -with stage=2e title="3e et 4e cycles (3-6 primaire)"
-          -include "professor/skill/list/panel-socles.haml"
+        .panel-body{style: "padding-top: 10px"}
+          -with stage=1e title="2e cycle (1-2 primaire)"
+            -include "professor/skill/list/panel-socles.haml"
 
-        -with stage=3e title="5e cycle (1-2 secondaire)"
-          -include "professor/skill/list/panel-socles.haml"
+          -with stage=2e title="3e et 4e cycles (3-6 primaire)"
+            -include "professor/skill/list/panel-socles.haml"
 
-    %br
+          -with stage=3e title="5e cycle (1-2 secondaire)"
+            -include "professor/skill/list/panel-socles.haml"
 
-    .panel.panel-default
-      .panel-heading
-        %b
-          Enseignement professionnel
+      %br
 
-      .panel-body
-        -with color="#962424"
-          -with stage=2p title="Deuxième degré - P2D"
-            %h5.color-title{style: "background-color: {{ color }}"} Mathématiques de base
-            -include "professor/skill/list/panel.haml"
+      .panel.panel-default
+        .panel-heading
+          %b
+            Enseignement professionnel
 
-          -with stage=3p title="Troisième degré - P3D"
-            -include "professor/skill/list/panel.haml"
+        .panel-body
+          -with color="#962424"
+            -with stage=2p title="Deuxième degré - P2D"
+              %h5.color-title Mathématiques de base
+              -include "professor/skill/list/panel.haml"
 
-    %br
+            -with stage=3p title="Troisième degré - P3D"
+              -include "professor/skill/list/panel.haml"
 
-    .panel.panel-default
-      .panel-heading
-        %b
-          Enseignement technique et artistique de qualification
+      %br
 
-      .panel-body
-        -with color="#318631"
-          -with stage=2d2 title="Deuxième degré - Q22"
-            %h5.color-title{style: "background-color: {{ color }}"} Mathématiques actives dans la formation qualifiante
-            -include "professor/skill/list/panel.haml"
+      .panel.panel-default
+        .panel-heading
+          %b
+            Enseignement technique et artistique de qualification
 
-          -with stage=3d2 title="Troisième degré - Q32"
-            -include "professor/skill/list/panel.haml"
+        .panel-body
+          -with color="#318631"
+            -with stage=2d2 title="Deuxième degré - Q22"
+              %h5.color-title Mathématiques actives dans la formation qualifiante
+              -include "professor/skill/list/panel.haml"
 
-    %br
+            -with stage=3d2 title="Troisième degré - Q32"
+              -include "professor/skill/list/panel.haml"
 
-    .panel.panel-default
-      .panel-heading
-        %b
-          Enseignement de transition
+      %br
 
-      .panel-body
-        -with color="#962424"
-          -with stage=3t title="Troisième année - T3"
-            %h5.color-title{style: "background-color: {{ color }}"} Deuxième degré de transition
-            -include "professor/skill/list/panel.haml"
+      .panel.panel-default
+        .panel-heading
+          %b
+            Enseignement de transition
 
-          -with stage=4t title="Quatrième année - T4"
-            -include "professor/skill/list/panel.haml"
+        .panel-body
+          -with color="#962424"
+            -with stage=3t title="Troisième année - T3"
+              %h5.color-title Deuxième degré de transition
+              -include "professor/skill/list/panel.haml"
 
-        %br
+            -with stage=4t title="Quatrième année - T4"
+              -include "professor/skill/list/panel.haml"
 
-        -with color="#B02459"
-          -with stage=5tb title="Cinquième année - TB5"
-            %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques de base
-            -include "professor/skill/list/panel.haml"
+          %br
 
-          -with stage=6tb title="Sixième année - TB6"
-            -include "professor/skill/list/panel.haml"
+          -with color="#B02459"
+            -with stage=5tb title="Cinquième année - TB5"
+              %h5.color-title Troisième degré de transition - Mathématiques de base
+              -include "professor/skill/list/panel.haml"
 
-        %br
+            -with stage=6tb title="Sixième année - TB6"
+              -include "professor/skill/list/panel.haml"
 
-        -with color="#C991D2"
-          -with stage=5tg title="Cinquième année - TG5"
-            %h5.color-title{style: "background-color: {{ color }}"} Troisième degré de transition - Mathématiques générales
-            -include "professor/skill/list/panel.haml"
+          %br
 
-          -with stage=6tg title="Sixième année - TG6"
-            -include "professor/skill/list/panel.haml"
+          -with color="#C991D2"
+            -with stage=5tg title="Cinquième année - TG5"
+              %h5.color-title Troisième degré de transition - Mathématiques générales
+              -include "professor/skill/list/panel.haml"
 
-    %br
+            -with stage=6tg title="Sixième année - TG6"
+              -include "professor/skill/list/panel.haml"
 
-    .panel.panel-info
-      #global_resources.panel-heading
-        Ressources générales
+      %br
 
-      .panel-body
-        %ul
-          -for gr in global_resources
-            %li
-              %a{href: "{{ MEDIA_URL }}{{ gr.file }}"}
-                =gr.title
-              mis en ligne par
-              =gr.added_by
-              -if gr.added_by == request.user
-                %a.btn.btn-xs.btn-danger.remove-global-resource{href: "{% url 'professor:global_resources_delete' gr.pk %}"}
-                  supprimer
+      .panel.panel-info
+        #global_resources.panel-heading
+          Ressources générales
 
-        #global_resources_form{style: "display: none"}
-          -crispy form
+        .panel-body
+          %ul
+            -for gr in global_resources
+              %li
+                %a{href: "{{ MEDIA_URL }}{{ gr.file }}"}
+                  =gr.title
+                mis en ligne par
+                =gr.added_by
+                -if gr.added_by == request.user
+                  %a.btn.btn-xs.btn-danger.remove-global-resource{href: "{% url 'professor:global_resources_delete' gr.pk %}"}
+                    supprimer
 
-        %button#global_resources_form_show.btn.btn-primary{onclick: "javascript:$(\"#global_resources_form\").show(); $(\"#global_resources_form_show\").hide()"}
-          Rajouter une ressource générale
+          #global_resources_form{style: "display: none"}
+            -crispy form
+
+          %button#global_resources_form_show.btn.btn-primary{onclick: "javascript:$(\"#global_resources_form\").show(); $(\"#global_resources_form_show\").hide()"}
+            Rajouter une ressource générale
 
   :css
     .exercices {
@@ -138,9 +145,11 @@
 
     .color-title {
       padding: 5px;
+      /*
       color: white;
       font-weight: bold;
       text-shadow: 0 0 4px rgba(1, 1, 1, 0.3);
+      */
       margin-top: 0px;
     }
 

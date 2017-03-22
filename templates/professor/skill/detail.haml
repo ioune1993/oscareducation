@@ -24,17 +24,16 @@
 -block content
   %h3
     =skill.name
-    %small
-      =skill.code
-    %br
-      %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-        Ressources
-
   %hr
+  %h4
+    =skill.code
 
   .ligneorange
 
   .container-fluid.boxclassetitle
+    .pull-right
+      %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+        Ressources
 
   .ligneorangefine
 

@@ -15,7 +15,12 @@
 
 -block content
   %h3 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
-    %br
+  %hr
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
+    .pull-right
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
           l'encoder
@@ -25,12 +30,6 @@
       %td.center{width: "20px"}
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk object.pk %}"}
           Effacer
-
-  %hr
-
-  .ligneorange
-
-  .container-fluid.boxclassetitle
 
   .ligneorangefine
 
