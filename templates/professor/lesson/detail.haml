@@ -17,53 +17,64 @@
     =lesson.name
   %hr
 
-  .ligneorange
+  %ul.menu-tabs.nav.orange.nav-tabs
+    %li.active{role: "presentation"}
+      %a{href: "#students"}
+        Mes élèves
+    %li{role: "presentation"}
+      %a{href: "#"}
+        Mes Tests
+    %li{role: "presentation"}
+      %a{href: "#heatmap"}
+        Vue globale de la classe
 
-  .container-fluid.boxclassetitle
-    .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
-        Modifier
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
-        Gérer mes élèves
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-        Tests
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-        Ajouter un test
-      %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
-        Supprimer
+  .tab-content
+    #students.tab-pane.active
+      .ligneorange
 
-  .ligneorangefine
+      .container-fluid.boxclassetitle
+        .pull-right
+          %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
+            Modifier
+          %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
+            Gérer mes élèves
+          %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
+            Tests
+          %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+            Ajouter un test
+          %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
+            Supprimer
 
-  .container-fluid.boxclasse
-    -if lesson.students.count
-      .panel.panel-default
-        .panel-heading
-          Élèves
-          .pull-right
-            Dernier test
-        %ul.list-group
-          -for student in lesson.students.all
-            %li.list-group-item
-              %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
-              .pull-right
-                -with student_test=student.get_last_test
-                  -if student_test
-                    %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk student_test.pk %}"}
-                      =student_test.test
-                    <span class="label {% if not student_test.started_at %}label-warning{% elif not student_test.finished_at %}label-success{% else %}label-info{% endif %}">{{ student_test.get_state }}</span>
-                    -if not student_test.test.running
-                      %span.label.label-danger
-                        clôturé
+      .ligneorangefine
 
-    -else
-      %p
-        %i
-          Vous n'avez pas encore d'élèves dans cette classe.
-        %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
-          Ajouter un élève
-        .
+      .container-fluid.boxclasse
+        -if lesson.students.count
+          .panel.panel-default
+            %ul.list-group
+              -for student in lesson.students.all
+                %li.list-group-item
+                  %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
+                  -#
+                    .pull-right
+                      -with student_test=student.get_last_test
+                        -if student_test
+                          %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk student_test.pk %}"}
+                            =student_test.test
+                          <span class="label {% if not student_test.started_at %}label-warning{% elif not student_test.finished_at %}label-success{% else %}label-info{% endif %}">{{ student_test.get_state }}</span>
+                          -if not student_test.test.running
+                            %span.label.label-danger
+                              clôturé
 
-    -include "professor/lesson/detail/heatmap.haml"
+        -else
+          %p
+            %i
+              Vous n'avez pas encore d'élèves dans cette classe.
+            %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
+              Ajouter un élève
+            .
+
+    #heatmap.tab-pane
+      -include "professor/lesson/detail/heatmap.haml"
 
   -block javascript
     :javascript

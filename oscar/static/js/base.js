@@ -30,3 +30,8 @@ var app = angular.module('oscar', ['ngCookies'])
     .run(function($http, $cookies){
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
     })
+
+$('.menu-tabs a').click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+})

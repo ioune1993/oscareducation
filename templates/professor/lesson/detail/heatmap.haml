@@ -1,63 +1,69 @@
 -load lesson_tags
 
--if number_of_students >= 2
-  %h5 Vue Synthétique
-    .pull-right
-      %a#legend.btn.btn-sm.btn-info{type: "button", data-toggle: "popover", title: "Légende", data-placement: "left"}
-        Légende
-        %div{style: "display: none"}
-          %table.table
-            %tr
-              %td
-                %a.btn.btn-default.skill.mastered_100{type: "button"}
-                  %abbr{title: "", style: "cursor: default; border: none"} &gt; 75%
-              %td
-                des élèves testés maitrisent cette compétence
-            %tr
-              %td
-                %a.btn.btn-default.skill.mastered_75{type: "button"}
-                  %abbr{title: "", style: "cursor: default; border: none"} 50% à 75%
-              %td
-                des élèves testés maitrisent cette compétence
-            %tr
-              %td
-                %a.btn.btn-default.skill.mastered_50{type: "button"}
-                  %abbr{title: "", style: "cursor: default; border: none"} 25% à 50%
-              %td
-                des élèves testés maitrisent cette compétence
-            %tr
-              %td
-                %a.btn.btn-default.skill.mastered_25{type: "button"}
-                  %abbr{title: "", style: "cursor: default; border: none"} &lt; 25%
-              %td
-                des élèves testés maitrisent cette compétence
-            %tr
-              %td
-                %a.btn.btn-default.skill.mastered_not_enough{type: "button"}
-                  %abbr{title: "", style: "cursor: default; border: none"} -
-              %td
-                Il n'y a pas assez d'élèves qui ont été testé
+.ligneorange
 
-  #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
-    -for stage in lesson.stages_in_unchronological_order
-      .panel.panel-default
-        .panel-heading{role: "tab", id: "heading{{ stage.name|slugify }}"}
-          %h4.panel-title
-            %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.name|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.name|slugify }}"}
-              Niveau {{ stage.name }}
-
-        -regroup stage.skills.all by section as sections
+.container-fluid.boxclassetitle
+  .pull-right
+    %a#legend.btn.btn-sm.btn-info{type: "button", data-toggle: "popover", title: "Légende", data-placement: "left"}
+      Légende
+    %div{style: "display: none"}
+      %table.table
+        %tr
+          %td
+            %a.btn.btn-default.skill.mastered_100{type: "button"}
+              %abbr{title: "", style: "cursor: default; border: none"} &gt; 75%
+          %td
+            des élèves testés maitrisent cette compétence
+        %tr
+          %td
+            %a.btn.btn-default.skill.mastered_75{type: "button"}
+              %abbr{title: "", style: "cursor: default; border: none"} 50% à 75%
+          %td
+            des élèves testés maitrisent cette compétence
+        %tr
+          %td
+            %a.btn.btn-default.skill.mastered_50{type: "button"}
+              %abbr{title: "", style: "cursor: default; border: none"} 25% à 50%
+          %td
+            des élèves testés maitrisent cette compétence
+        %tr
+          %td
+            %a.btn.btn-default.skill.mastered_25{type: "button"}
+              %abbr{title: "", style: "cursor: default; border: none"} &lt; 25%
+          %td
+            des élèves testés maitrisent cette compétence
+        %tr
+          %td
+            %a.btn.btn-default.skill.mastered_not_enough{type: "button"}
+              %abbr{title: "", style: "cursor: default; border: none"} -
+          %td
+            Il n'y a pas assez d'élèves qui ont été testé
 
 
-        .panel-collapse.collapse{id: "collapse{{ stage.name|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ stage.name|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
-          .panel-body
-            -for section in sections
-              %h5= section.grouper
+.ligneorangefine
 
-              %ul.heatmap-list
-                -for skill in section.list
-                  %li
-                    %a.btn.btn-default.skill{type: "button", class: "{% get_skill_heatmap_class skills_to_heatmap_class skill %}", href: "{% url 'professor:lesson_skill_detail' lesson.pk skill.code %}"}
-                      %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+.container-fluid.boxclasse
+  -if number_of_students >= 2
+    #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
+      -for stage in lesson.stages_in_unchronological_order
+        .panel.panel-default
+          .panel-heading{role: "tab", id: "heading{{ stage.name|slugify }}"}
+            %h4.panel-title
+              %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.name|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.name|slugify }}"}
+                Niveau {{ stage.name }}
 
-                    =skill.name
+          -regroup stage.skills.all by section as sections
+
+
+          .panel-collapse.collapse{id: "collapse{{ stage.name|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ stage.name|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
+            .panel-body
+              -for section in sections
+                %h5= section.grouper
+
+                %ul.heatmap-list
+                  -for skill in section.list
+                    %li
+                      %a.btn.btn-default.skill{type: "button", class: "{% get_skill_heatmap_class skills_to_heatmap_class skill %}", href: "{% url 'professor:lesson_skill_detail' lesson.pk skill.code %}"}
+                        %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+
+                      =skill.name
