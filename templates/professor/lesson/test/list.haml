@@ -13,8 +13,19 @@
       Liste des tests
 
 -block content
-  %h3 Tests pour la classe {{ lesson.name }}
+  %h3 {{ lesson.name }}
   %hr
+
+  %ul.menu-tabs.nav.orange.nav-tabs
+    %li{role: "presentation"}
+      %a.real-link{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Mes élèves
+    %li.active{role: "presentation"}
+      %a.real-link{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
+        Mes Tests
+    %li{role: "presentation"}
+      %a.real-link{href: "{% url 'professor:lesson_detail' lesson.pk %}#heatmap"}
+        Vue globale de la classe
 
   .ligneorange
 
