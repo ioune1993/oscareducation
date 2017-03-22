@@ -22,8 +22,8 @@
       %b Remarque :
       au moins un élève a commencé le test, il n'est plus possible de changer les exercices
 
-  %h2 Exercices sélectionnés pour le test <i>{{ object.name }}</i>
-    .pull-right
+  %h3 Exercices sélectionnés pour le test <i>{{ object.name }}</i>
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
         Continuer
   %hr

@@ -24,20 +24,15 @@
       supprimer l'élève
 
 -block content
-  %h1
-
-  %hr
-
-  .boxclasse.container-fluid
-    .center
-      %form.form{method: "POST", action: ""}
-        -csrf_token
-        %p
-          %button.btn.btn-danger.btn-lg{type: "submit"}
-            Supprimer l'élève
-            =student.user.first_name
-            =student.user.last_name
-
+  .center
+    %form.form{method: "POST", action: ""}
+      -csrf_token
       %p
-        %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk object.pk %}"}
-          Annuler
+        %button.btn.btn-danger.btn-lg{type: "submit"}
+          Supprimer l'élève
+          =student.user.first_name
+          =student.user.last_name
+
+    %p
+      %a.btn.btn-lg.btn-default{href: "{% url 'professor:lesson_student_detail' lesson.pk object.pk %}"}
+        Annuler

@@ -14,8 +14,8 @@
       =object.name
 
 -block content
-  %h2 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
-    .pull-right
+  %h3 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+    %br
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
           l'encoder
@@ -29,7 +29,7 @@
   %hr
 
   .boxclasse.container-fluid
-    %h3 Compétences sélectionnées
+    %h5 Compétences sélectionnées
     %ul.heatmap-list
       -for skill in object.skills.all
         %li
@@ -38,7 +38,7 @@
 
           =skill.name
 
-    %h3 Résultats par élèves
+    %h5 Résultats par élèves
 
     -if object.testskillfromclass_set.exists
       -regroup object.testskillfromclass_set.all by student as students

@@ -634,6 +634,11 @@ ol.breadcrumb > li:first-child > a {
     background-color: white;
 }
 
-h3 {
-    color: black;
+h3, hr {
+  font-family: minion, serif;
+  text-align: center;
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  color: white;
 }

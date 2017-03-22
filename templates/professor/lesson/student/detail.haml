@@ -35,12 +35,12 @@
 
 -block content
   -with lesson=student.lesson_set.first
-    %h2
+    %h3
       =student.user.first_name|title
       =student.user.last_name|title
       %small
         =student.user.username
-      .pull-right
+      %br
         %a.btn.btn-primary{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
           modifier l'élève
         %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}

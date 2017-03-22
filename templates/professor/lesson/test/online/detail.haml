@@ -14,12 +14,12 @@
       =object.name
 
 -block content
-  %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+  %h3 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
     %small
       -if not test.running
         %span.label.label-danger
           Clôturé
-    .pull-right
+    %br
       %td.center{width: "20px"}
         %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk test.pk %}", method: "post"}
           -csrf_token
@@ -54,7 +54,7 @@
         %b Attention
         : ce test n'est pas entièrement faisable en ligne
 
-    %h3 Compétences sélectionnées
+    %h5 Compétences sélectionnées
     -if not test.fully_testable_online and object.testexercice_testable_offline.exists
       %h4 À évaluer en classe
         %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
@@ -82,7 +82,7 @@
         Il n'y a pas de compétences évaluables en ligne pour ce test.
 
     -if object.prerequisistes
-      %h3 Compétences prérequises
+      %h5 Compétences prérequises
       %ul.heatmap-list
         -for skill in object.prerequisistes
           %li
@@ -91,7 +91,7 @@
 
             =skill.name
 
-    %h3 Réponse des élèves
+    %h5 Réponse des élèves
 
     %table.table.table-bordered
       %thead

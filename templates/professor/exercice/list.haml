@@ -8,8 +8,8 @@
       Questions
 
 -block content
-  %h2 Questions
-    .pull-right
+  %h3 Questions
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
         Ajouter une question
       %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
@@ -19,12 +19,12 @@
   .boxclasse.container-fluid
     -regroup exercice_list by skill.stage_set.first as stages
     -for stage in stages
-      %h3= stage.grouper
+      %h5= stage.grouper
 
       -regroup stage.list by skill as exercices_by_skills
 
       -for skill in exercices_by_skills
-        %h4
+        %h6
           =skill.grouper.code
           %small
             =skill.grouper.name
@@ -38,7 +38,7 @@
                 %span.label.label-warning
                   en attente d'approbation
 
-    %h2 Compétences sans questions
+    %h3 Compétences sans questions
 
     %ul
       -for skill in skills_without_exercices

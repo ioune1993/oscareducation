@@ -20,11 +20,11 @@
 
 -block content
   -if test_exercice.test.can_change_exercice
-    %h2 Changer l'exercice pour la compétence {{ test_exercice.skill }}
+    %h3 Changer l'exercice pour la compétence {{ test_exercice.skill }}
     %hr
 
     -if test_exercice.exercice
-      %h3 Exercice actuellement sélectionné
+      %h5 Exercice actuellement sélectionné
       %hr
 
       .panel.panel-primary
@@ -47,7 +47,9 @@
             -include "professor/exercice/exercice_with_answers_rendering.haml"
     -else
       .boxclasse.container-fluid
-        %h3 Il n'y a pas d'exercice sélectionné pour cette compétence
+        %p
+          %i
+            Il n'y a pas d'exercice sélectionné pour cette compétence
 
     %h3 Exercices disponibles
     %hr

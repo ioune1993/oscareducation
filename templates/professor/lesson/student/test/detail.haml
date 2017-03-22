@@ -20,8 +20,8 @@
       =student_test.test.name
 
 -block content
-  %h2 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
-    .pull-right
+  %h3 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}"}
         Test
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_detail' lesson.pk student_test.student.pk %}"}
@@ -31,7 +31,7 @@
   .boxclasse.container-fluid
     -if student_test.started_at
       -if not student_test.fully_testable_online
-        %h3 Réponse des questions en ligne
+        %h5 Réponse des questions en ligne
       %table.table.table-bordered
         %colgroup
           %col{width: "20%"}
@@ -140,7 +140,7 @@
       %p L'élève n'a pas encore commencé le test en ligne.
 
     -if not student_test.test.fully_testable_online
-      %h3 Réponse des questions hors ligne
+      %h5 Réponse des questions hors ligne
         %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
           imprimer les questions
         %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk student_test.test.pk %}"}

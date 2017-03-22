@@ -8,8 +8,8 @@
       Questions
 
 -block content
-  %h2 Questions non approuvées
-    .pull-right
+  %h3 Questions non approuvées
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
         Ajouter une question
       %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
@@ -20,7 +20,7 @@
     -regroup exercice_list by skill as exercices_by_skills
 
     -for skill in exercices_by_skills
-      %h3
+      %h4
         =skill.grouper.code
         %small
           =skill.grouper.name

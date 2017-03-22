@@ -22,19 +22,17 @@
   %script{src: "{% static 'js/mermaid.full.js' %}"}
 
 -block content
-  %h2
+  %h3
     =skill.name
     %small
       =skill.code
-    .pull-right
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
         Ressources
 
   %hr
 
   .boxclasse.container-fluid
-    .row
-      .col-md-9
         %p
           %b Rubrique:
           =skill.section
@@ -102,8 +100,8 @@
 
         -block after
 
-      .col-md-3
-        -#
+      -#
+        .col-md-3
           -if skill.skill_set.exists or skill.depends_on.exists
             .mermaid{style: "color: white"}
               graph BT;

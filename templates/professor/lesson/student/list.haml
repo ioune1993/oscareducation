@@ -16,11 +16,12 @@
 
 -block content
   %h3 Élèves de {{ lesson.name }}
-    .pull-right
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
         ajouter des élèves
       %a.btn.btn-danger{href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
         générer les mots de passe pour toute la classe
+  %hr
 
   .boxclasse.container-fluid
     -if lesson.students.count

@@ -14,8 +14,10 @@
 
 -block content
   %h3 Tests pour la classe {{ lesson.name }}
-    %a.btn.btn-primary.pull-right{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-      Ajouter un test
+    %br
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+        Ajouter un test
+  %hr
 
   .boxclasse.container-fluid
     -if all_tests.exists
