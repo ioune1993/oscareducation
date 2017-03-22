@@ -115,13 +115,14 @@ ul.orange > li.inactive > a
     border: 0;
 }
 
-ul.orange > li.active
+ul.orange > li > a
 {
     font-family:minion, serif;
     font-size: 17px;
     color:white;
-    margin-left: 20px;
-    background:#f58025;
+    background:#9D9D9D;
+    border-radius: 0px;
+    border: 0
 }
 
 ul.orange > li.active > a
@@ -130,7 +131,17 @@ ul.orange > li.active > a
     font-size: 17px;
     color:white;
     background:#f58025;
+    border-radius: 0px;
     border: 0
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover,
+.nav-tabs > li > a, .nav-tabs > li > a:focus, .nav-tabs > li > a:hover
+{
+    border: 0;
+    cursor: pointer;
+    background-color: #f58025;
+    color: white;
 }
 
 .center.orange.nav-tabs {
@@ -139,8 +150,18 @@ ul.orange > li.active > a
 
 .nav-tabs
 {
-    width: 80%;
-    margin-left: 10%;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}
+
+.nav-tabs > li {
+    float: none;
+    margin-bottom: 0px;
+}
+
+.nav > li {
+    display: inline-block;
 }
 
 /* Onglet intérieur */
