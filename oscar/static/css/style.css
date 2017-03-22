@@ -47,6 +47,10 @@ a {
     color: #f58025;
 }
 
+a:hover, a:focus {
+    color: #f58025;
+}
+
 /* Buttons */
 
 .btn-circle {
