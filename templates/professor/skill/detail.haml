@@ -7,7 +7,6 @@
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     -if lesson
-      %li= lesson.stage.name
       %li
         %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
           Classe

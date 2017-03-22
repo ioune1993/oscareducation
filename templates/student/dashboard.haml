@@ -6,7 +6,6 @@
 -block breadcrumb
   -with lesson=user.student.lesson_set.first
     %ol.breadcrumb
-      %li= lesson.stage.name
       %li.active
         Classe
         =lesson.name
