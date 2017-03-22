@@ -689,3 +689,7 @@ border-top-right-radius: 0px;
 hr {
 border-color: #f58025;
 }
+
+ol.breadcrumb a {
+    color: white;
+}
