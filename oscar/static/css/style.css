@@ -642,3 +642,7 @@ h3, hr {
   margin-right: auto;
   color: white;
 }
+
+.btn, .btn-xs, .btn-lg, .btn-sm {
+    border-radius: 0px;
+}
