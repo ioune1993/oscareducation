@@ -651,7 +651,7 @@ h3, hr {
     border-radius: 0px;
 }
 
-.list-group-item:first-child {
+.list-group-item:first-child, .panel-heading {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
 }
