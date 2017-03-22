@@ -646,3 +646,22 @@ h3, hr {
 .btn, .btn-xs, .btn-lg, .btn-sm {
     border-radius: 0px;
 }
+
+.form-control, .label, .well, .list-group-item, .badge {
+    border-radius: 0px;
+}
+
+.list-group-item:first-child {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.list-group-item:last-child {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.list-group-item {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
