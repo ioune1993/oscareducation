@@ -28,6 +28,12 @@
 
   %hr
 
+  .ligneorange
+
+  .container-fluid.boxclassetitle
+
+  .ligneorangefine
+
   .boxclasse.container-fluid
     %h5 Compétences sélectionnées
     %ul.heatmap-list
@@ -62,5 +68,6 @@
 
     -else
       %p Vous n'avez pas encore encodé cette évaluation libre.
-      %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
-        Le faire maintenant.
+      %p
+        %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
+          Le faire maintenant.
