@@ -22,7 +22,7 @@
       %a{href: "#students"}
         Mes élèves
     %li{role: "presentation"}
-      %a{href: "#"}
+      %a.real-link{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
         Mes Tests
     %li{role: "presentation"}
       %a{href: "#heatmap"}
