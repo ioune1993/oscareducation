@@ -38,10 +38,6 @@
             Modifier
           %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
             Gérer mes élèves
-          %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-            Tests
-          %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-            Ajouter un test
           %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
             Supprimer
 
