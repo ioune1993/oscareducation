@@ -718,3 +718,7 @@ hr {
 ol.breadcrumb a {
     color: white;
 }
+
+body {
+    font-family: Open Sans;
+}
