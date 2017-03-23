@@ -259,6 +259,12 @@ ul.orange > li.active > a
     padding-top: 50px;
 }
 
+.centralcontainer-student {
+    margin-top: 10px;
+    width: 80%;
+}
+
+
 body {
     color: black;
     background-color: black;
@@ -721,4 +727,16 @@ ol.breadcrumb a {
 
 body {
     font-family: Open Sans;
+}
+
+.boxclassetitle h5 {
+    margin: 0;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.centralcontainer-student table td:nth-child(2) a {
+    color: #aaa;
 }
