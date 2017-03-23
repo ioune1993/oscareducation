@@ -37,6 +37,10 @@
     %h3
       =student.user.first_name|title
       =student.user.last_name|title
+      %a{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
+        %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+      %a{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+        %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
     %hr
     %h4
       =student.user.username
@@ -55,14 +59,6 @@
     .ligneorange
 
     .container-fluid.boxclassetitle
-      .pull-right
-        %a.btn.btn-primary{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
-          modifier l'élève
-        %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
-          gérer mes élèves
-        %a.btn.btn-danger{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
-          supprimer l'élève
-
 
     .ligneorangefine
 

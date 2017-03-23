@@ -15,6 +15,11 @@
 -block content
   %h3
     =lesson.name
+    .pull-right
+      %a{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
+        %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+      %a{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+        %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
   %hr
 
   %ul.menu-tabs.nav.orange.nav-tabs

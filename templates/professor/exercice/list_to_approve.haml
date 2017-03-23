@@ -1,4 +1,5 @@
 -extends "base.haml"
+-load static
 
 -block breadcrumb
   %ol.breadcrumb
@@ -15,10 +16,10 @@
 
   .container-fluid.boxclassetitle
     .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        Ajouter une question
-      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
-        Compétences et ressources
+      %a{href: "{% url 'professor:exercice_validation_form' %}"}
+        %img.icon{src: "{% static 'img/icons/add.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Ajouter une question"}
+      %a{href: "{% url 'professor:skill_list' %}"}
+        %img.icon{src: "{% static 'img/icons/ressource.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Compétences et ressources"}
 
   .ligneorangefine
 

@@ -688,7 +688,7 @@ ol.breadcrumb > li:first-child > a {
 h3, hr {
     font-family: minion, serif;
     text-align: center;
-    width: 350px;
+    width: 400px;
     margin-left: auto;
     margin-right: auto;
     color: white;
@@ -758,4 +758,24 @@ body {
 
 .icon.new-class {
     background-image: url(/static/img/icons/add-class.png);
+}
+
+.btn-primary {
+    background-color: #f58025;
+    border-color: #d86e1c;
+}
+
+.btn-primary:focus, .btn-primary:hover, .btn-primary:active {
+    background-color: #ff9746;
+    border-color: #f58025;
+}
+
+img.icon {
+    display: inline;
+    width: auto;
+}
+
+h3 img.icon {
+    height: 24px;
+    width: auto;
 }

@@ -1,5 +1,7 @@
 -extends "base.haml"
 
+-load static
+
 -block breadcrumb
   %ol.breadcrumb
     %li
@@ -20,6 +22,9 @@
     =exercice.id
     sur
     =exercice.skill.code
+    -if user.is_superuser or exercice.added_by == user
+      %a{href: "{% url 'professor:exercice_update' exercice.id %}"}
+        %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
   %hr
   %h4
     =exercice.skill.name
@@ -29,9 +34,6 @@
 
   .container-fluid.boxclassetitle
     .pull-right
-      -if user.is_superuser or exercice.added_by == user
-        %a.btn.btn-sm.btn-success{href: "{% url 'professor:exercice_update' exercice.id %}"}
-          Éditer
       %a.btn.btn-sm.btn-primary{href: "{% url 'professor:exercice_list' %}"}
         Voir toutes les questions
 
