@@ -35,3 +35,7 @@ $('.menu-tabs a').not(".real-link").click(function (e) {
   e.preventDefault()
   $(this).tab('show')
 })
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
