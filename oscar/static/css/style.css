@@ -740,3 +740,22 @@ body {
 .centralcontainer-student table td:nth-child(2) a {
     color: #aaa;
 }
+
+.icon {
+    width: 34px;
+    height: 24px;
+    display: block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+}
+
+.icon.logout {
+    background-image: url(/static/img/icons/logout.png);
+    padding-top: 22px;
+    background-size: 24px 24px;
+}
+
+.icon.new-class {
+    background-image: url(/static/img/icons/add-class.png);
+}

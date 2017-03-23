@@ -39,13 +39,13 @@
               <span style="color: #F58025">O</span>scar
           %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             %li
-              %a{href: "{% url 'logout' %}"}
-                %img{src: "images/ico.logout.png"}
+              %a.icon.logout{href: "{% url 'logout' %}"}
+                -#%img{src: "{% static 'img/icons/logout.png' %}"}
           #toCollapse.collapse.navbar-collapse
             %ul.nav.navbar-nav.hidden-md.hidden-lg
               %li
-                %a{href: "{% url 'logout' %}"}
-                  %img{src: "images/ico.logout.png"}
+                %a.icon.logout{href: "{% url 'logout' %}"}
+                  -# %img{src: "{% static 'img/icons/logout.png' %}"}
 
     -block breadcrumb
 
