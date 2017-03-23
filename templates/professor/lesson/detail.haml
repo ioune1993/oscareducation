@@ -16,9 +16,9 @@
   %h3
     =lesson.name
     .pull-right
-      %a{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
+      %a{href: "{% url 'professor:lesson_update' lesson.pk %}"}
         %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
-      %a{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+      %a{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
         %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
   %hr
 
@@ -39,22 +39,33 @@
 
       .container-fluid.boxclassetitle
         .pull-right
-          %a.btn.btn-primary{href: "{% url 'professor:lesson_update' lesson.pk %}"}
-            Modifier
-          %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
-            Gérer mes élèves
-          %a.btn.btn-danger{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
-            Supprimer
+          -#
+            %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
+              Gérer mes élèves
+          %a{href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
+            %img.icon{src: "{% static 'img/icons/multy-mdp.png' %}", data-toggle: "tooltip", data-placement: "top", title: "générer les mots de passe pour toute la classe"}
+          %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
+            %img.icon{src: "{% static 'img/icons/add-student.png' %}", data-toggle: "tooltip", data-placement: "top", title: "ajouter des élèves"}
 
       .ligneorangefine
 
       .container-fluid.boxclasse
         -if lesson.students.count
           .panel.panel-default
-            %ul.list-group
+            %table.table
               -for student in lesson.students.all
-                %li.list-group-item
-                  %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
+                %tr
+                  %td{width: "220px"}
+                    %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
+                    .pull-right
+                      %a{href: "{% url 'professor:lesson_delete' lesson.pk %}"}
+                        %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier l´élève"}
+                      %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
+                        %img.icon{src: "{% static 'img/icons/detail.png' %}", data-toggle: "tooltip", data-placement: "top", title: "détails de l´élève"}
+                  %td
+                    .pull-right
+                      %a{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+                        %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
                   -#
                     .pull-right
                       -with student_test=student.get_last_test

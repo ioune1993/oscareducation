@@ -779,3 +779,7 @@ h3 img.icon {
     height: 24px;
     width: auto;
 }
+
+td img.icon {
+    height: 17px;
+}

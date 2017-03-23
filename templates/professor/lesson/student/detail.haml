@@ -116,18 +116,20 @@
 
         #recommandedSkills.tab-pane
           -if student.has_recommanded_skills
-            -for stage in lesson.stages_in_unchronological_order
-              -get_students_skills of student at stage as "student_skills"
-              -for student_skill in student_skills
-                -if student_skill.recommanded_to_learn
-                  %ul.legend-list
-                    %li.legend
-                      %a.right-space{type: "button", style: "border: black solid;", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
-                        =student_skill.skill.code
-                      %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
-                        {{ student_skill.skill.name }}
-          -else
-            %p L'élève n'a pas encore de compétences recommandées.
+            %table.table
+              -for stage in lesson.stages_in_unchronological_order
+                -get_students_skills of student at stage as "student_skills"
+                -for student_skill in student_skills
+                  -if student_skill.recommanded_to_learn
+                    %tr
+                      %td.center
+                        %a.right-space{type: "button", style: "border: black solid; width: 120px", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
+                          =student_skill.skill.code
+                      %td
+                        %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
+                          {{ student_skill.skill.name }}
+            -else
+              %p L'élève n'a pas encore de compétences recommandées.
 
         #heatmap.tab-pane
           #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
