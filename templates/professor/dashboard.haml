@@ -28,9 +28,7 @@
       .ligneorangefine
 
       .container-fluid.boxclasse
-        %table.table.table-hover
+        .list-group
           -for lesson in lessons
-            %tr
-              %td
-                %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-                  =lesson.name|capfirst
+            %a.list-group-item{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+              =lesson.name|capfirst
