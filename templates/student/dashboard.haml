@@ -27,8 +27,10 @@
                 -regroup student_skills by skill.section as sections
                 -for section in sections
                   .panel.panel-default
-                    .panel-heading
+                    .panel-heading.student-section-round
                       =section.grouper
+                      -with student_skill=section.list|first
+                        %i.round-section-icon{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
 
                   %table.table-hover.table
                     -for student_skill in section.list

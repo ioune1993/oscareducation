@@ -812,3 +812,18 @@ h3.popover-title {
 .align-right {
     text-align: right;
 }
+
+.student-section-round {
+    position: relative;
+    padding-left: 34px;
+}
+
+.round-section-icon {
+    position: absolute;
+    left: -18px;
+    background-color: #f58025;
+    padding: 15px;
+    border-radius: 500px;
+    top: -1px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
+}
