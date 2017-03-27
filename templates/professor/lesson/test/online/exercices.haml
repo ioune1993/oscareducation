@@ -31,7 +31,7 @@
   -for test_exercice in object.testexercice_set.all
     .panel.panel-default
       %a.anchor{name: "{{ test_exercice.id }}"}
-      .panel-heading
+      .panel-heading.subpanel
         Exercice n°
         =test_exercice.exercice.id
         sur
