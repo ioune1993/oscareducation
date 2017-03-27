@@ -33,7 +33,7 @@ from examinations.validate import validate_exercice_yaml_structure
 
 from .models import Lesson, Student, Stage
 from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm, ResourceForm, ResourceLinkForm, ResourceFileForm
-from .utils import generate_random_password, user_is_professor
+from .utils import generate_random_password, user_is_professor, force_encoding
 
 
 @user_is_professor
@@ -372,7 +372,7 @@ def update_pedagogical_ressources(request, slug):
                     number = i.split("_")[-1]
                     rff = ResourceFileForm({
                         "resource": resource.pk,
-                        "title": request.POST["file_title_" + number],
+                        "title": force_encoding(request.POST["file_title_" + number]),
                         "kind": request.POST["file_kind_" + number],
                         "added_by": request.user.pk,
                     },{
