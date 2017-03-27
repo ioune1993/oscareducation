@@ -253,7 +253,7 @@ ul.orange > li.active > a
 
 
 .fond {
-    background-image: url(http://i66.tinypic.com/21jdflg.png);
+    background-image: url(/static/img/fond-prof-point-noir.png);
     background-attachment: fixed;
     background-repeat: repeat;
     padding-top: 50px;
@@ -268,7 +268,7 @@ ul.orange > li.active > a
 body {
     color: black;
     background-color: black;
-    background-image: url(http://i65.tinypic.com/hugbr4.jpg);
+    background-image: url(/static/img/fond-prof.png);
     background-attachment:fixed;
     background-repeat: no-repeat;
     background-size: cover;
