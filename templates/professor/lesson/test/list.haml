@@ -1,4 +1,5 @@
 -extends "base.haml"
+-load static
 
 -block breadcrumb
   %ol.breadcrumb
@@ -31,8 +32,9 @@
 
   .container-fluid.boxclassetitle
     .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-        Ajouter un test
+      %a{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
+        %img.icon{src: "{% static 'img/icons/add.png' %}", data-toggle: "tooltip", data-placement: "top", title: "ajouter un test"}
+
 
   .ligneorangefine
 
@@ -47,47 +49,47 @@
 
             -if basetest.test
               %td{width: "8px"}
-                %i.fa.fa-desktop{title: "test en ligne"}
+                %small Numérique
               %td
                 %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
                   =basetest
+              %td
                 -if not basetest.test.running
                   %span.label.label-danger
                     Clôturé
-              %td.center{width: "20px"}
-                %form{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
+
+              %td.align-right
+                %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
                   -csrf_token
-                  %button.btn.btn-sm.btn-default{type: "submit"}
+                  %button.hidden-button{type: "submit", data-toggle: "tooltip", data-placement: "top", title: "{% if basetest.test.running %}clôturer{% else %}rendre disponible{% endif %}"}
                     -if basetest.test.running
-                      Clôturer
+                      %img.icon{src: "{% static 'img/icons/not-available.png' %}"}
                     -else
-                      Rendre disponible
-              %td.center{width: "20px"}
-                %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
-                  Modifier
-              %td.center{width: "20px"}
-                %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
-                  Supprimer
+                      %img.icon{src: "{% static 'img/icons/accessible.png' %}"}
+                %a{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
+                  %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+                %a{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
+                  %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
 
             -else
               %td{width: "8px"}
-                %i.fa.fa-commenting-o{title: "évaluation libre"}
+                %small Papier
               %td
                 %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk basetest.pk %}"}
                   =basetest
+              %td
                 -if not basetest.testfromclass.testskillfromclass_set.exists
                   %span.label.label-warning
                     pas encore encodé
-              %td.center{width: "20px"}
+
+              %td.align-right
                 -if not basetest.testfromclass.testskillfromclass_set.exists
-                  %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
-                    L'encoder
-              %td.center{width: "20px"}
-                %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
-                  Modifier
-              %td.center{width: "20px"}
-                %a.btn.btn-sm.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
-                  Supprimer
+                  %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
+                    %img.icon{src: "{% static 'img/icons/encode.png' %}", data-toggle: "tooltip", data-placement: "top", title: "l´encoder"}
+                %a{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
+                  %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+                %a{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
+                  %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
 
     -else
       %p

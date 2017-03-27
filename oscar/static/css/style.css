@@ -798,3 +798,17 @@ h3.popover-title {
     border-radius: 0;
     padding: 0px;
 }
+
+.hidden-button {
+    border: 0;
+    background-color: transparent;
+    padding: 0;
+}
+
+.inline {
+    display: inline;
+}
+
+.align-right {
+    text-align: right;
+}
