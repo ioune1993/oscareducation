@@ -787,3 +787,14 @@ td img.icon {
 .panel-heading.subpanel {
     background-color: #ffc179;
 }
+
+h3.popover-title {
+    width: auto;
+    background-color: #f58025;
+    border-radius: 0;
+}
+
+.popover {
+    border-radius: 0;
+    padding: 0px;
+}
