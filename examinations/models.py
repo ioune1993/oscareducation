@@ -341,7 +341,7 @@ class TestStudent(models.Model):
     def test_exercice_answer_for_offline_test(self):
         answers = {x.test_exercice: x for x in self.answer_set.all().select_related("test_exercice")}
 
-        return [(x, answers.get(x)) for x in TestExercice.objects.filter(test=self.test, testable_online=False)]
+        return [(x, answers.get(x)) for x in TestExercice.objects.filter(test=self.test, testable_online=False, exercice__isnull=False)]
 
     def has_offline_answers(self):
         return self.answer_set.filter(test_exercice__testable_online=False).exists()
