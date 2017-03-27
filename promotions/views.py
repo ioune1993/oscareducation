@@ -358,7 +358,7 @@ def update_pedagogical_ressources(request, slug):
                     rlf = ResourceLinkForm({
                         "resource": resource.pk,
                         "link": link,
-                        "title": title,
+                        "title": force_encoding(title),
                         "kind": request.POST["link_kind_" + number],
                         "added_by": request.user.pk,
                     })
