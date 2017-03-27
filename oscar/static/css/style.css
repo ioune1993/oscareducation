@@ -239,7 +239,7 @@ ul.orange > li.active > a
 /* container */
 
 .centralcontainer {
-    margin-top: 10px;
+    margin-top: 50px;
     width: 800px;
 }
 
@@ -260,7 +260,7 @@ ul.orange > li.active > a
 }
 
 .centralcontainer-student {
-    margin-top: 10px;
+    margin-top: 50px;
     width: 80%;
 }
 
