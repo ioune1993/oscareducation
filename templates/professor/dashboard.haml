@@ -32,3 +32,6 @@
           -for lesson in lessons
             %a.list-group-item{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
               =lesson.name|capfirst
+
+          -empty
+            Vous n'avez pas encore de classe, <a href="{% url 'professor:lesson_add' %}">cliquez ici pour en ajouter une</a>.
