@@ -783,3 +783,7 @@ h3 img.icon {
 td img.icon {
     height: 17px;
 }
+
+.panel-heading.subpanel {
+    background-color: #ffc179;
+}
