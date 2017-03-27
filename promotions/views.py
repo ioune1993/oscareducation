@@ -484,7 +484,7 @@ def validate_student_skill(request, lesson_pk, student_skill):
         reason_object=lesson,
     )
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
 
 
 @require_POST
@@ -501,7 +501,7 @@ def unvalidate_student_skill(request, lesson_pk, student_skill):
         reason_object=lesson,
     )
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
 
 
 @require_POST
@@ -518,7 +518,7 @@ def default_student_skill(request, lesson_pk, student_skill):
         reason_object=lesson,
     )
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#skills")
+    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
 
 
 @user_is_professor

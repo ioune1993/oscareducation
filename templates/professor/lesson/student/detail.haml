@@ -171,3 +171,14 @@
                                     %form{action: "{% url 'professor:default_student_skill' lesson.pk student_skill.id %}", method: "post"}
                                       -csrf_token
                                       %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
+
+
+  :javascript
+    $(function() {
+      if (document.location.hash) {
+          hash = document.location.hash;
+          document.location.hash = '';
+          console.log(hash);
+          $('.nav-tabs a[href="' + hash + '"]').tab('show');
+      }
+    })
