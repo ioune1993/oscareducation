@@ -64,9 +64,12 @@
                   %label.control-label= stage.name
                   .form-group
                     %select.form-control{ng-model: "stage{{ stage.id }}SelectedSkill"}
-                      -for skill in stage.skills.all reversed
-                        %option{value: "{{ skill.code }}", id: "{{ skill.code }}"}
-                          {{ skill.code }} - {{ skill.name }}
+                      -regroup stage.skills.all by section as sections
+                      -for section in sections
+                        %optgroup{label: "{{ section.grouper }}"}
+                          -for skill in section.list reversed
+                            %option{value: "{{ skill.code }}", id: "{{ skill.code }}"}
+                              {{ skill.code }} - {{ skill.name }}
 
                 .form-group
                   %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})", id: "addSkillToTestButtonForStage{{ stage.id }}"}
