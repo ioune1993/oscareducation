@@ -98,4 +98,11 @@
         $('#legend').each(function(index, node) {
           node.setAttribute("data-content", node.nextSibling.nextSibling.innerHTML);
         })
+
+        if (document.location.hash) {
+            hash = document.location.hash;
+            document.location.hash = '';
+            console.log(hash);
+            $('.nav-tabs a[href="' + hash + '"]').tab('show');
+        }
       })
