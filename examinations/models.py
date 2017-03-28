@@ -197,6 +197,9 @@ class Exercice(models.Model):
             result_answer["answer_cleaned"] = answer
 
             if value["type"] == "text":
+                if isinstance(answer, (int, float)):
+                    answer = str(answer)
+
                 result_answer["correct_answers"] = [unicode(x).lower().strip().encode("Utf-8") for x in value["answers"]]
                 if answer not in [x.replace(" ", "") for x in result_answer["correct_answers"]]:
                     result_answer["correct"] = False
