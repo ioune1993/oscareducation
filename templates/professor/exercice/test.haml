@@ -64,7 +64,7 @@
                                         %li= j
                                   %td{width: "50%"}
                                     %ul
-                                      -for j in answer.correct
+                                      -for j in answer.correct_answers
                                         %li= j
                               -elif answer.type == "text"
                                 %tr
@@ -72,7 +72,7 @@
                                     =answer.answer
                                   %td{width: "50%"}
                                     %ul
-                                      -for j in answer.correct
+                                      -for j in answer.correct_answers
                                         %li= j
                               -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
                                 %tr
@@ -84,7 +84,7 @@
                                     (code latex : <code>{{ answer.answer }})
                                   %td{width: "50%"}
                                     %ul
-                                      -for j in answer.correct
+                                      -for j in answer.correct_answers
                                         %li
                                           \\(
                                           =j
