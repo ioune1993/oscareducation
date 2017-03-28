@@ -882,3 +882,8 @@ img.icon.student-skill {
 .navbar-inner .container {
     position: relative;
 }
+
+h4 a:hover, h4 a:active, h4 a:focus {
+    color: #333;
+    text-decoration: none;
+}
