@@ -193,17 +193,17 @@ class Exercice(models.Model):
 
             answer = answers.get(str(number))
             result_answer["answer"] = answer
-            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
+            answer = answer.strip().replace(" ", "").lower().encode("Utf-8") if isinstance(answer, basestring) else answer
             result_answer["answer_cleaned"] = answer
 
             if value["type"] == "text":
                 result_answer["correct_answers"] = [unicode(x).lower().strip().encode("Utf-8") for x in value["answers"]]
-                if answer not in result_answer["correct_answers"]:
+                if answer not in [x.replace(" ", "") for x in result_answer["correct_answers"]]:
                     result_answer["correct"] = False
 
             elif value["type"].startswith("math"):
-                result_answer["correct_answers"] = [unicode(x).strip().encode("Utf-8") for x in value["answers"]]
-                if answer not in result_answer["correct_answers"]:
+                result_answer["correct_answers"] = [unicode(x).strip().lower().encode("Utf-8") for x in value["answers"]]
+                if answer not in [x.replace(" ", "") for x in result_answer["correct_answers"]]:
                     result_answer["correct"] = False
 
             elif value["type"] == "radio":
