@@ -130,6 +130,8 @@
                     -if student_skill.recommanded_to_learn
                       %tr.legend-list
                         %td.legend
+                          %i.round-section-icon.recommended{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+                        %td.legend
                           %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
                         %td
                           %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}

@@ -831,3 +831,13 @@ h3.popover-title {
 img.icon.student-skill {
     height: 30px;
 }
+
+.round-section-icon.recommended {
+    left: -36px;
+    padding: 12px;
+    top: 3px;
+    color: white;
+    width: 40px;
+    text-align: center;
+    position: initial;
+}
