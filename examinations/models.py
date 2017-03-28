@@ -197,12 +197,12 @@ class Exercice(models.Model):
             result_answer["answer_cleaned"] = answer
 
             if value["type"] == "text":
-                result_answer["correct_answers"] = [unicode(x).lower().strip() for x in value["answers"]]
+                result_answer["correct_answers"] = [unicode(x).lower().strip().encode("Utf-8") for x in value["answers"]]
                 if answer not in result_answer["correct_answers"]:
                     result_answer["correct"] = False
 
             elif value["type"].startswith("math"):
-                result_answer["correct_answers"] = [unicode(x).strip() for x in value["answers"]]
+                result_answer["correct_answers"] = [unicode(x).strip().encode("Utf-8") for x in value["answers"]]
                 if answer not in result_answer["correct_answers"]:
                     result_answer["correct"] = False
 
