@@ -58,7 +58,7 @@
               Cet exercice devra être testé hors ligne
 
           -if test_exercice.exercice.content
-            .well
+            .well.exercice-content
               =test_exercice.exercice.content|safe
 
           -for label, question in test_exercice.exercice.get_questions.items
