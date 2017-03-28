@@ -219,8 +219,8 @@ class Exercice(models.Model):
                 # first we need to get all student answer and all good answers
                 for subnumber, graph_answers in enumerate(value["answers"]):
                     if graph_answers["graph"]["type"] == "point":
-                        X = answers["graph-%s-point-%s-X" % (number, subnumber)]
-                        Y = answers["graph-%s-point-%s-Y" % (number, subnumber)]
+                        X = answers.get("graph-%s-point-%s-X" % (number, subnumber), "")
+                        Y = answers.get("graph-%s-point-%s-Y" % (number, subnumber), "")
 
                         X = int(X) if X.isdigit() else None
                         Y = int(Y) if Y.isdigit() else None
@@ -253,7 +253,14 @@ class Exercice(models.Model):
                 result_answer["correct"] = all([x["correct"] for x in result_answer["answers"]])
 
             elif value["type"] == "checkbox":
-                checkbox_answers = answers.getlist(str(number))
+                # this case is only for the verication script
+                if not hasattr(answers, "getlist"):
+                    checkbox_answers = answers.get(str(number), [])
+                    if not isinstance(checkbox_answers, list):
+                        checkbox_answers = [checkbox_answers]
+                else:
+                    checkbox_answers = answers.getlist(str(number))
+
                 result_answer["correct_answers"] = value["answers"]
                 for checkbox_number, is_correct in enumerate(value["answers"].values()):
                     if is_correct and str(checkbox_number) not in checkbox_answers:
