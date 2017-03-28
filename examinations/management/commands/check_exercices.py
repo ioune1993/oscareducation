@@ -21,6 +21,10 @@ class Command(BaseCommand):
                             assert exercice.check_answers({
                                 str(number): answer
                             })["answers"][number]["correct"] == True
+
+                        assert exercice.check_answers({
+                            str(number): "this is not a valid answer"
+                        })["answers"][number]["correct"] == False
                     elif answers["type"] == "checkbox":
                         pass
                     elif answers["type"] == "graph":
