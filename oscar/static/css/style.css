@@ -841,3 +841,10 @@ img.icon.student-skill {
     text-align: center;
     position: initial;
 }
+
+.fond.fond-student {
+    background-image: url(/static/img/fond-student.jpg);
+    background-attachment:fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

@@ -25,7 +25,7 @@
 
 
 -block bootstrap3_content
-  .fond
+  %div{class: "fond {% if user.student %}fond-student{% endif %}"}
     .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
       .navbar-inner
         .container
