@@ -70,7 +70,7 @@
                 -elif not answer.automatic
                   %table.full-width
                     %tr
-                      %td{colspan: 2}
+                      %td.exercice-content{colspan: 2}
                         -if answer.test_exercice.exercice.content
                           %i= answer.test_exercice.exercice.content|safe
                     -for question, subanswer in answer.get_answers.items
