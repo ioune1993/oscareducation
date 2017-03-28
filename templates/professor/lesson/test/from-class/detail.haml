@@ -4,7 +4,6 @@
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= object.lesson.stage.name
     %li
       %a{href: "{% url 'professor:lesson_detail' object.lesson.id %}"}
         Classe
