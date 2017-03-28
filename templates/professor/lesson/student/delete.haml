@@ -5,12 +5,11 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     -with lesson=student.lesson_set.first
       %li
         %a{href: "{% url 'professor:dashboard' %}"} Oscar
-      %li= lesson.stage.name
       %li
         %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
           Classe
@@ -23,10 +22,7 @@
     %li.active
       supprimer l'élève
 
-  %h1
-
-  %hr
-
+-block content
   .center
     %form.form{method: "POST", action: ""}
       -csrf_token

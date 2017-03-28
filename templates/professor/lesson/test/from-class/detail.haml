@@ -1,10 +1,9 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= object.lesson.stage.name
     %li
       %a{href: "{% url 'professor:lesson_detail' object.lesson.id %}"}
         Classe
@@ -13,7 +12,13 @@
       Évaluation libre
       =object.name
 
-  %h2 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+-block content
+  %h3 Évaluation libre <i>{{ object.name }}</i>  pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+  %hr
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
     .pull-right
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
@@ -25,40 +30,42 @@
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk object.pk %}"}
           Effacer
 
-  %hr
+  .ligneorangefine
 
-  %h3 Compétences sélectionnées
-  %ul.heatmap-list
-    -for skill in object.skills.all
-      %li
-        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
-          %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+  .boxclasse.container-fluid
+    %h5 Compétences sélectionnées
+    %ul.heatmap-list
+      -for skill in object.skills.all
+        %li
+          %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
+            %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
-        =skill.name
+          =skill.name
 
-  %h3 Résultats par élèves
+    %h5 Résultats par élèves
 
-  -if object.testskillfromclass_set.exists
-    -regroup object.testskillfromclass_set.all by student as students
+    -if object.testskillfromclass_set.exists
+      -regroup object.testskillfromclass_set.all by student as students
 
-    %table.table.table-bordered
-      %thead
-        %th{width: "20%"}
-          Élève / Compétences
-        -for i in object.skills.all
-          %th.center
-            =i.code
-            %br
-            =i.name
-      -for student in students
-        %tr
-          %td
-            %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.grouper.pk %}"}
-              =student.grouper
-          -for result in student.list
-            %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
+      %table.table.table-bordered
+        %thead
+          %th{width: "20%"}
+            Élève / Compétences
+          -for i in object.skills.all
+            %th.center
+              =i.code
+              %br
+              =i.name
+        -for student in students
+          %tr
+            %td
+              %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.grouper.pk %}"}
+                =student.grouper
+            -for result in student.list
+              %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
 
-  -else
-    %p Vous n'avez pas encore encodé cette évaluation libre.
-    %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
-      Le faire maintenant.
+    -else
+      %p Vous n'avez pas encore encodé cette évaluation libre.
+      %p
+        %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
+          Le faire maintenant.

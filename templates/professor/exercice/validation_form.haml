@@ -4,7 +4,7 @@
 -block head
   %script{type: "text/javascript", src: "{% static 'js/professor_validate_exercice.js' %}"}
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -17,8 +17,9 @@
       -else
         Formulaire de proposition d'une question
 
+-block content
   .panel.panel-default{ng-app: "oscar", ng-controller: "validateExerciceController"}
-    .panel-heading
+    .panel-heading.subpanel
       -if exercice
         Formulaire de modification d'une question
       -else
@@ -26,8 +27,6 @@
       .pull-right
         %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_list' %}"}
           Questions
-        %a.btn.btn-success.btn-xs{href: "{% url 'professor:skill_list' %}"}
-          Compétences et ressources
 
     .panel-body
       .form-group
@@ -130,7 +129,7 @@
                         .input-group-addon Y
                         %input.form-control{type: "number", ng-required: "true", placeholder: "0", ng-model: "answer.graph.coordinates.Y"}
 
-            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, answerIndex + 1, question)", type: "button"}
+            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 

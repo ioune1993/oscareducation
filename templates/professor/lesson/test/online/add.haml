@@ -9,11 +9,10 @@
       lessonId: {{ lesson.id }}
     };
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= lesson.stage.name
     %li
       %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
         Classe
@@ -21,6 +20,7 @@
     %li.active
       Ajouter un test
 
+-block content
   %div#alerts
 
   %div{ng-app: "oscar", ng-controller: "createTestController"}
@@ -75,9 +75,12 @@
                   %label.control-label= stage.name
                   .form-group
                     %select.form-control{ng-model: "stage{{ stage.id }}SelectedSkill"}
-                      -for skill in stage.skills.all reversed
-                        %option{value: "{{ skill.code }}", id: "{{ skill.code }}"}
-                          {{ skill.code }} - {{ skill.name }}
+                      -regroup stage.skills.all by section as sections
+                      -for section in sections
+                        %optgroup{label: "{{ section.grouper }}"}
+                          -for skill in section.list reversed
+                            %option{value: "{{ skill.code }}", id: "{{ skill.code }}"}
+                              {{ skill.code }} - {{ skill.name }}
 
                 .form-group
                   %button.btn.btn-primary{ng-click: "addSkillToTest({{ stage.id }})", id: "addSkillToTestButtonForStage{{ stage.id }}"}

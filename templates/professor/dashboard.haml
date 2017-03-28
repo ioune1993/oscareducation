@@ -3,34 +3,39 @@
 -load bootstrap3
 
 -block content
-  %h2 Mes classes
+  .row
+    .col-md-5
+      %a{type: "button", class: "btn btn-default btn-circle btn-xl", href: "{% url 'professor:skill_list' %}"}
+        %img{src: "http://i68.tinypic.com/332szu9.png", class: "buttonimg"}
+        .buttontxt
+          Compétences
+          %br
+          et ressources
 
-    .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_add' %}"}
-        Ajouter une nouvelle classe
-      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
-        Compétences et ressources
+    .col-md-7
+      %ul.nav.orange.nav-tabs
+        %li.active{role: "presentation"}
+          %a{href: "#"}
+            Mes classes
+        -# hidden tab for style
+        %li{role: "presentation", style: "visibility: hidden"}
+          %a{href: ""}
+            Mes classes
 
-  %table.table
-    -for lesson in lessons
-      %tr
-        %td
-          %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-            =lesson.name|capfirst
-        %td
-          =lesson.stage
-        %td
-          -if lesson.students__count
-            =lesson.students__count
-            élève{{ lesson.students__count|pluralize }}
-          -else
-            pas encore d'élèves
-        %td.center{width: "20px"}
-          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
-            Vue Globale
-        %td.center{width: "20px"}
-          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-            Liste des tests
-        %td.center{width: "20px"}
-          %a.btn.btn-sm.btn-default{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
-            Création d'un test
+      .ligneorange
+
+      .container-fluid.boxclassetitle
+
+        .pull-right
+          %a.icon.new-class{href: "{% url 'professor:lesson_add' %}", data-toggle: "tooltip", data-placement: "top", title: "Ajouter une classe"}
+
+      .ligneorangefine
+
+      .container-fluid.boxclasse
+        .list-group
+          -for lesson in lessons
+            %a.list-group-item{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+              =lesson.name|capfirst
+
+          -empty
+            Vous n'avez pas encore de classe, <a href="{% url 'professor:lesson_add' %}">cliquez ici pour en ajouter une</a>.

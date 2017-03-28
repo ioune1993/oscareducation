@@ -5,6 +5,7 @@
   Oscar
 
 -block bootstrap3_extra_head
+  %script{type: "text/javascript", src: "{% static 'js/jquery.min.js' %}"}
   %script{type: "text/javascript", src: "{% static 'js/angular.js' %}"}
   %script{type: "text/javascript", src: "{% static 'js/angular-cookies.js' %}"}
 
@@ -15,47 +16,60 @@
   %link{href: "{% static 'css/mathquill.css' %}", rel: "stylesheet"}
   %link{href: "https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css", rel: "stylesheet"}
   %link{href: "https://jsxgraph.uni-bayreuth.de/distrib/jsxgraph.css", rel: "stylesheet", type: "text/css"}
+  %link{rel: "stylesheet", type: "text/css", href: "//fonts.googleapis.com/css?family=Open+Sans"}
 
   %link{rel: "icon", type: "image/png", href: "{% static 'img/favicon.png' %}"}
   %link{href: "{% static 'css/style.css' %}", rel: "stylesheet"}
-
-  :css
-    body {
-        padding-top: 51px; /*for navbar*/
-    }
 
   -block head
 
 
 -block bootstrap3_content
-  .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
-    .navbar-inner
-      .container
-        .navbar-header
-          %button.hidden-md.hidden-lg{type: "button", class: "navbar-toggle collapsed", data-toggle: "collapse", data-target: "#toCollapse"}
-            %span.sr-only Toggle navigation
-            %span.icon-bar
-            %span.icon-bar
-            %span.icon-bar
-          %a.brand.navbar-brand{href: "/"}
-            <span style="color: #F58025">O</span>scar
-        %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
-          %li
-            %a{href: "{% url 'logout' %}"}
-              Déconnexion
-        #toCollapse.collapse.navbar-collapse
-          %ul.nav.navbar-nav.hidden-md.hidden-lg
+  %div{class: "fond {% if user.student %}fond-student{% endif %}"}
+    .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
+      .navbar-inner
+        .container
+          .navbar-header
+            %button.hidden-md.hidden-lg{type: "button", class: "navbar-toggle collapsed", data-toggle: "collapse", data-target: "#toCollapse"}
+              %span.sr-only Toggle navigation
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            %a.brand.navbar-brand{href: "/"}
+              <span style="color: #F58025">O</span>scar
+            .nav-global-shortcuts
+              %a.global-shortcut.home{href: "{% url 'professor:dashboard' %}"}
+                %img{src: "{% static 'img/icons/Home.png' %}"}
+              %a.global-shortcut{href: "https://framateam.org/oscarpilote/"}
+                %img{src: "{% static 'img/icons/forum-white.png' %}"}
+              %a.global-shortcut{href: "{% url 'professor:skill_list' %}"}
+                %img{src: "{% static 'img/icons/ressource-white.png' %}"}
+          %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             %li
-              %a{href: "{% url 'logout' %}"}
-                Déconnexion
+              %a.icon.logout{href: "{% url 'logout' %}"}
+                -#%img{src: "{% static 'img/icons/logout.png' %}"}
+          #toCollapse.collapse.navbar-collapse
+            %ul.nav.navbar-nav.hidden-md.hidden-lg
+              %li
+                %a.icon.logout{href: "{% url 'logout' %}"}
+                  -# %img{src: "{% static 'img/icons/logout.png' %}"}
 
+    -block breadcrumb
 
-  .container
-    -block content
+    .container.centralcontainer
+      -block content
+
+    .container.centralcontainer-student
+      -block content-student
+
+    #footer
+      .copyright
+        Vous souhaitez contribuer à l’amélioration d’Oscar ?
+        %br
+        Contactez-nous sur support@oscar.education
 
 -block bootstrap3_extra_script
   %script{type: "text/javascript", src: "{% static 'js/base.js' %}"}
-  %script{type: "text/javascript", src: "{% static 'js/jquery.min.js' %}"}
   %script{type: "text/javascript", src: "{% static 'js/jquery.keyboard.js' %}"}
   %script{type: "text/javascript", src: "{% static 'js/jquery.mousewheel.js' %}"}
   %script{type: "text/javascript", src: "{% static 'js/jquery.keyboard.extension-typing.js' %}"}

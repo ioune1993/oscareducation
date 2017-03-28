@@ -1,7 +1,18 @@
 -extends "base.haml"
 
+-block breadcrumb
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Classe
+        =lesson.name
+    %li.active
+      Remplir l'évaluation libre
+
 -block content
-  %h2 Sélectionner les compétences résultantes de l'évaluation libre
+  %h3 Sélectionner les compétences résultantes de l'évaluation libre
     %i= test_from_class.name
   %hr
 

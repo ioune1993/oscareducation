@@ -18,144 +18,167 @@
     })
 
 
--block content
-    %ol.breadcrumb
-      -with lesson=student.lesson_set.first
-        %li
-          %a{href: "{% url 'professor:dashboard' %}"} Oscar
-        %li= lesson.stage.name
-        %li
-          %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
-            Classe
-            =lesson.name
-      %li.active
-        Élève
-        =student.user.first_name
-        =student.user.last_name
+-block breadcrumb
+  %ol.breadcrumb
+    -with lesson=student.lesson_set.first
+      %li
+        %a{href: "{% url 'professor:dashboard' %}"} Oscar
+      %li
+        %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
+          Classe
+          =lesson.name
+    %li.active
+      Élève
+      =student.user.first_name
+      =student.user.last_name
 
-    %h2
+-block content
+  -with lesson=student.lesson_set.first
+    %h3
       =student.user.first_name|title
       =student.user.last_name|title
-      %small
-        =student.user.username
-      .pull-right
-        %a.btn.btn-primary{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
-          modifier l'élève
-        %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
-          gérer mes élèves
-        %a.btn.btn-danger{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
-          supprimer l'élève
-
+      %a{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
+        %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+      %a{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
+        %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
     %hr
+    %h4
+      =student.user.username
 
-    -if student.todo_tests or student.done_tests
-      .row
-        -if student.todo_tests
-          .col-md-6
-            .panel.panel-default
-              .panel-heading
-                Tests à passer
+    %ul.menu-tabs.nav.orange.nav-tabs
+      %li.active{role: "presentation"}
+        %a{href: "#tests"}
+          Les tests
+      %li{role: "presentation"}
+        %a{href: "#recommandedSkills"}
+          Compétences recommandées
+      %li{role: "presentation"}
+        %a{href: "#heatmap"}
+          Vue globale de l'élève
 
-              %ul.list-group
-                -for test_student in student.todo_tests
-                  %li.list-group-item
-                    -if test_student.get_state == "commencé"
-                      %span.badge.badge-warning
-                        commencé
-                    -elif test_student.get_state == "fini"
-                      %span.badge.badge-success
-                        fini
-                    %i.fa.fa-desktop.right-space{aria-hidden: "true"}
-                    -if test_student.finished_at
-                      =test_student.finished_at|date:"d/m/Y"
-                    %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk test_student.pk %}"}
-                      =test_student.test.name
-                    -if test_student.test.display_test_type
-                      %i
-                        =test_student.test.display_test_type
+    .ligneorange
 
-        -if student.done_tests
-          .col-md-6
-            .panel.panel-default
-              .panel-heading
-                Tests passés
+    .container-fluid.boxclassetitle
 
-              %ul.list-group
-                -for test_student in student.done_tests
-                  %li.list-group-item
-                    -if test_student.finished_at
-                      %span.badge
+    .ligneorangefine
+
+    .container-fluid.boxclasse
+
+      .tab-content
+        #tests.tab-pane.active
+          -if student.todo_tests or student.done_tests
+            -if student.todo_tests
+              .panel.panel-default
+                .panel-heading
+                  Tests à passer
+
+                %ul.list-group
+                  -for test_student in student.todo_tests
+                    %li.list-group-item
+                      -if test_student.get_state == "commencé"
+                        %span.badge.badge-warning
+                          commencé
+                      -elif test_student.get_state == "fini"
+                        %span.badge.badge-success
+                          fini
+                      %i.fa.fa-desktop.right-space{aria-hidden: "true"}
+                      -if test_student.finished_at
                         =test_student.finished_at|date:"d/m/Y"
-                    -else
-                      %span.badge.badge-warning
-                        manqué
-                    %i.fa.fa-desktop.right-space{aria-hidden: "true"}
-                    %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk test_student.pk %}"}
-                      =test_student.test.name
-                    -if test_student.test.display_test_type
-                      %i
-                        =test_student.test.display_test_type
+                      %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk test_student.pk %}"}
+                        =test_student.test.name
+                      -if test_student.test.display_test_type
+                        %i
+                          =test_student.test.display_test_type
 
-    -if student.has_recommanded_skills
-      %h3 Compétences recommandées
-      %hr
+            -if student.done_tests
+              .panel.panel-default
+                .panel-heading
+                  Tests passés
 
-      -for stage in lesson.stages_in_unchronological_order
-        -get_students_skills of student at stage as "student_skills"
-        -for student_skill in student_skills
-          -if student_skill.recommanded_to_learn
-            %ul.legend-list
-              %li.legend
-                %a.right-space{type: "button", style: "border: black solid;", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
-                  =student_skill.skill.code
-                %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
-                  {{ student_skill.skill.name }}
+                %ul.list-group
+                  -for test_student in student.done_tests
+                    %li.list-group-item
+                      -if test_student.finished_at
+                        %span.badge
+                          =test_student.finished_at|date:"d/m/Y"
+                      -else
+                        %span.badge.badge-warning
+                          manqué
+                      %i.fa.fa-desktop.right-space{aria-hidden: "true"}
+                      %a{href: "{% url 'professor:lesson_student_test' lesson.pk student.pk test_student.pk %}"}
+                        =test_student.test.name
+                      -if test_student.test.display_test_type
+                        %i
+                          =test_student.test.display_test_type
 
-    %h3
-      %a{name: "skills"}
-      Vue synthétique
+          -else
+            %p L'élève n'a pas encore de tests à passer ni de tests passés.
 
-    #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
-      -for stage in lesson.stages_in_unchronological_order
-        .panel.panel-default
-          .panel-heading{role: "tab", id: "heading{{ stage.name|slugify }}"}
-            %h4.panel-title
-              %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.name|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.name|slugify }}"}
-                Niveau {{ stage.name }}
+        #recommandedSkills.tab-pane
+          -if student.has_recommanded_skills
+            %table.table
+              -for stage in lesson.stages_in_unchronological_order
+                -get_students_skills of student at stage as "student_skills"
+                -for student_skill in student_skills
+                  -if student_skill.recommanded_to_learn
+                    %tr
+                      %td.center
+                        %a.right-space{type: "button", style: "border: black solid; width: 120px", href: '{% url "professor:skill_detail" student_skill.skill.code %}', class: "btn btn-warning"}
+                          =student_skill.skill.code
+                      %td
+                        %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
+                          {{ student_skill.skill.name }}
+            -else
+              %p L'élève n'a pas encore de compétences recommandées.
 
-          -regroup stage.skills.all by section as sections
+        #heatmap.tab-pane
+          #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
+            -for stage in lesson.stages_in_unchronological_order
+              .panel.panel-default
+                .panel-heading{role: "tab", id: "heading{{ stage.name|slugify }}"}
+                  %h4.panel-title
+                    %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.name|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.name|slugify }}"}
+                      Niveau {{ stage.name }}
 
-          .panel-collapse.collapse{id: "collapse{{ stage.name|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ stage.name|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
-            .panel-body
-              -for section in sections
-                %h5= section.grouper
+                -regroup stage.skills.all by section as sections
 
-                %ul.heatmap-list
-                  -get_students_skills of student at stage as "student_skills"
-                  -for student_skill in student_skills
-                    -if student_skill.skill.section == section.grouper
-                      %li
-                        %a.btn.skill{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "", data-content: '', style:'{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
-                          %abbr{title: "{{ student_skill.skill.name }}", style: "cursor: default; border: none"}= student_skill.skill.code
-                        =student_skill.skill.name
-                        %div{style: "display: none"}
-                          %center
-                            %p
-                              %a{href: "{% url 'professor:skill_detail' student_skill.skill.code %}"} Détails de la compétence
-                            %p
-                              %form{action: "{% url 'professor:validate_student_skill' lesson.pk student_skill.id %}", method: "post"}
-                                -csrf_token
-                                %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
-                            %p
-                              %form{action: "{% url 'professor:unvalidate_student_skill' lesson.pk student_skill.id %}", method: "post"}
-                                -csrf_token
-                                %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
-                            %p
-                              %form{action: "{% url 'professor:default_student_skill' lesson.pk student_skill.id %}", method: "post"}
-                                -csrf_token
-                                %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
+                .panel-collapse.collapse{id: "collapse{{ stage.name|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ stage.name|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
+                  .panel-body
+                    -for section in sections
+                      %h5= section.grouper
+
+                      %ul.heatmap-list
+                        -get_students_skills of student at stage as "student_skills"
+                        -for student_skill in student_skills
+                          -if student_skill.skill.section == section.grouper
+                            %li
+                              %a.btn.skill{type: "button", data-toggle: "popover", data-container: "body", data-placement: "bottom", tabindex: "0", data-trigger: "focus", title: "", data-content: '', style:'{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
+                                %abbr{title: "{{ student_skill.skill.name }}", style: "cursor: default; border: none"}= student_skill.skill.code
+                              =student_skill.skill.name
+                              %div{style: "display: none"}
+                                %center
+                                  %p
+                                    %a{href: "{% url 'professor:skill_detail' student_skill.skill.code %}"} Détails de la compétence
+                                  %p
+                                    %form{action: "{% url 'professor:validate_student_skill' lesson.pk student_skill.id %}", method: "post"}
+                                      -csrf_token
+                                      %input.btn.btn-success{type: "submit", value: "Marquer comme acquise"}
+                                  %p
+                                    %form{action: "{% url 'professor:unvalidate_student_skill' lesson.pk student_skill.id %}", method: "post"}
+                                      -csrf_token
+                                      %input.btn.btn-warning{type: "submit", value: "Marquer comme non acquise"}
+                                  %p
+                                    %form{action: "{% url 'professor:default_student_skill' lesson.pk student_skill.id %}", method: "post"}
+                                      -csrf_token
+                                      %input.btn.btn-default{type: "submit", value: "Marquer comme non testée"}
 
 
-    %br
-    %br
-    %br
+  :javascript
+    $(function() {
+      if (document.location.hash) {
+          hash = document.location.hash;
+          document.location.hash = '';
+          console.log(hash);
+          $('.nav-tabs a[href="' + hash + '"]').tab('show');
+      }
+    })

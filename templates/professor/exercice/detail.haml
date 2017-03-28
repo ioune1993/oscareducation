@@ -1,6 +1,8 @@
 -extends "base.haml"
 
--block content
+-load static
+
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
@@ -11,31 +13,39 @@
       Question n°
       =exercice.id
 
+-block content
   -if not exercice.approved
     %div.alert.alert-warning
       Exercice en attente d'approbation
 
-  %h2 Question n°
+  %h3 Question n°
     =exercice.id
     sur
     =exercice.skill.code
-    %small
-      =exercice.skill.name
+    -if user.is_superuser or exercice.added_by == user
+      %a{href: "{% url 'professor:exercice_update' exercice.id %}"}
+        %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+  %hr
+  %h4
+    =exercice.skill.name
+
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
     .pull-right
-      -if user.is_superuser or exercice.added_by == user
-        %a.btn.btn-sm.btn-success{href: "{% url 'professor:exercice_update' exercice.id %}"}
-          Éditer
       %a.btn.btn-sm.btn-primary{href: "{% url 'professor:exercice_list' %}"}
         Voir toutes les questions
 
-  %hr
+  .ligneorangefine
 
-  -if exercice.content
-    .well.exercice-content
-      =exercice.content|safe
+  .boxclasse.container-fluid
+    -if exercice.content
+      .well.exercice-content
+        =exercice.content|safe
 
-  -for label, question in exercice.get_questions.items
-    -include "professor/exercice/exercice_with_answers_rendering.haml"
+    -for label, question in exercice.get_questions.items
+      -include "professor/exercice/exercice_with_answers_rendering.haml"
 
 -block javascript
   :javascript

@@ -2,11 +2,10 @@
 -load bootstrap3
 -load static
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= lesson.stage.name
     %li
       Classe
       %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
@@ -14,56 +13,64 @@
     %li.active
       Ajouter des élèves
 
+-block content
   %h3
     Ajouter des élèves pour ma classe
     %i
       =lesson.name
   %hr
 
-  %form.form{action: "", method: "post"}
-    -csrf_token
+  .ligneorange
 
-    %ul.list-group{ng-app: "oscar", ng-controller: "severalStudentsController"}
-      %li.list-group-item{ng-repeat: "student in students"}
-        .index
-          {& $index + 1 &}
-        .row
-          .col-md-6
-            .form-group
-              %label.control-label.prenom{for: "id_first_name"}
-                Prénom
-              %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name_{& student &}", value: ""}
+  .container-fluid.boxclassetitle
 
-          .col-md-6
-            .form-group
-              %label.control-label{for: "id_last_name"}
-                Nom
-              %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name_{& student &}", value: ""}
+  .ligneorangefine
 
-        %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "removeStudent(student)"}
-          %span.glyphicon.glyphicon-remove
+  .boxclasse.container-fluid
+    %form.form{action: "", method: "post"}
+      -csrf_token
 
-      %li.list-group-item
-        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(1)"}
-          %span.glyphicon.glyphicon-plus
-          1
+      %ul.list-group{ng-app: "oscar", ng-controller: "severalStudentsController"}
+        %li.list-group-item{ng-repeat: "student in students"}
+          .index
+            {& $index + 1 &}
+          .row
+            .col-md-6
+              .form-group
+                %label.control-label.prenom{for: "id_first_name"}
+                  Prénom
+                %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name_{& student &}", value: ""}
 
-        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(5)"}
-          %span.glyphicon.glyphicon-plus
-          5
+            .col-md-6
+              .form-group
+                %label.control-label{for: "id_last_name"}
+                  Nom
+                %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom de famille", name: "last_name_{& student &}", value: ""}
 
-        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(10)"}
-          %span.glyphicon.glyphicon-plus
-          10
+          %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "removeStudent(student)"}
+            %span.glyphicon.glyphicon-remove
 
-        %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(20)"}
-          %span.glyphicon.glyphicon-plus
-          20
+        %li.list-group-item
+          %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(1)"}
+            %span.glyphicon.glyphicon-plus
+            1
 
-    {% buttons %}
-      %button.btn.btn-primary{type: "submit"}
-        Ajouter mes élèves
-    {% endbuttons %}
+          %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(5)"}
+            %span.glyphicon.glyphicon-plus
+            5
+
+          %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(10)"}
+            %span.glyphicon.glyphicon-plus
+            10
+
+          %button.btn.btn-success{type: "button", ng-click: "addMoreStudent(20)"}
+            %span.glyphicon.glyphicon-plus
+            20
+
+      {% buttons %}
+        %button.btn.btn-primary{type: "submit"}
+          Ajouter mes élèves
+      {% endbuttons %}
 
   :css
     .remove {

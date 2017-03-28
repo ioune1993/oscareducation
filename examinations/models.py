@@ -193,17 +193,17 @@ class Exercice(models.Model):
 
             answer = answers.get(str(number))
             result_answer["answer"] = answer
-            answer = answer.strip().replace(" ", "").lower() if isinstance(answer, basestring) else answer
+            answer = answer.strip().replace(" ", "").lower().encode("Utf-8") if isinstance(answer, basestring) else answer
             result_answer["answer_cleaned"] = answer
 
             if value["type"] == "text":
-                result_answer["correct_answers"] = [unicode(x).lower().strip() for x in value["answers"]]
-                if answer not in result_answer["correct_answers"]:
+                result_answer["correct_answers"] = [unicode(x).lower().strip().encode("Utf-8") for x in value["answers"]]
+                if answer not in [x.replace(" ", "") for x in result_answer["correct_answers"]]:
                     result_answer["correct"] = False
 
             elif value["type"].startswith("math"):
-                result_answer["correct_answers"] = [unicode(x).strip() for x in value["answers"]]
-                if answer not in result_answer["correct_answers"]:
+                result_answer["correct_answers"] = [unicode(x).strip().lower().encode("Utf-8") for x in value["answers"]]
+                if answer not in [x.replace(" ", "") for x in result_answer["correct_answers"]]:
                     result_answer["correct"] = False
 
             elif value["type"] == "radio":
@@ -282,7 +282,7 @@ class TestExercice(models.Model):
     testable_online = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
-        self.testable_online = self.exercice and self.exercice.testable_online
+        self.testable_online = bool(self.exercice and self.exercice.testable_online)
         super(TestExercice, self).save(*args, **kwargs)
 
     def get_content(self):
@@ -341,7 +341,7 @@ class TestStudent(models.Model):
     def test_exercice_answer_for_offline_test(self):
         answers = {x.test_exercice: x for x in self.answer_set.all().select_related("test_exercice")}
 
-        return [(x, answers.get(x)) for x in TestExercice.objects.filter(test=self.test, testable_online=False)]
+        return [(x, answers.get(x)) for x in TestExercice.objects.filter(test=self.test, testable_online=False, exercice__isnull=False)]
 
     def has_offline_answers(self):
         return self.answer_set.filter(test_exercice__testable_online=False).exists()

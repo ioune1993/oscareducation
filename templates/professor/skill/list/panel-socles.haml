@@ -1,5 +1,5 @@
 .panel.panel-default
-  .panel-heading{id: "heading{{ stage.id }}", role: "tab"}
+  .panel-heading.subpanel{id: "heading{{ stage.id }}", role: "tab"}
     %h4.panel-title
       %a.collapsed{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.id }}", aria-expanded: "false", aria-controls: "collapse{{ stage.id }}"}
         =title
@@ -12,8 +12,6 @@
           %col
           %col
           %col{width: "200px"}
-          %col
-          %col
           %col
           %tbody
             %tr.active.clickable{data-toggle: "collapse", data-target: "#collapse-{{ stage.id }}-{{ section.grouper|slugify }}", id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
@@ -34,13 +32,15 @@
                     question{{ skill.exercice__count|pluralize }}
                   -else
                     %i Pas de questions disponibles.
-                %td
+                %td.center
                   %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
                     Ajouter une question
-                %td
+                  %br
+                  %br
                   %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
                     Ajouter une ressource
-                %td
+                  %br
+                  %br
                   %a.btn.btn-sm.btn-warning{href: "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
                     Signaler un problème
                     %br

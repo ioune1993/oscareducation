@@ -2,7 +2,7 @@
 -load static
 -load bootstrap3
 
--block content
+-block breadcrumb
   %div{ng-app: "oscar"}
     %ol.breadcrumb
       %li
@@ -11,25 +11,26 @@
         Compétence
         =object.code
 
-    %h2 Compétence
+-block content
+    %h3 Compétence
       =object.name
-      %small= object.code
     %hr
+    %h4= object.code
 
     .well
       -if user.professor
-        %h3 Ressources personnelles
+        %h5 Ressources personnelles
           %small pour mes élèves uniquement
           %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
             Ajouter
       -else
-        %h3 Ressources de ma classe
+        %h5 Ressources de ma classe
       -with title="" kind="personal_resource" queryset=personal_resource
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     .well
-      %h3 Cours
-      %h4
+      %h5 Cours
+      %h6
         Videos
         %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
         -if user.professor
@@ -41,7 +42,7 @@
 
       -for video in object.khanacademyvideoskill_set.all
         %center
-          <iframe height="480" frameborder="0" width="800" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+          <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
           %p
             %a{href: "{{ video.url }}", target: "_blank"}
               =video.reference.title|default:video.url
@@ -79,7 +80,7 @@
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     .well
-      %h3 Exercices
+      %h5 Exercices
       -with title="Exercices" kind="cahier" references=sesamath_references_cahiers resources=object.sesamath_cahiers
         -include "professor/skill/update_pedagogical_resources/sesamath.haml"
 
@@ -89,7 +90,7 @@
         -include "professor/skill/update_pedagogical_resources/resource.haml"
 
     .well
-      %h3 Autres ressources
+      %h5 Autres ressources
         -if user.professor
           %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
             Ajouter
@@ -166,11 +167,6 @@
 
     h3, h4 {
       margin-top: 0px;
-    }
-
-    h3 {
-      border-bottom: 1px solid #DDD;
-      padding-bottom: 5px;
     }
 
     .well hr {

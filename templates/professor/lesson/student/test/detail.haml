@@ -1,11 +1,10 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     -with lesson=student.lesson_set.first
       %li
         %a{href: "{% url 'professor:dashboard' %}"} Oscar
-      %li= lesson.stage.name
       %li
         %a{href: "{% url 'professor:lesson_detail' lesson.id %}"}
           Classe
@@ -19,131 +18,25 @@
       Test
       =student_test.test.name
 
-  %h2 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
+-block content
+  %h3 Réponse de <a href="{% url 'professor:lesson_student_detail' lesson.pk student.pk %}">{{ student }}</a> au test <a href="{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}">{{ student_test.test }}</a> de type <i>{{ student_test.test.display_test_type }}</i>
+  %hr
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk student_test.test.pk %}"}
         Test
       %a.btn.btn-primary{href: "{% url 'professor:lesson_student_detail' lesson.pk student_test.student.pk %}"}
         Élève
-  %hr
 
-  -if student_test.started_at
-    -if not student_test.fully_testable_online
-      %h3 Réponse des questions en ligne
-    %table.table.table-bordered
-      %colgroup
-        %col{width: "20%"}
-        %col
-        %col
-      %thead
-        %th
-          Compétence / question
-        %th
-          Réponse de l'élève
-        %th
-          Réponse attendue
-      %tbody
-        -for answer in student_test.answer_set.all
-          %tr
-            %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
-              %p
-                %b Compétence :
-                %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
-                  =answer.test_exercice.skill
-                %br
-                -if answer.test_exercice.exercice.id
-                  %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
-                    %b Question n°
-                      =answer.test_exercice.exercice.id
-                -else
-                  Pas de questions disponible
-            %td{colspan: 2}
-              -if not answer.test_exercice.exercice and not answer.automatic
-                %i pas de questions disponible
-              -elif not answer.automatic
-                %table.full-width
-                  %tr
-                    %td{colspan: 2}
-                      -if answer.test_exercice.exercice.content
-                        %i= answer.test_exercice.exercice.content|safe
-                  -for question, subanswer in answer.get_answers.items
-                    %tr
-                      %td{colspan: 2}
-                        .answers-panel.panel{class: "{% if subanswer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
-                          .panel-heading
-                            =question|safe
-                          .panel-body.answers-panel
-                            %table.answers-table
-                              -if subanswer.type == "checkbox"
-                                %tr
-                                  %td.right-border{width: "50%"}
-                                    %ul
-                                      -for j in subanswer.answer
-                                        %li= j
-                                  %td{width: "50%"}
-                                    %ul
-                                      -for j in subanswer.correct
-                                        %li= j
-                              -elif subanswer.type == "text"
-                                %tr
-                                  %td.right-border{width: "50%"}
-                                    =subanswer.answer
-                                  %td{width: "50%"}
-                                    %ul
-                                      -for j in subanswer.correct
-                                        %li= j
-                              -elif subanswer.type == "math" or subanswer.type == "math-simple" or subanswer.type == "math-advanced"
-                                %tr
-                                  %td.right-border{width: "50%"}
-                                    \\(
-                                    =subanswer.answer
-                                    \\)
+  .ligneorangefine
 
-                                    (code latex : <code>{{ subanswer.answer }})
-                                  %td{width: "50%"}
-                                    %ul
-                                      -for j in subanswer.correct
-                                        %li
-                                          \\(
-                                          =j
-                                          \\)
-
-                                          (code latex : <code>{{ j }})
-                              -elif subanswer.type == "radio"
-                                %tr
-                                  %td.right-border{width: "50%"}
-                                    =subanswer.answer
-                                  %td{width: "50%"}
-                                    =subanswer.correct
-                              -else
-                                -for i in subanswer.answers
-                                  -for a in subanswer.answers
-                                    %tr
-                                      %td
-                                        X:
-                                        =a.answer.X
-                                        %br
-                                        Y:
-                                        =a.answer.Y
-                                      %td
-                                        X:
-                                        =a.correct_answer.X
-                                        %br
-                                        Y:
-                                        =a.correct_answer.Y
-              -else
-                %i Déduit depuis les autres réponses
-
-  -else
-    %p L'élève n'a pas encore commencé le test en ligne.
-
-  -if not student_test.test.fully_testable_online
-    %h3 Réponse des questions hors ligne
-      %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
-        imprimer les questions
-      %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk student_test.test.pk %}"}
-        entrer les résultats
-    -if student_test.has_offline_answers
+  .boxclasse.container-fluid
+    -if student_test.started_at
+      -if not student_test.fully_testable_online
+        %h5 Réponse des questions en ligne
       %table.table.table-bordered
         %colgroup
           %col{width: "20%"}
@@ -153,41 +46,155 @@
           %th
             Compétence / question
           %th
-            Énoncé
+            Réponse de l'élève
+          %th
+            Réponse attendue
         %tbody
-          -for test_exercice, answer in student_test.test_exercice_answer_for_offline_test
+          -for answer in student_test.answer_set.all
             %tr
               %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
                 %p
                   %b Compétence :
-                  %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk test_exercice.skill %}"}
-                    =test_exercice.skill
+                  %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
+                    =answer.test_exercice.skill
                   %br
-                  -if test_exercice.exercice.id
-                    %a{href: "{% url 'professor:exercice_detail' test_exercice.exercice.id %}"}
+                  -if answer.test_exercice.exercice.id
+                    %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
                       %b Question n°
-                        =test_exercice.exercice.id
+                        =answer.test_exercice.exercice.id
                   -else
                     Pas de questions disponible
-                  %br
-                  %b Réponse :
-                  -if answer and answer.correct
-                    correcte
-                  -elif answer and not answer.correct
-                    incorrecte
-                  -elif answer == None
-                    pas encore encodée
-              %td
-                %table.full-width
-                  %tr
-                    %td{colspan: 2}
-                      -if test_exercice.exercice.content
-                        %i= test_exercice.exercice.content|safe
+              %td{colspan: 2}
+                -if not answer.test_exercice.exercice and not answer.automatic
+                  %i pas de questions disponible
+                -elif not answer.automatic
+                  %table.full-width
+                    %tr
+                      %td.exercice-content{colspan: 2}
+                        -if answer.test_exercice.exercice.content
+                          %i= answer.test_exercice.exercice.content|safe
+                    -for question, subanswer in answer.get_answers.items
+                      %tr
+                        %td{colspan: 2}
+                          .answers-panel.panel{class: "{% if subanswer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
+                            .panel-heading
+                              =question|safe
+                            .panel-body.answers-panel
+                              %table.answers-table
+                                -if subanswer.type == "checkbox"
+                                  %tr
+                                    %td.right-border{width: "50%"}
+                                      %ul
+                                        -for j in subanswer.answer
+                                          %li= j
+                                    %td{width: "50%"}
+                                      %ul
+                                        -for j in subanswer.correct
+                                          %li= j
+                                -elif subanswer.type == "text"
+                                  %tr
+                                    %td.right-border{width: "50%"}
+                                      =subanswer.answer
+                                    %td{width: "50%"}
+                                      %ul
+                                        -for j in subanswer.correct
+                                          %li= j
+                                -elif subanswer.type == "math" or subanswer.type == "math-simple" or subanswer.type == "math-advanced"
+                                  %tr
+                                    %td.right-border{width: "50%"}
+                                      \\(
+                                      =subanswer.answer
+                                      \\)
+
+                                      (code latex : <code>{{ subanswer.answer }})
+                                    %td{width: "50%"}
+                                      %ul
+                                        -for j in subanswer.correct
+                                          %li
+                                            \\(
+                                            =j
+                                            \\)
+
+                                            (code latex : <code>{{ j }})
+                                -elif subanswer.type == "radio"
+                                  %tr
+                                    %td.right-border{width: "50%"}
+                                      =subanswer.answer
+                                    %td{width: "50%"}
+                                      =subanswer.correct
+                                -else
+                                  -for i in subanswer.answers
+                                    -for a in subanswer.answers
+                                      %tr
+                                        %td
+                                          X:
+                                          =a.answer.X
+                                          %br
+                                          Y:
+                                          =a.answer.Y
+                                        %td
+                                          X:
+                                          =a.correct_answer.X
+                                          %br
+                                          Y:
+                                          =a.correct_answer.Y
+                -else
+                  %i Déduit depuis les autres réponses
 
     -else
-      %p Vous n'avez pas encore rentré les réponses pour cet élève pour les questions hors ligne.
-      %p
+      %p L'élève n'a pas encore commencé le test en ligne.
+
+    -if not student_test.test.fully_testable_online
+      %h5 Réponse des questions hors ligne
         %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
           imprimer les questions
         %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk student_test.test.pk %}"}
           entrer les résultats
+      -if student_test.has_offline_answers
+        %table.table.table-bordered
+          %colgroup
+            %col{width: "20%"}
+            %col
+            %col
+          %thead
+            %th
+              Compétence / question
+            %th
+              Énoncé
+          %tbody
+            -for test_exercice, answer in student_test.test_exercice_answer_for_offline_test
+              %tr
+                %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
+                  %p
+                    %b Compétence :
+                    %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk test_exercice.skill %}"}
+                      =test_exercice.skill
+                    %br
+                    -if test_exercice.exercice.id
+                      %a{href: "{% url 'professor:exercice_detail' test_exercice.exercice.id %}"}
+                        %b Question n°
+                          =test_exercice.exercice.id
+                    -else
+                      Pas de questions disponible
+                    %br
+                    %b Réponse :
+                    -if answer and answer.correct
+                      correcte
+                    -elif answer and not answer.correct
+                      incorrecte
+                    -elif answer == None
+                      pas encore encodée
+                %td
+                  %table.full-width
+                    %tr
+                      %td.exercice-content{colspan: 2}
+                        -if test_exercice.exercice.content
+                          %i= test_exercice.exercice.content|safe
+
+      -else
+        %p Vous n'avez pas encore rentré les réponses pour cet élève pour les questions hors ligne.
+        %p
+          %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
+            imprimer les questions
+          %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk student_test.test.pk %}"}
+            entrer les résultats

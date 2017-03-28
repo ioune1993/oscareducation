@@ -1,46 +1,55 @@
 -extends "base.haml"
+-load static
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li
       Questions
 
-  %h2 Questions
-    .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        Ajouter une question
-      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
-        Compétences et ressources
+-block content
+  %h3 Questions
   %hr
 
-  -regroup exercice_list by skill.stage_set.first as stages
-  -for stage in stages
-    %h3= stage.grouper
+  .ligneorange
 
-    -regroup stage.list by skill as exercices_by_skills
+  .container-fluid.boxclassetitle
+    .pull-right
+      %a{href: "{% url 'professor:exercice_validation_form' %}"}
+        %img.icon{src: "{% static 'img/icons/add.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Ajouter une question"}
+      %a{href: "{% url 'professor:skill_list' %}"}
+        %img.icon{src: "{% static 'img/icons/ressource.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Compétences et ressources"}
 
-    -for skill in exercices_by_skills
-      %h4
-        =skill.grouper.code
-        %small
-          =skill.grouper.name
-      -for exercice in skill.list
-        %ul
-          %li
-            %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-              Question n°
-              =exercice.id
-            -if not exercice.approved
-              %span.label.label-warning
-                en attente d'approbation
+  .ligneorangefine
 
-  %h2 Compétences sans questions
+  .boxclasse.container-fluid
+    -regroup exercice_list by skill.stage_set.first as stages
+    -for stage in stages
+      %h5= stage.grouper
 
-  %ul
-    -for skill in skills_without_exercices
-      %li
-        =skill.code
-        \-
-        =skill.name
+      -regroup stage.list by skill as exercices_by_skills
+
+      -for skill in exercices_by_skills
+        %h6
+          =skill.grouper.code
+          %small
+            =skill.grouper.name
+        -for exercice in skill.list
+          %ul
+            %li
+              %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
+                Question n°
+                =exercice.id
+              -if not exercice.approved
+                %span.label.label-warning
+                  en attente d'approbation
+
+    %h3 Compétences sans questions
+
+    %ul
+      -for skill in skills_without_exercices
+        %li
+          =skill.code
+          \-
+          =skill.name

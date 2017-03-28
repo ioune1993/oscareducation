@@ -104,7 +104,10 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
     $scope.onChangeQuestionType = function(topIndex, question) {
         if (question.type.startsWith("math")) {
-            $timeout(function() { $scope.renderMathquil(topIndex, null, question) }, 100);
+            $timeout(function() {
+                console.log("c");
+                $scope.renderMathquil(topIndex, null, question)
+            }, 100);
         }
     }
 
@@ -132,7 +135,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         }
     };
 
-    $scope.addAnswer = function(topIndex, answerIndex, question) {
+    $scope.addAnswer = function(topIndex, question) {
         question["answers"].push({
             text: "",
             latex: "",
@@ -141,7 +144,10 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         })
 
         if (question.type.startsWith("math")) {
-            $timeout(function() { $scope.renderMathquil(topIndex, answerIndex, question) }, 100);
+            $timeout(function() {
+                console.log("b");
+                $scope.renderMathquil(topIndex, question.answers.length - 1, question);
+            }, 100);
         }
     }
 
@@ -188,6 +194,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             $timeout(function() {
                 for (var i = 0; i < $scope.questions.length; ++i) {
                     if ($scope.questions[i].type.startsWith("math")) {
+                        console.log("a");
                         $scope.renderMathquil(i, $scope.questions[i])
                     }
                 }
@@ -197,6 +204,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
     $scope.renderMathquil = function(topIndex, answerIndex, question) {
         console.log("pouet");
+        console.log(topIndex)
         console.log(answerIndex)
         if (answerIndex != null) {
             query = $(".mathquill-" + topIndex + "-" + answerIndex);

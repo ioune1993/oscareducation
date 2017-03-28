@@ -1,10 +1,9 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= lesson.stage.name
     %li
       %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
         Classe
@@ -16,13 +15,14 @@
     %li.active
       Questions
 
+-block content
   -if not test.can_change_exercice
     .alert.alert-warning
       %b Remarque :
       au moins un élève a commencé le test, il n'est plus possible de changer les exercices
 
-  %h2 Exercices sélectionnés pour le test <i>{{ object.name }}</i>
-    .pull-right
+  %h3 Exercices sélectionnés pour le test <i>{{ object.name }}</i>
+    %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
         Continuer
   %hr
@@ -30,7 +30,7 @@
   -for test_exercice in object.testexercice_set.all
     .panel.panel-default
       %a.anchor{name: "{{ test_exercice.id }}"}
-      .panel-heading
+      .panel-heading.subpanel
         Exercice n°
         =test_exercice.exercice.id
         sur
@@ -42,9 +42,10 @@
               %td.center{width: "20px"}
                 %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
                   changer d'exercice
-            %td.center{width: "20px"}
-              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}"}
-                adapter
+            -if test_exercice.exercice
+              %td.center{width: "20px"}
+                %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}"}
+                  adapter
           -if test_exercice.test.can_change_exercice or not test_exercice.exercice
             %td.center{width: "20px"}
               %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
@@ -57,7 +58,7 @@
               Cet exercice devra être testé hors ligne
 
           -if test_exercice.exercice.content
-            .well
+            .well.exercice-content
               =test_exercice.exercice.content|safe
 
           -for label, question in test_exercice.exercice.get_questions.items

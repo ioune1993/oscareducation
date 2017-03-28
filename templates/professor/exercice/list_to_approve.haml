@@ -1,35 +1,45 @@
 -extends "base.haml"
+-load static
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li
       Questions
 
-  %h2 Questions non approuvées
-    .pull-right
-      %a.btn.btn-primary{href: "{% url 'professor:exercice_validation_form' %}"}
-        Ajouter une question
-      %a.btn.btn-success{href: "{% url 'professor:skill_list' %}"}
-        Compétences et ressources
+-block content
+  %h3 Questions non approuvées
   %hr
 
-  -regroup exercice_list by skill as exercices_by_skills
+  .ligneorange
 
-  -for skill in exercices_by_skills
-    %h3
-      =skill.grouper.code
-      %small
-        =skill.grouper.name
-    -for exercice in skill.list
-      %ul
-        %li
-          %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
-            Question n°
-            =exercice.id
-          -if not exercice.approved
-            %span.label.label-warning
-              en attente d'approbation
-  -empty
-    Il n'y a pas de questions non approuvées.
+  .container-fluid.boxclassetitle
+    .pull-right
+      %a{href: "{% url 'professor:exercice_validation_form' %}"}
+        %img.icon{src: "{% static 'img/icons/add.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Ajouter une question"}
+      %a{href: "{% url 'professor:skill_list' %}"}
+        %img.icon{src: "{% static 'img/icons/ressource.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Compétences et ressources"}
+
+  .ligneorangefine
+
+  .boxclasse.container-fluid
+    -regroup exercice_list by skill as exercices_by_skills
+
+    -for skill in exercices_by_skills
+      %h4
+        =skill.grouper.code
+        %small
+          =skill.grouper.name
+      -for exercice in skill.list
+        %ul
+          %li
+            %a{href: "{% url 'professor:exercice_detail' exercice.pk %}"}
+              Question n°
+              =exercice.id
+            -if not exercice.approved
+              %span.label.label-warning
+                en attente d'approbation
+    -empty
+      %p
+        Il n'y a pas de questions non approuvées.

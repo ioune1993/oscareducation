@@ -1,10 +1,9 @@
 -extends "base.haml"
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= object.lesson.stage.name
     %li
       %a{href: "{% url 'professor:lesson_detail' object.lesson.id %}"}
         Classe
@@ -13,11 +12,17 @@
       Test
       =object.name
 
-  %h2 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
-    %small
-      -if not test.running
-        %span.label.label-danger
-          Clôturé
+-block content
+  %h3 Test {{ object.name }} de <i style="color: grey">{{ object.display_test_type }}</i> pour la classe <a href="{% url 'professor:lesson_detail' object.lesson.pk %}">{{ object.lesson.name }}</a>
+  %hr
+  %h4
+    -if not test.running
+      %span.label.label-danger
+        Clôturé
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
     .pull-right
       %td.center{width: "20px"}
         %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk test.pk %}", method: "post"}
@@ -30,10 +35,6 @@
       %td.center{width: "20px"}
         %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
           modifier
-      -if not test.testfromclass
-        %td.center{width: "20px"}
-          %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test.pk %}"}
-            exercices
       %td.center{width: "20px"}
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
           Effacer
@@ -44,70 +45,70 @@
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
           Tests
 
+  .ligneorangefine
 
-  %hr
+  .boxclasse.container-fluid
+    -if not test.fully_testable_online and object.testexercice_testable_offline.exists
+      .alert.alert-warning
+        %b Attention
+        : ce test n'est pas entièrement faisable en ligne
 
-  -if not test.fully_testable_online and object.testexercice_testable_offline.exists
-    .alert.alert-warning
-      %b Attention
-      : ce test n'est pas entièrement faisable en ligne
+    %h5 Compétences sélectionnées
+    -if not test.fully_testable_online and object.testexercice_testable_offline.exists
+      %h5 À évaluer en classe
+        %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
+          imprimer les questions
+        %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk object.pk %}"}
+          entrer les résultats
+      %ul.heatmap-list
+        -for test_exercice in object.testexercice_testable_offline
+          %li
+            %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
+              %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
 
-  %h3 Compétences sélectionnées
-  -if not test.fully_testable_online and object.testexercice_testable_offline.exists
-    %h4 À évaluer en classe
-      %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
-        imprimer les questions
-      %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk object.pk %}"}
-        entrer les résultats
+            =test_exercice.skill.name
+
+      %h5 Évaluable en ligne
+
     %ul.heatmap-list
-      -for test_exercice in object.testexercice_testable_offline
+      -for test_exercice in object.testexercice_testable_online
         %li
           %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
             %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
 
           =test_exercice.skill.name
+      -empty
+        Il n'y a pas de compétences évaluables en ligne pour ce test.
 
-    %h4 Évaluable en ligne
+    -if object.prerequisistes
+      %h5 Compétences prérequises
+      %ul.heatmap-list
+        -for skill in object.prerequisistes
+          %li
+            %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
+              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
 
-  %ul.heatmap-list
-    -for test_exercice in object.testexercice_testable_online
-      %li
-        %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
-          %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
+            =skill.name
 
-        =test_exercice.skill.name
-    -empty
-      Il n'y a pas de compétences évaluables en ligne pour ce test.
+    %h5 Réponse des élèves
 
-  -if object.prerequisistes
-    %h3 Compétences prérequises
-    %ul.heatmap-list
-      -for skill in object.prerequisistes
-        %li
-          %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
-            %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
-
-          =skill.name
-
-  %h3 Réponse des élèves
-
-  %table.table.table-bordered
-    %thead
-      %th{width: "20%"}
-        Élève / Compétences
-      -for i in object.testexercice_with_skills
-        %th
-          =i.skill.code
-    -for test_student in object.teststudent_with_student
-      %tr
-        %td
-          %a{href: "{% url 'professor:lesson_student_test' lesson.pk test_student.student.pk test_student.pk %}"}
-            =test_student.student
-        -for answer in test_student.get_maybe_answer_list
-          -if answer
-            %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}danger{% else %}default{% endif %}"}
-          -else
-              %td
+    %table.table.table-bordered
+      %thead
+        %th{width: "20%"}
+          Élève / Compétences
+        -for i in object.testexercice_with_skills
+          %th
+            =i.skill.code
+      -for test_student in object.teststudent_with_student
+        %tr
+          %td
+            %a{href: "{% url 'professor:lesson_student_test' lesson.pk test_student.student.pk test_student.pk %}"}
+              =test_student.student
+          -for answer in test_student.get_maybe_answer_list
+            -if answer
+              %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}danger{% else %}default{% endif %}"}
+            -else
+                %td
 
 -block javascript
   :javascript

@@ -2,11 +2,10 @@
 
 -load bootstrap3
 
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li= lesson.stage.name
     %li
       %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
         Classe
@@ -18,13 +17,13 @@
     %li.active
       Changer l'exercice pour {{ test_exercice.skill }}
 
+-block content
   -if test_exercice.test.can_change_exercice
-    %h2 Changer l'exercice pour la compétence {{ test_exercice.skill }}
+    %h3 Changer l'exercice pour la compétence {{ test_exercice.skill }}
     %hr
 
     -if test_exercice.exercice
       %h3 Exercice actuellement sélectionné
-      %hr
 
       .panel.panel-primary
         .panel-heading
@@ -45,7 +44,10 @@
           -for label, question in test_exercice.exercice.get_questions.items
             -include "professor/exercice/exercice_with_answers_rendering.haml"
     -else
-      %h3 Il n'y a pas d'exercice sélectionné pour cette compétence
+      .boxclasse.container-fluid
+        %p
+          %i
+            Il n'y a pas d'exercice sélectionné pour cette compétence
 
     %h3 Exercices disponibles
     %hr
@@ -85,14 +87,15 @@
       %p
         %td.center{width: "20px"}
           %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.test.pk }}&code={{ test_exercice.skill.code }}"}
-            Écrire une question pour cette compétence
+              Écrire une question pour cette compétence
 
-    -else
-      %h2 Au moins un élève a commencé le test, il n'est plus possible de changer les exercices.
+    %p
+      %a{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test_exercice.test.pk %}"}
+        Retourner sur la liste des exercices
 
-      %p
-        %a{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test_exercice.test.pk %}"}
-          Retourner sur la liste des exercices
+  -else
+    %h2 Au moins un élève a commencé le test, il n'est plus possible de changer les exercices.
+
 
 -block javascript
   :javascript

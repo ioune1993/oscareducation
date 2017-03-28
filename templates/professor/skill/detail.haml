@@ -1,15 +1,12 @@
 -extends "base.haml"
+
 -load static
 
--block javascript
-  %script{src: "{% static 'js/mermaid.full.js' %}"}
-
--block content
+-block breadcrumb
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     -if lesson
-      %li= lesson.stage.name
       %li
         %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
           Classe
@@ -20,89 +17,97 @@
     %li.active
       =skill.code
 
-  %h2
+-block javascript
+  %script{src: "{% static 'js/mermaid.full.js' %}"}
+
+-block content
+  %h3
     =skill.name
-    %small
-      =skill.code
+  %hr
+  %h4
+    =skill.code
+
+  .ligneorange
+
+  .container-fluid.boxclassetitle
     .pull-right
       %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
         Ressources
 
-  %hr
+  .ligneorangefine
 
-  .row
-    .col-md-9
-      %p
-        %b Rubrique:
-        =skill.section
+  .boxclasse.container-fluid
+        %p
+          %b Rubrique:
+          =skill.section
 
-      %p
-        =skill.description
+        %p
+          =skill.description
 
-      .row
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              -if skill.depends_on.count
-                Compétence{{ skill.depends_on.count|pluralize }} prérequise{{ skill.depends_on.count|pluralize }}
+        .row
+          .col-md-6
+            .panel.panel-default
+              .panel-heading
+                -if skill.depends_on.count
+                  Compétence{{ skill.depends_on.count|pluralize }} prérequise{{ skill.depends_on.count|pluralize }}
+                -else
+                  Compétence prérequise
+
+              -if skill.depends_on.all
+                .list-group
+                  -for dependance in skill.depends_on.all
+                    -if lesson
+                      %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
+                        {{ dependance.code }} - {{ dependance.name }}
+                    -else
+                      %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
+                        {{ dependance.code }} - {{ dependance.name }}
               -else
-                Compétence prérequise
+                .panel-body
+                  Cette compétence n'a pas de prérequis.
 
-            -if skill.depends_on.all
-              .list-group
-                -for dependance in skill.depends_on.all
-                  -if lesson
-                    %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
-                      {{ dependance.code }} - {{ dependance.name }}
-                  -else
-                    %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
-                      {{ dependance.code }} - {{ dependance.name }}
-            -else
-              .panel-body
-                Cette compétence n'a pas de prérequis.
+          .col-md-6
+            .panel.panel-default
+              .panel-heading
+                -if skill.skill_set.count
+                  Compétence{{ skill.skill_set.count|pluralize }} dépendante{{ skill.skill_set.count|pluralize }}
+                -else
+                  Compétence dépendante
 
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              -if skill.skill_set.count
-                Compétence{{ skill.skill_set.count|pluralize }} dépendante{{ skill.skill_set.count|pluralize }}
+              -if skill.skill_set.all
+                .list-group
+                  -for dependance in skill.skill_set.all
+                    -if lesson
+                      %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
+                        {{ dependance.code }} - {{ dependance.name }}
+                    -else
+                      %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
+                        {{ dependance.code }} - {{ dependance.name }}
               -else
-                Compétence dépendante
+                .panel-body
+                  Aucune compétence ne dépend de celle-ci.
 
-            -if skill.skill_set.all
-              .list-group
-                -for dependance in skill.skill_set.all
-                  -if lesson
-                    %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
-                      {{ dependance.code }} - {{ dependance.name }}
-                  -else
-                    %a.list-group-item{href: "{% url 'professor:skill_detail' dependance.code %}"}
-                      {{ dependance.code }} - {{ dependance.name }}
-            -else
-              .panel-body
-                Aucune compétence ne dépend de celle-ci.
-
-      %h3 Questions
-      %ul.list-group
-        -for exercice in skill.exercice_set.all
-          %li.list-group-item
-            %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
-              Question n°
-              =exercice.id
-            -if not exercice.approved
-              %span.badge.badge-warning
-                en attente d'approbation
-        -empty
-          %p
-            %i Il n'y a pas de questions disponibles pour cette compétence pour l'instant.
+        %h3 Questions
+        %ul.list-group
+          -for exercice in skill.exercice_set.all
+            %li.list-group-item
+              %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
+                Question n°
+                =exercice.id
+              -if not exercice.approved
+                %span.badge.badge-warning
+                  en attente d'approbation
+          -empty
+            %p
+              %i Il n'y a pas de questions disponibles pour cette compétence pour l'instant.
 
 
-      -block after
+        -block after
 
-    .col-md-3
       -#
-        -if skill.skill_set.exists or skill.depends_on.exists
-          .mermaid{style: "color: white"}
-            graph BT;
-              -for i in skill.mermaid_graph
-                =i
+        .col-md-3
+          -if skill.skill_set.exists or skill.depends_on.exists
+            .mermaid{style: "color: white"}
+              graph BT;
+                -for i in skill.mermaid_graph
+                  =i
