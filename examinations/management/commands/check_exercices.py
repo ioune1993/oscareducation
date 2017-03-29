@@ -26,7 +26,32 @@ class Command(BaseCommand):
                             str(number): "this is not a valid answer"
                         })["answers"][number]["correct"] == False
                     elif answers["type"] == "checkbox":
-                        pass
+                        number_of_checkboxs = len(answers["answers"])
+                        true_false = (True, False)
+                        # generate all number of possibilies matrice
+                        bin_matrix = [(a, b, c, d, e, f, g) for a in true_false
+                                                            for b in true_false
+                                                            for c in true_false
+                                                            for d in true_false
+                                                            for e in true_false
+                                                            for f in true_false
+                                                            for g in true_false]
+
+                        # reduce the number of possibilies to the number of checkbox
+                        bin_matrix = [x[:number_of_checkboxs] for x in bin_matrix[:number_of_checkboxs]]
+
+                        correct_answer = [str(n) for n, j in enumerate(answers["answers"].values()) if j]
+
+                        for line in bin_matrix:
+                            assert exercice.check_answers({
+                                str(number): [str(n) for n, j in enumerate(line) if j]
+                            })["answers"][number]["correct"] == (line == correct_answer)
+
+                        # obviously broken answer
+                        exercice.check_answers({
+                            str(number): map(str, range(1500))
+                        })
+
                     elif answers["type"] == "radio":
                         for radio_number, i in enumerate(answers["answers"].values()):
                             assert exercice.check_answers({
@@ -36,6 +61,7 @@ class Command(BaseCommand):
                         assert exercice.check_answers({
                             str(number): "9999999"
                         })["answers"][number]["correct"] == False
+
                     elif answers["type"] == "graph":
                         pass
                     elif answers["type"] == "math-simple":
