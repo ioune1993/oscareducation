@@ -352,6 +352,18 @@ body {
     margin-top: 10px;
 }
 
+.centralcontainer-student {
+    font-family:'arial', sans-serif;
+}
+
+.legend {
+    font-family:'arial', sans-serif;
+    font-size: 15px;
+    color:#AAA;
+    word-spacing: 2px;
+    line-height: 1.5 !important;
+}
+
 .legend div {
     width: 75px;
 }
