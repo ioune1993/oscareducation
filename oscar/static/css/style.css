@@ -257,6 +257,8 @@ ul.orange > li.active > a
     background-attachment: fixed;
     background-repeat: repeat;
     padding-top: 50px;
+    min-height: 100%;
+    padding-bottom: 100px;
 }
 
 .centralcontainer-student {
@@ -662,11 +664,6 @@ body {
 
 html, body {
     height: 100%;
-}
-
-.fond {
-    min-height: 100%;
-    padding-bottom: 100px;
 }
 
 ol.breadcrumb > li:first-child > a {

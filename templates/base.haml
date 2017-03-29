@@ -25,7 +25,7 @@
 
 
 -block bootstrap3_content
-  %div{class: "fond {% if user.student %}fond-student{% endif %}"}
+  %div{class: "{% if user.professor %}fond{% endif %}"}
     .navbar.navbar-inverse.navbar-fixed-top.navbar-bold{data-spy: "affix", data-offset-top: "1000"}
       .navbar-inner
         .container
@@ -68,6 +68,20 @@
         Vous souhaitez contribuer à l’amélioration d’Oscar ?
         %br
         Contactez-nous sur support@oscar.education
+
+  -# dirty fix
+  :css
+    body {
+        background-image: url(/static/img/fond-student.jpg);
+        background-attachment:fixed;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    body > div {
+        padding-bottom: 100px;
+    }
+
 
 -block bootstrap3_extra_script
   %script{type: "text/javascript", src: "{% static 'js/base.js' %}"}
