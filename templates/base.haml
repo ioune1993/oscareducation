@@ -37,13 +37,14 @@
               %span.icon-bar
             %a.brand.navbar-brand{href: "/"}
               <span style="color: #F58025">O</span>scar
-            .nav-global-shortcuts
-              %a.global-shortcut.home{href: "{% url 'professor:dashboard' %}"}
-                %img{src: "{% static 'img/icons/Home.png' %}"}
-              %a.global-shortcut{href: "https://framateam.org/oscarpilote/"}
-                %img{src: "{% static 'img/icons/forum-white.png' %}"}
-              %a.global-shortcut{href: "{% url 'professor:skill_list' %}"}
-                %img{src: "{% static 'img/icons/ressource-white.png' %}"}
+            -if user.professor
+              .nav-global-shortcuts
+                %a.global-shortcut.home{href: "{% url 'professor:dashboard' %}"}
+                  %img{src: "{% static 'img/icons/Home.png' %}"}
+                %a.global-shortcut{href: "https://framateam.org/oscarpilote/"}
+                  %img{src: "{% static 'img/icons/forum-white.png' %}"}
+                %a.global-shortcut{href: "{% url 'professor:skill_list' %}"}
+                  %img{src: "{% static 'img/icons/ressource-white.png' %}"}
           %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             %li
               %a.icon.logout{href: "{% url 'logout' %}"}
