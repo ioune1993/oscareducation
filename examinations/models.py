@@ -211,7 +211,14 @@ class Exercice(models.Model):
 
             elif value["type"] == "radio":
                 result_answer["correct_answers"] = value["answers"].values()
-                if str(number) not in answers or not value["answers"].values()[int(answers[str(number)])]:
+
+                # if no answer
+                if str(number) not in answers:
+                    result_answer["correct"] = False
+                # if the student answer is not a valid answer don't fail
+                elif int(answers[str(number)]) > len(value["answers"].values()):
+                    result_answer["correct"] = False
+                elif value["answers"].values()[int(answers[str(number)])] != True:
                     result_answer["correct"] = False
 
             elif value["type"] == "graph":
