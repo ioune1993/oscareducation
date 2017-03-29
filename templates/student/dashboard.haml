@@ -67,7 +67,7 @@
                     -for student_skill in student_skills|strip_untested_skills
                       -if forloop.first
                         <tr>
-                      -elif forloop.counter0|divisibleby:12
+                      -elif forloop.counter0|divisibleby:5
                         </tr><tr>
                       %td{style: "text-align: center; width: 100px; padding: 10px;"}
                         %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%{% if student_skill.recommanded_to_learn %}; border: black solid;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
