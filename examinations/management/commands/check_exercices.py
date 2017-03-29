@@ -27,9 +27,16 @@ class Command(BaseCommand):
                         })["answers"][number]["correct"] == False
                     elif answers["type"] == "checkbox":
                         pass
-                    elif answers["type"] == "graph":
-                        pass
                     elif answers["type"] == "radio":
+                        for radio_number, i in enumerate(answers["answers"].values()):
+                            assert exercice.check_answers({
+                                str(number): radio_number
+                            })["answers"][number]["correct"] == i
+
+                        assert exercice.check_answers({
+                            str(number): "9999999"
+                        })["answers"][number]["correct"] == False
+                    elif answers["type"] == "graph":
                         pass
                     elif answers["type"] == "math-simple":
                         pass
