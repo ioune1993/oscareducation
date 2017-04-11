@@ -1,5 +1,7 @@
 -extends "base.haml"
 
+-load crispy_forms_tags
+
 -block breadcrumb
   %ol.breadcrumb
     %li
@@ -9,6 +11,28 @@
       =test_student.test
 
 -block content
-  %h2 Félicitations, vous avez terminé le test "{{ test_student.test.name }}" !
+  .panel.panel-default
+    .panel-heading
+      Félicitations, vous avez terminé le test "{{ test_student.test.name }}" !
+    .panel-body
 
-  %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil
+      -if not pool_form
+        %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil
+
+      -else
+        %p Chère élève,<br>Cher élève,
+
+        %p
+          Oscar est un sie web en développement. C'est grâce à tes remarques
+          que nous pouvons l'améliorer pour en faire un outil que tu aimes. C'est
+          pourquoi nous te demandons ton avis ! Les réponses sont anonymes.
+          N'hésitez pas à nous dire tout ce que tu penses – tous les commentaires
+          (positifs et négatifs) nous aident beaucoup !
+
+        %center
+          %p
+            ☆ ☆ ☆  Merci ☆ ☆ ☆
+
+        %p L'équipe Oscar
+
+        -crispy pool_form

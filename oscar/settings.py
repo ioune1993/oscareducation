@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'planification',
     'examinations',
     'student',
+    'end_test_poll',
 ) + ADDITIONAL_APPS
 
 MIDDLEWARE_CLASSES = (
