@@ -45,11 +45,12 @@
                   %td.center
                     %a.btn.btn-default{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.code|split_skill_as_subsection
                   %td
-                    =skill.name
+                    %a{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.name
                   %td
                     -if skill.exercice__count
-                      =skill.exercice__count
-                      question{{ skill.exercice__count|pluralize }}
+                      %a{href: "{% url 'professor:skill_detail' skill.code %}"}
+                        =skill.exercice__count
+                        question{{ skill.exercice__count|pluralize }}
                     -else
                       %i Pas de questions disponibles.
                   %td.center
