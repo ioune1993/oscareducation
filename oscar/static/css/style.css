@@ -1,6 +1,6 @@
 h2 {
     font-family:'Open Sans', sans-serif;
-    font-size: 15px;
+    font-size: 16px;
     color:#AAA;
     word-spacing: 2px;
     line-height: 1.5;
@@ -39,12 +39,20 @@ h4 a:hover, h4 a:active, h4 a:focus {
     text-decoration: none;
 }
 
+h5 {
+    font-family:minion, serif;
+    font-size: 24px;
+    color: #f58025;
+    word-spacing: 2px;
+    line-height: 1.5;
+}
+
 h6 {
     font-family:'Open Sans', sans-serif;
     font-size: 14px;
     color:white;
     letter-spacing: 0.1em;
-    line-height:50%
+    line-height:50%;
 }
 
 h7 {
@@ -52,18 +60,6 @@ h7 {
     font-size: 12px;
     color:white;
     letter-spacing: 0.1em;
-}
-
-hr {
-    border-top-width: 2px;
-}
-
-h5 {
-    font-family:minion, serif;
-    font-size: 24px;
-    color: #f58025;
-    word-spacing: 2px;
-    line-height: 1.5;
 }
 
 a {
@@ -273,6 +269,19 @@ ul.orange > li.active > a
 }
 
 /* Divers */
+
+.green {
+    color:#8cc63f;
+}
+
+.orange {
+    color:#ec7004;
+    line-height: 3;
+}
+
+.gris {
+    color:#a6a3a2;
+}
 
 .fond {
     background-image: url(/static/img/fond-prof-point-noir.png);
@@ -719,15 +728,6 @@ ol.breadcrumb > li:first-child > a {
     background-color: white;
 }
 
-h3, hr {
-    font-family: minion, serif;
-    text-align: center;
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    color: white;
-}
-
 .btn, .btn-xs, .btn-lg, .btn-sm {
     border-radius: 0px;
 }
@@ -751,16 +751,8 @@ h3, hr {
     border-top-right-radius: 0px;
 }
 
-hr {
-    border-color: #f58025;
-}
-
 ol.breadcrumb a {
     color: white;
-}
-
-body {
-    font-family: Open Sans;
 }
 
 .boxclassetitle h5 {
@@ -855,7 +847,7 @@ h3.popover-title {
 .round-section-icon {
     position: absolute;
     left: -18px;
-    background-color: #f58025;
+    background-color: #777;
     padding: 15px;
     border-radius: 500px;
     top: -1px;
