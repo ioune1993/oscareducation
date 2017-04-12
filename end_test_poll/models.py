@@ -10,13 +10,13 @@ class StudentPoll(models.Model):
 
     student_age = models.PositiveIntegerField(verbose_name=u"Mon âge")
 
-    at_school_on_computer = models.BooleanField(verbose_name=u"à l'école sur ordinateur")
-    at_school_on_tablette = models.BooleanField(verbose_name=u"à l'école sur tablette")
-    at_school_on_smartphone = models.BooleanField(verbose_name=u"à l'école sur smartphone")
+    at_school_on_computer = models.BooleanField(verbose_name=u"à l'école : sur ordinateur")
+    at_school_on_tablette = models.BooleanField(verbose_name=u"à l'école : sur tablette")
+    at_school_on_smartphone = models.BooleanField(verbose_name=u"à l'école : sur smartphone")
 
-    at_home_on_computer = models.BooleanField(verbose_name=u"à la maison sur ordinateur")
-    at_home_on_tablette = models.BooleanField(verbose_name=u"à la maison sur ordinateur")
-    at_home_on_smartphone = models.BooleanField(verbose_name=u"à la maison sur ordinateur")
+    at_home_on_computer = models.BooleanField(verbose_name=u"à la maison : sur ordinateur")
+    at_home_on_tablette = models.BooleanField(verbose_name=u"à la maison : sur tablette")
+    at_home_on_smartphone = models.BooleanField(verbose_name=u"à la maison : sur smartphone")
 
     on_smartphone_somewhere_else = models.BooleanField(verbose_name=u"ailleurs sur mon smartphone (par exemple dans le bus)")
 
