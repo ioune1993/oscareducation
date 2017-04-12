@@ -24,7 +24,7 @@
   %h3 Exercices sélectionnés pour le test <i>{{ object.name }}</i>
     %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-        Continuer
+        Valider
   %hr
 
   -for test_exercice in object.testexercice_set.all
@@ -82,7 +82,7 @@
 
   .center
     %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-      Continuer
+      Valider
 
   %br
 
