@@ -56,7 +56,8 @@
 
       .form-group
         %label Énoncé
-        %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>... Pour utiliser du latex mettez le entre \( et \) ou $$ et $$"}
+        %div{text-angular: None, ng-model: "html"}
+        -# %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>... Pour utiliser du latex mettez le entre \( et \) ou $$ et $$"}
 
         %p.help-block
           Pour ajouter des formules mathématiques dans vos énoncés, utilisez

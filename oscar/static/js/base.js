@@ -22,10 +22,22 @@ $.ajaxSetup({
      }
 });
 
-var app = angular.module('oscar', ['ngCookies'])
-    .config(function($interpolateProvider) {
+var app = angular.module('oscar', ['ngCookies', 'textAngular'])
+    .config(function($interpolateProvider, $provide) {
         $interpolateProvider.startSymbol('{&');
         $interpolateProvider.endSymbol('&}');
+
+        $provide.decorator('taOptions', ['taRegisterTool', '$delegate', function(taRegisterTool, taOptions) {
+            taOptions.toolbar = [
+                ['h5', 'p', 'pre', 'quote'],
+                ['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
+                ['justifyLeft', 'justifyCenter', 'justifyRight', 'indent', 'outdent'],
+                ['html', 'insertLink']
+            ];
+
+            return taOptions;
+        }]);
+
     })
     .run(function($http, $cookies){
         $http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
