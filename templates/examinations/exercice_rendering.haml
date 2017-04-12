@@ -8,25 +8,25 @@
     .form-group
       %label{for: "{{ forloop.counter0 }}"}= label|safe
       -if question.type == "text"
-        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
+        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
       -elif question.type == "math" or question.type == "math-simple" or question.type == "math-advanced"
         %span
           %textarea.keyboard
           %span.mathquill{data-keyboard-type: "{{ question.type }}"}
-          %input.form-control.hidden-math-form{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text"}
+          %input.form-control.hidden-math-form{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
       -elif question.type == "radio"
         -with name=forloop.counter0
           -for option in question.answers
             .radio
               %label
-                %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
+                %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
                 =option
       -elif question.type == "checkbox"
         -with name=forloop.counter0
           -for option in question.answers
             .checkbox
               %label
-                %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}"}
+                %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
                 =option
       -elif question.type == "graph"
         .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
