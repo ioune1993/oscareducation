@@ -44,6 +44,6 @@ class StudentPoll(models.Model):
     update_skills_i_understood = models.BooleanField(verbose_name=u"cela t'a démotivé")
     update_skills_i_havent_understood = models.BooleanField(verbose_name=u"pas compris")
     update_skills_havent_saw_it = models.BooleanField(verbose_name=u"pas vu tes compétences mises à jour")
-    update_skills_other = models.TextField(verbose_name=u"autre :")
+    update_skills_other = models.TextField(verbose_name=u"autre :", null=True, blank=True)
 
     what_on_oscar_to_better_learn_math = models.TextField(verbose_name=u"Qu'aimerais-tu avoir sur Oscar pour mieux apprendre les maths ?")

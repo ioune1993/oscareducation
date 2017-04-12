@@ -14,6 +14,8 @@ from django.db import transaction
 # from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
 from skills.models import StudentSkill, Skill, Resource
+from end_test_poll.models import StudentPoll
+from end_test_poll.forms import StudentPollForm
 
 
 from utils import user_is_student
@@ -23,6 +25,17 @@ from utils import user_is_student
 def dashboard(request):
     return render(request, "student/dashboard.haml", {})
 
+
+def validated_pool(request):
+    pool_form = StudentPollForm(request.POST) if request.method == "POST" else StudentPollForm()
+
+    if request.method == "POST" and pool_form.is_valid():
+        StudentPoll(student=request.user.student, **pool_form.cleaned_data)
+        return HttpResponseRedirect(reverse('student_dashboard'))
+
+    return render(request, "examinations/test_finished.haml", {
+        "pool_form": pool_form,
+    })
 
 @user_is_student
 def pass_test(request, pk):
@@ -62,9 +75,14 @@ def pass_test(request, pk):
         test_student.finished_at = datetime.now()
         test_student.save()
 
-        return render(request, "examinations/test_finished.haml", {
-            "test_student": test_student
-        })
+        # pool_form = None
+        # if not StudentPoll.objects.filter(student=test_student.student).exists():
+            # pool_form = StudentPollForm()
+
+        # return render(request, "examinations/test_finished.haml", {
+            # "test_student": test_student,
+            # "pool_form": pool_form,
+        # })
 
     return render(request, "examinations/take_exercice.haml", {
         "test_exercice": next_not_answered_test_exercice,
