@@ -6,7 +6,6 @@ h2 {
     line-height: 1.5;
 }
 
-
 h3, hr {
     font-family:minion, serif;
     text-align:center;
@@ -16,6 +15,10 @@ h3, hr {
     color:white;
     word-spacing: 2px;
     line-height: 1.5;
+}
+
+hr {
+    border-color: #f58025;
 }
 
 h4 {
@@ -29,6 +32,26 @@ h4 {
     color:white;
     word-spacing: 2px;
     line-height: 1.5;
+}
+
+h4 a:hover, h4 a:active, h4 a:focus {
+    color: #333;
+    text-decoration: none;
+}
+
+h6 {
+    font-family:'Open Sans', sans-serif;
+    font-size: 14px;
+    color:white;
+    letter-spacing: 0.1em;
+    line-height:50%
+}
+
+h7 {
+    font-family:'Open Sans', sans-serif;
+    font-size: 12px;
+    color:white;
+    letter-spacing: 0.1em;
 }
 
 hr {
@@ -78,16 +101,17 @@ a:hover, a:focus {
 
 .buttontxt
 {
-    margin-top: 4%;
+    position: absolute;
+    bottom: 50px;
     font-family: 'Open Sans', sans-serif;
-    color: #f58025;
-    font-size: 12px;
+    color: #fff;
+    font-size: 15px;
 }
 
 .buttonimg
 {
     size: 50%;
-    margin-top: 6%;
+    margin-top: 20%;
 }
 
 /* Onglet */
@@ -250,8 +274,6 @@ ul.orange > li.active > a
 
 /* Divers */
 
-
-
 .fond {
     background-image: url(/static/img/fond-prof-point-noir.png);
     background-attachment: fixed;
@@ -266,6 +288,9 @@ ul.orange > li.active > a
     width: 80%;
 }
 
+html, body {
+    height: 100%;
+}
 
 body {
     color: black;
@@ -274,8 +299,10 @@ body {
     background-attachment:fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    font-size: 16px;
     word-spacing: 2px;
     line-height: 1.5;
+    font-family: Open Sans;
 }
 
 #footer {
@@ -675,9 +702,6 @@ body {
     width: 500px;
 }
 
-html, body {
-    height: 100%;
-}
 
 ol.breadcrumb > li:first-child > a {
     color: white;
