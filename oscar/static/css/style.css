@@ -9,7 +9,7 @@ h2 {
 h3, hr {
     font-family:minion, serif;
     text-align:center;
-    width: 100%;
+    width: 400px;
     margin-left: auto;
     margin-right: auto;
     color:white;
@@ -19,6 +19,7 @@ h3, hr {
 
 hr {
     border-color: #f58025;
+    margin-top: 0px;
 }
 
 h4 {
