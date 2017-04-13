@@ -12,7 +12,6 @@
 
 -block content
   .panel.panel-default
-    .panel-heading
     .panel-body
       %p Félicitations, vous avez terminé le test "{{ test_student.test.name }}" !
 
@@ -22,10 +21,9 @@
       </br><span class='orange'><img class='icon student-skill' src='/static/img/icons/not-mastered.png' /> = non maîtrisé,</span> 
       </br> <img class='icon student-skill' src='/static/img/icons/not-tested.png' /> <span class='gris'> = pas encore testé.</span>
 
-      %br
-
       -if not pool_form
-        %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil
+        %p
+          %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil
 
       -else
         %hr
