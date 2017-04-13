@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 from django import forms
+from django.core.urlresolvers import reverse
+
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
 from crispy_forms.bootstrap import InlineRadios, InlineField
@@ -34,13 +36,6 @@ class StudentPollForm(forms.ModelForm):
         widget=forms.RadioSelect,
     )
 
-    saw_the_updated_skills_after_test = forms.TypedChoiceField(
-        required=True,
-        label=u"Après le test, tu as vu que tes compétences étaient mises à jour (avec des disques coloriés en orange ou vert) :",
-        choices=((True, "Oui"), (False, "Non")),
-        widget=forms.RadioSelect,
-    )
-
     def __init__(self, *args, **kwargs):
         super(StudentPollForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper()
@@ -65,28 +60,28 @@ class StudentPollForm(forms.ModelForm):
 
                 "difficulties",
 
+                InlineRadios("my_teacher_should_use_oscar_more"),
+
+                # "is_oscar_usefull",
+
+                # InlineRadios("saw_the_updated_skills_after_test"),
+
+                # HTML(u"Si oui, tu as compris que :"),
+                # InlineField("meaning_orange_circles"),
+                # InlineField("meaning_green_circles"),
+                # InlineField("meaning_white_circles"),
+
+                # HTML(u"Tu as vu que tes compétences étaient mises à jour et..."),
+                # "update_skills_motivated_me",
+                # "update_skills_i_understood",
+                # "update_skills_i_havent_understood",
+                # "update_skills_havent_saw_it",
+                # InlineField("update_skills_other"),
+
                 InlineRadios("enjoyed_oscar"),
                 HTML(u'<div class="inline-radio-description"><span class="left">(non pas du tout)</span> <span class="right">(oui, c\'était génial !)</span></div>'),
 
                 "why",
-
-                InlineRadios("my_teacher_should_use_oscar_more"),
-
-                "is_oscar_usefull",
-
-                InlineRadios("saw_the_updated_skills_after_test"),
-
-                HTML(u"Si oui, tu as compris que :"),
-                InlineField("meaning_orange_circles"),
-                InlineField("meaning_green_circles"),
-                InlineField("meaning_white_circles"),
-
-                HTML(u"Tu as vu que tes compétences étaient mises à jour et..."),
-                "update_skills_motivated_me",
-                "update_skills_i_understood",
-                "update_skills_i_havent_understood",
-                "update_skills_havent_saw_it",
-                InlineField("update_skills_other"),
 
                 "what_on_oscar_to_better_learn_math",
             ),

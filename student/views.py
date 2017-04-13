@@ -26,17 +26,6 @@ def dashboard(request):
     return render(request, "student/dashboard.haml", {})
 
 
-def validated_pool(request):
-    pool_form = StudentPollForm(request.POST) if request.method == "POST" else StudentPollForm()
-
-    if request.method == "POST" and pool_form.is_valid():
-        StudentPoll(student=request.user.student, **pool_form.cleaned_data)
-        return HttpResponseRedirect(reverse('student_dashboard'))
-
-    return render(request, "examinations/test_finished.haml", {
-        "pool_form": pool_form,
-    })
-
 @user_is_student
 def pass_test(request, pk):
     test_student = get_object_or_404(TestStudent, pk=pk)
@@ -58,8 +47,18 @@ def pass_test(request, pk):
         })
 
     if test_student.finished:
+        pool_form = None
+        if not StudentPoll.objects.filter(student=test_student.student).exists():
+            pool_form = StudentPollForm(request.POST) if request.method == "POST" else StudentPollForm()
+
+            if request.method == "POST" and pool_form.is_valid():
+                StudentPoll(student=request.user.student, **pool_form.cleaned_data)
+                return HttpResponseRedirect(reverse('student_dashboard'))
+            print pool_form.errors
+
         return render(request, "examinations/test_finished.haml", {
-            "test_student": test_student
+            "test_student": test_student,
+            "pool_form": pool_form,
         })
 
     # the order_by here is used to make the order of the exercices deterministics
@@ -75,14 +74,14 @@ def pass_test(request, pk):
         test_student.finished_at = datetime.now()
         test_student.save()
 
-        # pool_form = None
-        # if not StudentPoll.objects.filter(student=test_student.student).exists():
-            # pool_form = StudentPollForm()
+        pool_form = None
+        if not StudentPoll.objects.filter(student=test_student.student).exists():
+            pool_form = StudentPollForm()
 
-        # return render(request, "examinations/test_finished.haml", {
-            # "test_student": test_student,
-            # "pool_form": pool_form,
-        # })
+        return render(request, "examinations/test_finished.haml", {
+            "test_student": test_student,
+            "pool_form": pool_form,
+        })
 
     return render(request, "examinations/take_exercice.haml", {
         "test_exercice": next_not_answered_test_exercice,
