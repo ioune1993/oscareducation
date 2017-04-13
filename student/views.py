@@ -52,7 +52,7 @@ def pass_test(request, pk):
             pool_form = StudentPollForm(request.POST) if request.method == "POST" else StudentPollForm()
 
             if request.method == "POST" and pool_form.is_valid():
-                StudentPoll(student=request.user.student, **pool_form.cleaned_data)
+                StudentPoll.objects.create(student=test_student.student, lesson=test_student.student.lesson_set.first(), **pool_form.cleaned_data)
                 return HttpResponseRedirect(reverse('student_dashboard'))
             print pool_form.errors
 

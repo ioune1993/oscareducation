@@ -81,7 +81,7 @@ class StudentPollForm(forms.ModelForm):
 
     class Meta:
         model = StudentPoll
-        exclude = ('student',)
+        exclude = ('student', 'lesson')
         widgets = {
             'on_device': forms.RadioSelect,
             'where': forms.RadioSelect,

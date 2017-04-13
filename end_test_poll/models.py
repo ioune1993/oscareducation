@@ -2,22 +2,19 @@
 
 from django.db import models
 
-from promotions.models import Student
+from promotions.models import Student, Lesson
 
 
 class StudentPoll(models.Model):
     student = models.ForeignKey(Student)
+    created_at = models.DateTimeField(auto_now_add=True)
+    lesson = models.ForeignKey(Lesson)
 
     student_age = models.PositiveIntegerField(verbose_name=u"Mon âge")
 
     on_device = models.CharField(max_length=255, choices=(('computer', 'ordinateur'), ('tablette', 'tablette'), ('smartphone', 'smartphone')), verbose_name="Sur :", default="computer")
 
     where = models.CharField(max_length=255, choices=(('at_school', 'à l\'école'), ('at_home', 'à la maison'), ('outside', 'ailleurs sur mon smartphone (par exemple dans le bus)')), verbose_name="Depuis mi-avril, je me suis connecté·e :", default="at_school")
-
-    at_school = models.BooleanField(verbose_name=u"à l'école")
-    at_home =  models.BooleanField(verbose_name=u"à la maison")
-
-    on_smartphone_somewhere_else = models.BooleanField(verbose_name=u"")
 
     easy_to_connect_and_understand = models.PositiveIntegerField(verbose_name=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallaire faire :")
 
