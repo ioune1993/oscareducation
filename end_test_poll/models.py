@@ -10,15 +10,15 @@ class StudentPoll(models.Model):
 
     student_age = models.PositiveIntegerField(verbose_name=u"Mon âge")
 
-    at_school_on_computer = models.BooleanField(verbose_name=u"à l'école : sur ordinateur")
-    at_school_on_tablette = models.BooleanField(verbose_name=u"à l'école : sur tablette")
-    at_school_on_smartphone = models.BooleanField(verbose_name=u"à l'école : sur smartphone")
+    at_school_on_computer = models.PositiveIntegerField(verbose_name=u"fois à l'école sur ordinateur", default=0)
+    at_school_on_tablette = models.PositiveIntegerField(verbose_name=u"fois à l'école sur tablette", default=0)
+    at_school_on_smartphone = models.PositiveIntegerField(verbose_name=u"fois à l'école sur smartphone", default=0)
 
-    at_home_on_computer = models.BooleanField(verbose_name=u"à la maison : sur ordinateur")
-    at_home_on_tablette = models.BooleanField(verbose_name=u"à la maison : sur tablette")
-    at_home_on_smartphone = models.BooleanField(verbose_name=u"à la maison : sur smartphone")
+    at_home_on_computer = models.PositiveIntegerField(verbose_name=u"fois à la maison sur ordinateur", default=0)
+    at_home_on_tablette = models.PositiveIntegerField(verbose_name=u"fois à la maison sur tablette", default=0)
+    at_home_on_smartphone = models.PositiveIntegerField(verbose_name=u"fois à la maison sur smartphone", default=0)
 
-    on_smartphone_somewhere_else = models.BooleanField(verbose_name=u"ailleurs sur mon smartphone (par exemple dans le bus)")
+    on_smartphone_somewhere_else = models.PositiveIntegerField(verbose_name=u"ailleurs sur mon smartphone (par exemple dans le bus)", default=0)
 
     easy_to_connect_and_understand = models.PositiveIntegerField(verbose_name=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallaire faire :")
 

@@ -8,6 +8,10 @@ from crispy_forms.bootstrap import InlineRadios, InlineField
 from .models import StudentPoll
 
 
+class SwappedInlineField(InlineField):
+    template = "%s/layout/swapped_inline_field.html"
+
+
 class StudentPollForm(forms.ModelForm):
     easy_to_connect_and_understand = forms.TypedChoiceField(
         required=True,
@@ -46,15 +50,15 @@ class StudentPollForm(forms.ModelForm):
                 InlineField("student_age"),
 
                 HTML(u"<p>Depuis mi-avril, je me suis connecté·e :</p>"),
-                "at_school_on_computer",
-                "at_school_on_tablette",
-                "at_school_on_smartphone",
+                SwappedInlineField("at_school_on_computer", style="width: 70px;"),
+                SwappedInlineField("at_school_on_tablette", style="width: 70px;"),
+                SwappedInlineField("at_school_on_smartphone", style="width: 70px;"),
 
-                "at_home_on_computer",
-                "at_home_on_tablette",
-                "at_home_on_smartphone",
+                SwappedInlineField("at_home_on_computer", style="width: 70px;"),
+                SwappedInlineField("at_home_on_tablette", style="width: 70px;"),
+                SwappedInlineField("at_home_on_smartphone", style="width: 70px;"),
 
-                "on_smartphone_somewhere_else",
+                SwappedInlineField("on_smartphone_somewhere_else", style="width: 70px;"),
 
                 InlineRadios("easy_to_connect_and_understand"),
                 HTML(u'<div class="inline-radio-description"><span class="left">(oui, c\'était très facile)</span> <span class="right">(non, c\'est compliqué)</span></div>'),
