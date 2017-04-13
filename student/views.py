@@ -106,6 +106,8 @@ def validate_exercice(request, test_student, test_exercice):
                     raw_answer[number] = None
             elif data["type"] == "text":
                 raw_answer[number] = request.POST[str(number)]
+            elif data["type"].startswith("math"):
+                raw_answer[number] = request.POST[str(number)]
             elif data["type"] == "graph":
                 raw_answer[number] = {key: value for key, value in request.POST.items() if key.startswith("graph-%s" % number)}
             else:
