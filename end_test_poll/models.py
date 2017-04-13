@@ -10,15 +10,14 @@ class StudentPoll(models.Model):
 
     student_age = models.PositiveIntegerField(verbose_name=u"Mon âge")
 
-    at_school_on_computer = models.PositiveIntegerField(verbose_name=u"fois à l'école sur ordinateur", default=0)
-    at_school_on_tablette = models.PositiveIntegerField(verbose_name=u"fois à l'école sur tablette", default=0)
-    at_school_on_smartphone = models.PositiveIntegerField(verbose_name=u"fois à l'école sur smartphone", default=0)
+    on_device = models.CharField(max_length=255, choices=(('computer', 'ordinateur'), ('tablette', 'tablette'), ('smartphone', 'smartphone')), verbose_name="Sur :", default="computer")
 
-    at_home_on_computer = models.PositiveIntegerField(verbose_name=u"fois à la maison sur ordinateur", default=0)
-    at_home_on_tablette = models.PositiveIntegerField(verbose_name=u"fois à la maison sur tablette", default=0)
-    at_home_on_smartphone = models.PositiveIntegerField(verbose_name=u"fois à la maison sur smartphone", default=0)
+    where = models.CharField(max_length=255, choices=(('at_school', 'à l\'école'), ('at_home', 'à la maison'), ('outside', 'ailleurs sur mon smartphone (par exemple dans le bus)')), verbose_name="Depuis mi-avril, je me suis connecté·e :", default="at_school")
 
-    on_smartphone_somewhere_else = models.PositiveIntegerField(verbose_name=u"ailleurs sur mon smartphone (par exemple dans le bus)", default=0)
+    at_school = models.BooleanField(verbose_name=u"à l'école")
+    at_home =  models.BooleanField(verbose_name=u"à la maison")
+
+    on_smartphone_somewhere_else = models.BooleanField(verbose_name=u"")
 
     easy_to_connect_and_understand = models.PositiveIntegerField(verbose_name=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallaire faire :")
 
@@ -26,7 +25,7 @@ class StudentPoll(models.Model):
 
     enjoyed_oscar = models.PositiveIntegerField(verbose_name=u"As-tu aimé utiliser Oscar ?")
 
-    why = models.TextField(verbose_name=u"Pourquoi ?")
+    why = models.TextField(verbose_name=u"Qu'est-ce que tu as aimé et/ou pas aimé ?")
 
     my_teacher_should_use_oscar_more = models.BooleanField(verbose_name=u"Aimerais-tu que ton enseignant·e travaille plus souvent avec Oscar ?")
 
@@ -45,5 +44,3 @@ class StudentPoll(models.Model):
     # update_skills_i_havent_understood = models.BooleanField(verbose_name=u"pas compris")
     # update_skills_havent_saw_it = models.BooleanField(verbose_name=u"pas vu tes compétences mises à jour")
     # update_skills_other = models.TextField(verbose_name=u"autre :", null=True, blank=True)
-
-    what_on_oscar_to_better_learn_math = models.TextField(verbose_name=u"Qu'aimerais-tu avoir sur Oscar pour mieux apprendre les maths ?")

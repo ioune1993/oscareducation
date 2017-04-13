@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 from django import forms
-from django.core.urlresolvers import reverse
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML
@@ -44,23 +43,13 @@ class StudentPollForm(forms.ModelForm):
                 "",
                 InlineField("student_age"),
 
-                HTML(u"<p>Depuis mi-avril, je me suis connecté·e :</p>"),
-                SwappedInlineField("at_school_on_computer", style="width: 70px;"),
-                SwappedInlineField("at_school_on_tablette", style="width: 70px;"),
-                SwappedInlineField("at_school_on_smartphone", style="width: 70px;"),
-
-                SwappedInlineField("at_home_on_computer", style="width: 70px;"),
-                SwappedInlineField("at_home_on_tablette", style="width: 70px;"),
-                SwappedInlineField("at_home_on_smartphone", style="width: 70px;"),
-
-                SwappedInlineField("on_smartphone_somewhere_else", style="width: 70px;"),
+                "where",
+                "on_device",
 
                 InlineRadios("easy_to_connect_and_understand"),
                 HTML(u'<div class="inline-radio-description"><span class="left">(oui, c\'était très facile)</span> <span class="right">(non, c\'est compliqué)</span></div>'),
 
                 "difficulties",
-
-                InlineRadios("my_teacher_should_use_oscar_more"),
 
                 # "is_oscar_usefull",
 
@@ -78,12 +67,12 @@ class StudentPollForm(forms.ModelForm):
                 # "update_skills_havent_saw_it",
                 # InlineField("update_skills_other"),
 
-                InlineRadios("enjoyed_oscar"),
+                InlineRadios("enjoyed_oscar", css_class="center-radio"),
                 HTML(u'<div class="inline-radio-description"><span class="left">(non pas du tout)</span> <span class="right">(oui, c\'était génial !)</span></div>'),
 
                 "why",
 
-                "what_on_oscar_to_better_learn_math",
+                InlineRadios("my_teacher_should_use_oscar_more"),
             ),
             ButtonHolder(
                 Submit('submit', 'Valider', css_class='btn btn-primary')
@@ -94,6 +83,8 @@ class StudentPollForm(forms.ModelForm):
         model = StudentPoll
         exclude = ('student',)
         widgets = {
+            'on_device': forms.RadioSelect,
+            'where': forms.RadioSelect,
             'meaning_orange_circles': forms.TextInput,
             'meaning_green_circles': forms.TextInput,
             'meaning_white_circles': forms.TextInput,

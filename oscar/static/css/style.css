@@ -932,7 +932,9 @@ h7 {
     letter-spacing: 0.1em;
 }
 
-.controls {
+#div_id_easy_to_connect_and_understand .controls,
+#div_id_my_teacher_should_use_oscar_more .controls,
+#div_id_enjoyed_oscar .controls {
     margin: auto;
     width: 100%;
     text-align: center;
