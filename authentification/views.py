@@ -8,6 +8,9 @@ from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
 
+from stats.models import LoginStats
+
+
 # Avoid shadowing the login() and logout() views below.
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login,
     logout as auth_logout)
@@ -38,6 +41,17 @@ def login(request, template_name='registration/login.haml',
 
             # Okay, security check complete. Log the user in.
             auth_login(request, form.get_user())
+
+            if request.user.is_superuser:
+                user_kind = "admin"
+            elif hasattr(request.user, "professor"):
+                user_kind = "professor"
+            elif hasattr(request.user, "student"):
+                user_kind = "student"
+            else:
+                raise Exception("Uknown user kind, can't login")
+
+            LoginStats.objects.create(user=request.user, user_kind=user_kind)
 
             return HttpResponseRedirect(redirect_to)
     else:
