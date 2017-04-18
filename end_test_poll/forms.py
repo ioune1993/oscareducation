@@ -16,7 +16,7 @@ class StudentYearField(InlineField):
 class StudentPollForm(forms.ModelForm):
     easy_to_connect_and_understand = forms.TypedChoiceField(
         required=True,
-        label=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallait faire :",
+        label=u"Tu t'es facilement connecté·e à Oscar et tu as tout de suite compris ce qu'il fallait faire :",
         choices=tuple([(x, str(x)) for x in range(0, 4)]),
         widget=forms.RadioSelect,
     )
