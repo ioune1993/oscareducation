@@ -31,7 +31,8 @@ class StudentPollForm(forms.ModelForm):
     my_teacher_should_use_oscar_more = forms.TypedChoiceField(
         required=True,
         label=u"Aimerais-tu que ton enseignant·e travaille plus souvent avec Oscar ?",
-        choices=((True, "Oui"), (False, "Non")),
+        choices=((1, "Oui"), (0, "Non")),
+        coerce = lambda x: bool(int(x)),
         widget=forms.RadioSelect,
     )
 
