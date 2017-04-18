@@ -9,22 +9,22 @@ from crispy_forms.bootstrap import InlineRadios, InlineField
 from .models import StudentPoll
 
 
-class SwappedInlineField(InlineField):
-    template = "%s/layout/swapped_inline_field.html"
+class StudentYearField(InlineField):
+    template = "%s/layout/student_year_field.html"
 
 
 class StudentPollForm(forms.ModelForm):
     easy_to_connect_and_understand = forms.TypedChoiceField(
         required=True,
-        label=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallaire faire :",
-        choices=tuple([(x, str(x)) for x in range(1, 5)]),
+        label=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallait faire :",
+        choices=tuple([(x, str(x)) for x in range(0, 4)]),
         widget=forms.RadioSelect,
     )
 
     enjoyed_oscar = forms.TypedChoiceField(
         required=True,
         label=u"As-tu aimé utiliser Oscar ?",
-        choices=tuple([(x, str(x)) for x in range(1, 5)]),
+        choices=tuple([(x, str(x)) for x in range(0, 4)]),
         widget=forms.RadioSelect,
     )
 
@@ -41,13 +41,13 @@ class StudentPollForm(forms.ModelForm):
         self.helper.layout = Layout(
             Fieldset(
                 "",
-                InlineField("student_age"),
+                StudentYearField("student_age"),
 
                 "where",
                 "on_device",
 
                 InlineRadios("easy_to_connect_and_understand"),
-                HTML(u'<div class="inline-radio-description"><span class="left">(oui, c\'était très facile)</span> <span class="right">(non, c\'est compliqué)</span></div>'),
+                HTML(u'<div class="inline-radio-description"><span class="left">(non, c\'est compliqué)</span> <span class="right">(oui, c\'était très facile)</span></div>'),
 
                 "difficulties",
 

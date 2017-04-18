@@ -10,13 +10,13 @@ class StudentPoll(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     lesson = models.ForeignKey(Lesson)
 
-    student_age = models.PositiveIntegerField(verbose_name=u"Mon âge")
+    student_age = models.CharField(verbose_name=u"Ton âge :", max_length=255)
 
     on_device = models.CharField(max_length=255, choices=(('computer', 'ordinateur'), ('tablette', 'tablette'), ('smartphone', 'smartphone')), verbose_name="Sur :", default="computer")
 
-    where = models.CharField(max_length=255, choices=(('at_school', 'à l\'école'), ('at_home', 'à la maison'), ('outside', 'ailleurs sur mon smartphone (par exemple dans le bus)')), verbose_name="Depuis mi-avril, je me suis connecté·e :", default="at_school")
+    where = models.CharField(max_length=255, choices=(('at_school', 'à l\'école'), ('at_home', 'à la maison'), ('outside', 'ailleurs sur mon smartphone (par exemple dans le bus)')), verbose_name="Pour passer ce test, tu t'es connecté·e :", default="at_school")
 
-    easy_to_connect_and_understand = models.PositiveIntegerField(verbose_name=u"Je me suis facilement connecté·e à Oscar et j'ai tout de suite compris ce qu'il fallaire faire :")
+    easy_to_connect_and_understand = models.PositiveIntegerField(verbose_name=u"Tu t'es facilement connecté·e à Oscar et tu as tout de suite compris ce qu'il fallait faire :")
 
     difficulties = models.TextField(verbose_name=u"As-tu rencontré des difficultés ? Si oui, lesquelles ?")
 
