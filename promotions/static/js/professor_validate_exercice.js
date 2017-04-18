@@ -28,7 +28,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
 
                     $timeout(function() {
                         $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
-                        MathJax.Hub.Typeset();
+                        MathJax.Hub.Typeset(document.getElementById("exercice-rendering-panel"));
 
                         $($scope.questions).each(function(index, value) {
                             if (value.type == "graph") {
