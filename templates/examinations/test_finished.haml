@@ -15,11 +15,22 @@
     .panel-body
       %p Félicitations, tu as terminé le test "{{ test_student.test.name }}" !
 
+      %p Ton empreinte de compétences est maintenant mise à jour.
+
+      <span class='green'> <img class='icon student-skill' src='/static/img/icons/mastered.png' /> = maîtrisé,</span>
+      </br><span class='orange'><img class='icon student-skill' src='/static/img/icons/not-mastered.png' /> = non maîtrisé,</span>
+      </br> <img class='icon student-skill' src='/static/img/icons/not-tested.png' /> <span class='gris'> = pas encore testé.</span>
+
+
       -if not pool_form
         %p
           %a{href: "{% url 'student_dashboard' %}"} Revenir à ma page d'accueil
 
-      -else
+  -if pool_form
+    .panel.panel-default
+      .panel-body
+        %p Sondage
+
         %p
           Oscar est un site web en développement. C'est grâce à tes remarques
           que nous pouvons l'améliorer pour en faire un outil que tu aimes. C'est
