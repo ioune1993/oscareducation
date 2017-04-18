@@ -69,7 +69,7 @@ def pass_test(request, pk):
         # There is normally not way for a student to answer another exercice
         return validate_exercice(request, test_student, next_not_answered_test_exercice)
 
-    if next_not_answered_test_exercice is None:
+    if next_not_answered_test_exercice is None or next_not_answered_test_exercice.exercice is None:
         test_student.finished = True
         test_student.finished_at = datetime.now()
         test_student.save()
