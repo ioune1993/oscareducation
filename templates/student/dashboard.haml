@@ -12,6 +12,19 @@
         =lesson.name
 
 -block content-student
+  .container-fluid.boxclassetitle
+    .center
+      %span.green
+        <img class='icon student-skill' src='/static/img/icons/mastered.png' /> = maîtrisé,
+      %span.orange
+        <img class='icon student-skill' src='/static/img/icons/not-mastered.png' /> = non maîtrisé,
+      %span.gris
+        <img class='icon student-skill' src='/static/img/icons/not-tested.png' /> = pas encore testé,
+      %span.orange
+        <img class='icon student-skill' src='/static/img/icons/recommended.png' /> = compétence recommandée non maîtrisée.
+
+  %br
+
   -with lesson=user.student.lesson_set.first
       .row
         .col-md-6
