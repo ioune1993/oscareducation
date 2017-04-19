@@ -212,18 +212,21 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         } else {
             query = $(".mathquill-" + topIndex);
         }
+        console.log(query);
         renderMathquil(query, function(MQ, index, mq) {
             var mathquill = MQ.MathField(mq, {
                 handlers: {
                     edit: function() {
-                        question.answers[index].latex = mathquill.latex();
-                        console.log(question.answers[index].latex);
+                        console.log("======> " + answerIndex);
+                        question.answers[answerIndex].latex = mathquill.latex();
+                        console.log(question.answers[answerIndex].latex);
+                        console.log($scope.questions);
                     }
                 }
             });
 
-            if (question.answers[index].text) {
-                mathquill.latex(question.answers[index].text);
+            if (question.answers[answerIndex].text) {
+                mathquill.latex(question.answers[answerIndex].text);
             }
 
             var keyboard = $($(mq).parent().children()[0]);
