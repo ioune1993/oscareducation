@@ -195,7 +195,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 for (var i = 0; i < $scope.questions.length; ++i) {
                     if ($scope.questions[i].type.startsWith("math")) {
                         console.log("a");
-                        $scope.renderMathquil(i, $scope.questions[i])
+                        console.log($scope.questions[i])
+                        $scope.renderMathquil(i, $scope.questions[i].answers.length - 1, $scope.questions[i])
                     }
                 }
             }, 100);
