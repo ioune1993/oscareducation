@@ -1,9 +1,11 @@
 -extends "base.haml"
 -load static
 -load bootstrap3
+-load compress
 
 -block head
-  %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
+  -compress
+    %script{type: "text/javascript", src: "{% static 'js/professor_student.js' %}"}
 
 -block breadcrumb
   %ol.breadcrumb

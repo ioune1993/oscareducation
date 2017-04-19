@@ -1,8 +1,10 @@
 -extends "base.haml"
 -load static
+-load compress
 
 -block head
-  %script{type: "text/javascript", src: "{% static 'js/professor_lesson.js' %}"}
+  -compress
+    %script{type: "text/javascript", src: "{% static 'js/professor_lesson.js' %}"}
 
   :javascript
     context = {

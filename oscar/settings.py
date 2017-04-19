@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'student',
     'end_test_poll',
     'stats',
+    'compressor',
 ) + ADDITIONAL_APPS
 
 MIDDLEWARE_CLASSES = (
@@ -127,6 +128,12 @@ LOGGING = {
     },
 }
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+)
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -155,5 +162,8 @@ try:
     from settings_local import *
 except ImportError:
     pass
+
+if "STATIC_ROOT" not in globals():
+    COMPRESS_ROOT = os.path.join(BASE_DIR, "static_compressed")
 
 CRISPY_FAIL_SILENTLY = not DEBUG

@@ -22,3 +22,7 @@ ruamel.ordereddict==0.4.9
 ruamel.yaml==0.12.13
 django-crispy-forms==1.6.1
 mechanize==0.2.5
+django-appconf==1.0.2
+django-compressor==2.1.1
+rcssmin==1.0.6
+rjsmin==1.0.12

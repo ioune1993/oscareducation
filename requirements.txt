@@ -11,3 +11,4 @@ requests
 ruamel.yaml
 django-crispy-forms
 mechanize
+django-compressor
