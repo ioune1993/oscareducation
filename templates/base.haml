@@ -45,11 +45,11 @@
               <span style="color: #F58025">O</span>scar
             -if user.professor
               .nav-global-shortcuts
-                %a.global-shortcut.home{href: "{% url 'professor:dashboard' %}"}
+                %a.global-shortcut.home{href: "{% url 'professor:dashboard' %}", data-toggle: "tooltip", data-placement: "bottom", title: "Page d´accueil"}
                   %img{src: "{% static 'img/icons/Home.png' %}"}
-                %a.global-shortcut{href: "https://framateam.org/oscarpilote/", target: "_blank"}
+                %a.global-shortcut{href: "https://framateam.org/oscarpilote/", target: "_blank", data-toggle: "tooltip", data-placement: "bottom", title: "Forum"}
                   %img{src: "{% static 'img/icons/forum-white.png' %}"}
-                %a.global-shortcut{href: "{% url 'professor:skill_list' %}"}
+                %a.global-shortcut{href: "{% url 'professor:skill_list' %}", data-toggle: "tooltip", data-placement: "bottom", title: "Compétences et ressources"}
                   %img{src: "{% static 'img/icons/ressource-white.png' %}"}
           %ul.nav.navbar-nav.navbar-right.hidden-xs.hidden-sm
             %li
