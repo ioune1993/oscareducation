@@ -733,6 +733,7 @@ def exercice_validation_form_submit(request, pk=None):
             exercice.answer = yaml_file
             exercice.content = html
             exercice.testable_online = testable_online
+            exercice.modified_by = request.user
 
             exercice.save()
         else:

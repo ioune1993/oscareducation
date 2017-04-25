@@ -169,6 +169,7 @@ class Exercice(models.Model):
     approved = models.BooleanField(default=True)
 
     added_by = models.ForeignKey(User, null=True)
+    modified_by = models.ForeignKey(User, null=True, related_name="modified_exercices_set")
 
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
