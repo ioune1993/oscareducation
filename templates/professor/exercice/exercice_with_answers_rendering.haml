@@ -13,7 +13,9 @@
       %p Réponses correctes :
       %ul
         -for answer in question.answers
-          %li \({{answer}}\) (code latex: <code>{{ answer }}</code>)
+          %li \({{answer}}\)
+          -if user.is_superuser
+            Code latex: <code>{{ answer }}</code> (visible que par les admins)
   -elif question.type == "radio"
     -with name=forloop.counter0
       -for option, valid in question.answers.items
