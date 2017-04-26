@@ -158,6 +158,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
+BOOTSTRAP3 = {
+    "css_url": "/static/css/bootstrap.min.css",
+}
+
 try:
     from settings_local import *
 except ImportError:
