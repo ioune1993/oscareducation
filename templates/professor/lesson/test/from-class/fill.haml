@@ -30,22 +30,39 @@
               =skill.code
               %br
               =skill.name
-      -for student in lesson.students.all
+      -for student, skills in test_from_class.get_skills_with_encoded_values
         %tr
           %td= student
-          -for skill in test_from_class.skills.all
+          -for skill, encoded_value in skills
             %td
               .center
                 .btn-group-vertical{data-toggle: "buttons"}
-                  %label.btn.btn-default.good
-                    %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
-                    acquise
-                  %label.btn.btn-default.bad
-                    %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
-                    non acquise
-                  %label.btn.btn-default.active.unknown
-                    %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "unknown_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
-                    non testée
+                  -if encoded_value and encoded_value.result == "good"
+                    %label.btn.btn-default.good.active
+                      %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
+                      acquise
+                  -else
+                    %label.btn.btn-default.good
+                      %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                      acquise
+
+                  -if encoded_value and encoded_value.result == "bad"
+                    %label.btn.btn-default.bad.active
+                      %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
+                      non acquise
+                  -else
+                    %label.btn.btn-default.bad
+                      %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                      non acquise
+
+                  -if not encoded_value or encoded_value.result == "unknown"
+                    %label.btn.btn-default.unknown.active
+                      %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "unknown_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
+                      non testée
+                  -else
+                    %label.btn.btn-default.unknown
+                      %input{type: "radio", name: "{{ student.id }}_{{ skill.id }}", value: "unknown_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                      non testée
 
     %button.btn.btn-primary{type: "submit"}
       Valider
@@ -57,7 +74,7 @@
 
   :javascript
     $(function() {
-      $(".good").click(function() {
+      var color_good = function() {
         var btn = $(this)
         btn.addClass("btn-success");
 
@@ -67,9 +84,9 @@
 
         var bad_btn = btn.parent().find(".bad");
         bad_btn.removeClass("btn-warning");
-      });
+      }
 
-      $(".bad").click(function() {
+      var color_bad = function() {
         var btn = $(this)
         btn.addClass("btn-warning");
 
@@ -79,9 +96,9 @@
 
         var good_btn = btn.parent().find(".good");
         good_btn.removeClass("btn-success");
-      });
+      }
 
-      $(".unknown").click(function() {
+      var color_unknown = function() {
         var btn = $(this)
 
         var td = btn.parent().parent().parent();
@@ -93,5 +110,13 @@
 
         var bad_btn = btn.parent().find(".bad");
         bad_btn.removeClass("btn-warning");
-      });
+      }
+
+      $(".good").click(color_good);
+      $(".bad").click(color_bad);
+      $(".unknown").click(color_unknown);
+
+      $(".good.active").each(color_good);
+      $(".bad.active").each(color_bad);
+      $(".unknow.active").each(color_unknow);
     })
