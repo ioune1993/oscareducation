@@ -106,7 +106,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         if (question.type.startsWith("math")) {
             $timeout(function() {
                 console.log("c");
-                $scope.renderMathquil(topIndex, null, question)
+                for (var i = 0; i < question.answers.length; ++i)
+                    $scope.renderMathquil(topIndex, i, question)
             }, 100);
         }
     }
