@@ -96,7 +96,7 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
 
                 student_skill.save()
 
-        return HttpResponseRedirect(reverse('professor:lesson_test_list', args=(lesson.pk,)))
+        return HttpResponseRedirect(reverse('professor:lesson_test_from_class_detail', args=(lesson.pk, test_from_class.pk)))
 
     return render(request, "professor/lesson/test/from-class/fill.haml", {
         "lesson": lesson,
