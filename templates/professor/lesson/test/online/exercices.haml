@@ -48,7 +48,7 @@
                   adapter
           -if test_exercice.test.can_change_exercice or not test_exercice.exercice
             %td.center{width: "20px"}
-              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}"}
                 écrire
 
       .panel-body
@@ -76,7 +76,7 @@
 
           -else
             %p
-              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test.pk }}&code={{ test_exercice.skill.code }}"}
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}"}
                 Écrire une question pour cette compétence
 
 
