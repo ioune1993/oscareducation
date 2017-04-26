@@ -207,9 +207,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     }
 
     $scope.renderMathquil = function(topIndex, answerIndex, question) {
-        console.log("pouet");
-        console.log(topIndex)
-        console.log(answerIndex)
+        console.log("topIndex: " + topIndex);
+        console.log("answerIndex: " + answerIndex);
         if (answerIndex != null) {
             query = $(".mathquill-" + topIndex + "-" + answerIndex);
         } else {
@@ -228,6 +227,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 }
             });
 
+            console.log(question.answers);
             if (question.answers[answerIndex].text) {
                 mathquill.latex(question.answers[answerIndex].text);
             }
