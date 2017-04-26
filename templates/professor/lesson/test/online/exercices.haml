@@ -70,7 +70,7 @@
 
           -if test_exercice.test.can_change_exercice and test_exercice.skill.exercice_set.count > 0
             %p Mais il y en a des disponibles :
-              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}}"}
+              %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
                 en choisir un
 
 
