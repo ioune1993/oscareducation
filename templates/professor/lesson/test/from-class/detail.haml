@@ -45,8 +45,6 @@
     %h5 Résultats par élèves
 
     -if object.testskillfromclass_set.exists
-      -regroup object.testskillfromclass_set.all by student as students
-
       %table.table.table-bordered
         %thead
           %th{width: "20%"}
@@ -56,13 +54,13 @@
               =i.code
               %br
               =i.name
-        -for student in students
+        -for student, skills in object.get_skills_with_encoded_values
           %tr
             %td
-              %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.grouper.pk %}"}
-                =student.grouper
-            -for result in student.list
-              %td{class: "{% if result.result == 'good' %}success{% elif result.result == 'bad' %}warning{% endif %}"}
+              %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
+                =student
+            -for skill, encoded_value in skills
+              %td{class: "{% if encoded_value.result == 'good' %}success{% elif encoded_value.result == 'bad' %}warning{% endif %}"}
 
     -else
       %p Vous n'avez pas encore encodé cette évaluation libre.
