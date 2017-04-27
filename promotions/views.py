@@ -40,6 +40,7 @@ from .utils import generate_random_password, user_is_professor, force_encoding
 def dashboard(request):
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")).select_related("stage"),
+        "no_menu": True,
     })
 
 
