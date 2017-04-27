@@ -52,6 +52,29 @@
                             =test
                           (évaluation libre)
 
+      .panel.panel-default
+        .panel-heading
+          Suivi de l'ajout des questions
+
+        .panel-body
+          %ul
+            -for question in questions
+              %li
+                %a{href: "{% url 'professor:exercice_detail' question.id %}"}
+                  Question n°
+                  =question.id
+                %br
+                -if question.modified_by
+                  modifié par
+                  %a{href: "/admin/auth/user/{{ question.modified_by.id }}/"}
+                    =question.modified_by
+                  ({{ question.modified_at }})
+                  %br
+                ajouté par
+                %a{href: "/admin/auth/user/{{ question.added_by.id }}/"}
+                  =question.added_by
+                ({{ question.created_at }})
+
     .col-md-6
       .panel.panel-default
         .panel-heading

@@ -31,7 +31,7 @@ def dashboard(request):
         "skills_with_sesamath_ressources": Skill.objects.annotate(Count('sesamathskill')).filter(sesamathskill__count__gt=0),
         "khanacademyvideoskill": KhanAcademyVideoSkill.objects.order_by('-created_at').select_related('skill', 'reference'),
         "sesamathskill": SesamathSkill.objects.order_by('-created_at').select_related('skill', 'reference'),
-        "questions": Question.objects.all(),
+        "questions": Question.objects.all().order_by("-modified_at"),
         "stages_with_skills_with_questions": questions_per_stage,
         "skills_with_questions": Skill.objects.annotate(Count('exercice')).filter(exercice__count__gt=0),
     })
