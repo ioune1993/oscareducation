@@ -14,7 +14,7 @@
   %hr
 
   %center
-    %form{method: "POST", action: "{% url 'student_start_test' test_student.id %}"}.form-group
+    %form{method: "POST", action: "{% url 'student_start_test' test_student.id %}"}
       -csrf_token
       %button.btn.btn-lg.btn-primary{type: "submit"}
         Commencer le test

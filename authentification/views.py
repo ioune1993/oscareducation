@@ -68,7 +68,7 @@ def login(request, template_name='registration/login.haml',
     if extra_context is not None:
         context.update(extra_context)
     return TemplateResponse(request, template_name, context,
-                            current_app=current_app)
+                            current_app)
 
 
 def logout(request, next_page=None,
