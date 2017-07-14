@@ -1,8 +1,10 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
+from django.contrib.auth import urls
+from . import views
 
 
-urlpatterns = patterns('authentification.views',
-    url(r'^login/$', 'login', name='login'),
-    url(r'^logout/$', 'logout', name='logout'),
-    url('^', include('django.contrib.auth.urls')),
-)
+urlpatterns = [
+    url(r'^login/$', views.login, name='login'),
+    url(r'^logout/$', views.logout, name='logout'),
+    url('^', include(urls)),
+]

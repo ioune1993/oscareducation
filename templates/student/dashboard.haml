@@ -29,7 +29,7 @@
       .row
         .col-md-6
           -for stage in lesson.stages_in_unchronological_order
-            -get_students_skills of user.student at stage as "student_skills"
+            -get_students_skills of user.student at stage rename "student_skills"
             -if forloop.first
               .container-fluid.boxclassetitle
                 %h5 Mon empreinte
@@ -138,12 +138,12 @@
 
               %table.table.table-hover
                 -for stage in lesson.stages_in_unchronological_order
-                  -get_students_skills of user.student at stage as "student_skills"
+                  -get_students_skills of user.student at stage rename "student_skills"
                   -for student_skill in student_skills
                     -if student_skill.recommanded_to_learn
                       %tr.legend-list
                         %td.legend
-                          %i.round-section-icon.recommended{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}", data-toggle: "tooltip", data-placement: "right", title: "{{ student_skill.skill.section }}"}
+                          %i.round-section-icon.recommended{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}", data-toggle: "tooltip", data-placement: "right", section: "{{ student_skill.skill.section }}"}
                         %td.legend
                           %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
                         %td

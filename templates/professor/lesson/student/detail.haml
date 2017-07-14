@@ -121,7 +121,7 @@
           -if student.has_recommanded_skills
             %table.table
               -for stage in lesson.stages_in_unchronological_order
-                -get_students_skills of student at stage as "student_skills"
+                -get_students_skills of student at stage rename "student_skills"
                 -for student_skill in student_skills
                   -if student_skill.recommanded_to_learn
                     %tr
@@ -131,8 +131,8 @@
                       %td
                         %a{href: '{% url "professor:skill_detail" student_skill.skill.code %}'}
                           {{ student_skill.skill.name }}
-            -else
-              %p L'élève n'a pas encore de compétences recommandées.
+          -else
+            %p L'élève n'a pas encore de compétences recommandées.
 
         #heatmap.tab-pane
           #accordion.panel-group{role: "tablist", aria-multiselectable: "true"}
@@ -151,7 +151,7 @@
                       %h5= section.grouper
 
                       %ul.heatmap-list
-                        -get_students_skills of student at stage as "student_skills"
+                        -get_students_skills of student at stage rename "student_skills"
                         -for student_skill in student_skills
                           -if student_skill.skill.section == section.grouper
                             %li

@@ -50,8 +50,7 @@
   .boxclasse.container-fluid
     -if not test.fully_testable_online and object.testexercice_testable_offline.exists
       .alert.alert-warning
-        %b Attention
-        : ce test n'est pas entièrement faisable en ligne
+        %b Attention : ce test n'est pas entièrement faisable en ligne
 
     %h5 Compétences sélectionnées
     -if not test.fully_testable_online and object.testexercice_testable_offline.exists
