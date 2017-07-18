@@ -1,23 +1,38 @@
 # Development environment
 
-    apt-get install python-virtualenv
+## Installation
+You only need to perform these commands once: Install `virtualenv`,
+clone the repository, and create a new virtual environment in it.
+```sh
+$ apt-get install python-virtualenv
+$ git clone https://github.com/ioune1993/oscareducation.git
+$ cd oscar
+$ virtualenv ve
+```
 
-    git clone https://github.com/psycojoker/oscar
-    cd oscar
-    virtualenv ve
-    source ve/bin/activate
-    pip install -r requirements-frozen.txt
-    python manage.py makemigrations
-    python manage.py migrate
-    # you need a csv for skills
-    python manage.py import_skills file.csv
-    python manange.py load_exercices
+Then, enter in the virtual environment, and install all the requirements
+```sh
+$ source ve/bin/activate
+$ pip install -r requirements-oscar2.txt
+```
 
-    python manage.py createsuperuser  # create an admin, it will be used to create the admin
+Once all the steps above done, run the server with:
+```sh    
+$ python manage.py runserver
+```
 
-    python manange.py runserver
+You can now access the website: `http://127.0.0.1:8000`.
 
-Go to `http://127.0.0.1:8000/admin`, there create a "Prof" (green +), there,
-click on "green +" again to start a popup in which you'll create a new user
-(for example "prof" with password "prof"), validate, select field is auto
-field, valide, you have a prof user, log out and go back on "/" to log.
+> The administration is on `http://127.0.0.1:8000/admin`. You can
+create a new "Prof" (green +), there, click on "green +" again to start a 
+popup in which you'll create a new user (for example "prof" with password "prof"),
+validate, select field is auto field, validate, you now have a prof user.
+Log out and go back on "/" to log.
+
+Now, whenever you want to run the website again, you
+only need to enter in you virtual environment and run
+the Django server:
+```sh
+$ source ve/bin/activate
+$ python manage.py runserver
+```
