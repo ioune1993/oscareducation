@@ -46,5 +46,9 @@
           %td= answer.graph.coordinates.X
           %td= answer.graph.coordinates.Y
 
+  -elif question.type == "professor"
+    %span
+      %p
+        %i A corriger par le professeur
   -else
     =question.type
