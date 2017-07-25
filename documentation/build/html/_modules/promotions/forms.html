@@ -1,0 +1,198 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>promotions.forms &#8212; Oscar dev-0.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'dev-0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for promotions.forms</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="k">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.template.defaultfilters</span> <span class="k">import</span> <span class="n">slugify</span>
+
+<span class="kn">from</span> <span class="nn">resources.models</span> <span class="k">import</span> <span class="n">KhanAcademy</span><span class="p">,</span> <span class="n">Sesamath</span><span class="p">,</span> <span class="n">Resource</span>
+<span class="kn">from</span> <span class="nn">examinations.models</span> <span class="k">import</span> <span class="n">BaseTest</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="k">import</span> <span class="n">Lesson</span>
+
+
+<div class="viewcode-block" id="LessonForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.LessonForm">[docs]</a><span class="k">class</span> <span class="nc">LessonForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+<div class="viewcode-block" id="LessonForm.Meta"><a class="viewcode-back" href="../../promotions.html#promotions.forms.LessonForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Lesson</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;stage&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="LessonUpdateForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.LessonUpdateForm">[docs]</a><span class="k">class</span> <span class="nc">LessonUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+<div class="viewcode-block" id="LessonUpdateForm.Meta"><a class="viewcode-back" href="../../promotions.html#promotions.forms.LessonUpdateForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Lesson</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="StudentAddForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm">[docs]</a><span class="k">class</span> <span class="nc">StudentAddForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">first_name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">last_name</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">EmailField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<div class="viewcode-block" id="StudentAddForm.generate_student_username"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm.generate_student_username">[docs]</a>    <span class="k">def</span> <span class="nf">generate_student_username</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">slugify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;first_name&quot;</span><span class="p">])</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">slugify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;last_name&quot;</span><span class="p">])</span>
+
+        <span class="c1"># handle duplicated usernames</span>
+        <span class="c1"># not optimised at all</span>
+        <span class="n">base_username</span> <span class="o">=</span> <span class="n">username</span>
+
+        <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">while</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">):</span>
+            <span class="n">username</span> <span class="o">=</span> <span class="n">base_username</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+            <span class="n">number</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">return</span> <span class="n">username</span></div>
+
+<div class="viewcode-block" id="StudentAddForm.clean_email"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm.clean_email">[docs]</a>    <span class="k">def</span> <span class="nf">clean_email</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">User</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">email</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]):</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s2">&quot;Cette adresse email est déjà utilisé par un autre utilisateur&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StudentAddForm.get_or_generate_email"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm.get_or_generate_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_or_generate_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span>
+
+        <span class="c1"># hack, django enforce an email usage, let&#39;s use @example.com for &quot;I don&#39;t have an email&quot;</span>
+        <span class="k">return</span> <span class="n">username</span> <span class="o">+</span> <span class="s2">&quot;@example.com&quot;</span></div></div>
+
+
+<div class="viewcode-block" id="StudentUpdateForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentUpdateForm">[docs]</a><span class="k">class</span> <span class="nc">StudentUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+<div class="viewcode-block" id="StudentUpdateForm.Meta"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentUpdateForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">User</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">,</span> <span class="s1">&#39;last_name&#39;</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TestUpdateForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.TestUpdateForm">[docs]</a><span class="k">class</span> <span class="nc">TestUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+<div class="viewcode-block" id="TestUpdateForm.Meta"><a class="viewcode-back" href="../../promotions.html#promotions.forms.TestUpdateForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">BaseTest</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="KhanAcademyForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.KhanAcademyForm">[docs]</a><span class="k">class</span> <span class="nc">KhanAcademyForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">URLField</span><span class="p">()</span>
+
+<div class="viewcode-block" id="KhanAcademyForm.clean_url"><a class="viewcode-back" href="../../promotions.html#promotions.forms.KhanAcademyForm.clean_url">[docs]</a>    <span class="k">def</span> <span class="nf">clean_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">slug</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reference</span> <span class="o">=</span> <span class="n">KhanAcademy</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">KhanAcademy</span><span class="o">.</span><span class="n">DoesNotExist</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">((</span><span class="s1">&#39;Impossible de trouver la vidéo à cette page&#39;</span><span class="p">),</span> <span class="n">code</span><span class="o">=</span><span class="s1">&#39;invalide&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span></div></div>
+
+
+<div class="viewcode-block" id="SesamathForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.SesamathForm">[docs]</a><span class="k">class</span> <span class="nc">SesamathForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">ref_pk</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SyntheseForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.SyntheseForm">[docs]</a><span class="k">class</span> <span class="nc">SyntheseForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">synthese</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ResourceForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.ResourceForm">[docs]</a><span class="k">class</span> <span class="nc">ResourceForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Texte&quot;</span><span class="p">,</span> <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">)</span>
+<div class="viewcode-block" id="ResourceForm.Meta"><a class="viewcode-back" href="../../promotions.html#promotions.forms.ResourceForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">Resource</span>
+        <span class="n">fields</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="s1">&#39;added_by&#39;</span><span class="p">,</span> <span class="s1">&#39;section&#39;</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Oscar</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

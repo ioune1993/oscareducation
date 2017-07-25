@@ -1,0 +1,310 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>skills.models &#8212; Oscar dev-0.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'dev-0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for skills.models</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">unicode_literals</span>
+
+<span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
+<span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="k">import</span> <span class="n">GenericForeignKey</span>
+<span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="k">import</span> <span class="n">ContentType</span>
+
+
+<div class="viewcode-block" id="Skill"><a class="viewcode-back" href="../../skills.html#skills.models.Skill">[docs]</a><span class="k">class</span> <span class="nc">Skill</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;[FR] Compétence</span>
+
+<span class="sd">        A Skill can be evaluated through questions answered by a student.</span>
+<span class="sd">        Thus, when evaluated, a Skill can be acquired by a student, or not.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">db_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill reference code&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill name&quot;&quot;&quot;</span>
+
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill description&quot;&quot;&quot;</span>
+
+    <span class="n">section</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Section&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Section to which the Skill belongs&quot;&quot;&quot;</span>
+
+    <span class="n">depends_on</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Skill&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;depends_on+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;If a Skill depends on another (i.e. a prerequisite), this is set in this relation&quot;&quot;&quot;</span>
+
+    <span class="n">similar_to</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Skill&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;similar_to+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;???&quot;&quot;&quot;</span>
+
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;resources.Resource&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;skill_resource+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Resources linked to this Skill. A Resource can be linked to several Skills&quot;&quot;&quot;</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Icon used to categorize the Skill&quot;&quot;&quot;</span>
+
+    <span class="n">oscar_synthese</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill abstract provided by Oscar&quot;&quot;&quot;</span>
+
+    <span class="n">modified_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The last user that modified this Skill&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Section"><a class="viewcode-back" href="../../skills.html#skills.models.Section">[docs]</a><span class="k">class</span> <span class="nc">Section</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;[FR] Rubrique</span>
+
+<span class="sd">        A Section regroups a list of CodeR and a list</span>
+<span class="sd">        of Skills. Sections form socles (most of the</span>
+<span class="sd">        time, a socle represents a year of mathematics</span>
+<span class="sd">        class)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Section name&quot;&quot;&quot;</span>
+
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;resources.Resource&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;section_resource+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The resources linked to this Section. A resource can be linked to several Sections&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="CodeR"><a class="viewcode-back" href="../../skills.html#skills.models.CodeR">[docs]</a><span class="k">class</span> <span class="nc">CodeR</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;[FR] Ressource (ou Code R),</span>
+<span class="sd">    à ne pas confondre avec une ressource pédagogique</span>
+
+<span class="sd">        A CodeR describes concept(s) to master, in order</span>
+<span class="sd">        to acquire the skill(s) based on that CodeR.</span>
+<span class="sd">        Unlike a Skill, A CodeR cannot be evaluated</span>
+<span class="sd">        directly.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">section</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Section&#39;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Section to which the CodeR belongs&quot;&quot;&quot;</span>
+
+    <span class="n">sub_code</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The CodeR reference code&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The CodeR name&quot;&quot;&quot;</span>
+
+    <span class="n">paired_to</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;CodeR&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;paired_to+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;If several CodeR cover the same concepts, but belong to different Sections,</span>
+<span class="sd">        they are paired in this relation&quot;&quot;&quot;</span>
+
+    <span class="n">resource</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;resources.Resource&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;coder_resource+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Resources linked to this CodeR. A Resource can be linked to several CodeR&quot;&quot;&quot;</span>
+
+    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s1">&#39;Skill&#39;</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s2">&quot;coder_skill+&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skills linked to this CodeR. A Skill can be linked to several CodeR&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="SkillHistory"><a class="viewcode-back" href="../../skills.html#skills.models.SkillHistory">[docs]</a><span class="k">class</span> <span class="nc">SkillHistory</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Skill</span><span class="p">)</span>
+    <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;users.Student&#39;</span><span class="p">)</span>
+    <span class="n">datetime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">(</span>
+        <span class="p">(</span><span class="s1">&#39;unknown&#39;</span><span class="p">,</span> <span class="s1">&#39;Inconnu&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;acquired&#39;</span><span class="p">,</span> <span class="s1">&#39;Acquise&#39;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s1">&#39;not acquired&#39;</span><span class="p">,</span> <span class="s1">&#39;None Acquise&#39;</span><span class="p">),</span>
+    <span class="p">))</span>
+
+    <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">)</span>
+    <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
+    <span class="n">reason_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">(</span><span class="s1">&#39;content_type&#39;</span><span class="p">,</span> <span class="s1">&#39;object_id&#39;</span><span class="p">)</span>
+    <span class="n">reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+
+    <span class="n">by_who</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="StudentSkill"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill">[docs]</a><span class="k">class</span> <span class="nc">StudentSkill</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;users.Student&#39;</span><span class="p">)</span>
+    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Skill</span><span class="p">)</span>
+    <span class="n">tested</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">acquired</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1"># bad: doesn&#39;t support regression</span>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">u</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquired</span> <span class="k">else</span> <span class="p">(</span><span class="s2">&quot;orange&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tested</span> <span class="k">else</span> <span class="s2">&quot;white&quot;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="StudentSkill.go_down_visitor"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.go_down_visitor">[docs]</a>    <span class="k">def</span> <span class="nf">go_down_visitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="c1"># protective code against loops in skill tree</span>
+        <span class="n">already_done</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="n">student_skill</span><span class="p">):</span>
+            <span class="n">function</span><span class="p">(</span><span class="n">student_skill</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">sub_student_skill</span> <span class="ow">in</span> <span class="n">StudentSkill</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">skill__in</span><span class="o">=</span><span class="n">student_skill</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">depends_on</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">sub_student_skill</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">already_done</span><span class="p">:</span>
+                    <span class="n">already_done</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sub_student_skill</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                    <span class="n">traverse</span><span class="p">(</span><span class="n">sub_student_skill</span><span class="p">)</span>
+
+        <span class="n">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StudentSkill.go_up_visitor"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.go_up_visitor">[docs]</a>    <span class="k">def</span> <span class="nf">go_up_visitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="c1"># protective code against loops in skill tree</span>
+        <span class="n">already_done</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+        <span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="n">student_skill</span><span class="p">):</span>
+            <span class="n">function</span><span class="p">(</span><span class="n">student_skill</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">sub_student_skill</span> <span class="ow">in</span> <span class="n">StudentSkill</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">skill__in</span><span class="o">=</span><span class="n">student_skill</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">skill_set</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">sub_student_skill</span><span class="o">.</span><span class="n">id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">already_done</span><span class="p">:</span>
+                    <span class="n">already_done</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sub_student_skill</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+                    <span class="n">traverse</span><span class="p">(</span><span class="n">sub_student_skill</span><span class="p">)</span>
+
+        <span class="n">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StudentSkill.validate"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">reason_object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">validate_student_skill</span><span class="p">(</span><span class="n">student_skill</span><span class="p">):</span>
+            <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">skill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
+                <span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="s2">&quot;acquired&quot;</span><span class="p">,</span>
+                <span class="n">by_who</span><span class="o">=</span><span class="n">who</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="n">reason</span> <span class="k">if</span> <span class="n">student_skill</span> <span class="o">==</span> <span class="bp">self</span> <span class="k">else</span> <span class="s2">&quot;Déterminé depuis une réponse précédente.&quot;</span><span class="p">,</span>
+                <span class="n">reason_object</span><span class="o">=</span><span class="n">reason_object</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">student_skill</span><span class="o">.</span><span class="n">acquired</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="n">student_skill</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">go_down_visitor</span><span class="p">(</span><span class="n">validate_student_skill</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StudentSkill.unvalidate"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.unvalidate">[docs]</a>    <span class="k">def</span> <span class="nf">unvalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">reason_object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">unvalidate_student_skill</span><span class="p">(</span><span class="n">student_skill</span><span class="p">):</span>
+            <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">skill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
+                <span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span>
+                <span class="n">value</span><span class="o">=</span><span class="s2">&quot;not acquired&quot;</span><span class="p">,</span>
+                <span class="n">by_who</span><span class="o">=</span><span class="n">who</span><span class="p">,</span>
+                <span class="n">reason</span><span class="o">=</span><span class="n">reason</span> <span class="k">if</span> <span class="n">student_skill</span> <span class="o">==</span> <span class="bp">self</span> <span class="k">else</span> <span class="s2">&quot;Déterminé depuis une réponse précédente.&quot;</span><span class="p">,</span>
+                <span class="n">reason_object</span><span class="o">=</span><span class="n">reason_object</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">student_skill</span><span class="o">.</span><span class="n">acquired</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">student_skill</span><span class="o">.</span><span class="n">tested</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="n">student_skill</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">go_up_visitor</span><span class="p">(</span><span class="n">unvalidate_student_skill</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StudentSkill.default"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.default">[docs]</a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">reason_object</span><span class="p">):</span>
+        <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">skill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
+            <span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span>
+            <span class="n">value</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span>
+            <span class="n">by_who</span><span class="o">=</span><span class="n">who</span><span class="p">,</span>
+            <span class="n">reason</span><span class="o">=</span><span class="n">reason</span><span class="p">,</span>
+            <span class="n">reason_object</span><span class="o">=</span><span class="n">reason_object</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">acquired</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tested</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="StudentSkill.recommanded_to_learn"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.recommanded_to_learn">[docs]</a>    <span class="k">def</span> <span class="nf">recommanded_to_learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquired</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tested</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">depends_on</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">skill</span> <span class="o">=</span> <span class="n">StudentSkill</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span> <span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">skill</span><span class="o">.</span><span class="n">acquired</span> <span class="ow">and</span> <span class="n">skill</span><span class="o">.</span><span class="n">tested</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Oscar</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
