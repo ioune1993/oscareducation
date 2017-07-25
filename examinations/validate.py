@@ -1,6 +1,16 @@
 # encoding: utf-8
 
+
 def validate_exercice_yaml_structure(exercice):
+    """Defines if an exercice is valid, with correct
+        answers types.
+
+        :param exercice: The exercice to validate
+        :type exercice: dict
+        :returns: True if the exercice is valid, False otherwise
+        :rtype: bool
+        """
+
     if not isinstance(exercice, dict):
         return (u"le premier niveau d'indentation (zero) doit être une série de chaînes de caractères se terminant par des ':' (un dictionnaire)").encode("Utf-8")
 

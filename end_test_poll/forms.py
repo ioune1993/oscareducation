@@ -14,6 +14,12 @@ class StudentYearField(InlineField):
 
 
 class StudentPollForm(forms.ModelForm):
+    """A poll to fill to give feedback on Oscar.
+
+    This is the poll that students are invited to complete each time
+    they finish a test. The purpose is to get a feedback on Oscar
+    from the students.
+    """
     easy_to_connect_and_understand = forms.TypedChoiceField(
         required=True,
         label=u"Tu t'es facilement connecté·e à Oscar et tu as tout de suite compris ce qu'il fallait faire :",
@@ -32,7 +38,7 @@ class StudentPollForm(forms.ModelForm):
         required=True,
         label=u"Aimerais-tu que ton enseignant·e travaille plus souvent avec Oscar ?",
         choices=((1, "Oui"), (0, "Non")),
-        coerce = lambda x: bool(int(x)),
+        coerce=lambda x: bool(int(x)),
         widget=forms.RadioSelect,
     )
 
@@ -52,7 +58,7 @@ class StudentPollForm(forms.ModelForm):
 
                 "difficulties",
 
-                # "is_oscar_usefull",
+                # "is_oscar_useful",
 
                 # InlineRadios("saw_the_updated_skills_after_test"),
 

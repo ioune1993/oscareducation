@@ -1,6 +1,6 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
-from promotions.models import Professor, Student
+from users.models import Professor, Student
 from django.core.urlresolvers import reverse
 
 

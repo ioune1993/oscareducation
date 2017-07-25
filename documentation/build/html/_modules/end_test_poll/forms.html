@@ -1,0 +1,196 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>end_test_poll.forms &#8212; Oscar dev-0.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'dev-0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for end_test_poll.forms</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="k">import</span> <span class="n">forms</span>
+
+<span class="kn">from</span> <span class="nn">crispy_forms.helper</span> <span class="k">import</span> <span class="n">FormHelper</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.layout</span> <span class="k">import</span> <span class="n">Layout</span><span class="p">,</span> <span class="n">Fieldset</span><span class="p">,</span> <span class="n">ButtonHolder</span><span class="p">,</span> <span class="n">Submit</span><span class="p">,</span> <span class="n">HTML</span>
+<span class="kn">from</span> <span class="nn">crispy_forms.bootstrap</span> <span class="k">import</span> <span class="n">InlineRadios</span><span class="p">,</span> <span class="n">InlineField</span>
+
+<span class="kn">from</span> <span class="nn">.models</span> <span class="k">import</span> <span class="n">StudentPoll</span>
+
+
+<div class="viewcode-block" id="StudentYearField"><a class="viewcode-back" href="../../end_test_poll.html#end_test_poll.forms.StudentYearField">[docs]</a><span class="k">class</span> <span class="nc">StudentYearField</span><span class="p">(</span><span class="n">InlineField</span><span class="p">):</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/layout/student_year_field.html&quot;</span></div>
+
+
+<div class="viewcode-block" id="StudentPollForm"><a class="viewcode-back" href="../../end_test_poll.html#end_test_poll.forms.StudentPollForm">[docs]</a><span class="k">class</span> <span class="nc">StudentPollForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A poll to fill to give feedback on Oscar.</span>
+
+<span class="sd">    This is the poll that students are invited to complete each time</span>
+<span class="sd">    they finish a test. The purpose is to get a feedback on Oscar</span>
+<span class="sd">    from the students.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">easy_to_connect_and_understand</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">TypedChoiceField</span><span class="p">(</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;Tu t&#39;es facilement connecté·e à Oscar et tu as tout de suite compris ce qu&#39;il fallait faire :&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="nb">tuple</span><span class="p">([(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]),</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">enjoyed_oscar</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">TypedChoiceField</span><span class="p">(</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;As-tu aimé utiliser Oscar ?&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="nb">tuple</span><span class="p">([(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)]),</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">my_teacher_should_use_oscar_more</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">TypedChoiceField</span><span class="p">(</span>
+        <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;Aimerais-tu que ton enseignant·e travaille plus souvent avec Oscar ?&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Oui&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;Non&quot;</span><span class="p">)),</span>
+        <span class="n">coerce</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+        <span class="n">widget</span><span class="o">=</span><span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">StudentPollForm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span> <span class="o">=</span> <span class="n">FormHelper</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">helper</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">Layout</span><span class="p">(</span>
+            <span class="n">Fieldset</span><span class="p">(</span>
+                <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                <span class="n">StudentYearField</span><span class="p">(</span><span class="s2">&quot;student_age&quot;</span><span class="p">),</span>
+
+                <span class="s2">&quot;where&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;on_device&quot;</span><span class="p">,</span>
+
+                <span class="n">InlineRadios</span><span class="p">(</span><span class="s2">&quot;easy_to_connect_and_understand&quot;</span><span class="p">),</span>
+                <span class="n">HTML</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;div class=&quot;inline-radio-description&quot;&gt;&lt;span class=&quot;left&quot;&gt;(non, c</span><span class="se">\&#39;</span><span class="s1">est compliqué)&lt;/span&gt; &lt;span class=&quot;right&quot;&gt;(oui, c</span><span class="se">\&#39;</span><span class="s1">était très facile)&lt;/span&gt;&lt;/div&gt;&#39;</span><span class="p">),</span>
+
+                <span class="s2">&quot;difficulties&quot;</span><span class="p">,</span>
+
+                <span class="c1"># &quot;is_oscar_useful&quot;,</span>
+
+                <span class="c1"># InlineRadios(&quot;saw_the_updated_skills_after_test&quot;),</span>
+
+                <span class="c1"># HTML(u&quot;Si oui, tu as compris que :&quot;),</span>
+                <span class="c1"># InlineField(&quot;meaning_orange_circles&quot;),</span>
+                <span class="c1"># InlineField(&quot;meaning_green_circles&quot;),</span>
+                <span class="c1"># InlineField(&quot;meaning_white_circles&quot;),</span>
+
+                <span class="c1"># HTML(u&quot;Tu as vu que tes compétences étaient mises à jour et...&quot;),</span>
+                <span class="c1"># &quot;update_skills_motivated_me&quot;,</span>
+                <span class="c1"># &quot;update_skills_i_understood&quot;,</span>
+                <span class="c1"># &quot;update_skills_i_havent_understood&quot;,</span>
+                <span class="c1"># &quot;update_skills_havent_saw_it&quot;,</span>
+                <span class="c1"># InlineField(&quot;update_skills_other&quot;),</span>
+
+                <span class="n">InlineRadios</span><span class="p">(</span><span class="s2">&quot;enjoyed_oscar&quot;</span><span class="p">,</span> <span class="n">css_class</span><span class="o">=</span><span class="s2">&quot;center-radio&quot;</span><span class="p">),</span>
+                <span class="n">HTML</span><span class="p">(</span><span class="sa">u</span><span class="s1">&#39;&lt;div class=&quot;inline-radio-description&quot;&gt;&lt;span class=&quot;left&quot;&gt;(non pas du tout)&lt;/span&gt; &lt;span class=&quot;right&quot;&gt;(oui, c</span><span class="se">\&#39;</span><span class="s1">était génial !)&lt;/span&gt;&lt;/div&gt;&#39;</span><span class="p">),</span>
+
+                <span class="s2">&quot;why&quot;</span><span class="p">,</span>
+
+                <span class="n">InlineRadios</span><span class="p">(</span><span class="s2">&quot;my_teacher_should_use_oscar_more&quot;</span><span class="p">),</span>
+            <span class="p">),</span>
+            <span class="n">ButtonHolder</span><span class="p">(</span>
+                <span class="n">Submit</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="s1">&#39;Valider&#39;</span><span class="p">,</span> <span class="n">css_class</span><span class="o">=</span><span class="s1">&#39;btn btn-primary&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+<div class="viewcode-block" id="StudentPollForm.Meta"><a class="viewcode-back" href="../../end_test_poll.html#end_test_poll.forms.StudentPollForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">StudentPoll</span>
+        <span class="n">exclude</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;student&#39;</span><span class="p">,</span> <span class="s1">&#39;lesson&#39;</span><span class="p">)</span>
+        <span class="n">widgets</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;on_device&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">,</span>
+            <span class="s1">&#39;where&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">RadioSelect</span><span class="p">,</span>
+            <span class="s1">&#39;meaning_orange_circles&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">,</span>
+            <span class="s1">&#39;meaning_green_circles&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">,</span>
+            <span class="s1">&#39;meaning_white_circles&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">,</span>
+            <span class="s1">&#39;update_skills_other&#39;</span><span class="p">:</span> <span class="n">forms</span><span class="o">.</span><span class="n">TextInput</span><span class="p">,</span>
+        <span class="p">}</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Oscar</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,9 +1,7 @@
 """
 Django settings for oscar project.
-
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
-
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
@@ -51,7 +49,7 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'django_pdb',
     'crispy_forms',
-    'oscar',  # hack: add self for tempaltes dir
+    'oscar',  # hack: add self for templates dir
     'promotions',
     'skills',
     'planification',
@@ -60,6 +58,9 @@ INSTALLED_APPS = (
     'end_test_poll',
     'stats',
     'compressor',
+    'users',
+    'resources',
+
 ) + ADDITIONAL_APPS
 
 MIDDLEWARE_CLASSES = (
@@ -153,7 +154,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-MEDIA_URL  = '/media/'
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 

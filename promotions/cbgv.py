@@ -2,7 +2,8 @@ from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, DeleteView
 from django.shortcuts import get_object_or_404
 
-from .models import Lesson, Student
+from .models import Lesson
+from users.models import Student
 from examinations.models import BaseTest
 
 

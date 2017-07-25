@@ -14,7 +14,8 @@ from django.db import transaction
 from skills.models import Skill, StudentSkill, SkillHistory
 from examinations.models import TestFromClass, TestSkillFromClass
 
-from promotions.models import Lesson, Student
+from promotions.models import Lesson
+from users.models import Student
 from promotions.utils import user_is_professor
 
 

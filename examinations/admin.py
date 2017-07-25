@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Test, Exercice
+from .models import Test, Context
+# @TODO Context replaces Exercice here, need to adapt
 
 
 class TestAdmin(admin.ModelAdmin):
@@ -8,7 +9,7 @@ class TestAdmin(admin.ModelAdmin):
 admin.site.register(Test, TestAdmin)
 
 
-class ExerciceAdmin(admin.ModelAdmin):
+class ContextAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Exercice, ExerciceAdmin)
+admin.site.register(Context, ContextAdmin)

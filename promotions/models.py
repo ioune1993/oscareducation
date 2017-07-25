@@ -1,70 +1,11 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
-import random
 from django.db import models
-from django.db.models import Count
-from django.contrib.auth.models import User
 
+# Create your models here.
 
-class AuthUserManager(models.Manager):
-    def get_queryset(self):
-        return super(AuthUserManager, self).get_queryset().select_related('user')
-
-
-class Professor(models.Model):
-    objects = AuthUserManager()
-
-    user = models.OneToOneField(User)
-
-    def students(self):
-        return Student.objects.filter(lesson__professors=self)
-
-    def __unicode__(self):
-        return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
-
-    class Meta:
-        ordering = ['user__last_name', 'user__first_name']
-
-
-class Student(models.Model):
-    objects = AuthUserManager()
-
-    user = models.OneToOneField(User)
-
-    def get_email(self):
-        if self.user.email.endswith("@example.com"):
-            return ""
-        return self.user.email
-
-    def __unicode__(self):
-        return ("%s %s" % (self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
-
-    def generate_new_password(self):
-        new_password = "%s%s%s" % (self.user.first_name[0].lower(), self.user.last_name[0].lower(), random.randint(100, 999))
-        self.user.set_password(new_password)
-        self.user.save()
-        return new_password
-
-    def done_tests(self):
-        return self.teststudent_set.filter(finished_at__isnull=False)
-
-    def todo_tests(self):
-        return self.teststudent_set.filter(finished_at__isnull=True)
-
-    def get_last_test(self):
-        return self.teststudent_set.order_by('-test__created_at').first()
-
-    def has_recommanded_skills(self):
-        for student_skill in self.studentskill_set.all():
-            if student_skill.recommanded_to_learn():
-                return True
-
-        return False
-
-    class Meta:
-        ordering = ['user__last_name']
-
-
+#stage
 class Stage(models.Model):
     name = models.CharField("Nom", max_length=255, unique=True)
     short_name = models.CharField("Nom", max_length=255, unique=True, null=True, blank=True)
@@ -72,39 +13,10 @@ class Stage(models.Model):
     previous_stage = models.ForeignKey("promotions.Stage", null=True, blank=True)
 
     skills = models.ManyToManyField("skills.Skill")
-
-    def skills_with_exercice_count(self):
-        print self, self.skills.count()
-        return self.skills.annotate(Count('exercice'))
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        unique_together = ('name', 'level')
-        ordering = ['level']
-
-
+#lesson
 class Lesson(models.Model):
+
     name = models.CharField("Nom", max_length=255)
-    students = models.ManyToManyField(Student)
-    professors = models.ManyToManyField(Professor)
-
+    students = models.ManyToManyField("users.Student")
+    professors = models.ManyToManyField("users.Professor")
     stage = models.ForeignKey(Stage, verbose_name=u"Année")
-
-    def stages_in_unchronological_order(self):
-        stage = self.stage
-
-        stages = [stage]
-
-        while stage.previous_stage is not None:
-            stage = stage.previous_stage
-            stages.append(stage)
-
-        return stages
-
-    def __unicode__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['name']

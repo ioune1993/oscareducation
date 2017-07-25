@@ -3,10 +3,12 @@ from django.db.models import Count
 
 from .utils import user_is_superuser
 
-from promotions.models import Professor, Student, Lesson, Stage
-from skills.models import Skill, KhanAcademyVideoSkill, SesamathSkill
+from promotions.models import Lesson, Stage
+from users.models import Professor, Student
+from skills.models import Skill
+from resources.models import KhanAcademy, Sesamath
 
-from examinations.models import Exercice as Question
+from examinations.models import Context as Question
 
 
 @user_is_superuser
@@ -29,8 +31,8 @@ def dashboard(request):
         "skills": Skill.objects.all(),
         "skills_with_khan_ressources": Skill.objects.annotate(Count('khanacademyvideoskill')).filter(khanacademyvideoskill__count__gt=0),
         "skills_with_sesamath_ressources": Skill.objects.annotate(Count('sesamathskill')).filter(sesamathskill__count__gt=0),
-        "khanacademyvideoskill": KhanAcademyVideoSkill.objects.order_by('-created_at').select_related('skill', 'reference'),
-        "sesamathskill": SesamathSkill.objects.order_by('-created_at').select_related('skill', 'reference'),
+        "khanacademyvideoskill": KhanAcademy.objects.order_by('-created_at').select_related('skill', 'reference'),
+        "sesamathskill": Sesamath.objects.order_by('-created_at').select_related('skill', 'reference'),
         "questions": Question.objects.all().order_by("-modified_at"),
         "stages_with_skills_with_questions": questions_per_stage,
         "skills_with_questions": Skill.objects.annotate(Count('exercice')).filter(exercice__count__gt=0),

@@ -1,0 +1,190 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>examinations.validate &#8212; Oscar dev-0.5 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'dev-0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for examinations.validate</h1><div class="highlight"><pre>
+<span></span><span class="c1"># encoding: utf-8</span>
+
+
+<div class="viewcode-block" id="validate_exercice_yaml_structure"><a class="viewcode-back" href="../../examinations.html#examinations.validate.validate_exercice_yaml_structure">[docs]</a><span class="k">def</span> <span class="nf">validate_exercice_yaml_structure</span><span class="p">(</span><span class="n">exercice</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Defines if an exercice is valid, with correct</span>
+<span class="sd">        answers types.</span>
+
+<span class="sd">        :param exercice: The exercice to validate</span>
+<span class="sd">        :type exercice: dict</span>
+<span class="sd">        :returns: True if the exercice is valid, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exercice</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le premier niveau d&#39;indentation (zero) doit être une série de chaînes de caractères se terminant par des &#39;:&#39; (un dictionnaire)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">exercice</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">basestring</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le premier niveau d&#39;indentation (zero) doit être une série de chaînes de caractères se terminant par des &#39;:&#39; or &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;est pas une chaîne de caractères&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">question</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">exercice</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le contenu de chaque question doit avoir un doit être une série de chaînes de caractères se terminant par des &#39;:&#39; (un dictionnaire), or le contenu &#39;</span><span class="si">%s</span><span class="s2">&#39; de la question &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;est pas un dictionnaire&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;chaque question doit avoir un type, or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;a pas de type&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;checkbox&quot;</span><span class="p">,</span> <span class="s2">&quot;math&quot;</span><span class="p">,</span> <span class="s2">&quot;math-simple&quot;</span><span class="p">,</span> <span class="s2">&quot;math-advanced&quot;</span><span class="p">,</span> <span class="s2">&quot;graph&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;la question &#39;</span><span class="si">%s</span><span class="s2">&#39; possède un type invalide: &#39;</span><span class="si">%s</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">Les types valides sont : &#39;text&#39;, &#39;checkbox&#39;, &#39;math&#39;, &#39;math-simple&#39;, &#39;math-advanced&#39;, &#39;graph&#39; et &#39;radio&#39; &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;answers&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;chaque question doit avoir une section &#39;answers&#39; contenant les réponses, or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; ne contient pas cette section&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;radio&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le contenu des réponses d&#39;une question de type radio doit être une série de chaînes de caractères se terminant par des &#39;:&#39; (un dictionnaire), or les réponses de la question &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;est pas sous forme d&#39;un dictionnaire&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le contenu des réponses d&#39;une question de type radio ne peuvent être que &#39;true&#39; ou &#39;false&#39; or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; possède une réponse qui est &#39;</span><span class="si">%s</span><span class="s2">&#39; qui n&#39;est pas &#39;true&#39; ou &#39;false&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+            <span class="n">number_of_true</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">number_of_true</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">number_of_true</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;une question de type radio doit avoir au moins une réponse de correcte, or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;a pas de réponse correcte possible&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">number_of_true</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;une question de type radio ne doit avoir qu&#39;une seul réponse de correcte, or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; a </span><span class="si">%s</span><span class="s2"> réponses correcte possible. Passez au type &#39;checkbox&#39; ou retirer une réponse correcte.&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">number_of_true</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;checkbox&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le contenu des réponses d&#39;une question de type checkbox doit être une série de chaînes de caractères se terminant par des &#39;:&#39; (un dictionnaire), or les réponses de la question &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;est pas sous forme d&#39;un dictionnaire&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le contenu des réponses d&#39;une question de type checkbox ne peuvent être que &#39;true&#39; ou &#39;false&#39; or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; possède une réponse qui est &#39;</span><span class="si">%s</span><span class="s2">&#39; qui n&#39;est pas &#39;true&#39; ou &#39;false&#39;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+            <span class="n">number_of_true</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                    <span class="n">number_of_true</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="k">if</span> <span class="n">number_of_true</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;une question de type checkbox doit avoir au moins une réponse de correcte, or la question &#39;</span><span class="si">%s</span><span class="s2">&#39; n&#39;a pas de réponse correcte possible&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">,</span> <span class="s2">&quot;math&quot;</span><span class="p">,</span> <span class="s2">&quot;math-simple&quot;</span><span class="p">,</span> <span class="s2">&quot;math-advanced&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;le contenu des réponses d&#39;une question de type text doit être une série de chaînes de caractères précédé par &#39;- &#39; (une liste), or les réponses de la question &#39;</span><span class="si">%s</span><span class="s2">&#39; ne sont pas sous forme d&#39;une liste&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;la question &#39;</span><span class="si">%s</span><span class="s2">&#39; ne possède pas de réponses possibles&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;graph&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">answer</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;answers&quot;</span><span class="p">]:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">answer</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">graph</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Une réponse de type graph doit avoir un sous type (&#39;point par exemple&#39;).&quot;</span><span class="p">)</span>
+
+                <span class="k">elif</span> <span class="n">graph</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;point&quot;</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="s2">&quot;coordinates&quot;</span> <span class="ow">in</span> <span class="n">graph</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">)</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">graph</span><span class="p">[</span><span class="s2">&quot;coordinates&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Y&quot;</span><span class="p">),</span> <span class="nb">int</span><span class="p">)</span>
+
+                    <span class="c1"># XXX put warning if X/Y is our of graph</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;This case shouldn&#39;t happen as all possible questions type have been checked before&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">True</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Oscar</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

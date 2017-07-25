@@ -13,7 +13,8 @@ from django.db import transaction
 
 # from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
-from skills.models import StudentSkill, Skill, Resource
+from skills.models import StudentSkill, Skill
+from resources.models import Resource
 from end_test_poll.models import StudentPoll
 from end_test_poll.forms import StudentPollForm
 

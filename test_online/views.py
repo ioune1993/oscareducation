@@ -13,10 +13,12 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
 from skills.models import Skill, StudentSkill, SkillHistory
-from examinations.models import Test, Answer, TestExercice, TestStudent, Exercice
+from examinations.models import Test, Answer, TestExercice, TestStudent, Context
+# @TODO verify: has been replaced: Exercice becomes Context
 from examinations import generation
 
-from promotions.models import Lesson, Student
+from promotions.models import Lesson
+from users.models import Student
 from promotions.utils import user_is_professor
 
 
@@ -197,7 +199,7 @@ def lesson_test_online_change_exercice(request, lesson_pk, test_pk, test_exercic
     if request.method == "POST":
         new_exercice_id = request.POST["exercice_id"]
         with transaction.atomic():
-            exercice = Exercice.objects.get(id=new_exercice_id)
+            exercice = Context.objects.get(id=new_exercice_id)
             test_exercice.exercice = exercice
             test_exercice.save()
 

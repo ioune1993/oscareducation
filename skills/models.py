@@ -1,86 +1,103 @@
-# encoding: utf-8
-
-from datetime import datetime
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.db import models
-from django.core.urlresolvers import reverse
+from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 
-from promotions.models import Student
-
-
 class Skill(models.Model):
+    """[FR] Compétence
+
+        A Skill can be evaluated through questions answered by a student.
+        Thus, when evaluated, a Skill can be acquired by a student, or not.
+
+    """
+
     code = models.CharField(max_length=20, unique=True, db_index=True)
+    """The Skill reference code"""
 
     name = models.CharField(max_length=255)
+    """The Skill name"""
+
     description = models.CharField(max_length=255)
+    """The Skill description"""
 
-    section = models.CharField(max_length=255)
+    section = models.ForeignKey('Section', null=True)
+    """The Section to which the Skill belongs"""
 
-    depends_on = models.ManyToManyField('Skill')
+    depends_on = models.ManyToManyField('Skill', related_name="depends_on+")
+    """If a Skill depends on another (i.e. a prerequisite), this is set in this relation"""
+
+    similar_to = models.ManyToManyField('Skill', related_name="similar_to+")
+    """???"""
+
+    resource = models.ManyToManyField('resources.Resource', related_name="skill_resource+")
+    """The Resources linked to this Skill. A Resource can be linked to several Skills"""
 
     image = models.CharField(max_length=255, null=True, blank=True)
+    """Icon used to categorize the Skill"""
 
     oscar_synthese = models.TextField(null=True, blank=True)
+    """The Skill abstract provided by Oscar"""
 
     modified_by = models.ForeignKey(User, null=True)
+    """The last user that modified this Skill"""
 
-    def lesson_resource(self):
-        return Resource.objects.filter(skill=self, section="lesson_resource")
 
-    def exercice_resource(self):
-        return Resource.objects.filter(skill=self, section="exercice_resource")
+class Section(models.Model):
+    """[FR] Rubrique
 
-    def other_resource(self):
-        return Resource.objects.filter(skill=self, section="other_resource")
+        A Section regroups a list of CodeR and a list
+        of Skills. Sections form socles (most of the
+        time, a socle represents a year of mathematics
+        class)
 
-    def sesamath_manuals(self):
-        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="manuel", skill=self).select_related("reference", "added_by")
+    """
 
-    def sesamath_cahiers(self):
-        return SesamathSkill.objects.filter(reference__ressource_kind__iexact="cahier", skill=self).select_related("reference", "added_by")
+    name = models.CharField(max_length=255)
+    """The Section name"""
 
-    class Meta:
-        ordering = ['code']
+    resource = models.ManyToManyField('resources.Resource', related_name="section_resource+")
+    """The resources linked to this Section. A resource can be linked to several Sections"""
 
-    def __unicode__(self):
-        return self.code
 
-    def mermaid_graph(self):
-        to_return = []
-        def recurse_depends(skill):
-            for dependancy in skill.depends_on.all():
-                for top_dependancy in recurse_depends(dependancy):
-                    yield top_dependancy
-                yield "%s-->%s" % (dependancy.code, skill.code)
-                yield '%s[<a style="color: white" href="%s">%s</a>]' % (dependancy.code, reverse("professor:skill_detail", args=(dependancy.code,)), dependancy.code)
+class CodeR(models.Model):
+    """[FR] Ressource (ou Code R),
+    à ne pas confondre avec une ressource pédagogique
 
-        def recurse_is_a_dependacy_for(skill):
-            for s in skill.skill_set.all():
-                for top_dependancy in recurse_is_a_dependacy_for(s):
-                    yield top_dependancy
-                yield "%s-->%s" % (skill.code, s.code)
-                yield '%s[<a style="color: white" href="%s">%s</a>]' % (s.code, reverse("professor:skill_detail", args=(s.code,)), s.code)
+        A CodeR describes concept(s) to master, in order
+        to acquire the skill(s) based on that CodeR.
+        Unlike a Skill, A CodeR cannot be evaluated
+        directly.
 
-        for i in recurse_is_a_dependacy_for(self):
-            if i not in to_return:
-                to_return.append(i)
+    """
 
-        for i in recurse_depends(self):
-            if i not in to_return:
-                to_return.append(i)
+    section = models.ForeignKey('Section', null=True)
+    """The Section to which the CodeR belongs"""
 
-        to_return.append("style %s fill:#F58025;" % self.code)
+    sub_code = models.CharField(max_length=10)
+    """The CodeR reference code"""
 
-        return to_return
+    name = models.CharField(max_length=255)
+    """The CodeR name"""
+
+    paired_to = models.ManyToManyField('CodeR', related_name="paired_to+")
+    """If several CodeR cover the same concepts, but belong to different Sections,
+        they are paired in this relation"""
+
+    resource = models.ManyToManyField('resources.Resource', related_name="coder_resource+")
+    """The Resources linked to this CodeR. A Resource can be linked to several CodeR"""
+
+    skill = models.ManyToManyField('Skill', related_name="coder_skill+")
+    """The Skills linked to this CodeR. A Skill can be linked to several CodeR"""
 
 
 class SkillHistory(models.Model):
     skill = models.ForeignKey(Skill)
-    student = models.ForeignKey(Student)
+    student = models.ForeignKey('users.Student')
     datetime = models.DateTimeField(auto_now_add=True)
     value = models.CharField(max_length=255, choices=(
         ('unknown', 'Inconnu'),
@@ -99,111 +116,8 @@ class SkillHistory(models.Model):
         ordering = ['datetime']
 
 
-class PedagogicalRessource(models.Model):
-    skill = models.ForeignKey(Skill)
-
-    title = models.CharField(max_length=255)
-    duration = models.CharField(max_length=10)
-    difficulty = models.PositiveSmallIntegerField()
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    added_by = models.ForeignKey(User, null=True)
-
-    class Meta:
-        abstract = True
-
-
-class VideoSkill(PedagogicalRessource):
-    url = models.URLField()
-
-
-class KhanAcademyVideoSkill(models.Model):
-    skill = models.ForeignKey(Skill)
-    youtube_id = models.CharField(max_length=25)
-    url = models.URLField()
-
-    reference = models.ForeignKey("skills.KhanAcademyVideoReference", null=True, blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    added_by = models.ForeignKey(User, null=True)
-
-
-class KhanAcademyVideoReference(models.Model):
-    subject = models.CharField(max_length=255)
-    topic = models.CharField(max_length=255, blank=True, null=True)
-    tutorial = models.CharField(max_length=255)
-    youtube_id = models.CharField(max_length=25, unique=True)
-    title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=100)
-    duration = models.PositiveSmallIntegerField()
-    fr_date_added = models.DateField(null=True, blank=True)
-    linked_skills = models.ManyToManyField(KhanAcademyVideoSkill)
-
-    class Meta:
-        ordering = ['subject', 'topic', 'title']
-
-
-class SesamathReference(models.Model):
-    classe_int = models.PositiveSmallIntegerField()
-    classe = models.CharField(max_length=255)
-    # cahier, manuel
-    ressource_kind = models.CharField(max_length=255)
-    chapitre = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
-    # "Fiche/Page"
-    section_kind = models.CharField(max_length=255)
-    year = models.PositiveSmallIntegerField(blank=True, null=True)
-    file_name = models.CharField(max_length=255)
-    on_oscar = models.URLField(unique=True)
-
-    def ressource_kind_with_year(self):
-        if self.year:
-            return u"%s - %s" % (self.year, self.ressource_kind)
-        return self.ressource_kind
-
-    class Meta:
-        ordering = [
-            'classe_int',
-            'year',
-            'ressource_kind',
-            'chapitre',
-            'section_kind',
-        ]
-
-
-class SesamathSkill(models.Model):
-    skill = models.ForeignKey(Skill)
-    reference = models.ForeignKey(SesamathReference)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    added_by = models.ForeignKey(User, null=True)
-
-    class Meta:
-        ordering = [
-            'reference__classe_int',
-            'reference__ressource_kind',
-            'reference__chapitre',
-            'reference__section_kind',
-        ]
-
-
-class ExerciceSkill(PedagogicalRessource):
-    questions = models.FileField(upload_to="pedagogique_ressources/exercices/questions/")
-    answers = models.FileField(upload_to="pedagogique_ressources/exercices/answers/", blank=True, null=True, verbose_name=u"Réponses (optionnel)")
-
-
-class ExternalLinkSkill(PedagogicalRessource):
-    url = models.URLField()
-
-
 class StudentSkill(models.Model):
-    student = models.ForeignKey(Student)
+    student = models.ForeignKey('users.Student')
     skill = models.ForeignKey(Skill)
     tested = models.DateTimeField(default=None, null=True)
     acquired = models.DateTimeField(default=None, null=True)
@@ -297,90 +211,3 @@ class StudentSkill(models.Model):
                 return False
 
         return True
-
-
-class GlobalResources(models.Model):
-    title = models.CharField(max_length=255, verbose_name="titre")
-    file = models.FileField(verbose_name="fichier")
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    added_by = models.ForeignKey(User)
-
-
-class Resource(models.Model):
-    skill = models.ForeignKey(Skill)
-
-    title = models.CharField(max_length=255, verbose_name="Titre")
-    author = models.CharField(max_length=255, null=True, blank=True, verbose_name="Auteur")
-
-    kind = models.CharField(max_length=255, verbose_name="Objet", choices=(
-        ("practical-application", "Application pratique"),
-        ("lesson", "Cours"),
-        ("exercice", "Exercices"),
-        ("commented-exercice", "Exercices commentés"),
-        ("exercice-correction", "Correction d´exercices"),
-        ("learning-sequence", "Séquence d´apprentissage"),
-        ("synthesis", "Synthèse"),
-        ("reference", "Référence (presse, histoire)"),
-        ("other", "(autre)"),
-    ))
-
-    section = models.CharField(max_length=255, choices=(
-        ('personal_resource', 'Resources Personnels'),
-        ('lesson_resource', 'Cours'),
-        ('exercice_resource', 'Exercices'),
-        ('other_resource', 'Autres'),
-    ))
-
-    text = models.TextField(null=True, blank=True, verbose_name="Texte")
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    added_by = models.ForeignKey(User)
-
-    def files(self):
-        if not hasattr(self, "_files"):
-            self._files = ResourceFile.objects.filter(resource=self)
-        return self._files
-
-    def links(self):
-        if not hasattr(self, "_links"):
-            self._links = ResourceLink.objects.filter(resource=self)
-        return self._links
-
-
-class ResourcePart(models.Model):
-    resource = models.ForeignKey(Resource)
-    kind = models.CharField(max_length=255)
-
-    title = models.CharField(max_length=255, null=True, blank=True)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
-
-    added_by = models.ForeignKey(User)
-
-
-class ResourceLink(ResourcePart):
-    link = models.URLField()
-
-
-class ResourceFile(ResourcePart):
-    file = models.FileField()
-
-
-class CodeR(models.Model):
-    section = models.CharField(max_length=10)
-    sub_code = models.CharField(max_length=10)
-    name = models.CharField(max_length=255)
-
-    @property
-    def code(self):
-        return self.section + u"_" + self.sub_code
-
-    class Meta:
-        unique_together = ('section', 'sub_code')
-        ordering = ['section', 'sub_code']

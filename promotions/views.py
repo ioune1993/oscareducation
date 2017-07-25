@@ -27,12 +27,14 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, KhanAcademyVideoReference, KhanAcademyVideoSkill, SesamathSkill, SesamathReference, VideoSkill, ExerciceSkill, ExternalLinkSkill, GlobalResources, Resource, CodeR
-from examinations.models import Test, TestStudent, Exercice, BaseTest, TestExercice
+from skills.models import Skill, StudentSkill, CodeR
+from resources.models import KhanAcademy, Sesamath, Resource
+from examinations.models import Test, TestStudent, Context, BaseTest, TestExercice
+from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
-from .models import Lesson, Student, Stage
-from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyVideoReferenceForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathReferenceForm, GlobalResourcesForm, ResourceForm, ResourceLinkForm, ResourceFileForm
+from .models import Lesson, Stage
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathForm, ResourceForm
 from .utils import generate_random_password, user_is_professor, force_encoding
 
 
@@ -304,14 +306,14 @@ def update_pedagogical_ressources(request, slug):
 
     personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource", skill=skill)
 
-    khanacademy_skill_form = KhanAcademyVideoReferenceForm()
-    sesamath_reference_form = SesamathReferenceForm()
+    khanacademy_skill_form = KhanAcademyForm()
+    sesamath_reference_form = SesamathForm()
     synthese_form = SyntheseForm()
 
-    khanacademy_references = KhanAcademyVideoReference.objects.all()
+    khanacademy_references = KhanAcademy.objects.all()
 
-    sesamath_references_manuals = SesamathReference.objects.filter(ressource_kind__iexact="manuel")
-    sesamath_references_cahiers = SesamathReference.objects.filter(ressource_kind__iexact="cahier")
+    sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="manuel")
+    sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="cahier")
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
@@ -356,7 +358,7 @@ def update_pedagogical_ressources(request, slug):
                             print e
                             print "Fail to get title for %s" % link
 
-                    rlf = ResourceLinkForm({
+                    rlf = ResourceForm({
                         "resource": resource.pk,
                         "link": link,
                         "title": force_encoding(title),
@@ -371,7 +373,7 @@ def update_pedagogical_ressources(request, slug):
 
                 for i in filter(lambda x: x.startswith("file_file_"), request.FILES.keys()):
                     number = i.split("_")[-1]
-                    rff = ResourceFileForm({
+                    rff = ResourceForm({
                         "resource": resource.pk,
                         "title": force_encoding(request.POST["file_title_" + number]),
                         "kind": request.POST["file_kind_" + number],
@@ -391,11 +393,11 @@ def update_pedagogical_ressources(request, slug):
                 print resource_form.errors
 
     elif request.POST["form_type"] == "khanacademy_skill":
-        khanacademy_skill_form = KhanAcademyVideoReferenceForm(request.POST)
+        khanacademy_skill_form = KhanAcademyForm(request.POST)
 
         if khanacademy_skill_form.is_valid():
             ref = khanacademy_skill_form.reference
-            KhanAcademyVideoSkill.objects.create(
+            KhanAcademy.objects.create(
                 youtube_id=ref.youtube_id,
                 url="https://fr.khanacademy.org/v/%s" % ref.slug,
                 skill=skill,
@@ -405,11 +407,11 @@ def update_pedagogical_ressources(request, slug):
             return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
 
     elif request.POST["form_type"] == "sesamath_reference":
-        sesamath_reference_form = SesamathReferenceForm(request.POST)
+        sesamath_reference_form = SesamathForm(request.POST)
 
         if sesamath_reference_form.is_valid():
-            ref = SesamathReference.objects.get(id=sesamath_reference_form.cleaned_data["ref_pk"])
-            SesamathSkill.objects.create(
+            ref = Sesamath.objects.get(id=sesamath_reference_form.cleaned_data["ref_pk"])
+            Sesamath.objects.create(
                 skill=skill,
                 reference=ref,
                 added_by=request.user,
@@ -440,11 +442,8 @@ def update_pedagogical_ressources(request, slug):
 @user_is_professor
 def remove_pedagogical_ressources(request, kind, id):
     kind_to_model = {
-        "video": VideoSkill,
-        "sesamath": SesamathSkill,
-        "khanacademy": KhanAcademyVideoSkill,
-        "exercice": ExerciceSkill,
-        "external_link": ExternalLinkSkill,
+        "sesamath": Sesamath,
+        "khanacademy": KhanAcademy,
         "resource": Resource,
     }
 
@@ -544,7 +543,7 @@ def lesson_tests_and_skills(request, lesson_id):
 @user_is_professor
 def exercice_list(request):
     return render(request, 'professor/exercice/list.haml', {
-        "exercice_list": Exercice.objects.select_related('skill').order_by("skill__stage__level", "skill__code", "id"),
+        "exercice_list": Context.objects.select_related('skill').order_by("skill__stage__level", "skill__code", "id"),
         "skills_without_exercices": Skill.objects.filter(exercice__isnull=True).order_by("skill__stage__level", "-skill__code", "id"),
     })
 
@@ -552,7 +551,7 @@ def exercice_list(request):
 @user_is_professor
 def exercice_to_approve_list(request):
     return render(request, 'professor/exercice/list_to_approve.haml', {
-        "exercice_list": Exercice.objects.filter(approved=False).select_related('skill'),
+        "exercice_list": Context.objects.filter(approved=False).select_related('skill'),
     })
 
 
@@ -650,7 +649,7 @@ def exercice_validation_form_submit(request, pk=None):
     testable_online = data["testable_online"]
 
     if pk is not None:
-        exercice = get_object_or_404(Exercice, pk=pk)
+        exercice = get_object_or_404(Context, pk=pk)
     else:
         exercice = None
 
@@ -738,7 +737,7 @@ def exercice_validation_form_submit(request, pk=None):
 
             exercice.save()
         else:
-            exercice = Exercice.objects.create(
+            exercice = Context.objects.create(
                 file_name="submitted",
                 skill=Skill.objects.get(code=skill_code),
                 answer=yaml_file,
@@ -794,7 +793,7 @@ def exercice_validation_form_validate_exercice_yaml(request):
 
 @user_is_professor
 def exercice_test(request, pk):
-    exercice = get_object_or_404(Exercice, pk=pk)
+    exercice = get_object_or_404(Context, pk=pk)
 
     if request.method == "GET":
         return render(request, "professor/exercice/test.haml", {
@@ -814,7 +813,7 @@ def exercice_test(request, pk):
 
 @user_is_professor
 def exercice_update(request, pk):
-    exercice = get_object_or_404(Exercice, pk=pk)
+    exercice = get_object_or_404(Context, pk=pk)
 
     if exercice.added_by != request.user and not request.user.is_superuser:
         return redirect_to_login(request.get_full_path(), resolve_url(settings.LOGIN_URL), REDIRECT_FIELD_NAME)
@@ -828,7 +827,7 @@ def exercice_update(request, pk):
 
 @user_is_professor
 def exercice_update_json(request, pk):
-    exercice = get_object_or_404(Exercice, pk=pk)
+    exercice = get_object_or_404(Context, pk=pk)
 
     if exercice.added_by != request.user and not request.user.is_superuser:
         return redirect_to_login(request.get_full_path(), resolve_url(settings.LOGIN_URL), REDIRECT_FIELD_NAME)
@@ -860,7 +859,7 @@ def exercice_update_json(request, pk):
 
 @user_is_professor
 def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
-    exercice = get_object_or_404(Exercice, pk=exercice_pk)
+    exercice = get_object_or_404(Context, pk=exercice_pk)
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
 
     assert test_exercice.test.can_change_exercice() or not test_exercice.exercice, "Can't write an exercice if the test has started or that the test exercice already has an exercice"
@@ -884,7 +883,7 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
     assert test_exercice.test.can_change_exercice(), "Can't change an exercice if the test has started"
 
     with transaction.atomic():
-        new_exercice = Exercice.objects.create(
+        new_exercice = Context.objects.create(
             file_name="adapted",
             content=exercice.content,
             answer=exercice.answer,
@@ -902,12 +901,12 @@ def contribute_page(request):
     data = {x.short_name: x for x in Stage.objects.all()}
 
     if request.method == "POST":
-        form = GlobalResourcesForm(request.POST, request.FILES)
+        form = ResourceForm(request.POST, request.FILES)
     else:
-        form = GlobalResourcesForm()
+        form = ResourceForm()
 
     data["form"] = form
-    data["global_resources"] = GlobalResources.objects.all()
+    data["global_resources"] = Resource.objects.all()
     data["code_r"] = CodeR.objects.all()
 
     if request.method == "POST" and form.is_valid():
@@ -920,7 +919,7 @@ def contribute_page(request):
 
 
 def global_resources_delete(request, pk):
-    gr = get_object_or_404(GlobalResources, pk=pk)
+    gr = get_object_or_404(Resource, pk=pk)
 
     if request.user != gr.added_by:
         raise PermissionDenied()

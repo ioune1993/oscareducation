@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.views.generic import DetailView, ListView
 
 from skills.models import Skill
-from examinations.models import Exercice
+from examinations.models import Context
 
 import views
 
@@ -57,7 +57,7 @@ urlpatterns = [
     # TODO "exercices" -> "question"
     url(r'^exercices/$', views.exercice_list, name='exercice_list'),
     url(r'^exercices/to_approve/$', views.exercice_to_approve_list, name='exercice_to_approve_list'),
-    url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Exercice, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
+    url(r'^exercices/(?P<pk>\d+)/$', user_is_professor(DetailView.as_view(model=Context, template_name="professor/exercice/detail.haml")), name='exercice_detail'),
     url(r'^exercices/(?P<pk>\d+)/test/$', views.exercice_test, name='exercice_test'),
     url(r'^exercices/(?P<pk>\d+)/update/$', views.exercice_update, name='exercice_update'),
     url(r'^exercices/(?P<pk>\d+)/update/json/$', views.exercice_update_json, name='exercice_update_json'),

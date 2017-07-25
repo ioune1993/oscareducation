@@ -2,7 +2,8 @@
 
 from django.db import models
 
-from promotions.models import Student, Lesson
+from promotions.models import Lesson
+from users.models import Student
 
 
 class StudentPoll(models.Model):

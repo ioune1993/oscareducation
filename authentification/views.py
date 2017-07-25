@@ -10,10 +10,8 @@ from django.views.decorators.csrf import csrf_protect
 
 from stats.models import LoginStats
 
-
 # Avoid shadowing the login() and logout() views below.
-from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login,
-    logout as auth_logout)
+from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout)
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.shortcuts import get_current_site
 
@@ -39,7 +37,7 @@ def login(request, template_name='registration/login.haml',
             if not is_safe_url(url=redirect_to, host=request.get_host()):
                 redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
-            # Okay, security check complete. Log the user in.
+            # Security check is complete. Log the user in.
             auth_login(request, form.get_user())
 
             if request.user.is_superuser:
@@ -49,7 +47,7 @@ def login(request, template_name='registration/login.haml',
             elif hasattr(request.user, "student"):
                 user_kind = "student"
             else:
-                raise Exception("Uknown user kind, can't login")
+                raise Exception("Unknown user kind, can't login")
 
             LoginStats.objects.create(user=request.user, user_kind=user_kind)
 
