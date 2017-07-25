@@ -166,6 +166,14 @@ class Test(BaseTest):
     ))
     """The type test: it can test the Skills themselves, their prerequisites, or bot"""
 
+    def add_student(self, student):
+        """ subscribe new student in prof created tests """
+
+        TestStudent.objects.create(
+            test=self,
+            student=student
+        )
+
 
 class TestFromClass(BaseTest):
     """[FR] Test hors-ligne

@@ -133,6 +133,7 @@ def lesson_student_add(request, pk):
 
     lesson = get_object_or_404(Lesson, pk=pk)
 
+
     # TODO: a professor can only see one of his lesson
 
     if request.method == "POST":
