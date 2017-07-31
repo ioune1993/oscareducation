@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <h1>Source code for test_online.views</h1><div class="highlight"><pre>
-<span></span><span class="c1"># encoding: utf-8</span>
+<span class="c"># encoding: utf-8</span>
 
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">random</span>
@@ -56,7 +56,6 @@
 
 <span class="kn">from</span> <span class="nn">skills.models</span> <span class="k">import</span> <span class="n">Skill</span><span class="p">,</span> <span class="n">StudentSkill</span><span class="p">,</span> <span class="n">SkillHistory</span>
 <span class="kn">from</span> <span class="nn">examinations.models</span> <span class="k">import</span> <span class="n">Test</span><span class="p">,</span> <span class="n">Answer</span><span class="p">,</span> <span class="n">TestExercice</span><span class="p">,</span> <span class="n">TestStudent</span><span class="p">,</span> <span class="n">Context</span>
-<span class="c1"># @TODO verify: has been replaced: Exercice becomes Context</span>
 <span class="kn">from</span> <span class="nn">examinations</span> <span class="k">import</span> <span class="n">generation</span>
 
 <span class="kn">from</span> <span class="nn">promotions.models</span> <span class="k">import</span> <span class="n">Lesson</span>
@@ -68,9 +67,9 @@
 <span class="k">def</span> <span class="nf">lesson_test_online_add</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;professor/lesson/test/online/add.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="s2">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
-        <span class="s2">&quot;stages&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="o">.</span><span class="n">stages_in_unchronological_order</span><span class="p">(),</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&quot;professor/lesson/test/online/add.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
+        <span class="s">&quot;stages&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="o">.</span><span class="n">stages_in_unchronological_order</span><span class="p">(),</span>
     <span class="p">})</span></div>
 
 
@@ -83,18 +82,18 @@
     <span class="n">test</span><span class="o">.</span><span class="n">running</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">test</span><span class="o">.</span><span class="n">running</span>
     <span class="n">test</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;professor:lesson_test_list&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,)))</span></div>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;professor:lesson_test_list&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,)))</span></div>
 
 
 <div class="viewcode-block" id="lesson_test_add_json"><a class="viewcode-back" href="../../test_online.html#test_online.views.lesson_test_add_json">[docs]</a><span class="nd">@require_POST</span>
 <span class="nd">@user_is_professor</span>
 <span class="k">def</span> <span class="nf">lesson_test_add_json</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
-    <span class="c1"># TODO: a professor can only do this on one of his lesson</span>
-    <span class="c1"># TODO: use django form</span>
+    <span class="c"># TODO: a professor can only do this on one of his lesson</span>
+    <span class="c"># TODO: use django form</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 
-    <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;lesson&quot;</span><span class="p">])</span>
+    <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s">&quot;lesson&quot;</span><span class="p">])</span>
 
     <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">professor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lesson</span><span class="o">.</span><span class="n">professors</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
         <span class="k">raise</span> <span class="n">PermissionDenied</span><span class="p">()</span>
@@ -102,37 +101,37 @@
     <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
         <span class="n">test</span> <span class="o">=</span> <span class="n">Test</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">lesson</span><span class="o">=</span><span class="n">lesson</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">],</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">],</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">],</span>
         <span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">skill_id</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;skills&quot;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">skill_id</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;skills&quot;</span><span class="p">]:</span>
             <span class="n">test</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Skill</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">skill_id</span><span class="p">))</span>
 
         <span class="k">for</span> <span class="n">student</span> <span class="ow">in</span> <span class="n">lesson</span><span class="o">.</span><span class="n">students</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="n">test</span><span class="o">.</span><span class="n">add_student</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;skills&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;skills&quot;</span><span class="p">:</span>
             <span class="n">test</span><span class="o">.</span><span class="n">generate_skills_test</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;dependencies&quot;</span><span class="p">:</span>
             <span class="n">test</span><span class="o">.</span><span class="n">generate_dependencies_test</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;skills-dependencies&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;skills-dependencies&quot;</span><span class="p">:</span>
             <span class="n">test</span><span class="o">.</span><span class="n">generate_skills_dependencies_test</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">()</span>
 
-        <span class="c1"># assign exercices when it&#39;s possible</span>
+        <span class="c"># assign exercices when it&#39;s possible</span>
         <span class="k">for</span> <span class="n">test_exercice</span> <span class="ow">in</span> <span class="n">test</span><span class="o">.</span><span class="n">testexercice_set</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-            <span class="n">exercices</span> <span class="o">=</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">exercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">testable_online</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">exercices</span> <span class="o">=</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">context_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">testable_online</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">exercices</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">test</span><span class="o">.</span><span class="n">fully_testable_online</span><span class="p">:</span>
-                    <span class="n">test</span><span class="o">.</span><span class="n">fully_testable_online</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">test</span><span class="o">.</span><span class="n">fully_testable_online</span> <span class="o">=</span> <span class="k">False</span>
                     <span class="n">test</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-                <span class="n">test_exercice</span><span class="o">.</span><span class="n">testable_online</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">test_exercice</span><span class="o">.</span><span class="n">testable_online</span> <span class="o">=</span> <span class="k">False</span>
 
-                <span class="c1"># switch to offline exercices</span>
-                <span class="n">exercices</span> <span class="o">=</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">exercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">testable_online</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c"># switch to offline exercices</span>
+                <span class="n">exercices</span> <span class="o">=</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">skill</span><span class="o">.</span><span class="n">context_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">approved</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">exercices</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                     <span class="n">test_exercice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -140,10 +139,10 @@
 
             <span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span> <span class="o">=</span> <span class="n">exercices</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">exercices</span><span class="o">.</span><span class="n">count</span><span class="p">()))]</span>
 
-            <span class="c1"># turn off generation for now</span>
-            <span class="k">if</span> <span class="kc">False</span> <span class="ow">and</span> <span class="n">generation</span><span class="o">.</span><span class="n">needs_to_be_generated</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">content</span><span class="p">):</span>
-                <span class="n">variables</span> <span class="o">=</span> <span class="n">generation</span><span class="o">.</span><span class="n">get_variable_list</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
-                <span class="n">test_exercice</span><span class="o">.</span><span class="n">rendered_content</span> <span class="o">=</span> <span class="n">generation</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
+            <span class="c"># turn off generation for now</span>
+            <span class="k">if</span> <span class="k">False</span> <span class="ow">and</span> <span class="n">generation</span><span class="o">.</span><span class="n">needs_to_be_generated</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">context</span><span class="p">):</span>
+                <span class="n">variables</span> <span class="o">=</span> <span class="n">generation</span><span class="o">.</span><span class="n">get_variable_list</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">context</span><span class="p">)</span>
+                <span class="n">test_exercice</span><span class="o">.</span><span class="n">rendered_content</span> <span class="o">=</span> <span class="n">generation</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">context</span><span class="p">,</span> <span class="n">variables</span><span class="p">)</span>
                 <span class="n">test_exercice</span><span class="o">.</span><span class="n">variables</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span>
 
             <span class="n">test_exercice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
@@ -158,20 +157,20 @@
     <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">lesson_pk</span><span class="p">)</span>
     <span class="n">test</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Test</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&quot;POST&quot;</span><span class="p">:</span>
         <span class="n">second_run</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="nb">print</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 
         <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
-            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="s2">&quot;bad&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)),</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
-                <span class="n">result</span><span class="p">,</span> <span class="n">student</span><span class="p">,</span> <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s">&quot;good&quot;</span><span class="p">,</span> <span class="s">&quot;bad&quot;</span><span class="p">,</span> <span class="s">&quot;unknown&quot;</span><span class="p">)),</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="n">result</span><span class="p">,</span> <span class="n">student</span><span class="p">,</span> <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
                 <span class="nb">print</span> <span class="n">result</span><span class="p">,</span> <span class="n">student</span><span class="p">,</span> <span class="n">test_exercice</span>
                 <span class="n">student</span> <span class="o">=</span> <span class="n">Student</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">student</span><span class="p">)</span>
-                <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s2">&quot;skill&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">test_exercice</span><span class="p">)</span>
+                <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;skill&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">pk</span><span class="o">=</span><span class="n">test_exercice</span><span class="p">)</span>
                 <span class="n">test_student</span> <span class="o">=</span> <span class="n">TestStudent</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">student</span><span class="o">=</span><span class="n">student</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">)</span>
 
                 <span class="n">answer</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">Answer</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get_or_create</span><span class="p">(</span>
-                    <span class="n">from_test_hybride</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">from_test_hybride</span><span class="o">=</span><span class="k">True</span><span class="p">,</span>
                     <span class="n">test_exercice</span><span class="o">=</span><span class="n">test_exercice</span><span class="p">,</span>
                     <span class="n">test_student</span><span class="o">=</span><span class="n">test_student</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -182,54 +181,54 @@
                 <span class="p">)</span>
 
                 <span class="n">reasons</span> <span class="o">=</span> <span class="p">{</span>
-                    <span class="s2">&quot;who&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
-                    <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;Exercice hors lignes pour un test hybride&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;reason_object&quot;</span><span class="p">:</span> <span class="n">answer</span><span class="p">,</span>
+                    <span class="s">&quot;who&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                    <span class="s">&quot;reason&quot;</span><span class="p">:</span> <span class="s">&quot;Exercice hors lignes pour un test hybride&quot;</span><span class="p">,</span>
+                    <span class="s">&quot;reason_object&quot;</span><span class="p">:</span> <span class="n">answer</span><span class="p">,</span>
                 <span class="p">}</span>
 
-                <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;good&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s">&quot;good&quot;</span><span class="p">:</span>
                     <span class="n">student_skill</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">**</span><span class="n">reasons</span><span class="p">)</span>
-                    <span class="n">answer</span><span class="o">.</span><span class="n">correct</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;bad&quot;</span><span class="p">:</span>
+                    <span class="n">answer</span><span class="o">.</span><span class="n">correct</span> <span class="o">=</span> <span class="k">True</span>
+                <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="s">&quot;bad&quot;</span><span class="p">:</span>
                     <span class="n">student_skill</span><span class="o">.</span><span class="n">unvalidate</span><span class="p">(</span><span class="o">**</span><span class="n">reasons</span><span class="p">)</span>
-                    <span class="n">answer</span><span class="o">.</span><span class="n">correct</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">answer</span><span class="o">.</span><span class="n">correct</span> <span class="o">=</span> <span class="k">False</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">answer</span><span class="o">.</span><span class="n">correct</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">answer</span><span class="o">.</span><span class="n">correct</span> <span class="o">=</span> <span class="k">None</span>
 
                 <span class="n">answer</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
                 <span class="n">second_run</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">result</span><span class="p">,</span> <span class="n">student_skill</span><span class="p">])</span>
 
-            <span class="c1"># I redo a second run here because we can end up in a situation where</span>
-            <span class="c1"># the teacher has enter value that would be overwritten by the</span>
-            <span class="c1"># recursive walk and we want the resulting skills to match the teacher</span>
-            <span class="c1"># input</span>
+            <span class="c"># I redo a second run here because we can end up in a situation where</span>
+            <span class="c"># the teacher has enter value that would be overwritten by the</span>
+            <span class="c"># recursive walk and we want the resulting skills to match the teacher</span>
+            <span class="c"># input</span>
             <span class="k">for</span> <span class="n">result</span><span class="p">,</span> <span class="n">student_skill</span> <span class="ow">in</span> <span class="n">second_run</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">result</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="s2">&quot;bad&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;good&quot;</span><span class="p">,</span> <span class="s">&quot;bad&quot;</span><span class="p">):</span>
                     <span class="k">continue</span>
 
-                <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;good&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s">&quot;good&quot;</span><span class="p">:</span>
                     <span class="n">student_skill</span><span class="o">.</span><span class="n">acquired</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-                <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;bad&quot;</span><span class="p">:</span>
-                    <span class="n">student_skill</span><span class="o">.</span><span class="n">acquired</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="s">&quot;bad&quot;</span><span class="p">:</span>
+                    <span class="n">student_skill</span><span class="o">.</span><span class="n">acquired</span> <span class="o">=</span> <span class="k">None</span>
                     <span class="n">student_skill</span><span class="o">.</span><span class="n">tested</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
                 <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
                     <span class="n">skill</span><span class="o">=</span><span class="n">student_skill</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
                     <span class="n">student</span><span class="o">=</span><span class="n">student_skill</span><span class="o">.</span><span class="n">student</span><span class="p">,</span>
-                    <span class="n">value</span><span class="o">=</span><span class="s2">&quot;acquired&quot;</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s2">&quot;good&quot;</span> <span class="k">else</span> <span class="s2">&quot;not acquired&quot;</span><span class="p">,</span>
+                    <span class="n">value</span><span class="o">=</span><span class="s">&quot;acquired&quot;</span> <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="s">&quot;good&quot;</span> <span class="k">else</span> <span class="s">&quot;not acquired&quot;</span><span class="p">,</span>
                     <span class="n">by_who</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
-                    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Exercice hors lignes pour un test hybride (seconde passe)&quot;</span><span class="p">,</span>
+                    <span class="n">reason</span><span class="o">=</span><span class="s">&quot;Exercice hors lignes pour un test hybride (seconde passe)&quot;</span><span class="p">,</span>
                     <span class="n">reason_object</span><span class="o">=</span><span class="n">answer</span><span class="p">,</span>
                 <span class="p">)</span>
 
                 <span class="n">student_skill</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;professor:lesson_test_online_detail&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">pk</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;professor:lesson_test_online_detail&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">pk</span><span class="p">)))</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;professor/lesson/test/online/fill.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="s2">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
-        <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&quot;professor/lesson/test/online/fill.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
+        <span class="s">&quot;test&quot;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
     <span class="p">})</span></div>
 
 
@@ -238,19 +237,19 @@
     <span class="n">test</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Test</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">test_pk</span><span class="p">)</span>
     <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">TestExercice</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">test_exercice_pk</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
-        <span class="n">new_exercice_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s2">&quot;exercice_id&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&quot;POST&quot;</span><span class="p">:</span>
+        <span class="n">new_exercice_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="s">&quot;exercice_id&quot;</span><span class="p">]</span>
         <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
             <span class="n">exercice</span> <span class="o">=</span> <span class="n">Context</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">new_exercice_id</span><span class="p">)</span>
             <span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span> <span class="o">=</span> <span class="n">exercice</span>
             <span class="n">test_exercice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
-            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;professor:lesson_test_online_exercices&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">pk</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;#</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;professor:lesson_test_online_exercices&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">test</span><span class="o">.</span><span class="n">pk</span><span class="p">))</span> <span class="o">+</span> <span class="s">&quot;#%s&quot;</span> <span class="o">%</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;professor/lesson/test/online/change.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
-        <span class="s2">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
-        <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
-        <span class="s2">&quot;test_exercice&quot;</span><span class="p">:</span> <span class="n">test_exercice</span><span class="p">,</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&quot;professor/lesson/test/online/change.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
+        <span class="s">&quot;test&quot;</span><span class="p">:</span> <span class="n">test</span><span class="p">,</span>
+        <span class="s">&quot;test_exercice&quot;</span><span class="p">:</span> <span class="n">test_exercice</span><span class="p">,</span>
     <span class="p">})</span></div>
 </pre></div>
 

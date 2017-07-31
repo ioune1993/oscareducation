@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <h1>Source code for end_test_poll.models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># encoding: utf-8</span>
+<span class="c"># encoding: utf-8</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 
@@ -50,40 +50,40 @@
 
 <div class="viewcode-block" id="StudentPoll"><a class="viewcode-back" href="../../end_test_poll.html#end_test_poll.forms.StudentPoll">[docs]</a><span class="k">class</span> <span class="nc">StudentPoll</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Student</span><span class="p">)</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">lesson</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Lesson</span><span class="p">)</span>
 
-    <span class="n">student_age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;Ton âge :&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="n">student_age</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">u&quot;Ton âge :&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
 
-    <span class="n">on_device</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39;computer&#39;</span><span class="p">,</span> <span class="s1">&#39;ordinateur&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;tablette&#39;</span><span class="p">,</span> <span class="s1">&#39;tablette&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;smartphone&#39;</span><span class="p">,</span> <span class="s1">&#39;smartphone&#39;</span><span class="p">)),</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Sur :&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;computer&quot;</span><span class="p">)</span>
+    <span class="n">on_device</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s">&#39;computer&#39;</span><span class="p">,</span> <span class="s">&#39;ordinateur&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;tablette&#39;</span><span class="p">,</span> <span class="s">&#39;tablette&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;smartphone&#39;</span><span class="p">,</span> <span class="s">&#39;smartphone&#39;</span><span class="p">)),</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;Sur :&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;computer&quot;</span><span class="p">)</span>
 
-    <span class="n">where</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39;at_school&#39;</span><span class="p">,</span> <span class="s1">&#39;à l</span><span class="se">\&#39;</span><span class="s1">école&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;at_home&#39;</span><span class="p">,</span> <span class="s1">&#39;à la maison&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;outside&#39;</span><span class="p">,</span> <span class="s1">&#39;ailleurs sur mon smartphone (par exemple dans le bus)&#39;</span><span class="p">)),</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Pour passer ce test, tu t&#39;es connecté·e :&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;at_school&quot;</span><span class="p">)</span>
+    <span class="n">where</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s">&#39;at_school&#39;</span><span class="p">,</span> <span class="s">&#39;à l</span><span class="se">\&#39;</span><span class="s">école&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;at_home&#39;</span><span class="p">,</span> <span class="s">&#39;à la maison&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;outside&#39;</span><span class="p">,</span> <span class="s">&#39;ailleurs sur mon smartphone (par exemple dans le bus)&#39;</span><span class="p">)),</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;Pour passer ce test, tu t&#39;es connecté·e :&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;at_school&quot;</span><span class="p">)</span>
 
     <span class="n">easy_to_connect_and_understand</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
 
-    <span class="n">difficulties</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;As-tu rencontré des difficultés ? Si oui, lesquelles ?&quot;</span><span class="p">)</span>
+    <span class="n">difficulties</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">u&quot;As-tu rencontré des difficultés ? Si oui, lesquelles ?&quot;</span><span class="p">)</span>
 
-    <span class="n">enjoyed_oscar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;As-tu aimé utiliser Oscar ?&quot;</span><span class="p">)</span>
+    <span class="n">enjoyed_oscar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">u&quot;As-tu aimé utiliser Oscar ?&quot;</span><span class="p">)</span>
 
-    <span class="n">why</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;Qu&#39;est-ce que tu as aimé et/ou pas aimé ?&quot;</span><span class="p">)</span>
+    <span class="n">why</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">u&quot;Qu&#39;est-ce que tu as aimé et/ou pas aimé ?&quot;</span><span class="p">)</span>
 
-    <span class="n">my_teacher_should_use_oscar_more</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;Aimerais-tu que ton enseignant·e travaille plus souvent avec Oscar ?&quot;</span><span class="p">)</span></div>
+    <span class="n">my_teacher_should_use_oscar_more</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">verbose_name</span><span class="o">=</span><span class="s">u&quot;Aimerais-tu que ton enseignant·e travaille plus souvent avec Oscar ?&quot;</span><span class="p">)</span></div>
 
-    <span class="c1"># is_oscar_usefull = models.TextField(verbose_name=u&quot;Oscar te semble-t&#39;il utile ? Si oui, pourquoi ?&quot;)</span>
+    <span class="c"># is_oscar_usefull = models.TextField(verbose_name=u&quot;Oscar te semble-t&#39;il utile ? Si oui, pourquoi ?&quot;)</span>
 
-    <span class="c1"># saw_the_updated_skills_after_test = models.BooleanField(verbose_name=u&quot;Après le test, tu as vu que tes compétences étaient mises à jour (avec des disques coloriés en orange ou vert) :&quot;)</span>
+    <span class="c"># saw_the_updated_skills_after_test = models.BooleanField(verbose_name=u&quot;Après le test, tu as vu que tes compétences étaient mises à jour (avec des disques coloriés en orange ou vert) :&quot;)</span>
 
-    <span class="c1"># Si oui, tu as compris que :</span>
-    <span class="c1"># meaning_orange_circles = models.TextField(verbose_name=u&quot;Ronds oranges =&quot;)</span>
-    <span class="c1"># meaning_green_circles = models.TextField(verbose_name=u&quot;Ronds verts =&quot;)</span>
-    <span class="c1"># meaning_white_circles = models.TextField(verbose_name=u&quot;Ronds blancs =&quot;)</span>
+    <span class="c"># Si oui, tu as compris que :</span>
+    <span class="c"># meaning_orange_circles = models.TextField(verbose_name=u&quot;Ronds oranges =&quot;)</span>
+    <span class="c"># meaning_green_circles = models.TextField(verbose_name=u&quot;Ronds verts =&quot;)</span>
+    <span class="c"># meaning_white_circles = models.TextField(verbose_name=u&quot;Ronds blancs =&quot;)</span>
 
-    <span class="c1"># Tu as vu que tes compétences étaient mises à jour et...</span>
-    <span class="c1"># update_skills_motivated_me = models.BooleanField(verbose_name=u&quot;cela t&#39;a motivé&quot;)</span>
-    <span class="c1"># update_skills_i_understood = models.BooleanField(verbose_name=u&quot;cela t&#39;a démotivé&quot;)</span>
-    <span class="c1"># update_skills_i_havent_understood = models.BooleanField(verbose_name=u&quot;pas compris&quot;)</span>
-    <span class="c1"># update_skills_havent_saw_it = models.BooleanField(verbose_name=u&quot;pas vu tes compétences mises à jour&quot;)</span>
-    <span class="c1"># update_skills_other = models.TextField(verbose_name=u&quot;autre :&quot;, null=True, blank=True)</span>
+    <span class="c"># Tu as vu que tes compétences étaient mises à jour et...</span>
+    <span class="c"># update_skills_motivated_me = models.BooleanField(verbose_name=u&quot;cela t&#39;a motivé&quot;)</span>
+    <span class="c"># update_skills_i_understood = models.BooleanField(verbose_name=u&quot;cela t&#39;a démotivé&quot;)</span>
+    <span class="c"># update_skills_i_havent_understood = models.BooleanField(verbose_name=u&quot;pas compris&quot;)</span>
+    <span class="c"># update_skills_havent_saw_it = models.BooleanField(verbose_name=u&quot;pas vu tes compétences mises à jour&quot;)</span>
+    <span class="c"># update_skills_other = models.TextField(verbose_name=u&quot;autre :&quot;, null=True, blank=True)</span>
 </pre></div>
 
           </div>

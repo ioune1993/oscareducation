@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <h1>Source code for authentification.views</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="k">import</span> <span class="n">settings</span>
 <span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.http</span> <span class="k">import</span> <span class="n">HttpResponseRedirect</span>
 <span class="kn">from</span> <span class="nn">django.template.response</span> <span class="k">import</span> <span class="n">TemplateResponse</span>
@@ -52,7 +52,7 @@
 
 <span class="kn">from</span> <span class="nn">stats.models</span> <span class="k">import</span> <span class="n">LoginStats</span>
 
-<span class="c1"># Avoid shadowing the login() and logout() views below.</span>
+<span class="c"># Avoid shadowing the login() and logout() views below.</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="k">import</span> <span class="p">(</span><span class="n">REDIRECT_FIELD_NAME</span><span class="p">,</span> <span class="n">login</span> <span class="k">as</span> <span class="n">auth_login</span><span class="p">,</span> <span class="n">logout</span> <span class="k">as</span> <span class="n">auth_logout</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.forms</span> <span class="k">import</span> <span class="n">AuthenticationForm</span>
 <span class="kn">from</span> <span class="nn">django.contrib.sites.shortcuts</span> <span class="k">import</span> <span class="n">get_current_site</span>
@@ -61,35 +61,35 @@
 <div class="viewcode-block" id="login"><a class="viewcode-back" href="../../authentification.html#authentification.views.login">[docs]</a><span class="nd">@sensitive_post_parameters</span><span class="p">()</span>
 <span class="nd">@csrf_protect</span>
 <span class="nd">@never_cache</span>
-<span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s1">&#39;registration/login.haml&#39;</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="o">=</span><span class="s">&#39;registration/login.haml&#39;</span><span class="p">,</span>
           <span class="n">redirect_field_name</span><span class="o">=</span><span class="n">REDIRECT_FIELD_NAME</span><span class="p">,</span>
           <span class="n">authentication_form</span><span class="o">=</span><span class="n">AuthenticationForm</span><span class="p">,</span>
-          <span class="n">current_app</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extra_context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+          <span class="n">current_app</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">extra_context</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Displays the login form and handles the login action.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">redirect_to</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">redirect_field_name</span><span class="p">,</span>
-                                   <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">redirect_field_name</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+                                   <span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">redirect_field_name</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&quot;POST&quot;</span><span class="p">:</span>
         <span class="n">form</span> <span class="o">=</span> <span class="n">authentication_form</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">():</span>
 
-            <span class="c1"># Ensure the user-originating redirection url is safe.</span>
+            <span class="c"># Ensure the user-originating redirection url is safe.</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">is_safe_url</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">redirect_to</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">get_host</span><span class="p">()):</span>
                 <span class="n">redirect_to</span> <span class="o">=</span> <span class="n">resolve_url</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">LOGIN_REDIRECT_URL</span><span class="p">)</span>
 
-            <span class="c1"># Security check is complete. Log the user in.</span>
+            <span class="c"># Security check is complete. Log the user in.</span>
             <span class="n">auth_login</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">form</span><span class="o">.</span><span class="n">get_user</span><span class="p">())</span>
 
             <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">is_superuser</span><span class="p">:</span>
-                <span class="n">user_kind</span> <span class="o">=</span> <span class="s2">&quot;admin&quot;</span>
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;professor&quot;</span><span class="p">):</span>
-                <span class="n">user_kind</span> <span class="o">=</span> <span class="s2">&quot;professor&quot;</span>
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s2">&quot;student&quot;</span><span class="p">):</span>
-                <span class="n">user_kind</span> <span class="o">=</span> <span class="s2">&quot;student&quot;</span>
+                <span class="n">user_kind</span> <span class="o">=</span> <span class="s">&quot;admin&quot;</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s">&quot;professor&quot;</span><span class="p">):</span>
+                <span class="n">user_kind</span> <span class="o">=</span> <span class="s">&quot;professor&quot;</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="s">&quot;student&quot;</span><span class="p">):</span>
+                <span class="n">user_kind</span> <span class="o">=</span> <span class="s">&quot;student&quot;</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unknown user kind, can&#39;t login&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Unknown user kind, can&#39;t login&quot;</span><span class="p">)</span>
 
             <span class="n">LoginStats</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span> <span class="n">user_kind</span><span class="o">=</span><span class="n">user_kind</span><span class="p">)</span>
 
@@ -100,26 +100,26 @@
     <span class="n">current_site</span> <span class="o">=</span> <span class="n">get_current_site</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 
     <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
+        <span class="s">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span>
         <span class="n">redirect_field_name</span><span class="p">:</span> <span class="n">redirect_to</span><span class="p">,</span>
-        <span class="s1">&#39;site&#39;</span><span class="p">:</span> <span class="n">current_site</span><span class="p">,</span>
-        <span class="s1">&#39;site_name&#39;</span><span class="p">:</span> <span class="n">current_site</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+        <span class="s">&#39;site&#39;</span><span class="p">:</span> <span class="n">current_site</span><span class="p">,</span>
+        <span class="s">&#39;site_name&#39;</span><span class="p">:</span> <span class="n">current_site</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="k">if</span> <span class="n">extra_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">extra_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
         <span class="n">context</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">extra_context</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">TemplateResponse</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span>
                             <span class="n">current_app</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="logout"><a class="viewcode-back" href="../../authentification.html#authentification.views.logout">[docs]</a><span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">next_page</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-           <span class="n">template_name</span><span class="o">=</span><span class="s1">&#39;registration/logged_out.html&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="logout"><a class="viewcode-back" href="../../authentification.html#authentification.views.logout">[docs]</a><span class="k">def</span> <span class="nf">logout</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">next_page</span><span class="o">=</span><span class="k">None</span><span class="p">,</span>
+           <span class="n">template_name</span><span class="o">=</span><span class="s">&#39;registration/logged_out.html&#39;</span><span class="p">,</span>
            <span class="n">redirect_field_name</span><span class="o">=</span><span class="n">REDIRECT_FIELD_NAME</span><span class="p">,</span>
-           <span class="n">current_app</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">extra_context</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+           <span class="n">current_app</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">extra_context</span><span class="o">=</span><span class="k">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Logs out the user and displays &#39;You are logged out&#39; message.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">auth_logout</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;home&quot;</span><span class="p">))</span></div>
 </pre></div>
 
           </div>

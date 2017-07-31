@@ -40,14 +40,14 @@
           <div class="body" role="main">
             
   <h1>Source code for student.templatetags.student_tags</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">django</span> <span class="k">import</span> <span class="n">template</span>
+<span class="kn">from</span> <span class="nn">django</span> <span class="k">import</span> <span class="n">template</span>
 
 
 <span class="n">register</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">Library</span><span class="p">()</span>
 
 <div class="viewcode-block" id="keep_unfinished_tests"><a class="viewcode-back" href="../../../student.templatetags.html#student.templatetags.student_tags.keep_unfinished_tests">[docs]</a><span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
 <span class="k">def</span> <span class="nf">keep_unfinished_tests</span><span class="p">(</span><span class="n">teststudent_set_all</span><span class="p">):</span>
-  <span class="k">return</span> <span class="n">teststudent_set_all</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">finished_at__isnull</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+  <span class="k">return</span> <span class="n">teststudent_set_all</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">finished_at__isnull</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="strip_untested_skills"><a class="viewcode-back" href="../../../student.templatetags.html#student.templatetags.student_tags.strip_untested_skills">[docs]</a><span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
@@ -57,7 +57,7 @@
 
 <div class="viewcode-block" id="remove_closed_tests"><a class="viewcode-back" href="../../../student.templatetags.html#student.templatetags.student_tags.remove_closed_tests">[docs]</a><span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
 <span class="k">def</span> <span class="nf">remove_closed_tests</span><span class="p">(</span><span class="n">teststudent_set</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">teststudent_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test__running</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">teststudent_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test__running</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

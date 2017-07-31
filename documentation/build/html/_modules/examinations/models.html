@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <h1>Source code for examinations.models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">unicode_literals</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.contrib.postgres.fields</span> <span class="k">import</span> <span class="n">JSONField</span>
@@ -49,48 +49,61 @@
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
 <span class="kn">from</span> <span class="nn">django.contrib.contenttypes.fields</span> <span class="k">import</span> <span class="n">GenericForeignKey</span>
 <span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="k">import</span> <span class="n">ContentType</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">yamlordereddictloader</span>
 
 
 <div class="viewcode-block" id="Context"><a class="viewcode-back" href="../../examinations.html#examinations.models.Context">[docs]</a><span class="k">class</span> <span class="nc">Context</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;[FR] Contexte</span>
+    <span class="sd">&quot;&quot;&quot;[FR] Contexte, Exercice</span>
 
-<span class="sd">        Whenever a Question is created, it is contained</span>
-<span class="sd">        in a Context. A Context contains a list of</span>
-<span class="sd">        Questions (at least one).</span>
+<span class="sd">        Contains a list of Questions (at least one).</span>
+<span class="sd">        A Context is also called an exercise/exercice</span>
+<span class="sd">        in the code comments or in the documentation.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">context</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;The Question(s) context, not mandatory.&quot;&quot;&quot;</span>
-    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;skills.Skill&quot;</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;The Skill to which the Context belongs&quot;&quot;&quot;</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The general description related to the Question(s), not mandatory.&quot;&quot;&quot;</span>
+    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;skills.Skill&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill evaluated through this Context&quot;&quot;&quot;</span>
 
-    <span class="n">added_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;The author of this Context and its Question(s)&quot;&quot;&quot;</span>
-    <span class="c1"># TODO: added_by must be NOT NULL</span>
+    <span class="n">added_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Professor who created this Context and its Question(s)&quot;&quot;&quot;</span>
+    <span class="c"># TODO: added_by must be NOT NULL</span>
 
-    <span class="n">approved</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;True if the question is in a correct format, False otherwise&quot;&quot;&quot;</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">approved</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;True if in a correct format, False otherwise&quot;&quot;&quot;</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Date of creation&quot;&quot;&quot;</span>
-    <span class="n">modified_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">modified_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Date of the last modification&quot;&quot;&quot;</span>
-    <span class="n">testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;True if the Context can be graded automatically, False otherwise&quot;&quot;&quot;</span>
-    <span class="n">file_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;The file/media attached to the Context, not mandatory&quot;&quot;&quot;</span></div>
+    <span class="n">testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;True if can be graded automatically, False otherwise&quot;&quot;&quot;</span>
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;\&quot;submitted\&quot; if created online, \&quot;adapted\&quot; if modified for a Test,</span>
+<span class="sd">        \&quot;a_file_name\&quot; if the exercise is stored in a file (method not used anymore)&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Context.get_questions"><a class="viewcode-back" href="../../examinations.html#examinations.models.Context.get_questions">[docs]</a>    <span class="k">def</span> <span class="nf">get_questions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get all the questions attached to this Context.&quot;&quot;&quot;</span>
+        <span class="n">list_questions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">list_question</span> <span class="ow">in</span> <span class="n">List_question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+            <span class="n">list_questions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">list_question</span><span class="o">.</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">Question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id__in</span><span class="o">=</span><span class="n">list_questions</span><span class="p">):</span>
+            <span class="n">questions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">questions</span></div></div>
 
 
 <div class="viewcode-block" id="List_question"><a class="viewcode-back" href="../../examinations.html#examinations.models.List_question">[docs]</a><span class="k">class</span> <span class="nc">List_question</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;List of questions</span>
 
-<span class="sd">        Link between Contexts and Questions</span>
+<span class="sd">        Link between Contexts and Questions.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">context</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Context&#39;</span><span class="p">)</span>
+    <span class="n">context</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;Context&#39;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;A Context&quot;&quot;&quot;</span>
-    <span class="n">question</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s1">&#39;Question&#39;</span><span class="p">)</span>
+    <span class="n">question</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;Question&#39;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;A Question&quot;&quot;&quot;</span></div>
 
 
@@ -101,14 +114,22 @@
 <span class="sd">        to a Context.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># @todo after migration add type question filed from answer yaml structure</span>
+    <span class="c"># @todo after migration add type question filed from answer yaml structure</span>
 
-    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The description is where states the question itself&quot;&quot;&quot;</span>
     <span class="n">answer</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">()</span>
-    <span class="sd">&quot;&quot;&quot;The list of possible true answers, as well as false answers, depending on the type&quot;&quot;&quot;</span>
-    <span class="n">source</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;???&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;The list of possible true answers, as well as false answers, depending on the type.</span>
+<span class="sd">        For now, the type is also included in this field.&quot;&quot;&quot;</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Information that can only the Professors&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Question.get_answer"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_answer">[docs]</a>    <span class="k">def</span> <span class="nf">get_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Load YAML answer</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">answer</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yamlordereddictloader</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{}</span></div></div>
 
 
 <div class="viewcode-block" id="Answer"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer">[docs]</a><span class="k">class</span> <span class="nc">Answer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -120,18 +141,18 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">raw_answer</span> <span class="o">=</span> <span class="n">JSONField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># let&#39;s store json</span>
+    <span class="n">raw_answer</span> <span class="o">=</span> <span class="n">JSONField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  <span class="c"># let&#39;s store json</span>
     <span class="sd">&quot;&quot;&quot;The answers the student provided to all the Question(s) belonging to a Context&quot;&quot;&quot;</span>
-    <span class="n">from_test_hybride</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">from_test_hybride</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Depreciated&quot;&quot;&quot;</span>
-    <span class="n">automatic</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">automatic</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;If we already succeed in a Context which the Skill used our Context Skill as prerequisite,</span>
 <span class="sd">        we automatically succeed to answer to this Context, whatever our raw_answer was&quot;&quot;&quot;</span>
-    <span class="n">test_student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;TestStudent&quot;</span><span class="p">)</span>
+    <span class="n">test_student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;TestStudent&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The TestStudent (the test itself) corresponding to our answers&quot;&quot;&quot;</span>
-    <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;TestExercice&quot;</span><span class="p">)</span>
+    <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;TestExercice&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The TestExercice (which Context in the test) corresponding to our answers&quot;&quot;&quot;</span>
-    <span class="n">answer_datetime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">answer_datetime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The date we submitted our answers&quot;&quot;&quot;</span></div>
 
 
@@ -141,15 +162,15 @@
 <span class="sd">        The Test of a particular Student.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;users.Student&quot;</span><span class="p">)</span>
+    <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;users.Student&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The Student&quot;&quot;&quot;</span>
-    <span class="n">test</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;Test&quot;</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The Test&quot;&quot;&quot;</span>
-    <span class="n">finished</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">finished</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">False</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;True if the Student has finished the Test, False otherwise&quot;&quot;&quot;</span>
-    <span class="n">started_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">started_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The date the Student started the Test&quot;&quot;&quot;</span>
-    <span class="n">finished_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">finished_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The date the Student finished the Test&quot;&quot;&quot;</span></div>
 
 
@@ -160,31 +181,38 @@
 <span class="sd">        of Question(s).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">test</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;Test&quot;</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;Test&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The Test&quot;&quot;&quot;</span>
-    <span class="n">exercice</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;Context&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">exercice</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;Context&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;A Context that belongs to the Test&quot;&quot;&quot;</span>
-    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;skills.Skill&quot;</span><span class="p">)</span>
+    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;skills.Skill&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The Skill of the Context, necessary in case there is no Context ready</span>
 <span class="sd">        for this Skill&quot;&quot;&quot;</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The date the Context was added to the Test&quot;&quot;&quot;</span>
-    <span class="n">variables</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">variables</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Unused field&quot;&quot;&quot;</span>
-    <span class="n">rendered_content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">rendered_content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Unused field&quot;&quot;&quot;</span>
-    <span class="n">testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;True if this Context is graded automatically, False otherwise&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="BaseTest"><a class="viewcode-back" href="../../examinations.html#examinations.models.BaseTest">[docs]</a><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;[</span>
+    <span class="sd">&quot;&quot;&quot;Base for the Tests</span>
+
+<span class="sd">        This is the common part of the Tests,</span>
+<span class="sd">        whether &quot;classic&quot; or offline</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s2">&quot;Nom&quot;</span><span class="p">)</span>
-    <span class="n">lesson</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;promotions.Lesson&quot;</span><span class="p">)</span>
-    <span class="n">skills</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s2">&quot;skills.Skill&quot;</span><span class="p">)</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">&quot;Nom&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The test name&quot;&quot;&quot;</span>
+    <span class="n">lesson</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;promotions.Lesson&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Lesson in which this test stands&quot;&quot;&quot;</span>
+    <span class="n">skills</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s">&quot;skills.Skill&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill(s) tested in this test&quot;&quot;&quot;</span>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The date the test was created&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="Test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test">[docs]</a><span class="k">class</span> <span class="nc">Test</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
@@ -194,19 +222,83 @@
 <span class="sd">        a suite of Contexts, to evaluate a Student.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">running</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">running</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;True while it is open (available for students), becomes False when closed by the Professor&quot;&quot;&quot;</span>
-    <span class="n">enabled</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">enabled</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;True if the test is visible, False if invisible (not to confuse with &quot;running&quot;)&quot;&quot;&quot;</span>
-    <span class="n">fully_testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fully_testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;True if all the Contexts in the Test can be graded automatically&quot;&quot;&quot;</span>
 
     <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">(</span>
-        <span class="p">(</span><span class="s2">&quot;skills&quot;</span><span class="p">,</span> <span class="s2">&quot;skills&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;dependencies&quot;</span><span class="p">,</span> <span class="s2">&quot;dependencies&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;skills-dependencies&quot;</span><span class="p">,</span> <span class="s2">&quot;skills-dependencies&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;skills&quot;</span><span class="p">,</span> <span class="s">&quot;skills&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;dependencies&quot;</span><span class="p">,</span> <span class="s">&quot;dependencies&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;skills-dependencies&quot;</span><span class="p">,</span> <span class="s">&quot;skills-dependencies&quot;</span><span class="p">),</span>
     <span class="p">))</span>
-    <span class="sd">&quot;&quot;&quot;The type test: it can test the Skills themselves, their prerequisites, or bot&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;The type test: it can test the Skills themselves, their prerequisites, or both&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Test.can_change_exercice"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.can_change_exercice">[docs]</a>    <span class="k">def</span> <span class="nf">can_change_exercice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># None of the students has started its test yet.</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">teststudent_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">started_at__isnull</span><span class="o">=</span><span class="k">False</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Test.add_student"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.add_student">[docs]</a>    <span class="k">def</span> <span class="nf">add_student</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; subscribe new student in prof created tests &quot;&quot;&quot;</span>
+
+        <span class="n">TestStudent</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+            <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+            <span class="n">student</span><span class="o">=</span><span class="n">student</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.generate_skills_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_skills_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_skills_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.generate_dependencies_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_dependencies_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_dependencies_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_test_skills</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">skill</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">skill</span><span class="o">.</span><span class="n">depends_on</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_test_skills</span><span class="p">:</span>
+                    <span class="n">to_test_skills</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">skill</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="n">to_test_skills</span><span class="p">:</span>
+            <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">,</span>
+            <span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.generate_skills_dependencies_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_skills_dependencies_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_skills_dependencies_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_test_skills</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">skill</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">skill</span><span class="o">.</span><span class="n">depends_on</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+                <span class="c"># we don&#39;t add dependancies that can&#39;t be tested online</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_test_skills</span> <span class="ow">and</span> <span class="n">skill</span><span class="o">.</span><span class="n">exercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">testable_online</span><span class="o">=</span><span class="k">True</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">to_test_skills</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
+            <span class="n">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">skill</span><span class="p">)</span>
+
+            <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="n">to_test_skills</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">continue</span>
+
+            <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+                <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">,</span>
+            <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="TestFromClass"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestFromClass">[docs]</a><span class="k">class</span> <span class="nc">TestFromClass</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
@@ -226,20 +318,20 @@
 <span class="sd">        and its Skill(s)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">test</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;TestFromClass&quot;</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;TestFromClass&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The offline Test&quot;&quot;&quot;</span>
-    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;skills.Skill&quot;</span><span class="p">)</span>
+    <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;skills.Skill&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;A Skill tested by the offline Test&quot;&quot;&quot;</span>
-    <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;users.Student&quot;</span><span class="p">)</span>
+    <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;users.Student&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The student that passed the offline Test&quot;&quot;&quot;</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">(</span>
-        <span class="p">(</span><span class="s2">&quot;good&quot;</span><span class="p">,</span> <span class="s2">&quot;acquise&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;bad&quot;</span><span class="p">,</span> <span class="s2">&quot;non acquise&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="s2">&quot;inconnu&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;good&quot;</span><span class="p">,</span> <span class="s">&quot;acquise&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;bad&quot;</span><span class="p">,</span> <span class="s">&quot;non acquise&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s">&quot;unknown&quot;</span><span class="p">,</span> <span class="s">&quot;inconnu&quot;</span><span class="p">),</span>
     <span class="p">))</span>
     <span class="sd">&quot;&quot;&quot;The Skill result for the Student with the offline Test&quot;&quot;&quot;</span>
 
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

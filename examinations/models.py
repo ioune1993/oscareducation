@@ -12,29 +12,34 @@ import yamlordereddictloader
 
 
 class Context(models.Model):
-    """
-    [FR] Contexte
+    """[FR] Contexte, Exercice
 
-    Contains a list of :model:`examinations.Question` (at least one).
+        Contains a list of Questions (at least one).
+        A Context is also called an exercise/exercice
+        in the code comments or in the documentation.
+
     """
 
-    context = models.TextField(blank=True, null=True,
-                               help_text="The general description related to the Question(s), not mandatory.")
+    context = models.TextField(blank=True, null=True)
+    """The general description related to the Question(s), not mandatory."""
     skill = models.ForeignKey("skills.Skill")
+    """The Skill evaluated through this Context"""
 
-    added_by = models.ForeignKey(User, null=True,
-                                 help_text="The Professor who created this Context and its Question(s)")
+    added_by = models.ForeignKey(User, null=True)
+    """The Professor who created this Context and its Question(s)"""
     # TODO: added_by must be NOT NULL
 
-    approved = models.BooleanField(default=True, help_text="True if in a correct format, False otherwise")
-    created_at = models.DateTimeField(auto_now_add=True, help_text="Date of creation")
-    modified_at = models.DateTimeField(auto_now=True, help_text="Date of the last modification")
-    testable_online = models.BooleanField(default=True, help_text="True if can be graded automatically, False otherwise")
-    file_name = models.CharField(max_length=255, null=True, blank=True,
-                                 help_text="\"submitted\" if created online,"
-                                           " \"adapted\" if modified for a Test,"
-                                           " \"[a_file_name]\" if the exercice is stored in a file"
-                                           " (method not used anymore)")
+    approved = models.BooleanField(default=True)
+    """True if in a correct format, False otherwise"""
+    created_at = models.DateTimeField(auto_now_add=True)
+    """Date of creation"""
+    modified_at = models.DateTimeField(auto_now=True)
+    """Date of the last modification"""
+    testable_online = models.BooleanField(default=True)
+    """True if can be graded automatically, False otherwise"""
+    file_name = models.CharField(max_length=255, null=True, blank=True)
+    """\"submitted\" if created online, \"adapted\" if modified for a Test,
+        \"a_file_name\" if the exercise is stored in a file (method not used anymore)"""
 
     def get_questions(self):
         """Get all the questions attached to this Context."""

@@ -509,8 +509,12 @@
 <span id="promotions-models-module"></span><h2>promotions.models module<a class="headerlink" href="#module-promotions.models" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="promotions.models.Lesson">
-<em class="property">class </em><code class="descclassname">promotions.models.</code><code class="descname">Lesson</code><span class="sig-paren">(</span><em>id</em>, <em>name</em>, <em>stage</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Lesson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Lesson" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">promotions.models.</code><code class="descname">Lesson</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Lesson"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Lesson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>[FR] Classe</p>
+<p>A group of Students created and managed
+by (a) Professor(s), with their own tests
+and optionally their own resources.</p>
 <dl class="exception">
 <dt id="promotions.models.Lesson.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#promotions.models.Lesson.DoesNotExist" title="Permalink to this definition">¶</a></dt>
@@ -529,8 +533,8 @@
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -548,8 +552,7 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="promotions.models.Lesson.name">
 <code class="descname">name</code><a class="headerlink" href="#promotions.models.Lesson.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>The Lesson name</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -560,17 +563,7 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="promotions.models.Lesson.professors">
 <code class="descname">professors</code><a class="headerlink" href="#promotions.models.Lesson.professors" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the forward and reverse sides of
-a many-to-many relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
-instances.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+<dd><p>The Professors managing this Lesson</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -579,8 +572,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -591,14 +584,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="attribute">
 <dt id="promotions.models.Lesson.stage">
 <code class="descname">stage</code><a class="headerlink" href="#promotions.models.Lesson.stage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<dd><p>This Lesson Stage (its “level” in the education)</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -608,14 +594,19 @@ one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 object the first time, the query is executed.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="promotions.models.Lesson.stages_in_unchronological_order">
+<code class="descname">stages_in_unchronological_order</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Lesson.stages_in_unchronological_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Lesson.stages_in_unchronological_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="promotions.models.Lesson.studentpoll_set">
 <code class="descname">studentpoll_set</code><a class="headerlink" href="#promotions.models.Lesson.studentpoll_set" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -626,25 +617,18 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="attribute">
 <dt id="promotions.models.Lesson.students">
 <code class="descname">students</code><a class="headerlink" href="#promotions.models.Lesson.students" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the forward and reverse sides of
-a many-to-many relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
-instances.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+<dd><p>The Students belonging to this Lesson</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="promotions.models.Stage">
-<em class="property">class </em><code class="descclassname">promotions.models.</code><code class="descname">Stage</code><span class="sig-paren">(</span><em>id</em>, <em>name</em>, <em>short_name</em>, <em>level</em>, <em>previous_stage</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Stage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Stage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">promotions.models.</code><code class="descname">Stage</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Stage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Stage" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>[FR] Niveau/Degré/Année</p>
+<p>Each education form is subdivided in Stages,
+that cover a single year or several years.</p>
 <dl class="exception">
 <dt id="promotions.models.Stage.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#promotions.models.Stage.DoesNotExist" title="Permalink to this definition">¶</a></dt>
@@ -670,8 +654,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -682,15 +666,13 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="attribute">
 <dt id="promotions.models.Stage.level">
 <code class="descname">level</code><a class="headerlink" href="#promotions.models.Stage.level" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>The level that permits to position Stages from different education forms</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="promotions.models.Stage.name">
 <code class="descname">name</code><a class="headerlink" href="#promotions.models.Stage.name" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>The Stage name</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -701,14 +683,7 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="promotions.models.Stage.previous_stage">
 <code class="descname">previous_stage</code><a class="headerlink" href="#promotions.models.Stage.previous_stage" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related object on the forward side of a many-to-one or
-one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+<dd><p>The Stage that precedes this Stage (in the same education form, if applicable)</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -721,25 +696,19 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="promotions.models.Stage.short_name">
 <code class="descname">short_name</code><a class="headerlink" href="#promotions.models.Stage.short_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>The Stage name abbreviation</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="promotions.models.Stage.skills">
 <code class="descname">skills</code><a class="headerlink" href="#promotions.models.Stage.skills" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the forward and reverse sides of
-a many-to-many relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
-instances.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+<dd><p>The Skills that belong to this Stage</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="promotions.models.Stage.skills_with_exercice_count">
+<code class="descname">skills_with_exercice_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Stage.skills_with_exercice_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Stage.skills_with_exercice_count" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="promotions.models.Stage.stage_set">
@@ -747,8 +716,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>

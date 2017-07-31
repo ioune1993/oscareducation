@@ -40,28 +40,72 @@
           <div class="body" role="main">
             
   <h1>Source code for promotions.models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">unicode_literals</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="k">import</span> <span class="n">Count</span>
 
-<span class="c1"># Create your models here.</span>
 
-<span class="c1">#stage</span>
 <div class="viewcode-block" id="Stage"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.Stage">[docs]</a><span class="k">class</span> <span class="nc">Stage</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s2">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">short_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s2">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">level</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="s2">&quot;Niveau&quot;</span><span class="p">)</span>
-    <span class="n">previous_stage</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s2">&quot;promotions.Stage&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;[FR] Niveau/Degré/Année</span>
 
-    <span class="n">skills</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s2">&quot;skills.Skill&quot;</span><span class="p">)</span></div>
-<span class="c1">#lesson</span>
+<span class="sd">        Each education form is subdivided in Stages,</span>
+<span class="sd">        that cover a single year or several years.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Stage name&quot;&quot;&quot;</span>
+    <span class="n">short_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Stage name abbreviation&quot;&quot;&quot;</span>
+    <span class="n">level</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="s">&quot;Niveau&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The level that permits to position Stages from different education forms&quot;&quot;&quot;</span>
+    <span class="n">previous_stage</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;promotions.Stage&quot;</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Stage that precedes this Stage (in the same education form, if applicable)&quot;&quot;&quot;</span>
+    <span class="n">skills</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s">&quot;skills.Skill&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skills that belong to this Stage&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Stage.skills_with_exercice_count"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.Stage.skills_with_exercice_count">[docs]</a>    <span class="k">def</span> <span class="nf">skills_with_exercice_count</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">Count</span><span class="p">(</span><span class="s">&#39;context&#39;</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">unique_together</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;name&#39;</span><span class="p">,</span> <span class="s">&#39;level&#39;</span><span class="p">)</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;level&#39;</span><span class="p">]</span></div>
+
+
 <div class="viewcode-block" id="Lesson"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.Lesson">[docs]</a><span class="k">class</span> <span class="nc">Lesson</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;[FR] Classe</span>
 
-    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s2">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="n">students</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s2">&quot;users.Student&quot;</span><span class="p">)</span>
-    <span class="n">professors</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s2">&quot;users.Professor&quot;</span><span class="p">)</span>
-    <span class="n">stage</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Stage</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="sa">u</span><span class="s2">&quot;Année&quot;</span><span class="p">)</span></div>
+<span class="sd">        A group of Students created and managed</span>
+<span class="sd">        by (a) Professor(s), with their own tests</span>
+<span class="sd">        and optionally their own resources.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="s">&quot;Nom&quot;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Lesson name&quot;&quot;&quot;</span>
+    <span class="n">students</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s">&quot;users.Student&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Students belonging to this Lesson&quot;&quot;&quot;</span>
+    <span class="n">professors</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ManyToManyField</span><span class="p">(</span><span class="s">&quot;users.Professor&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Professors managing this Lesson&quot;&quot;&quot;</span>
+    <span class="n">stage</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Stage</span><span class="p">,</span> <span class="n">verbose_name</span><span class="o">=</span><span class="s">u&quot;Année&quot;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;This Lesson Stage (its &quot;level&quot; in the education)&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Lesson.stages_in_unchronological_order"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.Lesson.stages_in_unchronological_order">[docs]</a>    <span class="k">def</span> <span class="nf">stages_in_unchronological_order</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">stage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage</span>
+
+        <span class="n">stages</span> <span class="o">=</span> <span class="p">[</span><span class="n">stage</span><span class="p">]</span>
+
+        <span class="k">while</span> <span class="n">stage</span><span class="o">.</span><span class="n">previous_stage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="k">None</span><span class="p">:</span>
+            <span class="n">stage</span> <span class="o">=</span> <span class="n">stage</span><span class="o">.</span><span class="n">previous_stage</span>
+            <span class="n">stages</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stage</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">stages</span></div></div>
 </pre></div>
 
           </div>

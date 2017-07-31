@@ -176,8 +176,8 @@ class)</p>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -215,8 +215,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -251,8 +251,8 @@ Thus, when evaluated, a Skill can be acquired by a student, or not.</p>
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;pizzas&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
@@ -273,8 +273,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -368,8 +368,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -383,8 +383,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the forward and reverse sides of
 a many-to-many relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;pizzas&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">pizza.toppings</span></code> and <code class="docutils literal"><span class="pre">topping.pizzas</span></code> are <code class="docutils literal"><span class="pre">ManyToManyDescriptor</span></code>
@@ -399,8 +399,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -414,8 +414,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -429,8 +429,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related objects manager on the reverse side of a
 many-to-one relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
@@ -462,8 +462,8 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
@@ -482,8 +482,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
@@ -559,8 +559,8 @@ ForwardManyToOneDescriptor) by adding itself as a model attribute.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
@@ -579,8 +579,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
@@ -663,8 +663,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
@@ -683,8 +683,8 @@ object the first time, the query is executed.</p>
 <dd><p>Accessor to the related object on the forward side of a many-to-one or
 one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
 <p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">child.parent</span></code> is a <code class="docutils literal"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>

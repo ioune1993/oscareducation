@@ -40,17 +40,17 @@
           <div class="body" role="main">
             
   <h1>Source code for stats.models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># encoding: utf-8</span>
+<span class="c"># encoding: utf-8</span>
 
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.contrib.auth.models</span> <span class="k">import</span> <span class="n">User</span>
 
 
-<span class="c1"># Create your models here.</span>
+<span class="c"># Create your models here.</span>
 <div class="viewcode-block" id="LoginStats"><a class="viewcode-back" href="../../stats.html#stats.models.LoginStats">[docs]</a><span class="k">class</span> <span class="nc">LoginStats</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">user</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
-    <span class="n">user_kind</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s1">&#39;student&#39;</span><span class="p">,</span> <span class="s1">&#39;étudiant·e&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;professor&#39;</span><span class="p">,</span> <span class="s1">&#39;Professeur&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;Admin&#39;</span><span class="p">)))</span>
-    <span class="n">when</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">user_kind</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">((</span><span class="s">&#39;student&#39;</span><span class="p">,</span> <span class="s">&#39;étudiant·e&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;professor&#39;</span><span class="p">,</span> <span class="s">&#39;Professeur&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="s">&#39;Admin&#39;</span><span class="p">)))</span>
+    <span class="n">when</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

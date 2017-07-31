@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <h1>Source code for promotions.cbgv</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse</span>
 <span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">DetailView</span><span class="p">,</span> <span class="n">DeleteView</span>
 <span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">get_object_or_404</span>
 
@@ -51,48 +51,48 @@
 
 <div class="viewcode-block" id="LessonMixin"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.LessonMixin">[docs]</a><span class="k">class</span> <span class="nc">LessonMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <div class="viewcode-block" id="LessonMixin.get_lesson"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.LessonMixin.get_lesson">[docs]</a>    <span class="k">def</span> <span class="nf">get_lesson</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;lesson_pk&quot;</span><span class="p">])</span></div>
+        <span class="k">return</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s">&quot;lesson_pk&quot;</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="LessonMixin.get_context_data"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.LessonMixin.get_context_data">[docs]</a>    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">LessonMixin</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;lesson&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lesson</span><span class="p">()</span>
+        <span class="n">context</span><span class="p">[</span><span class="s">&quot;lesson&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_lesson</span><span class="p">()</span>
 
-        <span class="c1"># TODO check professor can only see a student in his lesson</span>
+        <span class="c"># TODO check professor can only see a student in his lesson</span>
 
         <span class="k">return</span> <span class="n">context</span></div></div>
 
 
 <div class="viewcode-block" id="LessonStudentListView"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.LessonStudentListView">[docs]</a><span class="k">class</span> <span class="nc">LessonStudentListView</span><span class="p">(</span><span class="n">DetailView</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Lesson</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;professor/lesson/student/list.haml&quot;</span>
-    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s2">&quot;lesson&quot;</span></div>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">&quot;professor/lesson/student/list.haml&quot;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s">&quot;lesson&quot;</span></div>
 
 
 <div class="viewcode-block" id="StudentDelete"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.StudentDelete">[docs]</a><span class="k">class</span> <span class="nc">StudentDelete</span><span class="p">(</span><span class="n">LessonMixin</span><span class="p">,</span> <span class="n">DeleteView</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Student</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;professor/lesson/student/delete.haml&quot;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">&quot;professor/lesson/student/delete.haml&quot;</span>
 
 <div class="viewcode-block" id="StudentDelete.get_success_url"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.StudentDelete.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;professor:lesson_student_list&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_lesson</span><span class="p">()</span><span class="o">.</span><span class="n">pk</span><span class="p">,))</span></div></div>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;professor:lesson_student_list&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_lesson</span><span class="p">()</span><span class="o">.</span><span class="n">pk</span><span class="p">,))</span></div></div>
 
 
 <div class="viewcode-block" id="LessonDelete"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.LessonDelete">[docs]</a><span class="k">class</span> <span class="nc">LessonDelete</span><span class="p">(</span><span class="n">DeleteView</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">Lesson</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;professor/lesson/delete.haml&quot;</span>
-    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s2">&quot;lesson&quot;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">&quot;professor/lesson/delete.haml&quot;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s">&quot;lesson&quot;</span>
 
 <div class="viewcode-block" id="LessonDelete.get_success_url"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.LessonDelete.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;professor:dashboard&#39;</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;professor:dashboard&#39;</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="BaseTestDelete"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.BaseTestDelete">[docs]</a><span class="k">class</span> <span class="nc">BaseTestDelete</span><span class="p">(</span><span class="n">LessonMixin</span><span class="p">,</span> <span class="n">DeleteView</span><span class="p">):</span>
     <span class="n">model</span> <span class="o">=</span> <span class="n">BaseTest</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;professor/lesson/test/delete.haml&quot;</span>
-    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">&quot;professor/lesson/test/delete.haml&quot;</span>
+    <span class="n">context_object_name</span> <span class="o">=</span> <span class="s">&quot;test&quot;</span>
 
 <div class="viewcode-block" id="BaseTestDelete.get_success_url"><a class="viewcode-back" href="../../promotions.html#promotions.cbgv.BaseTestDelete.get_success_url">[docs]</a>    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s1">&#39;professor:lesson_test_list&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_lesson</span><span class="p">()</span><span class="o">.</span><span class="n">pk</span><span class="p">,))</span></div></div>
+        <span class="k">return</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;professor:lesson_test_list&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_lesson</span><span class="p">()</span><span class="o">.</span><span class="n">pk</span><span class="p">,))</span></div></div>
 </pre></div>
 
           </div>
