@@ -10,7 +10,7 @@
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %li
+    %licheckbox
       %a{href: "{% url 'professor:exercice_list' %}"}
         Questions
     %li.active
@@ -92,12 +92,14 @@
                     %option{value: "radio"} Une seule réponse unique possible parmis toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
                     %option{value: "graph"} Réponse sur un graphique
+                    %option{value: "professor"} Réponse corrigée par le professeur
               .form-group
                 %label.control-label.col-sm-2 Information pour les professeurs
                 .col-sm-10
                   %input.form-control{type: "text", ng-model: "question.source", ng-required: "false"}
 
-            %ul.list-group
+            %ul.list-group{ng-if: "question.type != \"professor\""}
+              -# No answer to provide if corrected by the professor
               %li.list-group-item{ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
                 .form-horizontal{ng-if: "question.type != \"graph\""}
                   .form-group
@@ -113,7 +115,7 @@
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
-                  .form-group.no-bottom{ng-if: "question.type != \"text\" && ! question.type.startsWith(\"math\")"}
+                  .form-group.no-bottom{ng-if: "question.type != \"text\" && !question.type.startsWith(\"math\")"}
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
@@ -136,7 +138,7 @@
                         .input-group-addon Y
                         %input.form-control{type: "number", ng-required: "true", placeholder: "0", ng-model: "answer.graph.coordinates.Y"}
 
-            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, question)", type: "button"}
+            %button.btn.btn-success.btn-sm{ng-if: "question.type != \"professor\"", ng-click: "addAnswer(topIndex, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 

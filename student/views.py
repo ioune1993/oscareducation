@@ -111,6 +111,8 @@ def validate_exercice(request, test_student, test_exercice):
                 raw_answer[number] = request.POST[str(number)]
             elif data["type"] == "graph":
                 raw_answer[number] = {key: value for key, value in request.POST.items() if key.startswith("graph-%s" % number)}
+            elif data["type"] == "professor":
+                raw_answer[number] = request.POST[str(number)]
             else:
                 raise Exception()
 
@@ -151,6 +153,10 @@ def validate_exercice(request, test_student, test_exercice):
 @require_POST
 @user_is_student
 def start_test(request, pk):
+    """
+    The student starts a test that he can access
+    and is not closed yet.
+    """
     test_student = get_object_or_404(TestStudent, pk=pk)
 
     if test_student.student != request.user.student:

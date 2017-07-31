@@ -36,110 +36,136 @@
   .boxclasse.container-fluid
     -if student_test.started_at
       -if not student_test.fully_testable_online
-        %h5 Réponse des questions en ligne
-      %table.table.table-bordered
-        %colgroup
-          %col{width: "20%"}
-          %col
-          %col
-        %thead
-          %th
-            Compétence / question
-          %th
-            Réponse de l'élève
-          %th
-            Réponse attendue
-        %tbody
-          -for answer in student_test.answer_set.all
-            %tr
-              %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
-                %p
-                  %b Compétence :
-                  %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
-                    =answer.test_exercice.skill
-                  %br
-                  -if answer.test_exercice.exercice.id
-                    %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
-                      %b Question n°
-                        =answer.test_exercice.exercice.id
-                  -else
-                    Pas de questions disponible
-              %td{colspan: 2}
-                -if not answer.test_exercice.exercice and not answer.automatic
-                  %i pas de questions disponible
-                -elif not answer.automatic
-                  %table.full-width
-                    %tr
-                      %td.exercice-content{colspan: 2}
-                        -if answer.test_exercice.exercice.content
-                          %i= answer.test_exercice.exercice.content|safe
-                    -for question, subanswer in answer.get_answers.items
+        %h5 Réponses des questions en ligne
+        %table.table.table-bordered
+          %colgroup
+            %col{width: "20%"}
+            %col
+            %col
+          %thead
+            %th
+              Compétence / question
+            %th
+              Réponse de l'élève
+            %th
+              Réponse attendue
+          %tbody
+            -for answer in student_test.answer_set.all
+              %tr
+                %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}warning{% endif %}"}
+                  %p
+                    %b Compétence :
+                    %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
+                      =answer.test_exercice.skill
+                    %br
+                    -if answer.test_exercice.exercice.id
+                      %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
+                        %b Question n°
+                          =answer.test_exercice.exercice.id
+                    -else
+                      Pas de questions disponible
+                %td{colspan: 2}
+                  -if not answer.test_exercice.exercice and not answer.automatic
+                    %i pas de questions disponible
+                  -elif not answer.automatic
+                    %table.full-width
                       %tr
-                        %td{colspan: 2}
-                          .answers-panel.panel{class: "{% if subanswer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
-                            .panel-heading
-                              =question|safe
-                            .panel-body.answers-panel
-                              %table.answers-table
-                                -if subanswer.type == "checkbox"
-                                  %tr
-                                    %td.right-border{width: "50%"}
-                                      %ul
-                                        -for j in subanswer.answer
-                                          %li= j
-                                    %td{width: "50%"}
-                                      %ul
-                                        -for j in subanswer.correct
-                                          %li= j
-                                -elif subanswer.type == "text"
-                                  %tr
-                                    %td.right-border{width: "50%"}
-                                      =subanswer.answer
-                                    %td{width: "50%"}
-                                      %ul
-                                        -for j in subanswer.correct
-                                          %li= j
-                                -elif subanswer.type == "math" or subanswer.type == "math-simple" or subanswer.type == "math-advanced"
-                                  %tr
-                                    %td.right-border{width: "50%"}
-                                      \\(
-                                      =subanswer.answer
-                                      \\)
+                        %td.exercice-content{colspan: 2}
+                          -if answer.test_exercice.exercice.content
+                            %i= answer.test_exercice.exercice.content|safe
+                      -for question, subanswer in answer.get_answers.items
+                        %tr
+                          %td{colspan: 2}
+                            .answers-panel.panel{class: "{% if subanswer.is_correct %}panel-success{% else %}panel-warning{% endif %}"}
+                              .panel-heading
+                                =question|safe
+                              .panel-body.answers-panel
+                                %table.answers-table
+                                  -if subanswer.type == "checkbox"
+                                    %tr
+                                      %td.right-border{width: "50%"}
+                                        %ul
+                                          -for j in subanswer.answer
+                                            %li= j
+                                      %td{width: "50%"}
+                                        %ul
+                                          -for j in subanswer.correct
+                                            %li= j
+                                  -elif subanswer.type == "text"
+                                    %tr
+                                      %td.right-border{width: "50%"}
+                                        =subanswer.answer
+                                      %td{width: "50%"}
+                                        %ul
+                                          -for j in subanswer.correct
+                                            %li= j
+                                  -elif subanswer.type == "math" or subanswer.type == "math-simple" or subanswer.type == "math-advanced"
+                                    %tr
+                                      %td.right-border{width: "50%"}
+                                        \\(
+                                        =subanswer.answer
+                                        \\)
 
-                                      (code latex : <code>{{ subanswer.answer }})
-                                    %td{width: "50%"}
-                                      %ul
-                                        -for j in subanswer.correct
-                                          %li
-                                            \\(
-                                            =j
-                                            \\)
+                                        (code latex : <code>{{ subanswer.answer }})
+                                      %td{width: "50%"}
+                                        %ul
+                                          -for j in subanswer.correct
+                                            %li
+                                              \\(
+                                              =j
+                                              \\)
 
-                                            (code latex : <code>{{ j }})
-                                -elif subanswer.type == "radio"
-                                  %tr
-                                    %td.right-border{width: "50%"}
-                                      =subanswer.answer
-                                    %td{width: "50%"}
-                                      =subanswer.correct
-                                -else
-                                  -for i in subanswer.answers
-                                    -for a in subanswer.answers
-                                      %tr
-                                        %td
-                                          X:
-                                          =a.answer.X
-                                          %br
-                                          Y:
-                                          =a.answer.Y
-                                        %td
-                                          X:
-                                          =a.correct_answer.X
-                                          %br
-                                          Y:
-                                          =a.correct_answer.Y
-                -else
-                  %i Déduit depuis les autres réponses
+                                              (code latex : <code>{{ j }})
+                                  -elif subanswer.type == "radio"
+                                    %tr
+                                      %td.right-border{width: "50%"}
+                                        =subanswer.answer
+                                      %td{width: "50%"}
+                                        =subanswer.correct
+                                  -elif subanswer.type == "professor"
+                                    %tr
+                                      %td.right-border{width: "100%"}
+                                        =subanswer.answer
+                                  -else
+                                    -for i in subanswer.answers
+                                      -for a in subanswer.answers
+                                        %tr
+                                          %td
+                                            X:
+                                            =a.answer.X
+                                            %br
+                                            Y:
+                                            =a.answer.Y
+                                          %td
+                                            X:
+                                            =a.correct_answer.X
+                                            %br
+                                            Y:
+                                            =a.correct_answer.Y
+                                  -if subanswer.type == "professor"
+                                    %tr
+                                      %td
+                                        .center
+                                          .btn-group-horizontal{data-toggle: "buttons"}
+                                            -if subanswer.is_correct
+                                              %label.btn.btn-default.good.active
+                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
+                                                Correct
+                                            -else
+                                              %label.btn.btn-default.good
+                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                Correct
+
+                                            -if not subanswer.is_correct
+                                              %label.btn.btn-default.bad.active
+                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
+                                                Incorrect
+                                            -else
+                                              %label.btn.btn-default.bad
+                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                Incorrect
+                  -else
+                    %i Déduit depuis les autres réponses
 
     -else
       %p L'élève n'a pas encore commencé le test en ligne.
@@ -175,7 +201,7 @@
                         %b Question n°
                           =test_exercice.exercice.id
                     -else
-                      Pas de questions disponible
+                      Pas de question disponible
                     %br
                     %b Réponse :
                     -if answer and answer.correct
@@ -193,3 +219,55 @@
 
       -else
         %p Vous n'avez pas encore rentré les réponses pour cet élève pour les questions hors ligne.
+
+-block javascript
+  %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}
+
+  :javascript
+    $(function() {
+      var color_good = function() {
+        var btn = $(this)
+        btn.addClass("btn-success");
+
+        var td = btn.parent().parent().parent();
+        td.addClass("success");
+        td.removeClass("warning");
+
+        var bad_btn = btn.parent().find(".bad");
+        bad_btn.removeClass("btn-warning");
+      }
+
+      var color_bad = function() {
+        var btn = $(this)
+        btn.addClass("btn-warning");
+
+        var td = btn.parent().parent().parent();
+        td.addClass("warning");
+        td.removeClass("success");
+
+        var good_btn = btn.parent().find(".good");
+        good_btn.removeClass("btn-success");
+      }
+
+      var color_unknown = function() {
+        var btn = $(this)
+
+        var td = btn.parent().parent().parent();
+        td.removeClass("success");
+        td.removeClass("warning");
+
+        var good_btn = btn.parent().find(".good");
+        good_btn.removeClass("btn-success");
+
+        var bad_btn = btn.parent().find(".bad");
+        bad_btn.removeClass("btn-warning");
+      }
+
+      $(".good").click(color_good);
+      $(".bad").click(color_bad);
+      $(".unknown").click(color_unknown);
+
+      $(".good.active").each(color_good);
+      $(".bad.active").each(color_bad);
+      $(".unknow.active").each(color_unknow);
+    })
