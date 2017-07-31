@@ -15,11 +15,11 @@
         Test
         =test.name
     %li.active
-      Changer l'exercice pour {{ test_exercice.skill }}
+      Changer l'exercice pour {{ test_exercice.skill.code }}
 
 -block content
   -if test_exercice.test.can_change_exercice
-    %h3 Changer l'exercice pour la compétence {{ test_exercice.skill }}
+    %h3 Changer l'exercice pour la compétence : {{ test_exercice.skill.code }}
     %hr
 
     -if test_exercice.exercice
@@ -37,12 +37,26 @@
             .alert.alert-warning
               Cet exercice devra être testé hors ligne
 
-          -if test_exercice.exercice.content
+          -if test_exercice.exercice.context
             .well
-              =test_exercice.exercice.content|safe
+              =test_exercice.exercice.context|safe
 
-          -for label, question in test_exercice.exercice.get_questions.items
-            -include "professor/exercice/exercice_with_answers_rendering.haml"
+          -for question in test_exercice.exercice.get_questions
+            -if question.description
+              .well.question-description
+                =question.description|safe
+            -else
+              -# Should never reach this error
+              %div.alert.alert-danger
+                Erreur : Pas d'énoncé
+            -if question.source
+              %p
+                %b Information pour les professeurs :
+              .well.question-source
+                =question.source|safe
+
+            -with answer=question.get_answer
+              -include "professor/exercice/exercice_with_answers_rendering.haml"
     -else
       .boxclasse.container-fluid
         %p
@@ -52,8 +66,8 @@
     %h3 Exercices disponibles
     %hr
 
-    -if test_exercice.skill.exercice_set.all.count > 1
-      -for other_exercice in test_exercice.skill.exercice_set.all
+    -if test_exercice.skill.context_set.all.count > 1
+      -for other_exercice in test_exercice.skill.context_set.all
         -if other_exercice != test_exercice.exercice
           .panel.panel-success
             .panel-heading
@@ -67,12 +81,13 @@
                 .alert.alert-warning
                   Cet exercice devra être testé hors ligne
 
-              -if other_exercice.content
+              -if other_exercice.context
                 .well
-                  =other_exercice.content|safe
+                  =other_exercice.context|safe
 
-              -for label, question in other_exercice.get_questions.items
-                -include "professor/exercice/exercice_with_answers_rendering.haml"
+              -for question in other_exercice.get_questions
+                -with answer=question.get_answer
+                  -include "professor/exercice/exercice_with_answers_rendering.haml"
 
               %form{method: "POST"}
                 -csrf_token
@@ -87,7 +102,7 @@
       %p
         %td.center{width: "20px"}
           %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.test.pk }}&code={{ test_exercice.skill.code }}"}
-              Écrire une question pour cette compétence
+            Écrire une question pour cette compétence
 
     %p
       %a{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test_exercice.test.pk %}"}

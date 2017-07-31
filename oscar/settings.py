@@ -173,3 +173,5 @@ if "STATIC_ROOT" not in globals():
     COMPRESS_ROOT = os.path.join(BASE_DIR, "static_compressed")
 
 CRISPY_FAIL_SILENTLY = not DEBUG
+
+INTERNAL_IPS = ('127.0.0.1',)

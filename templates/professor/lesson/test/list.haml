@@ -51,7 +51,7 @@
                 %small Numérique
               %td
                 %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
-                  =basetest
+                  =basetest.name
               %td
                 -if not basetest.test.running
                   %span.label.label-danger

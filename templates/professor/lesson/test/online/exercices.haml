@@ -38,7 +38,7 @@
 
         .pull-right
           -if test_exercice.test.can_change_exercice
-            -if test_exercice.skill.exercice_set.count > 1
+            -if test_exercice.skill.context_set.count > 1
               %td.center{width: "20px"}
                 %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Remplacer par une autre question tirée des questions disponible dans Oscar"}
                   remplacer
@@ -57,18 +57,32 @@
             .alert.alert-warning
               Cet exercice devra être testé hors ligne
 
-          -if test_exercice.exercice.content
+          -if test_exercice.exercice.context
             .well.exercice-content
-              =test_exercice.exercice.content|safe
+              =test_exercice.exercice.context|safe
 
-          -for label, question in test_exercice.exercice.get_questions.items
-            -include "professor/exercice/exercice_with_answers_rendering.haml"
+          -for question in test_exercice.exercice.get_questions
+            -if question.description
+              .well.question-description
+                =question.description|safe
+            -else
+              -# Should never reach this error
+              %div.alert.alert-danger
+                Erreur : Pas d'énoncé
+            -if question.source
+              %p
+                %b Information pour les professeurs :
+              .well.question-source
+                =question.source|safe
+
+            -with answer=question.get_answer
+              -include "professor/exercice/exercice_with_answers_rendering.haml"
 
         -else
           %p
             Nous n'avons pas encore de questions pour cette compétence
 
-          -if test_exercice.test.can_change_exercice and test_exercice.skill.exercice_set.count > 0
+          -if test_exercice.test.can_change_exercice and test_exercice.skill.context_set.count > 0
             %p Mais il y en a des disponibles :
               %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
                 en choisir un

@@ -11,23 +11,23 @@
         Questions
     %li
       Question n°
-      =exercice.id
+      =context.id
 
 -block content
-  -if not exercice.approved
+  -if not context.approved
     %div.alert.alert-warning
       Exercice en attente d'approbation
 
   %h3 Question n°
-    =exercice.id
+    =context.id
     sur
-    =exercice.skill.code
-    -if user.is_superuser or exercice.added_by == user
-      %a{href: "{% url 'professor:exercice_update' exercice.id %}"}
+    =context.skill.code
+    -if user.is_superuser or context.added_by == user
+      %a{href: "{% url 'professor:exercice_update' context.id %}"}
         %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
   %hr
   %h4
-    =exercice.skill.name
+    =context.skill.name
 
 
   .ligneorange
@@ -40,18 +40,32 @@
   .ligneorangefine
 
   .boxclasse.container-fluid
-    -if exercice.content
-      .well.exercice-content
-        =exercice.content|safe
+    -if context.context
+      .well.context-context
+        =context.context|safe
 
-    -for label, question in exercice.get_questions.items
-      -include "professor/exercice/exercice_with_answers_rendering.haml"
+    -for question in context.get_questions
+      -if question.description
+        .well.question-description
+          =question.description|safe
+      -else
+        -# Should never reach this error
+        %div.alert.alert-danger
+          Erreur : Pas d'énoncé
+      -if question.source
+        %p
+          %b Information pour les professeurs :
+        .well.question-source
+          =question.source|safe
+
+      -with answer=question.get_answer
+        -include "professor/exercice/exercice_with_answers_rendering.haml"
 
 -block javascript
   :javascript
     $(function() {
-      {% for _, question in exercice.get_questions.items %}
-      {% if question.type == "graph" %}
+      {% for question in context.get_questions %}
+      {% if question.get_answer.type == "graph" %}
       new Graph('graph-' + {{ forloop.counter0 }})
       {% endif %}
       {% endfor %}

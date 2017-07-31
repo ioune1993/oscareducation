@@ -7,42 +7,50 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+import yaml
+import yamlordereddictloader
 
 
 class Context(models.Model):
-    """[FR] Contexte
+    """
+    [FR] Contexte
 
-        Whenever a Question is created, it is contained
-        in a Context. A Context contains a list of
-        Questions (at least one).
-
+    Contains a list of :model:`examinations.Question` (at least one).
     """
 
-    context = models.TextField(blank=True, null=True)
-    """The Question(s) context, not mandatory."""
+    context = models.TextField(blank=True, null=True,
+                               help_text="The general description related to the Question(s), not mandatory.")
     skill = models.ForeignKey("skills.Skill")
-    """The Skill to which the Context belongs"""
 
-    added_by = models.ForeignKey(User, null=True)
-    """The author of this Context and its Question(s)"""
+    added_by = models.ForeignKey(User, null=True,
+                                 help_text="The Professor who created this Context and its Question(s)")
     # TODO: added_by must be NOT NULL
 
-    approved = models.BooleanField(default=True)
-    """True if the question is in a correct format, False otherwise"""
-    created_at = models.DateTimeField(auto_now_add=True)
-    """Date of creation"""
-    modified_at = models.DateTimeField(auto_now=True)
-    """Date of the last modification"""
-    testable_online = models.BooleanField(default=True)
-    """True if the Context can be graded automatically, False otherwise"""
-    file_name = models.CharField(max_length=255, null=True, blank=True)
-    """The file/media attached to the Context, not mandatory"""
+    approved = models.BooleanField(default=True, help_text="True if in a correct format, False otherwise")
+    created_at = models.DateTimeField(auto_now_add=True, help_text="Date of creation")
+    modified_at = models.DateTimeField(auto_now=True, help_text="Date of the last modification")
+    testable_online = models.BooleanField(default=True, help_text="True if can be graded automatically, False otherwise")
+    file_name = models.CharField(max_length=255, null=True, blank=True,
+                                 help_text="\"submitted\" if created online,"
+                                           " \"adapted\" if modified for a Test,"
+                                           " \"[a_file_name]\" if the exercice is stored in a file"
+                                           " (method not used anymore)")
+
+    def get_questions(self):
+        """Get all the questions attached to this Context."""
+        list_questions = set()
+        questions = set()
+        for list_question in List_question.objects.filter(context=self.id):
+            list_questions.add(list_question.question.id)
+        for question in Question.objects.filter(id__in=list_questions):
+            questions.add(question)
+        return questions
 
 
 class List_question(models.Model):
     """List of questions
 
-        Link between Contexts and Questions
+        Link between Contexts and Questions.
 
     """
 
@@ -64,9 +72,17 @@ class Question(models.Model):
     description = models.TextField(blank=True, null=True)
     """The description is where states the question itself"""
     answer = models.TextField()
-    """The list of possible true answers, as well as false answers, depending on the type"""
+    """The list of possible true answers, as well as false answers, depending on the type.
+        For now, the type is also included in this field."""
     source = models.CharField(max_length=255, null=True, blank=True)
-    """???"""
+    """Information that can only the Professors"""
+
+    def get_answer(self):
+        # Load YAML answer
+        if self.answer:
+            return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)
+
+        return {}
 
 
 class Answer(models.Model):
@@ -136,13 +152,20 @@ class TestExercice(models.Model):
 
 
 class BaseTest(models.Model):
-    """[
+    """Base for the Tests
+
+        This is the common part of the Tests,
+        whether "classic" or offline
 
     """
     name = models.CharField(max_length=255, verbose_name="Nom")
+    """The test name"""
     lesson = models.ForeignKey("promotions.Lesson")
+    """The Lesson in which this test stands"""
     skills = models.ManyToManyField("skills.Skill")
+    """The Skill(s) tested in this test"""
     created_at = models.DateTimeField(auto_now_add=True)
+    """The date the test was created"""
 
 
 class Test(BaseTest):
@@ -164,7 +187,11 @@ class Test(BaseTest):
         ("dependencies", "dependencies"),
         ("skills-dependencies", "skills-dependencies"),
     ))
-    """The type test: it can test the Skills themselves, their prerequisites, or bot"""
+    """The type test: it can test the Skills themselves, their prerequisites, or both"""
+
+    def can_change_exercice(self):
+        # None of the students has started its test yet.
+        return not self.teststudent_set.filter(started_at__isnull=False).exists()
 
     def add_student(self, student):
         """ subscribe new student in prof created tests """
@@ -173,6 +200,58 @@ class Test(BaseTest):
             test=self,
             student=student
         )
+
+    def generate_skills_test(self):
+        for skill in self.skills.all():
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
+    def generate_dependencies_test(self):
+        to_test_skills = []
+
+        def recursivly_get_skills_to_test(skill):
+            for i in skill.depends_on.all():
+                if i not in to_test_skills:
+                    to_test_skills.append(i)
+                    recursivly_get_skills_to_test(i)
+
+        for skill in self.skills.all():
+            recursivly_get_skills_to_test(skill)
+
+        for skill in to_test_skills:
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
+    def generate_skills_dependencies_test(self):
+        to_test_skills = []
+
+        def recursivly_get_skills_to_test(skill):
+            for i in skill.depends_on.all():
+                # we don't add dependancies that can't be tested online
+                if i not in to_test_skills and skill.exercice_set.filter(testable_online=True).exists():
+                    to_test_skills.append(i)
+                    recursivly_get_skills_to_test(i)
+
+        for skill in self.skills.all():
+            recursivly_get_skills_to_test(skill)
+
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
+
+        for skill in to_test_skills:
+            if TestExercice.objects.filter(skill=skill, test=self).exists():
+                continue
+
+            TestExercice.objects.create(
+                test=self,
+                skill=skill,
+            )
 
 
 class TestFromClass(BaseTest):

@@ -29,7 +29,7 @@ from django.db.models import Count
 
 from skills.models import Skill, StudentSkill, CodeR
 from resources.models import KhanAcademy, Sesamath, Resource
-from examinations.models import Test, TestStudent, Context, BaseTest, TestExercice
+from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question
 from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
@@ -545,7 +545,9 @@ def lesson_tests_and_skills(request, lesson_id):
 def exercice_list(request):
     return render(request, 'professor/exercice/list.haml', {
         "exercice_list": Context.objects.select_related('skill').order_by("skill__stage__level", "skill__code", "id"),
-        "skills_without_exercices": Skill.objects.filter(exercice__isnull=True).order_by("skill__stage__level", "-skill__code", "id"),
+        # All the skills without any existing context
+        # We use context with lower case to indicate the table Context that refers to Skills
+        "skills_without_exercices": Skill.objects.filter(context__isnull=True).order_by("stage__level", "-code", "id"),
     })
 
 
@@ -640,6 +642,7 @@ def exercice_validation_form_validate_exercice(request):
     }, indent=4), content_type="application/json")
 
 
+
 @require_POST
 @user_is_professor
 def exercice_validation_form_submit(request, pk=None):
@@ -654,17 +657,36 @@ def exercice_validation_form_submit(request, pk=None):
     else:
         exercice = None
 
+    # First, Context creation
+    with transaction.atomic():
+        if exercice is not None:
+            exercice.skill = Skill.objects.get(code=skill_code)
+            exercice.context = html
+            exercice.testable_online = testable_online
+
+            exercice.save()
+        else:
+            exercice = Context.objects.create(
+                file_name="submitted",
+                skill=Skill.objects.get(code=skill_code),
+                context=html,
+                testable_online=testable_online,
+                added_by=request.user,
+            )
+
+    # Then, Question(s) creation, and links in List_question with the Context created
     if testable_online:
-        questions = CommentedMap()
         for question in data["questions"]:
+            new_question_answers = None
+
             if question["type"] == "text":
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": [x["text"] for x in question["answers"]],
                 }
 
             elif question["type"].startswith("math"):
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": [x["latex"] for x in question["answers"] if x.get("latex")],
                 }
@@ -682,7 +704,7 @@ def exercice_validation_form_submit(request, pk=None):
                         del answer["text"]
                     answers.append(answer)
 
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": question["answers"],
                 }
@@ -692,14 +714,24 @@ def exercice_validation_form_submit(request, pk=None):
                 for i in question["answers"]:
                     answers[i["text"]] = i["correct"]
 
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": answers,
                 }
+            yaml_file = ruamel.yaml.round_trip_dump(new_question_answers)
 
-        yaml_file = ruamel.yaml.round_trip_dump(questions)
-    else:
-        yaml_file = ""
+            with transaction.atomic():
+                new_question, created = Question.objects.get_or_create(
+                    description=question["instructions"],
+                    answer=yaml_file,
+                    source=question["source"],
+                )
+
+            with transaction.atomic():
+                link, created = List_question.objects.get_or_create(
+                    context_id=exercice.id,
+                    question_id=new_question.id,
+                )
 
     if data.get("image"):
         exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
@@ -727,25 +759,6 @@ def exercice_validation_form_submit(request, pk=None):
 
         assert not os.path.exists(os.path.join(exercices_folder, name))
         open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
-
-    with transaction.atomic():
-        if exercice is not None:
-            exercice.skill = Skill.objects.get(code=skill_code)
-            exercice.answer = yaml_file
-            exercice.content = html
-            exercice.testable_online = testable_online
-            exercice.modified_by = request.user
-
-            exercice.save()
-        else:
-            exercice = Context.objects.create(
-                file_name="submitted",
-                skill=Skill.objects.get(code=skill_code),
-                answer=yaml_file,
-                content=html,
-                testable_online=testable_online,
-                added_by=request.user,
-            )
 
     return HttpResponse(json.dumps({
         "url": reverse('professor:exercice_detail', args=(exercice.id,)),
@@ -828,32 +841,35 @@ def exercice_update(request, pk):
 
 @user_is_professor
 def exercice_update_json(request, pk):
-    exercice = get_object_or_404(Context, pk=pk)
+    context = get_object_or_404(Context, pk=pk)
 
-    if exercice.added_by != request.user and not request.user.is_superuser:
+    if context.added_by != request.user and not request.user.is_superuser:
         return redirect_to_login(request.get_full_path(), resolve_url(settings.LOGIN_URL), REDIRECT_FIELD_NAME)
 
     questions = []
-    for text, data in exercice.get_questions().items():
-        question_type = data["type"]
+    # TODO Create a type field in Question (stored with the answers for the time being)
+    for question in context.get_questions():
+        # Each question has a answer field, which is a text formatted with YAML,
+        # containing a type and its (true/false) answers attached to it
+        question_type = question.get_answer()["type"]
 
-        if data["type"] == "graph":
-            answers = data["answers"]
-        elif isinstance(data["answers"], list):
-            answers = [{"text": key, "correct": True} for key in data["answers"]]
+        if question_type == "graph":
+            answers = question.get_answer()["answers"]
+        elif isinstance(question.get_answer()["answers"], list):
+            answers = [{"text": key, "correct": True} for key in question.get_answer()["answers"]]
         else:  # assuming dict
-            answers = [{"text": key, "correct": value} for key, value in data["answers"].items()]
+            answers = [{"text": key, "correct": value} for key, value in question.get_answer()["answers"].items()]
 
         questions.append({
-            "instructions": text,
+            "instructions": question.description,
             "type": question_type,
             "answers": answers,
+            "source": question.source,
         })
 
     return HttpResponse(json.dumps({
-        "skillCode": exercice.skill.code,
-        "html": exercice.content,
-        "yaml": exercice.answer,
+        "skillCode": context.skill.code,
+        "html": context.context,
         "questions": questions,
     }))
 
@@ -876,6 +892,7 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 def exercice_adapt_test_exercice(request, test_exercice_pk):
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
     exercice = test_exercice.exercice
+    new_exercice = None
 
     # user shouldn't end up there in that situation but we never know
     if exercice is None:
@@ -886,15 +903,23 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
     with transaction.atomic():
         new_exercice = Context.objects.create(
             file_name="adapted",
-            content=exercice.content,
-            answer=exercice.answer,
+            context=exercice.context,
             skill=exercice.skill,
             testable_online=exercice.testable_online,
             approved=exercice.approved,
             added_by=request.user,
         )
 
-        return HttpResponseRedirect(reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, exercice.skill))
+    questions = exercice.get_questions()
+
+    for question in questions:
+        with transaction.atomic():
+            link = List_question.objects.create(
+                context_id=new_exercice.id,
+                question_id=question.id,
+            )
+
+    return HttpResponseRedirect(reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, exercice.skill.code))
 
 
 @user_is_professor
