@@ -61,6 +61,9 @@
                         %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier l´élève"}
                       %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
                         %img.icon{src: "{% static 'img/icons/detail.png' %}", data-toggle: "tooltip", data-placement: "top", title: "détails de l´élève"}
+                      %a{href: "{% url 'professor:single_student_password_page' lesson.pk student.pk %}"}
+                        %img.icon{src: "{% static 'img/icons/multy-mdp.png' %}", data-toggle: "tooltip", data-placement: "top", title: "regénérer un code pour l'élève"}
+
                   %td
                     .pull-right
                       %a{href: "{% url 'professor:lesson_student_delete' lesson.pk student.pk %}"}
