@@ -45,6 +45,7 @@ class Student(models.Model):
         """Generate studenty password"""
         new_code = "%s" % (random.randint(1000, 9999))
         self.code = new_code
+        self.is_pending = True
         self.save()
         return new_code
 

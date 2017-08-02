@@ -561,7 +561,9 @@ def exercice_to_approve_list(request):
 # @require_POST
 @user_is_professor
 def students_password_page(request, pk):
-    # TODO: a professor can only do this on one of his student
+    """
+    Regenerate a code for every student of a lesson (to allow him/her to create a new password)    
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
 
     students = []
@@ -572,13 +574,33 @@ def students_password_page(request, pk):
                 "last_name": student.user.last_name,
                 "first_name": student.user.first_name,
                 "username": student.user.username,
-                "password": student.generate_new_password(),
+                "password": student.generate_new_code(),
             })
 
     return render(request, "professor/lesson/student/password_page.haml", {
         "students": students
     })
 
+@user_is_professor
+def single_student_password_page(request, lesson_pk, student_pk):
+    """
+    Regenerate a code for a student (to allow him/her to create a new password)    
+    """
+
+    students = []
+
+    with transaction.atomic():
+        student = get_object_or_404(Student, pk=student_pk)
+        students.append({
+            "last_name": student.user.last_name,
+            "first_name": student.user.first_name,
+            "username": student.user.username,
+            "password": student.generate_new_code(),
+        })
+
+    return render(request, "professor/lesson/student/password_page.haml", {
+        "students": students
+    })
 
 @require_POST
 @user_is_professor
