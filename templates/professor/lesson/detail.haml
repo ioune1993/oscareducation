@@ -32,16 +32,25 @@
       %a{href: "#heatmap"}
         Vue globale de la classe
 
+
   .tab-content
     #students.tab-pane.active
       .ligneorange
 
       .container-fluid.boxclassetitle
+        .pull-left
+          %ul{class:"messages"}
+            {% if messages %}
+              {%for message in messages %}
+              %li  {{ message }}
+              {% endfor %}
+            {% endif %}
+
         .pull-right
           -#
             %a.btn.btn-primary{href: "{% url 'professor:lesson_student_list' lesson.pk %}"}
               Gérer mes élèves
-          %a{href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
+          %a{target:"_blank", href: "{% url 'professor:lesson_student_password_page' lesson.pk %}"}
             %img.icon{src: "{% static 'img/icons/multy-mdp.png' %}", data-toggle: "tooltip", data-placement: "top", title: "générer les mots de passe pour toute la classe"}
           %a{href: "{% url 'professor:lesson_student_add' lesson.pk %}"}
             %img.icon{src: "{% static 'img/icons/add-student.png' %}", data-toggle: "tooltip", data-placement: "top", title: "ajouter des élèves"}

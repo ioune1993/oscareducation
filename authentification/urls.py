@@ -4,7 +4,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^login/$', views.login, name='login'),
+#    url(r'^login/$', views.login, name='login'),
     url(r'^usernamelogin/$', views.username, name='username_login'),
     url(r'^passwordlogin/$', views.password, name='password_login'),
     url(r'^codelogin/$', views.code, name='code_login'),

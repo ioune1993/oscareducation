@@ -20,6 +20,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadReque
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, resolve_url
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
@@ -34,9 +35,10 @@ from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
 from .models import Lesson, Stage
-from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathForm, ResourceForm
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm,\
+    TestUpdateForm, SesamathForm, ResourceForm, CSVForm
 from .utils import generate_random_password, user_is_professor, force_encoding
-
+import csv
 
 @user_is_professor
 def dashboard(request):
@@ -130,55 +132,117 @@ def lesson_update(request, pk):
 
 @user_is_professor
 def lesson_student_add(request, pk):
-
     lesson = get_object_or_404(Lesson, pk=pk)
-
 
     # TODO: a professor can only see one of his lesson
 
     if request.method == "POST":
-        for i in filter(lambda x: x.startswith("first_name_"), request.POST.keys()):
-            number = i.split("_")[-1]
-            form = StudentAddForm({
-                "first_name": request.POST["first_name_" + number],
-                "last_name": request.POST["last_name_" + number],
-            })
+        # Check the content of request.POST to know if we use a csv file or the manual addition
+        if 'csvfile' in request.FILES:
+            form = CSVForm(request.POST, request.FILES)
+            if form.is_valid():
+                f = csv.DictReader(form.cleaned_data["csvfile"])
+                line_number = 2
+                for row in f:
 
-            if not form.is_valid():
-                print "ERROR: on student entry with number %s" % number, form.errors
-                continue
+                    try:
+                        newStudent = StudentAddForm({
+                            "first_name": row["NOM"],
+                            "last_name": row["PRENOM"],
+                        })
+                    except KeyError:
+                        messages.add_message(request, messages.ERROR, 'Erreur : les champs "NOM" et "PRENOM" n\' ont pas été '
+                                                                      'trouvés. Ne modifiez pas la première ligne '
+                                                                      'du fichier !')
+                        return render(request, "professor/lesson/student/add.haml", {
+                            "lesson": lesson,
+                        })
 
-            first_name = form.cleaned_data["first_name"]
-            last_name = form.cleaned_data["last_name"]
-            username = form.generate_student_username()
-            email = form.get_or_generate_email(username)
+                    if not newStudent.is_valid():
+                        messages.add_message(request, messages.ERROR, 'Erreur : l\'utilisateur à la ligne '+str(line_number)+
+                                             ' n\' a pas de nom ou de prénom. Uniquement les élèves des lignes '
+                                             'précédentes ont été importés.')
+                        return render(request, "professor/lesson/student/add.haml", {
+                            "lesson": lesson,
+                        })
 
-            with transaction.atomic():
-                user = User.objects.create_user(username=username,
-                                                email=email,
-                                                password=generate_random_password(15),
-                                                first_name=first_name,
-                                                last_name=last_name)
+                    first_name = newStudent.cleaned_data["first_name"]
+                    last_name = newStudent.cleaned_data["last_name"]
+                    username = newStudent.generate_student_username()
+                    email = newStudent.get_or_generate_email(username)
 
-                student = Student.objects.create(user=user)
-                student.lesson_set.add(lesson)
+                    with transaction.atomic():
+                        user = User.objects.create_user(username=username,
+                                                        email=email,
+                                                        password=generate_random_password(15),
+                                                        first_name=first_name,
+                                                        last_name=last_name)
+                        student = Student.objects.create(user=user)
+                        student.lesson_set.add(lesson)
 
-                for stage in lesson.stages_in_unchronological_order():
-                    for skill in stage.skills.all():
-                        StudentSkill.objects.create(
-                            student=student,
-                            skill=skill,
-                        )
+                        for stage in lesson.stages_in_unchronological_order():
+                            for skill in stage.skills.all():
+                                StudentSkill.objects.create(
+                                    student=student,
+                                    skill=skill,
+                                )
 
-                for test in Test.objects.filter(lesson=lesson, running=True):
-                    test.add_student(student)
+                        for test in Test.objects.filter(lesson=lesson, running=True):
+                            test.add_student(student)
+
+                        line_number += 1
+                if line_number == 2:
+                    messages.add_message(request, messages.ERROR,'Erreur : le fichier ne contient pas d\'élèves.')
+                    return render(request, "professor/lesson/student/add.haml", {
+                        "lesson": lesson, })
+            else:
+                messages.add_message(request, messages.ERROR, 'Erreur : le fichier fourni doit être en format .csv.')
+                return render(request, "professor/lesson/student/add.haml", {
+                "lesson": lesson,})
+
+        elif 'last_name_0' in request.POST:
+            for i in filter(lambda x: x.startswith("first_name_"), request.POST.keys()):
+                number = i.split("_")[-1]
+                form = StudentAddForm({
+                    "first_name": request.POST["first_name_" + number],
+                    "last_name": request.POST["last_name_" + number],
+                })
+
+                if not form.is_valid():
+                    print "ERROR: on student entry with number %s" % number, form.errors
+                    continue
+
+                first_name = form.cleaned_data["first_name"]
+                last_name = form.cleaned_data["last_name"]
+                username = form.generate_student_username()
+                email = form.get_or_generate_email(username)
+
+                with transaction.atomic():
+                    user = User.objects.create_user(username=username,
+                                                    email=email,
+                                                    password=generate_random_password(15),
+                                                    first_name=first_name,
+                                                    last_name=last_name)
+
+                    student = Student.objects.create(user=user)
+                    student.lesson_set.add(lesson)
+
+                    for stage in lesson.stages_in_unchronological_order():
+                        for skill in stage.skills.all():
+                            StudentSkill.objects.create(
+                                student=student,
+                                skill=skill,
+                            )
+
+                    for test in Test.objects.filter(lesson=lesson, running=True):
+                        test.add_student(student)
+        messages.add_message(request, messages.SUCCESS, str(line_number-1)+' utilisateur(s) ont/a été importé(s) avec succès.')
 
         return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
 
     return render(request, "professor/lesson/student/add.haml", {
         "lesson": lesson,
     })
-
 
 @user_is_professor
 def lesson_student_detail(request, lesson_pk, pk):
