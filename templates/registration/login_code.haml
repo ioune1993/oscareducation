@@ -1,0 +1,105 @@
+-load i18n
+-load static
+-load bootstrap3
+
+%html
+  %head
+    %title Oscar
+    %link{href: "//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css", rel: "stylesheet"}
+    %link{href: '/static/img/favicon.png', type: 'image/png', rel: 'icon'}
+
+
+%body
+  .background-image
+  .login
+    %h1.title <span class="o-letter">O</span>scar
+    -if form.errors
+      .alert.alert-danger
+        Le code saisi est incorrect ou a expiré.
+
+    -if next
+      -if user.is_authenticated
+        .alert.alert-warning
+          Votre compte n'a pas accès à cette page, veuillez vous connecter avec un compte ayant les droits adéquats pour pouvoir la voir.
+      -else
+        .alert.alert-info
+          Veuillez vous connecter pour pouvoir voir cette page.
+
+    %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
+      -csrf_token
+
+      .form-group{class: "{% if form.id_username.errors %}has-error{% elif form.data and form.id_username %}has-success{% endif %}"}
+        %label.control-label{for: "id_username"}
+          Nom d'utilisateur
+        %input#id_username.form-control{type: "text", required: "", placeholder: "Nom d'utilisateur", value: "{{ user }}",
+         name: "username", readonly}
+        -for error in form.id_username.errors
+          %span.help-block= error
+
+      .form-group{class: "{% if form.id_password.errors %}has-error{% elif form.data and form.id_password %}has-success{% endif %}"}
+        %label.control-label{for: "id_password"}
+          Code
+        %input#id_password.form-control{type: "password", required: "", placeholder: "Code", name: "code"}
+        -for error in form.id_password.errors
+          %span.help-block= error
+
+      -url 'admin_password_reset' as password_reset_url
+      -if password_reset_url
+        .password-reset-link
+          %a{href: "{{ password_reset_url }}"}
+            -trans 'Forgotten your password or username?'
+      .submit-row
+        %label
+          &nbsp
+        %input.btn.btn-primary{type: "submit", value: "Connexion"}
+
+  :css
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    .background-image {
+      background: url("{% static "img/home_background.jpg" %}") no-repeat top center;
+      background-size: cover;
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      filter: blur(3px);
+    }
+
+    .login {
+      background-color: rgba(250, 250, 250, .95);
+      padding: 20px;
+      position: fixed;
+      top: 20%;
+      left: 0;
+      right: 0;
+      margin: auto;
+      z-index: 2;
+      max-width: 620px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 60px rgba(0, 0, 0, .5);
+    }
+
+    .title {
+      text-align: center;
+      color: #9E9E9E;
+      font-family: sherif;
+      font-size: 10em;
+      margin: 40px;
+      margin-top: 15px;
+      text-shadow: 7px 7px 20px rgba(10, 10, 10, .2);
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 5em;
+      }
+    }
+
+    .o-letter {
+      color: #F58025;
+    }

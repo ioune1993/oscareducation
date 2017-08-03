@@ -57,8 +57,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Oscar'
-copyright = u'2017, Maher Chemseddine, Robin Descamps, Laurent Peuch'
-author = u'Maher Chemseddine, Robin Descamps, Laurent Peuch'
+copyright = u'2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch'
+author = u'Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -153,7 +153,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Oscar.tex', u'Oscar Documentation',
-     u'Maher Chemseddine, Robin Descamps, Laurent Peuch', 'manual'),
+     u'Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch', 'manual'),
 ]
 
 
@@ -187,3 +187,15 @@ intersphinx_mapping = {
     'sphinx': ('http://sphinx.readthedocs.org/en/latest/', None),
     }
 
+from django.db.models.fields.related_descriptors import ForwardManyToOneDescriptor,ForwardOneToOneDescriptor,\
+    ReverseManyToOneDescriptor, ReverseOneToOneDescriptor
+
+def skip_django_descriptors(app, what, name, obj, skip, options):
+    if isinstance(obj, ForwardManyToOneDescriptor) or isinstance(obj, ForwardOneToOneDescriptor)\
+            or isinstance(obj,ReverseOneToOneDescriptor) or isinstance(obj, ReverseManyToOneDescriptor):
+        return True
+    print(name,obj,skip,options)
+    return skip
+
+def setup(app):
+    app.connect('autodoc-skip-member', skip_django_descriptors)

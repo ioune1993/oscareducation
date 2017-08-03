@@ -41,12 +41,13 @@ class Student(models.Model):
         self.user.first_name, self.user.last_name)) if self.user.first_name or self.user.last_name else self.user.username
 
 
-    def generate_new_password(self):
+    def generate_new_code(self):
         """Generate studenty password"""
-        new_password = "%s%s%s" % (self.user.first_name[0].lower(), self.user.last_name[0].lower(), random.randint(100, 999))
-        self.user.set_password(new_password)
-        self.user.save()
-        return new_password
+        new_code = "%s" % (random.randint(1000, 9999))
+        self.code = new_code
+        self.is_pending = True
+        self.save()
+        return new_code
 
     class Meta:
         ordering = ['user__last_name']

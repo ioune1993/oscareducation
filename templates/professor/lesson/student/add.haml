@@ -8,8 +8,9 @@
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
     %li
-      Classe
+
       %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Classe
         =lesson.name
     %li.active
       Ajouter des élèves
@@ -24,12 +25,41 @@
   .ligneorange
 
   .container-fluid.boxclassetitle
-
+    %ul{class:"messages"}
+      {% if messages %}
+        {%for message in messages %}
+          %li  {{ message }}
+        {% endfor %}
+      {% endif %}
   .ligneorangefine
 
   .boxclasse.container-fluid
-    %form.form{action: "", method: "post"}
+    %form.form{action: "", method: "post", name: "csvfile", enctype: "multipart/form-data"}
       -csrf_token
+
+      %label{for: "file"}
+        Importer une liste d'élèves :
+      Téléchargez et remplissez
+      %a{'href': "{% static 'student_list_template.csv'%}" } ce fichier
+      pour ajouter des élèves.
+      %input{type: "file", name: "csvfile"}
+      .container-fluid.boxclassetitle
+
+      {% buttons %}
+        %button.btn.btn-primary{type: "submit"}
+          Importer des élèves
+      {% endbuttons %}
+
+
+  .ligneorangefine
+
+
+  .boxclasse.container-fluid
+    %form.form{action: "", method: "post", name: "manual_add"}
+      -csrf_token
+
+      %label
+        Ajouter des élèves manuellement
 
       %ul.list-group{ng-app: "oscar", ng-controller: "severalStudentsController"}
         %li.list-group-item{ng-repeat: "student in students"}

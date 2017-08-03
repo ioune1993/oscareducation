@@ -18,7 +18,11 @@ where the virtual environment will be stored
 $ apt-get install python-virtualenv
 $ git clone https://github.com/ioune1993/oscareducation.git
 $ cd oscareducation
+<<<<<<< HEAD
 $ virtualenv --python=/usr/bin/python2.7 ve
+=======
+$ virtualenv ve
+>>>>>>> 15f70bdfca2f6f20431ecc4aec146539554b7469
 ```
 
 Then, enter in the virtual environment, and install
