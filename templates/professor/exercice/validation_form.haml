@@ -10,7 +10,7 @@
   %ol.breadcrumb
     %li
       %a{href: "{% url 'professor:dashboard' %}"} Oscar
-    %licheckbox
+    %li
       %a{href: "{% url 'professor:exercice_list' %}"}
         Questions
     %li.active
@@ -89,7 +89,7 @@
                     %option{value: "text"} Réponse textuelle exacte
                     %option{value: "math-simple"} Réponse mathématique simple
                     %option{value: "math-advanced"} Réponse mathématique avancée
-                    %option{value: "radio"} Une seule réponse unique possible parmis toutes (radio)
+                    %option{value: "radio"} Une seule réponse unique possible parmi toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
                     %option{value: "graph"} Réponse sur un graphique
                     %option{value: "professor"} Réponse corrigée par le professeur
@@ -97,10 +97,8 @@
                 %label.control-label.col-sm-2 Information pour les professeurs
                 .col-sm-10
                   %input.form-control{type: "text", ng-model: "question.source", ng-required: "false"}
-
-            %ul.list-group{ng-if: "question.type != \"professor\""}
-              -# No answer to provide if corrected by the professor
-              %li.list-group-item{ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
+            %ul.list-group
+              %li.list-group-item{ng-if: "question.type != \"professor\"", ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
                 .form-horizontal{ng-if: "question.type != \"graph\""}
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
@@ -115,7 +113,7 @@
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
-                  .form-group.no-bottom{ng-if: "question.type != \"text\" && !question.type.startsWith(\"math\")"}
+                  .form-group.no-bottom{ng-if: "question.type != \"text\" && ! question.type.startsWith(\"math\")"}
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
@@ -180,4 +178,4 @@
 
     .hidden-math-form {
       display: inline;
-    }
+}

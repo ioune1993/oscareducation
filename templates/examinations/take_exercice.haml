@@ -15,7 +15,11 @@
       =test_exercice.skill.code
 
     .panel-body
-      -with content=test_exercice.get_content questions=test_exercice.get_questions
+      -# Does not work if we don't rename context in another name (here: context_questions)
+      -with context_questions=test_exercice.exercice.context questions=test_exercice.exercice.get_questions
+        -if context_questions
+          .well
+            =context_questions|safe
         -include "examinations/exercice_rendering.haml"
 
 -block javascript

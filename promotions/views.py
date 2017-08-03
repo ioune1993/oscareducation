@@ -605,6 +605,13 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": question["answers"],
             }
 
+        # No provided answer if corrected by a Professor
+        elif question["type"] == "professor":
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": "",
+            }
+
         else:
             answers = OrderedDict()
             for x in question["answers"]:
@@ -628,7 +635,7 @@ def exercice_validation_form_validate_exercice(request):
             }
         }, indent=4), content_type="application/json")
 
-    rendering = render(request, "examinations/exercice_rendering.haml", {
+    rendering = render(request, "professor/exercice/exercice_rendering.haml", {
         "content": "",
         "questions": questions,
     })
@@ -709,6 +716,12 @@ def exercice_validation_form_submit(request, pk=None):
                     "answers": question["answers"],
                 }
 
+            elif question["type"] == "professor":
+                new_question_answers = {
+                    "type": question["type"],
+                    "answers": "",
+                }
+
             else:
                 answers = CommentedMap()
                 for i in question["answers"]:
@@ -720,12 +733,20 @@ def exercice_validation_form_submit(request, pk=None):
                 }
             yaml_file = ruamel.yaml.round_trip_dump(new_question_answers)
 
-            with transaction.atomic():
-                new_question, created = Question.objects.get_or_create(
-                    description=question["instructions"],
-                    answer=yaml_file,
-                    source=question["source"],
-                )
+            # Professor info (source) is optional
+            if "source" in question:
+                with transaction.atomic():
+                    new_question, created = Question.objects.get_or_create(
+                        description=question["instructions"],
+                        answer=yaml_file,
+                        source=question["source"],
+                    )
+            else:
+                with transaction.atomic():
+                    new_question, created = Question.objects.get_or_create(
+                        description=question["instructions"],
+                        answer=yaml_file,
+                    )
 
             with transaction.atomic():
                 link, created = List_question.objects.get_or_create(
@@ -791,7 +812,7 @@ def exercice_validation_form_validate_exercice_yaml(request):
             }
         }, indent=4), content_type="application/json")
 
-    rendering = render(request, "examinations/exercice_rendering.haml", {
+    rendering = render(request, "professor/exercice/exercice_rendering.haml", {
         "content": "",
         "questions": exercice,
     })
@@ -852,9 +873,12 @@ def exercice_update_json(request, pk):
         # Each question has a answer field, which is a text formatted with YAML,
         # containing a type and its (true/false) answers attached to it
         question_type = question.get_answer()["type"]
+        answers = None
 
         if question_type == "graph":
             answers = question.get_answer()["answers"]
+        elif question_type == "professor":
+            answers = ""
         elif isinstance(question.get_answer()["answers"], list):
             answers = [{"text": key, "correct": True} for key in question.get_answer()["answers"]]
         else:  # assuming dict

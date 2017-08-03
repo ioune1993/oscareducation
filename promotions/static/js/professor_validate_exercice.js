@@ -166,7 +166,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 latex: "",
                 graph: {type: ""},
                 "correct": false
-            }]
+            }],
+            "source": "",
         })
     }
 
@@ -262,6 +263,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             graph: {type: ""},
             correct: false,
         }],
+        source: "",
     }]
 
     $scope.yamlValidationResult = "";

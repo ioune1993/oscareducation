@@ -86,6 +86,19 @@
                   =other_exercice.context|safe
 
               -for question in other_exercice.get_questions
+                -if question.description
+                  .well.question-description
+                    =question.description|safe
+                -else
+                  -# Should never reach this error
+                  %div.alert.alert-danger
+                    Erreur : Pas d'énoncé
+                -if question.source
+                  %p
+                    %b Information pour les professeurs :
+                  .well.question-source
+                    =question.source|safe
+
                 -with answer=question.get_answer
                   -include "professor/exercice/exercice_with_answers_rendering.haml"
 

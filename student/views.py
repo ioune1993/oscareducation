@@ -49,6 +49,8 @@ def pass_test(request, pk):
 
     if test_student.finished:
         pool_form = None
+        # TODO: poll disabled due to lack of the table in the DB
+        """
         if not StudentPoll.objects.filter(student=test_student.student).exists():
             pool_form = StudentPollForm(request.POST) if request.method == "POST" else StudentPollForm()
 
@@ -56,7 +58,7 @@ def pass_test(request, pk):
                 StudentPoll.objects.create(student=test_student.student, lesson=test_student.student.lesson_set.first(), **pool_form.cleaned_data)
                 return HttpResponseRedirect(reverse('student_dashboard'))
             print pool_form.errors
-
+        """
         return render(request, "examinations/test_finished.haml", {
             "test_student": test_student,
             "pool_form": pool_form,
@@ -67,7 +69,7 @@ def pass_test(request, pk):
     next_not_answered_test_exercice = TestExercice.objects.filter(test=test_student.test, exercice__isnull=False, testable_online=True).exclude(answer__in=test_student.answer_set.all()).order_by('created_at').first()
 
     if request.method == "POST":
-        # There is normally not way for a student to answer another exercice
+        # There is normally no way for a student to answer another exercice
         return validate_exercice(request, test_student, next_not_answered_test_exercice)
 
     if next_not_answered_test_exercice is None or next_not_answered_test_exercice.exercice is None:
@@ -76,12 +78,13 @@ def pass_test(request, pk):
         test_student.save()
 
         pool_form = None
-        if not StudentPoll.objects.filter(student=test_student.student).exists():
-            pool_form = StudentPollForm()
+        # TODO: poll disabled due to lack of the table in the DB
+        #if not StudentPoll.objects.filter(student=test_student.student).exists():
+        #    pool_form = StudentPollForm()
 
         return render(request, "examinations/test_finished.haml", {
             "test_student": test_student,
-            "pool_form": pool_form,
+            #"pool_form": pool_form,
         })
 
     return render(request, "examinations/take_exercice.haml", {
@@ -91,60 +94,90 @@ def pass_test(request, pk):
 
 # not a view
 def validate_exercice(request, test_student, test_exercice):
+    raw_answer = None
+    is_correct = False
     if test_exercice.exercice is None:
-        is_correct = request.POST.get("value") == "validate"
         raw_answer = None
+        is_correct = False
 
     else:
+        """
+        raw_answer JSON format:
+        correct : 1 if True, 0 if False, -1 if not corrected yet
+        [
+            {
+                "0": {
+                    "response": [
+                        "some_response", "some_other_response"
+                    ],
+                    "correct": 1
+                },
+                "1": {
+                    "response": [
+                        "some_response"
+                    ],
+                    "correct": -1
+                }
+            }
+        ]
+        """
         raw_answer = {}
-        for number, (_, data) in enumerate(test_exercice.exercice.get_questions().items()):
+        for number, question in enumerate(test_exercice.exercice.get_questions()):
+            raw_answer[number] = {"response": [], "correct": -1}
+            data = question.get_answer()
             if data["type"] == "checkbox":
-                raw_answer[number] = list(map(int, request.POST.getlist(str(number))))
+                raw_answer[number]["response"] = list(map(int, request.POST.getlist(str(number))))
             elif data["type"] == "radio":
                 if str(number) in request.POST:
-                    raw_answer[number] = int(request.POST[str(number)])
+                    raw_answer[number]["response"] = [int(request.POST[str(number)])]
                 else:
-                    raw_answer[number] = None
+                    # The Student did not select an answer
+                    raw_answer[number]["response"] = -1
             elif data["type"] == "text":
-                raw_answer[number] = request.POST[str(number)]
+                raw_answer[number]["response"] = [request.POST[str(number)]]
             elif data["type"].startswith("math"):
-                raw_answer[number] = request.POST[str(number)]
+                raw_answer[number]["response"] = [request.POST[str(number)]]
             elif data["type"] == "graph":
-                raw_answer[number] = {key: value for key, value in request.POST.items() if key.startswith("graph-%s" % number)}
+                raw_answer[number]["response"] = [{key: value for key, value in request.POST.items() if key.startswith("graph-%s" % number)}]
             elif data["type"] == "professor":
-                raw_answer[number] = request.POST[str(number)]
+                raw_answer[number]["response"] = [request.POST[str(number)]]
             else:
                 raise Exception()
 
-        is_correct = test_exercice.is_valid(request.POST)
-        raw_answer = json.dumps(raw_answer, indent=4)
+            # Perform the correction
+            raw_answer[number]["correct"] = question.evaluate(raw_answer[number]["response"])
 
-    print is_correct
+        # The Student answers are embedded in a list, in a way that they can be extended if needed
+        raw_answer = [raw_answer]
+        raw_answer = json.dumps(raw_answer, indent=4)
 
     with transaction.atomic():
         answer = Answer.objects.create(
-            correct=is_correct,
             raw_answer=raw_answer,
             test_student=test_student,
             test_exercice=test_exercice,
         )
 
+        # Evaluates the answer of the whole attached Context to assess the related Skill
+        is_correct = answer.evaluate
+
         student_skill = StudentSkill.objects.get(student=request.user.student, skill=test_exercice.skill)
 
         if is_correct:
-            answer.create_other_valide_answers()
             student_skill.validate(
                 who=request.user,
                 reason="Réponse à une question.",
                 reason_object=test_exercice,
             )
         else:
-            answer.create_other_invalide_answers()
+            # Up traversal does not work, disabled
+            """
             student_skill.unvalidate(
                 who=request.user,
                 reason="Réponse à une question.",
                 reason_object=test_exercice,
             )
+            """
 
     # update student skills, then redirect to self
     return HttpResponseRedirect(reverse("student_pass_test", args=(test_student.id,)))

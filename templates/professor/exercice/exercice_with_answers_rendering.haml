@@ -45,9 +45,9 @@
           %tr
             %td= answer.graph.coordinates.X
             %td= answer.graph.coordinates.Y
-  -elif answer.type == "professor"
-    %span
-      %p
-        %i A corriger par le professeur
-  -else
-    =answer.type
+    -elif answer.type == "professor"
+      %span
+        %p
+          %i A corriger par le professeur
+    -else
+      =answer.type
