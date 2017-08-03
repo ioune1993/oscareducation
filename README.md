@@ -6,7 +6,7 @@ clone the repository, and create a new virtual environment in it.
 ```sh
 $ apt-get install python-virtualenv
 $ git clone https://github.com/ioune1993/oscareducation.git
-$ cd oscar
+$ cd oscareducation
 $ virtualenv ve
 ```
 
@@ -45,7 +45,7 @@ In order to generate the documentation, the `sphinx`
 is used with .rst files. First install the tool (don't
 forget to enter in the virtual environment first).
 ```sh
-$ apt-get install sphinx
+$ pip install sphinx
 ```
 Examples of code documentation can be found in `doc-example.py`.
 These conventions must be respected to allow the proper
