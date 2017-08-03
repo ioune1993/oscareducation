@@ -256,9 +256,22 @@ class Answer(models.Model):
                  question,
                  question.get_type(),
                  self.get_answers()[str(index)].get("response"),
-                 self.get_answers()[str(index)].get("correct")])
+                 self.get_answers()[str(index)].get("correct")
+                 ])
             index += 1
         return questions_with_answers
+
+    def contains_professor(self):
+        """Does the Answer contain a response that need to be assessed by a Professor?
+
+        :return: True if the Answer has at least one response of Professor type, False otherwise
+        :rtype: bool
+        """
+        professor = False
+        for question in self.test_exercice.exercice.get_questions():
+            if question.get_type() == "professor":
+                professor = True
+        return professor
 
     def assess(self, index, correction):
         """Grades manually an answer to a question

@@ -67,7 +67,7 @@
         <span class="k">if</span> <span class="s">&quot;type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span><span class="s">u&quot;chaque question doit avoir un type, or la question &#39;%s&#39; n&#39;a pas de type&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;radio&quot;</span><span class="p">,</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;checkbox&quot;</span><span class="p">,</span> <span class="s">&quot;math&quot;</span><span class="p">,</span> <span class="s">&quot;math-simple&quot;</span><span class="p">,</span> <span class="s">&quot;math-advanced&quot;</span><span class="p">,</span> <span class="s">&quot;graph&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&quot;radio&quot;</span><span class="p">,</span> <span class="s">&quot;text&quot;</span><span class="p">,</span> <span class="s">&quot;checkbox&quot;</span><span class="p">,</span> <span class="s">&quot;math&quot;</span><span class="p">,</span> <span class="s">&quot;math-simple&quot;</span><span class="p">,</span> <span class="s">&quot;math-advanced&quot;</span><span class="p">,</span> <span class="s">&quot;graph&quot;</span><span class="p">,</span> <span class="s">&quot;professor&quot;</span><span class="p">):</span>
             <span class="k">return</span> <span class="p">(</span><span class="s">u&quot;la question &#39;%s&#39; possède un type invalide: &#39;%s&#39;</span><span class="se">\n</span><span class="s">Les types valides sont : &#39;text&#39;, &#39;checkbox&#39;, &#39;math&#39;, &#39;math-simple&#39;, &#39;math-advanced&#39;, &#39;graph&#39; et &#39;radio&#39; &quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]))</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="s">&quot;answers&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
@@ -129,6 +129,10 @@
 
                     <span class="c"># XXX put warning if X/Y is our of graph</span>
 
+        <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;professor&quot;</span><span class="p">:</span>
+            <span class="c"># No verification to perform, no automatic grade if the Professor grades the Question</span>
+            <span class="k">pass</span>
+
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;This case shouldn&#39;t happen as all possible questions type have been checked before&quot;</span><span class="p">)</span>
 
@@ -175,7 +179,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>

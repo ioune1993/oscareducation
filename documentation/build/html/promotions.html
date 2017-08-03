@@ -216,6 +216,27 @@
 <div class="section" id="module-promotions.forms">
 <span id="promotions-forms-module"></span><h2>promotions.forms module<a class="headerlink" href="#module-promotions.forms" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="promotions.forms.CSVForm">
+<em class="property">class </em><code class="descclassname">promotions.forms.</code><code class="descname">CSVForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id=u'id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>field_order=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/forms.html#CSVForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.forms.CSVForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.forms.Form</span></code></p>
+<dl class="attribute">
+<dt id="promotions.forms.CSVForm.base_fields">
+<code class="descname">base_fields</code><em class="property"> = OrderedDict([('csvfile', &lt;django.forms.fields.FileField object&gt;)])</em><a class="headerlink" href="#promotions.forms.CSVForm.base_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="promotions.forms.CSVForm.declared_fields">
+<code class="descname">declared_fields</code><em class="property"> = OrderedDict([('csvfile', &lt;django.forms.fields.FileField object&gt;)])</em><a class="headerlink" href="#promotions.forms.CSVForm.declared_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="promotions.forms.CSVForm.media">
+<code class="descname">media</code><a class="headerlink" href="#promotions.forms.CSVForm.media" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="promotions.forms.KhanAcademyForm">
 <em class="property">class </em><code class="descclassname">promotions.forms.</code><code class="descname">KhanAcademyForm</code><span class="sig-paren">(</span><em>data=None</em>, <em>files=None</em>, <em>auto_id=u'id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.utils.ErrorList'&gt;</em>, <em>label_suffix=None</em>, <em>empty_permitted=False</em>, <em>field_order=None</em>, <em>use_required_attribute=None</em>, <em>renderer=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/forms.html#KhanAcademyForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.forms.KhanAcademyForm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.forms.forms.Form</span></code></p>
@@ -387,6 +408,16 @@
 <code class="descname">clean_email</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/forms.html#StudentAddForm.clean_email"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.forms.StudentAddForm.clean_email" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="promotions.forms.StudentAddForm.clean_first_name">
+<code class="descname">clean_first_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/forms.html#StudentAddForm.clean_first_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.forms.StudentAddForm.clean_first_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="promotions.forms.StudentAddForm.clean_last_name">
+<code class="descname">clean_last_name</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/forms.html#StudentAddForm.clean_last_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.forms.StudentAddForm.clean_last_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="promotions.forms.StudentAddForm.declared_fields">
 <code class="descname">declared_fields</code><em class="property"> = OrderedDict([('first_name', &lt;django.forms.fields.CharField object&gt;), ('last_name', &lt;django.forms.fields.CharField object&gt;), ('email', &lt;django.forms.fields.EmailField object&gt;)])</em><a class="headerlink" href="#promotions.forms.StudentAddForm.declared_fields" title="Permalink to this definition">¶</a></dt>
@@ -504,6 +535,11 @@
 
 </dd></dl>
 
+<dl class="function">
+<dt id="promotions.forms.validate_file_extension">
+<code class="descclassname">promotions.forms.</code><code class="descname">validate_file_extension</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/forms.html#validate_file_extension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.forms.validate_file_extension" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-promotions.models">
 <span id="promotions-models-module"></span><h2>promotions.models module<a class="headerlink" href="#module-promotions.models" title="Permalink to this headline">¶</a></h2>
@@ -528,21 +564,6 @@ and optionally their own resources.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="promotions.models.Lesson.basetest_set">
-<code class="descname">basetest_set</code><a class="headerlink" href="#promotions.models.Lesson.basetest_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="promotions.models.Lesson.id">
 <code class="descname">id</code><a class="headerlink" href="#promotions.models.Lesson.id" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -561,33 +582,6 @@ object the first time, the query is executed.</p>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="promotions.models.Lesson.professors">
-<code class="descname">professors</code><a class="headerlink" href="#promotions.models.Lesson.professors" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Professors managing this Lesson</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="promotions.models.Lesson.revisionplanning_set">
-<code class="descname">revisionplanning_set</code><a class="headerlink" href="#promotions.models.Lesson.revisionplanning_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="promotions.models.Lesson.stage">
-<code class="descname">stage</code><a class="headerlink" href="#promotions.models.Lesson.stage" title="Permalink to this definition">¶</a></dt>
-<dd><p>This Lesson Stage (its “level” in the education)</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="promotions.models.Lesson.stage_id">
 <code class="descname">stage_id</code><a class="headerlink" href="#promotions.models.Lesson.stage_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -598,27 +592,6 @@ object the first time, the query is executed.</p>
 <dt id="promotions.models.Lesson.stages_in_unchronological_order">
 <code class="descname">stages_in_unchronological_order</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Lesson.stages_in_unchronological_order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Lesson.stages_in_unchronological_order" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="attribute">
-<dt id="promotions.models.Lesson.studentpoll_set">
-<code class="descname">studentpoll_set</code><a class="headerlink" href="#promotions.models.Lesson.studentpoll_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="promotions.models.Lesson.students">
-<code class="descname">students</code><a class="headerlink" href="#promotions.models.Lesson.students" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Students belonging to this Lesson</p>
-</dd></dl>
 
 </dd></dl>
 
@@ -649,21 +622,6 @@ object the first time, the query is executed.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="promotions.models.Stage.lesson_set">
-<code class="descname">lesson_set</code><a class="headerlink" href="#promotions.models.Stage.lesson_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="promotions.models.Stage.level">
 <code class="descname">level</code><a class="headerlink" href="#promotions.models.Stage.level" title="Permalink to this definition">¶</a></dt>
 <dd><p>The level that permits to position Stages from different education forms</p>
@@ -681,12 +639,6 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="promotions.models.Stage.previous_stage">
-<code class="descname">previous_stage</code><a class="headerlink" href="#promotions.models.Stage.previous_stage" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Stage that precedes this Stage (in the same education form, if applicable)</p>
-</dd></dl>
-
-<dl class="attribute">
 <dt id="promotions.models.Stage.previous_stage_id">
 <code class="descname">previous_stage_id</code><a class="headerlink" href="#promotions.models.Stage.previous_stage_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper for a deferred-loading field. When the value is read from this
@@ -699,31 +651,10 @@ object the first time, the query is executed.</p>
 <dd><p>The Stage name abbreviation</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="promotions.models.Stage.skills">
-<code class="descname">skills</code><a class="headerlink" href="#promotions.models.Stage.skills" title="Permalink to this definition">¶</a></dt>
-<dd><p>The Skills that belong to this Stage</p>
-</dd></dl>
-
 <dl class="method">
 <dt id="promotions.models.Stage.skills_with_exercice_count">
 <code class="descname">skills_with_exercice_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/models.html#Stage.skills_with_exercice_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.models.Stage.skills_with_exercice_count" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="attribute">
-<dt id="promotions.models.Stage.stage_set">
-<code class="descname">stage_set</code><a class="headerlink" href="#promotions.models.Stage.stage_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Accessor to the related objects manager on the reverse side of a
-many-to-one relation.</p>
-<p>In the example:</p>
-<div class="highlight-default"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s">&#39;children&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p><code class="docutils literal"><span class="pre">parent.children</span></code> is a <code class="docutils literal"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
-<p>Most of the implementation is delegated to a dynamically defined manager
-class built by <code class="docutils literal"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
-</dd></dl>
 
 </dd></dl>
 
@@ -799,27 +730,58 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="function">
 <dt id="promotions.views.contribute_page">
 <code class="descclassname">promotions.views.</code><code class="descname">contribute_page</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#contribute_page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.contribute_page" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Display a ResourceForm or submit it 
+:param request: 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.dashboard">
 <code class="descclassname">promotions.views.</code><code class="descname">dashboard</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.dashboard" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Return an HttpResponse to the dashboard of the professor
+:param request: 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.default_student_skill">
 <code class="descclassname">promotions.views.</code><code class="descname">default_student_skill</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#default_student_skill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.default_student_skill" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set a default value for a Student’s Skill
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param student_skill: id of a StudentSkill
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.exercice_adapt_test_exercice">
 <code class="descclassname">promotions.views.</code><code class="descname">exercice_adapt_test_exercice</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#exercice_adapt_test_exercice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.exercice_adapt_test_exercice" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> – </li>
+<li><strong>test_exercice_pk</strong> – primary key of a TestExercice</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.exercice_for_test_exercice">
 <code class="descclassname">promotions.views.</code><code class="descname">exercice_for_test_exercice</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#exercice_for_test_exercice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.exercice_for_test_exercice" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add an exercice for a test
+:param request: 
+:param exercice_pk: primary key of an exercice
+:param test_exercice_pk: primary key of a TestExercice
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.exercice_list">
@@ -844,7 +806,22 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="function">
 <dt id="promotions.views.exercice_update_json">
 <code class="descclassname">promotions.views.</code><code class="descname">exercice_update_json</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#exercice_update_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.exercice_update_json" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> – </li>
+<li><strong>pk</strong> – primary key of a Context</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.exercice_validation_form_submit">
@@ -864,97 +841,194 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
 <dl class="function">
 <dt id="promotions.views.global_resources_delete">
 <code class="descclassname">promotions.views.</code><code class="descname">global_resources_delete</code><span class="sig-paren">(</span><em>request</em>, <em>pk</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#global_resources_delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.global_resources_delete" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Delete a Resource
+:param request: 
+:param pk: primary key of a Resource
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_add">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_add</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Either return an HttpResponse with a LessonForm or create a new Lesson if POST method
+:param request: 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_detail">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_detail</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_detail" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Get the details of a Lesson (students and heatmap)
+:param request: 
+:param pk: primary key of a Lesson 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_skill_detail">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_skill_detail</code><span class="sig-paren">(</span><em>request</em>, <em>lesson_pk</em>, <em>skill_code</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_skill_detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_skill_detail" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query a Lesson and a Skill to display the details of a skill
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param skill_code: code of a Skill
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_student_add">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_student_add</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_student_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_student_add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add one or more students to a lesson : either with a CSV file (template provided) or manually 
+:param request: 
+:param pk: primary key of a Lesson
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_student_detail">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_student_detail</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_student_detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_student_detail" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query a Student and a Lesson to display it in the detail page
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param pk: primary key of a Student
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_student_test_detail">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_student_test_detail</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_student_test_detail"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_student_test_detail" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query a Student, Lesson and a Test and display it in the test detail page
+:param request: 
+:param pk: primary key of a Student
+:param lesson_pk: primary key of a Lesson
+:param test_pk: primary key of a Test
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_student_update">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_student_update</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_student_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_student_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Display a form to change a Student’s details or submit theses changes
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param pk: primary key of a Student
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_test_add">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_test_add</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_test_add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_test_add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query a Lesson to add tests to it
+:param request: 
+:param pk: primary key of a Lesson
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_test_list">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_test_list</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_test_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_test_list" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Query a Lesson to display its associated tests
+:param request: 
+:param pk: primary key of a Lesson 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_test_update">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_test_update</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_test_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_test_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Display a form to update a BaseTest in a Lesson
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param pk: primary key of a BaseTest
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_tests_and_skills">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_tests_and_skills</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_tests_and_skills"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_tests_and_skills" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>request</strong> – </li>
+<li><strong>lesson_id</strong> – id of a Lesson</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.lesson_update">
 <code class="descclassname">promotions.views.</code><code class="descname">lesson_update</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#lesson_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.lesson_update" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Either return an HttpResponse with a LessonUpdateForm or update a Lesson if POST method
+:param request: 
+:param pk: 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.regenerate_student_password">
 <code class="descclassname">promotions.views.</code><code class="descname">regenerate_student_password</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#regenerate_student_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.regenerate_student_password" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Regenerate a password for a student
+:param request: 
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.remove_pedagogical_ressources">
 <code class="descclassname">promotions.views.</code><code class="descname">remove_pedagogical_ressources</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#remove_pedagogical_ressources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.remove_pedagogical_ressources" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Remove a Sesamath, KhanAcademy or Resource object 
+:param request: 
+:param kind: value equal either to “Sesamath”, “KhanAcademy” or “Resource” 
+:param id: id of an object of the class given by kind
+:return:</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="promotions.views.single_student_password_page">
+<code class="descclassname">promotions.views.</code><code class="descname">single_student_password_page</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#single_student_password_page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.single_student_password_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Regenerate a code for a student (to allow him/her to create a new password)</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.students_password_page">
 <code class="descclassname">promotions.views.</code><code class="descname">students_password_page</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#students_password_page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.students_password_page" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Regenerate a code for every student of a lesson (to allow him/her to create a new password)</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.unvalidate_student_skill">
 <code class="descclassname">promotions.views.</code><code class="descname">unvalidate_student_skill</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#unvalidate_student_skill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.unvalidate_student_skill" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Invalidate a Skill for a Student
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param student_skill: id of a StudentSkill
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.update_pedagogical_ressources">
 <code class="descclassname">promotions.views.</code><code class="descname">update_pedagogical_ressources</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#update_pedagogical_ressources"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.update_pedagogical_ressources" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Display a form to update a Resource
+:param request: 
+:param slug: slug of a Skill
+:return:</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="promotions.views.validate_student_skill">
 <code class="descclassname">promotions.views.</code><code class="descname">validate_student_skill</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/promotions/views.html#validate_student_skill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#promotions.views.validate_student_skill" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Validate a Skill for a Student
+:param request: 
+:param lesson_pk: primary key of a Lesson
+:param student_skill: id of a StudentSkill
+:return:</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-promotions">
@@ -1001,7 +1075,7 @@ class built by <code class="docutils literal"><span class="pre">create_forward_m
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
