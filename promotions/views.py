@@ -228,6 +228,9 @@ def lesson_student_add(request, pk):
                 return render(request, "professor/lesson/student/add.haml", {
                 "lesson": lesson,})
 
+            messages.add_message(request, messages.SUCCESS,
+                                 str(line_number - 2) + ' utilisateur(s) ont/a été importé(s) avec succès.')
+
         elif 'last_name_0' in request.POST:
             for i in filter(lambda x: x.startswith("first_name_"), request.POST.keys()):
                 number = i.split("_")[-1]
@@ -264,7 +267,6 @@ def lesson_student_add(request, pk):
 
                     for test in Test.objects.filter(lesson=lesson, running=True):
                         test.add_student(student)
-        messages.add_message(request, messages.SUCCESS, str(line_number-2)+' utilisateur(s) ont/a été importé(s) avec succès.')
 
         return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
 

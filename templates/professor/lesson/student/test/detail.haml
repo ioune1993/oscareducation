@@ -1,4 +1,5 @@
 -extends "base.haml"
+-load examinations_tags
 
 -block breadcrumb
   %ol.breadcrumb
@@ -87,12 +88,21 @@
                                       %tr
                                         %td.right-border{width: "50%"}
                                           %ul
-                                            -for j in student_answer
-                                              %li= j
-                                        %td{width: "50%"}
-                                          %ul
-                                            -for j in question.get_answers
-                                              %li= j
+                                            -for i in student_answer
+                                              %div
+                                                %input{type: "checkbox", display: "inline-block", height: "100%", disabled, checked}
+                                                %label{text-align: "left", display: "inline-block"}
+                                                  =question.get_answers_extracted|answer:i
+                                        %td{width: "50%", display: "block"}
+                                          -for j in question.get_answers_extracted
+                                            %div
+                                              -if j.1 == True
+                                                %input{type: "checkbox", display: "inline-block", height: "100%", disabled, checked}
+                                              -else
+                                                %input{type: "checkbox", display: "inline-block", height: "100%", disabled}
+
+                                              %label{text-align: "left", display: "inline-block"}=j.0
+                                              =j.1
                                     -elif type == "text"
                                       %tr
                                         %td.right-border{width: "50%"}
@@ -123,10 +133,22 @@
                                     -elif type == "radio"
                                       %tr
                                         %td.right-border{width: "50%"}
-                                          -for j in student_answer
-                                            %li= j
-                                        %td{width: "50%"}
-                                          =question.get_answers
+                                          %ul
+                                            -for i in student_answer
+                                              %div
+                                                %input{type: "radio", display: "inline-block", height: "100%", disabled, checked}
+                                                %label{text-align: "left", display: "inline-block"}
+                                                  =question.get_answers_extracted|answer:i
+                                        %td{width: "50%", display: "block"}
+                                          -for j in question.get_answers_extracted
+                                            %div
+                                              -if j.1 == True
+                                                %input{type: "radio", display: "inline-block", height: "100%", disabled, checked}
+                                              -else
+                                                %input{type: "radio", display: "inline-block", height: "100%", disabled}
+
+                                              %label{text-align: "left", display: "inline-block"}=j.0
+                                              =j.1
                                     -elif type == "professor"
                                       %tr
                                         %td.right-border{width: "100%"}

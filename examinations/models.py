@@ -98,6 +98,10 @@ class Question(models.Model):
         yaml_answer = self.get_answer()
         return yaml_answer["answers"]
 
+    def get_answers_extracted(self):
+        print(type(self.get_answers().items()))
+        return self.get_answers().items()
+
     def evaluate(self, response):
         """Evaluates this Question with the provided response
 
@@ -294,6 +298,9 @@ class Answer(models.Model):
         return result
 
     def get_answers(self):
+        return json.loads(self.raw_answer)[0]
+
+    def get_answers_extracted(self):
         return json.loads(self.raw_answer)[0]
 
 

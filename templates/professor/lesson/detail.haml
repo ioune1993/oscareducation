@@ -63,7 +63,7 @@
             %table.table
               -for student in lesson.students.all
                 %tr
-                  %td{width: "220px"}
+                  %td{width: "250px"}
                     %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}= student
                     .pull-right
                       %a{href: "{% url 'professor:lesson_student_update' lesson.pk student.pk %}"}
@@ -71,7 +71,7 @@
                       %a{href: "{% url 'professor:lesson_student_detail' lesson.pk student.pk %}"}
                         %img.icon{src: "{% static 'img/icons/detail.png' %}", data-toggle: "tooltip", data-placement: "top", title: "détails de l´élève"}
                       %a{href: "{% url 'professor:single_student_password_page' lesson.pk student.pk %}"}
-                        %img.icon{src: "{% static 'img/icons/multy-mdp.png' %}", data-toggle: "tooltip", data-placement: "top", title: "regénérer un code pour l'élève"}
+                        %img.icon{src: "{% static 'img/icons/multy-mdp.png' %}", data-toggle: "tooltip", data-placement: "top", title: "regénérer un code pour l´élève"}
 
                   %td
                     .pull-right
