@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>skills.apps &#8212; Oscar dev-0.5 documentation</title>
+    <title>users.admin &#8212; Oscar dev-0.5 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -39,15 +39,25 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for skills.apps</h1><div class="highlight"><pre>
+  <h1>Source code for users.admin</h1><div class="highlight"><pre>
 <span class="c"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">unicode_literals</span>
 
-<span class="kn">from</span> <span class="nn">django.apps</span> <span class="k">import</span> <span class="n">AppConfig</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="k">import</span> <span class="n">admin</span>
 
+<span class="kn">from</span> <span class="nn">.models</span> <span class="k">import</span> <span class="n">Professor</span><span class="p">,</span><span class="n">Student</span>
 
-<div class="viewcode-block" id="SkillsConfig"><a class="viewcode-back" href="../../skills.html#skills.apps.SkillsConfig">[docs]</a><span class="k">class</span> <span class="nc">SkillsConfig</span><span class="p">(</span><span class="n">AppConfig</span><span class="p">):</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="s">&#39;skills&#39;</span></div>
+<div class="viewcode-block" id="ProfessorAdmin"><a class="viewcode-back" href="../../users.html#users.admin.ProfessorAdmin">[docs]</a><span class="k">class</span> <span class="nc">ProfessorAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,)</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span><span class="s">&#39;is_pending&#39;</span><span class="p">,</span><span class="s">&#39;code&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="StudentAdmin"><a class="viewcode-back" href="../../users.html#users.admin.StudentAdmin">[docs]</a><span class="k">class</span> <span class="nc">StudentAdmin</span><span class="p">(</span><span class="n">admin</span><span class="o">.</span><span class="n">ModelAdmin</span><span class="p">):</span>
+    <span class="n">search_fields</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,)</span>
+    <span class="n">list_display</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">,</span><span class="s">&#39;is_pending&#39;</span><span class="p">,</span><span class="s">&#39;code&#39;</span><span class="p">,</span><span class="s">&#39;code_created_at&#39;</span><span class="p">)</span></div>
+
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Professor</span><span class="p">,</span><span class="n">ProfessorAdmin</span><span class="p">)</span>
+<span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">Student</span><span class="p">,</span><span class="n">StudentAdmin</span><span class="p">)</span>
+<span class="c"># Register your models here.</span>
 </pre></div>
 
           </div>

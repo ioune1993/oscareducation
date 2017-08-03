@@ -51,6 +51,7 @@
 <span class="kn">from</span> <span class="nn">django.contrib.contenttypes.models</span> <span class="k">import</span> <span class="n">ContentType</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 <span class="kn">import</span> <span class="nn">yamlordereddictloader</span>
+<span class="kn">import</span> <span class="nn">json</span>
 
 
 <div class="viewcode-block" id="Context"><a class="viewcode-back" href="../../examinations.html#examinations.models.Context">[docs]</a><span class="k">class</span> <span class="nc">Context</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -85,12 +86,12 @@
 
 <div class="viewcode-block" id="Context.get_questions"><a class="viewcode-back" href="../../examinations.html#examinations.models.Context.get_questions">[docs]</a>    <span class="k">def</span> <span class="nf">get_questions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get all the questions attached to this Context.&quot;&quot;&quot;</span>
-        <span class="n">list_questions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-        <span class="n">questions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="n">list_questions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">list_question</span> <span class="ow">in</span> <span class="n">List_question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
-            <span class="n">list_questions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">list_question</span><span class="o">.</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="n">list_questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_question</span><span class="o">.</span><span class="n">question</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">Question</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">id__in</span><span class="o">=</span><span class="n">list_questions</span><span class="p">):</span>
-            <span class="n">questions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+            <span class="n">questions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">questions</span></div></div>
 
 
@@ -129,7 +130,140 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">answer</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yamlordereddictloader</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="p">{}</span></div></div>
+        <span class="k">return</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="Question.get_type"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">yaml_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">yaml_answer</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Question.get_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_answers">[docs]</a>    <span class="k">def</span> <span class="nf">get_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">yaml_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">yaml_answer</span><span class="p">[</span><span class="s">&quot;answers&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Question.evaluate"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates this Question with the provided response</span>
+
+<span class="sd">            :param response: The response to assess</span>
+<span class="sd">            :type response: array</span>
+<span class="sd">            :returns: 1 if the response is correct, 0 if incorrect, -1 if automatic evaluation is impossible</span>
+<span class="sd">            :rtype: int</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="n">raw_correct_answers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer</span><span class="p">()</span>
+        <span class="n">evaluation_type</span> <span class="o">=</span> <span class="n">raw_correct_answers</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">evaluation_type</span> <span class="o">==</span> <span class="s">&quot;text&quot;</span><span class="p">:</span>
+            <span class="c"># We only need the first and only element: the text by the Student</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">response</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+            <span class="n">correct_answers</span> <span class="o">=</span> <span class="p">[</span><span class="n">unicode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;UTF-8&#39;</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">raw_correct_answers</span><span class="p">[</span><span class="s">&quot;answers&quot;</span><span class="p">]]</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span>
+                                                                                           <span class="n">basestring</span><span class="p">)</span> <span class="k">else</span> <span class="n">response</span>
+
+            <span class="k">if</span> <span class="n">response</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">correct_answers</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">evaluation_type</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;math&quot;</span><span class="p">):</span>
+            <span class="c"># We only need the first and only element: the math formula by the Student</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="n">correct_answers</span> <span class="o">=</span> <span class="p">[</span><span class="n">unicode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span>
+                               <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">raw_correct_answers</span><span class="p">[</span><span class="s">&quot;answers&quot;</span><span class="p">]]</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&quot; &quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">response</span><span class="p">,</span>
+                                                                                               <span class="n">basestring</span><span class="p">)</span> <span class="k">else</span> <span class="n">response</span>
+
+            <span class="k">if</span> <span class="n">response</span> <span class="ow">in</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">correct_answers</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">evaluation_type</span> <span class="o">==</span> <span class="s">&quot;radio&quot;</span><span class="p">:</span>
+            <span class="c"># We only need the first and only element: the answer selected by the Student</span>
+            <span class="n">response</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c"># The list of correct/incorrect answers</span>
+            <span class="n">answers</span> <span class="o">=</span> <span class="n">raw_correct_answers</span><span class="p">[</span><span class="s">&quot;answers&quot;</span><span class="p">]</span>
+
+            <span class="c"># If no selected answer</span>
+            <span class="k">if</span> <span class="n">response</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="c"># If the selected answer is not part of the list, should not be possible for a Student</span>
+            <span class="k">elif</span> <span class="n">response</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">raw_correct_answers</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="mi">0</span>
+            <span class="c"># If the selected answer is True (correct)</span>
+            <span class="k">elif</span> <span class="n">answers</span><span class="o">.</span><span class="n">values</span><span class="p">()[</span><span class="n">response</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="mi">1</span>
+            <span class="c"># Else, a false answer has been selected by the Student</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">evaluation_type</span> <span class="o">==</span> <span class="s">&quot;graph&quot;</span><span class="p">:</span>
+            <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            result_answer[&quot;answers&quot;] = []</span>
+<span class="sd">            points_student_answers = []</span>
+<span class="sd">            points_good_answers = []</span>
+
+<span class="sd">            # first we need to get all student answer and all good answers</span>
+<span class="sd">            for subnumber, graph_answers in enumerate(raw_correct_answers[&quot;answers&quot;]):</span>
+<span class="sd">                if graph_answers[&quot;graph&quot;][&quot;type&quot;] == &quot;point&quot;:</span>
+<span class="sd">                    X = answers.get(&quot;graph-%s-point-%s-X&quot; % (number, subnumber), &quot;&quot;)</span>
+<span class="sd">                    Y = answers.get(&quot;graph-%s-point-%s-Y&quot; % (number, subnumber), &quot;&quot;)</span>
+
+<span class="sd">                    X = int(X) if X.isdigit() else None</span>
+<span class="sd">                    Y = int(Y) if Y.isdigit() else None</span>
+
+<span class="sd">                    points_student_answers.append({&quot;X&quot;: X, &quot;Y&quot;: Y})</span>
+<span class="sd">                    points_good_answers.append(graph_answers[&quot;graph&quot;][&quot;coordinates&quot;])</span>
+<span class="sd">                else:</span>
+<span class="sd">                    assert False</span>
+
+<span class="sd">            # now we need to see if the student answers are in the good answers</span>
+<span class="sd">            for point in points_student_answers:</span>
+<span class="sd">                print point</span>
+<span class="sd">                result_answer[&quot;answers&quot;].append({</span>
+<span class="sd">                    &quot;answer&quot;: point,</span>
+<span class="sd">                    &quot;correct&quot;: True,</span>
+<span class="sd">                    &quot;type&quot;: &quot;point&quot;,</span>
+<span class="sd">                })</span>
+<span class="sd">                if point not in points_good_answers:</span>
+<span class="sd">                    result_answer[&quot;answers&quot;][-1][&quot;correct&quot;] = False</span>
+<span class="sd">                    result_answer[&quot;answers&quot;][-1][&quot;correct_answer&quot;] = None</span>
+<span class="sd">                else:</span>
+<span class="sd">                    points_good_answers.remove(point)</span>
+<span class="sd">                    result_answer[&quot;answers&quot;][-1][&quot;correct_answer&quot;] = point</span>
+
+<span class="sd">            # and for all bad answers lets put a correct answer next to it</span>
+<span class="sd">            for i in result_answer[&quot;answers&quot;]:</span>
+<span class="sd">                if i[&quot;correct_answer&quot;] is None:</span>
+<span class="sd">                    i[&quot;correct_answer&quot;] = points_good_answers.pop()</span>
+
+<span class="sd">            result_answer[&quot;correct&quot;] = all([x[&quot;correct&quot;] for x in result_answer[&quot;answers&quot;]])</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+        <span class="k">elif</span> <span class="n">evaluation_type</span> <span class="o">==</span> <span class="s">&quot;checkbox&quot;</span><span class="p">:</span>
+            <span class="c"># The list of correct/incorrect answers</span>
+            <span class="n">answers</span> <span class="o">=</span> <span class="n">raw_correct_answers</span><span class="p">[</span><span class="s">&quot;answers&quot;</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">checkbox_number</span><span class="p">,</span> <span class="n">is_correct</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">answers</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">is_correct</span> <span class="ow">and</span> <span class="n">checkbox_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="mi">0</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">is_correct</span> <span class="ow">and</span> <span class="n">checkbox_number</span> <span class="ow">in</span> <span class="n">response</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="mi">0</span>
+            <span class="c"># All the correct answers are selected, all the incorrect ones not selected</span>
+            <span class="k">return</span> <span class="mi">1</span>
+
+        <span class="k">elif</span> <span class="n">evaluation_type</span> <span class="o">==</span> <span class="s">&quot;professor&quot;</span><span class="p">:</span>
+            <span class="c"># No automatic verification to perform if corrected by a Professor</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+
+        <span class="c"># No automatic correction type found, not corrected by default</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div></div>
 
 
 <div class="viewcode-block" id="Answer"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer">[docs]</a><span class="k">class</span> <span class="nc">Answer</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -153,7 +287,56 @@
     <span class="n">test_exercice</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&quot;TestExercice&quot;</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The TestExercice (which Context in the test) corresponding to our answers&quot;&quot;&quot;</span>
     <span class="n">answer_datetime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;The date we submitted our answers&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;The date we submitted our answers&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Answer.get_questions_with_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.get_questions_with_answers">[docs]</a>    <span class="k">def</span> <span class="nf">get_questions_with_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">questions_with_answers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">get_questions</span><span class="p">():</span>
+            <span class="n">questions_with_answers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">index</span><span class="p">,</span>
+                 <span class="n">question</span><span class="p">,</span>
+                 <span class="n">question</span><span class="o">.</span><span class="n">get_type</span><span class="p">(),</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;response&quot;</span><span class="p">),</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;correct&quot;</span><span class="p">)])</span>
+            <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">questions_with_answers</span></div>
+
+<div class="viewcode-block" id="Answer.assess"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.assess">[docs]</a>    <span class="k">def</span> <span class="nf">assess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">correction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Grades manually an answer to a question</span>
+
+<span class="sd">        :param index: The question index to be corrected</span>
+<span class="sd">        :type index: int</span>
+<span class="sd">        :param correction: The correction value : 1 if correct, 0 if incorrect</span>
+<span class="sd">        :type correction: int</span>
+<span class="sd">        :return: True if the correction is useful, False if it does not change the grade</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()</span>
+        <span class="c"># No need to correct</span>
+        <span class="k">if</span> <span class="n">answers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)][</span><span class="s">&quot;correct&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">correction</span><span class="p">:</span>
+            <span class="k">return</span> <span class="k">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">answers</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)][</span><span class="s">&quot;correct&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">correction</span>
+            <span class="k">return</span> <span class="k">True</span></div>
+
+<div class="viewcode-block" id="Answer.evaluate"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluates the attached Context, determines if all of its Questions are correct</span>
+
+<span class="sd">            :return: -1 if no all questions are graded, 1 if all the answers to the Questions are correct,</span>
+<span class="sd">                    0 if there is at least a mistake</span>
+<span class="sd">            :rtype: int</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_answer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">question</span><span class="p">[</span><span class="s">&quot;correct&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="k">elif</span> <span class="n">question</span><span class="p">[</span><span class="s">&quot;correct&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+<div class="viewcode-block" id="Answer.get_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.get_answers">[docs]</a>    <span class="k">def</span> <span class="nf">get_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_answer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
 
 
 <div class="viewcode-block" id="TestStudent"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent">[docs]</a><span class="k">class</span> <span class="nc">TestStudent</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -171,7 +354,36 @@
     <span class="n">started_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;The date the Student started the Test&quot;&quot;&quot;</span>
     <span class="n">finished_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;The date the Student finished the Test&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;The date the Student finished the Test&quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;test__created_at&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="TestStudent.test_exercice_answer_for_offline_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.test_exercice_answer_for_offline_test">[docs]</a>    <span class="k">def</span> <span class="nf">test_exercice_answer_for_offline_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">test_exercice</span><span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;test_exercice&quot;</span><span class="p">)}</span>
+
+        <span class="k">return</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">answers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">exercice__isnull</span><span class="o">=</span><span class="k">False</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="TestStudent.has_offline_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.has_offline_answers">[docs]</a>    <span class="k">def</span> <span class="nf">has_offline_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test_exercice__testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="TestStudent.get_maybe_answer_list"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.get_maybe_answer_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_maybe_answer_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">test_exercice</span><span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">answer_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;test_exercice&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&quot;-test_exercice__skill__code&quot;</span><span class="p">)}</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">answers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&quot;-skill__code&quot;</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="TestStudent.get_state"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.get_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">started_at</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">u&quot;pas encore commencé&quot;</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">finished_at</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">u&quot;commencé&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">u&quot;fini&quot;</span></div>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">u&quot;on %s (%s)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_state</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="TestExercice"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestExercice">[docs]</a><span class="k">class</span> <span class="nc">TestExercice</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -195,7 +407,11 @@
     <span class="n">rendered_content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Unused field&quot;&quot;&quot;</span>
     <span class="n">testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;True if this Context is graded automatically, False otherwise&quot;&quot;&quot;</span></div>
+    <span class="sd">&quot;&quot;&quot;True if this Context is graded automatically, False otherwise&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TestExercice.is_valid"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestExercice.is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answers</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verifies if the answers are correct, if they can be graded automatically&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">check_answers</span><span class="p">(</span><span class="n">answers</span><span class="p">)[</span><span class="s">&quot;is_valid&quot;</span><span class="p">]</span></div></div>
 
 
 <div class="viewcode-block" id="BaseTest"><a class="viewcode-back" href="../../examinations.html#examinations.models.BaseTest">[docs]</a><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -248,6 +464,26 @@
             <span class="n">student</span><span class="o">=</span><span class="n">student</span>
         <span class="p">)</span></div>
 
+<div class="viewcode-block" id="Test.testexercice_with_skills"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.testexercice_with_skills">[docs]</a>    <span class="k">def</span> <span class="nf">testexercice_with_skills</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testexercice_set</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;skill&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&#39;-skill__code&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.teststudent_with_student"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.teststudent_with_student">[docs]</a>    <span class="k">def</span> <span class="nf">teststudent_with_student</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">teststudent_set</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;student&quot;</span><span class="p">,</span> <span class="s">&quot;student__user&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.testexercice_testable_online"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.testexercice_testable_online">[docs]</a>    <span class="k">def</span> <span class="nf">testexercice_testable_online</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testexercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">testable_online</span><span class="o">=</span><span class="k">True</span><span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;skill&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.testexercice_testable_offline"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.testexercice_testable_offline">[docs]</a>    <span class="k">def</span> <span class="nf">testexercice_testable_offline</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testexercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">exercice__isnull</span><span class="o">=</span><span class="k">False</span><span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;skill&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Test.display_test_type"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.display_test_type">[docs]</a>    <span class="k">def</span> <span class="nf">display_test_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;skills&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;compétences&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;dependencies&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;prérequis&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;skills-dependencies&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&quot;compétences et prérequis&quot;</span></div>
+
 <div class="viewcode-block" id="Test.generate_skills_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_skills_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_skills_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -298,7 +534,10 @@
             <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
                 <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
                 <span class="n">skill</span><span class="o">=</span><span class="n">skill</span><span class="p">,</span>
-            <span class="p">)</span></div></div>
+            <span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
 
 <div class="viewcode-block" id="TestFromClass"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestFromClass">[docs]</a><span class="k">class</span> <span class="nc">TestFromClass</span><span class="p">(</span><span class="n">BaseTest</span><span class="p">):</span>
@@ -374,7 +613,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>

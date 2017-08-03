@@ -92,6 +92,16 @@
 
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;email&quot;</span><span class="p">]</span></div>
 
+<div class="viewcode-block" id="StudentAddForm.clean_first_name"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm.clean_first_name">[docs]</a>    <span class="k">def</span> <span class="nf">clean_first_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;first_name&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">&quot;Prénom manquant.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;first_name&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="StudentAddForm.clean_last_name"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm.clean_last_name">[docs]</a>    <span class="k">def</span> <span class="nf">clean_last_name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;last_name&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">&quot;Nom de famille manquant.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;last_name&quot;</span><span class="p">]</span></div>
+
 <div class="viewcode-block" id="StudentAddForm.get_or_generate_email"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentAddForm.get_or_generate_email">[docs]</a>    <span class="k">def</span> <span class="nf">get_or_generate_email</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">username</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;email&quot;</span><span class="p">]:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned_data</span><span class="p">[</span><span class="s">&quot;email&quot;</span><span class="p">]</span>
@@ -99,6 +109,12 @@
         <span class="c"># hack, django enforce an email usage, let&#39;s use @example.com for &quot;I don&#39;t have an email&quot;</span>
         <span class="k">return</span> <span class="n">username</span> <span class="o">+</span> <span class="s">&quot;@example.com&quot;</span></div></div>
 
+<div class="viewcode-block" id="validate_file_extension"><a class="viewcode-back" href="../../promotions.html#promotions.forms.validate_file_extension">[docs]</a><span class="k">def</span> <span class="nf">validate_file_extension</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s">&#39;.csv&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">forms</span><span class="o">.</span><span class="n">ValidationError</span><span class="p">(</span><span class="s">&quot;Only CSV file is accepted&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CSVForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.CSVForm">[docs]</a><span class="k">class</span> <span class="nc">CSVForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Form</span><span class="p">):</span>
+    <span class="n">csvfile</span> <span class="o">=</span> <span class="n">forms</span><span class="o">.</span><span class="n">FileField</span><span class="p">(</span><span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validate_file_extension</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="StudentUpdateForm"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentUpdateForm">[docs]</a><span class="k">class</span> <span class="nc">StudentUpdateForm</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">ModelForm</span><span class="p">):</span>
 <div class="viewcode-block" id="StudentUpdateForm.Meta"><a class="viewcode-back" href="../../promotions.html#promotions.forms.StudentUpdateForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
@@ -183,7 +199,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>

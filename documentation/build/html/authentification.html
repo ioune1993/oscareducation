@@ -64,15 +64,41 @@
 <div class="section" id="module-authentification.views">
 <span id="authentification-views-module"></span><h2>authentification.views module<a class="headerlink" href="#module-authentification.views" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
-<dt id="authentification.views.login">
-<code class="descclassname">authentification.views.</code><code class="descname">login</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#login"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.login" title="Permalink to this definition">¶</a></dt>
-<dd><p>Displays the login form and handles the login action.</p>
+<dt id="authentification.views.code">
+<code class="descclassname">authentification.views.</code><code class="descname">code</code><span class="sig-paren">(</span><em>request</em>, <em>template_name='registration/login_code.haml'</em>, <em>redirect_field_name='next'</em>, <em>code_form=&lt;class 'authentification.forms.CodeForm'&gt;</em>, <em>current_app=None</em>, <em>extra_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#code"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the code form and handles the login action.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="authentification.views.create_password">
+<code class="descclassname">authentification.views.</code><code class="descname">create_password</code><span class="sig-paren">(</span><em>request</em>, <em>template_name='registration/create_password.haml'</em>, <em>redirect_field_name='next'</em>, <em>cp_form=&lt;class 'authentification.forms.CreatePasswordForm'&gt;</em>, <em>current_app=None</em>, <em>extra_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#create_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.create_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the creation of password form and handles the login action.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="authentification.views.is_pending">
+<code class="descclassname">authentification.views.</code><code class="descname">is_pending</code><span class="sig-paren">(</span><em>request</em>, <em>user</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#is_pending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.is_pending" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redirect the user either to :
+- code page if he needs to create a password (by giving his code first)
+- password page if he already has a password</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="authentification.views.logout">
 <code class="descclassname">authentification.views.</code><code class="descname">logout</code><span class="sig-paren">(</span><em>request</em>, <em>next_page=None</em>, <em>template_name='registration/logged_out.html'</em>, <em>redirect_field_name='next'</em>, <em>current_app=None</em>, <em>extra_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#logout"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.logout" title="Permalink to this definition">¶</a></dt>
 <dd><p>Logs out the user and displays ‘You are logged out’ message.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="authentification.views.password">
+<code class="descclassname">authentification.views.</code><code class="descname">password</code><span class="sig-paren">(</span><em>request</em>, <em>template_name='registration/login_password.haml'</em>, <em>redirect_field_name='next'</em>, <em>authentication_form=&lt;class 'django.contrib.auth.forms.AuthenticationForm'&gt;</em>, <em>current_app=None</em>, <em>extra_context=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the password form and handles the login action.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="authentification.views.username">
+<code class="descclassname">authentification.views.</code><code class="descname">username</code><span class="sig-paren">(</span><em>request</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/authentification/views.html#username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#authentification.views.username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the username form and handles the login action.</p>
 </dd></dl>
 
 </div>
@@ -120,7 +146,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
