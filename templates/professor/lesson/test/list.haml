@@ -79,7 +79,7 @@
                 -if not basetest.test.enabled
                   %form.inline{action: "{% url 'professor:lesson_test_online_enable' lesson.pk basetest.pk %}", method: "post"}
                     -csrf_token
-                    %button.hidden-button{type: "submit", data-toggle: "tooltip", data-placement: "top"}
+                    %button.hidden-button{type: "submit", data-toggle: "tooltip", data-placement: "top", onclick: "return confirm(\"Are you sure ?\")"}
                       %span.label.label-info
                         Mettre en ligne
                 -elif not basetest.test.running
@@ -127,4 +127,4 @@
         Cette classe ne comporte pas encore de tests.
         %a{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
           Ajouter un test
-        .
+
