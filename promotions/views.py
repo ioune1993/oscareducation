@@ -880,7 +880,6 @@ def exercice_validation_form_submit(request, pk=None):
             exercice.skill = Skill.objects.get(code=skill_code)
             exercice.context = html
             exercice.testable_online = testable_online
-
             exercice.save()
         else:
             exercice = Context.objects.create(
@@ -1131,6 +1130,9 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 
     with transaction.atomic():
         test_exercice.exercice = exercice
+        if exercice.testable_online:
+            test_exercice.testable_online = True
+            test_exercice.test.fully_testable_online = True
         test_exercice.save()
 
     return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(test_exercice.test.lesson.pk, test_exercice.test.pk,)) + "#%s" % test_exercice_pk)
