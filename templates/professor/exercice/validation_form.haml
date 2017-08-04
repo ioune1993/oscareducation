@@ -121,10 +121,13 @@
                 .form-horizontal{ng-if: "question.type == \"graph\""}
                   .form-group
                     %label.control-label.col-sm-2 Type
-                    .col-sm-10
+                    .col-sm-9
                       %select.form-control{kg-required: "true", ng-model: "answer.graph.type", ng-change: "onChangeGraphAnswerType(answer.graph)"}
                         %option{value: ""}
                         %option{value: "point"} Point
+                    .col-sm-1
+                      %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
+                        %span.glyphicon.glyphicon-remove
                   -# ng-if: point
                   .form-group{ng-if: "answer.graph.type == \"point\""}
                     %label.control-label.col-sm-2 Coordonnées

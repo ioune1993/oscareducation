@@ -43,11 +43,11 @@
           return [mathquill, keyboard]
       });
 
-      {% for _, question in test_exercice.get_questions.items %}
-      {% if question.type == "graph" %}
+      {% for question in test_exercice.exercice.get_questions %}
+      {% if question.get_type == "graph" %}
       var graph = new Graph('graph-' + {{ forloop.counter0 }})
 
-      {% for answer in question.answers %}
+      {% for answer in question.get_answers %}
       // assuming points for now
       graph.addAvailableGraphentry("{{ answer.graph.type }}")
       {% endfor %}

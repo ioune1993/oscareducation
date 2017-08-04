@@ -102,6 +102,15 @@ class Question(models.Model):
         print(type(self.get_answers().items()))
         return self.get_answers().items()
 
+    def get_graph_points(self):
+        coordinates = list()
+        yaml_answer = self.get_answers()
+        for points in yaml_answer:
+            x = points["graph"]["coordinates"]["X"]
+            y = points["graph"]["coordinates"]["Y"]
+            coordinates.append((x, y))
+        return coordinates
+
     def evaluate(self, response):
         """Evaluates this Question with the provided response
 

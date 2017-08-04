@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import json
+import re
 
 from datetime import datetime
 
@@ -121,6 +122,11 @@ def validate_exercice(request, test_student, test_exercice):
             }
         ]
         """
+        # Help function
+        def get_occurence(s, delimiter, occurence):
+            """Returns the n'th occurrence of the s splitted with the delimiter."""
+            return s.split(delimiter)[occurence]
+
         raw_answer = {}
         for number, question in enumerate(test_exercice.exercice.get_questions()):
             raw_answer[number] = {"response": [], "correct": -1}
@@ -138,7 +144,30 @@ def validate_exercice(request, test_student, test_exercice):
             elif data["type"].startswith("math"):
                 raw_answer[number]["response"] = [request.POST[str(number)]]
             elif data["type"] == "graph":
-                raw_answer[number]["response"] = [{key: value for key, value in request.POST.items() if key.startswith("graph-%s" % number)}]
+                graph_list = list()
+                for key, value in request.POST.items():
+                    # If the graph element is read for the first time (a graph element may contain several coordinates)
+                    if get_occurence(key, "-", 1) >= len(graph_list):
+                        graph_list.append({"type": get_occurence(key, "-", 2)})
+
+                    # Case 1 : A point
+                    if get_occurence(key, "-", 2) == "point":
+                        # Format: graph-inputNumber-point-coordinate
+                        index = get_occurence(key, "-", 1)
+                        # Neither X or Y have been read yet: initialization
+                        if not graph_list[index]["coordinates"]:
+                            graph_list[index]["coordinates"] = {"X": 0, "Y": 0}
+                        # Get the coordinate (X or Y, order is not guaranteed)
+                        coordinate = get_occurence(key, "-", 3)
+                        # First case : the X coordinate
+                        if coordinate == "X":
+                            graph_list[index]["coordinates"]["X"] = value
+                        # Then the Y coordinate
+                        elif coordinate == "Y":
+                            graph_list[index]["coordinates"]["Y"] = value
+
+                raw_answer[number]["response"] = graph_list
+
             elif data["type"] == "professor":
                 raw_answer[number]["response"] = [request.POST[str(number)]]
             else:

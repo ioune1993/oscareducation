@@ -233,22 +233,24 @@
                                         %td.right-border{width: "100%"}
                                           -for j in student_answer
                                             = j
+                                    -elif type == "graph"
+                                      %tr
+                                        %td.right-border{width: "50%"}
+                                          -for j in student_answer
+                                            =j
+                                        %td{width: "50%"}
+                                          %ul
+                                            -for x, y in question.get_graph_points
+                                              %li
+                                                (
+                                                =x
+                                                ;
+                                                =y
+                                                )
                                     -else
-                                      -for i in student_answer
-                                        -for a in student_answer
-                                          %tr
-                                            %td
-                                              X:
-                                              =a.answer.X
-                                              %br
-                                              Y:
-                                              =a.answer.Y
-                                            %td
-                                              X:
-                                              =a.correct_answer.X
-                                              %br
-                                              Y:
-                                              =a.correct_answer.Y
+                                      %tr
+                                        %td.right-border{width: "100%"}
+                                          Erreur : type de question non reconnu
                               -if question.source
                                 Informations pour les professeurs:
                                 %i {{ question.source }}
