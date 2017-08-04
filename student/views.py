@@ -146,6 +146,8 @@ def validate_exercice(request, test_student, test_exercice):
             elif data["type"] == "graph":
                 graph_list = list()
                 for key, value in request.POST.items():
+                    if key == "csrfmiddlewaretoken":
+                        continue
                     # If the graph element is read for the first time (a graph element may contain several coordinates)
                     if get_occurence(key, "-", 1) >= len(graph_list):
                         graph_list.append({"type": get_occurence(key, "-", 2)})
@@ -155,16 +157,16 @@ def validate_exercice(request, test_student, test_exercice):
                         # Format: graph-inputNumber-point-coordinate
                         index = get_occurence(key, "-", 1)
                         # Neither X or Y have been read yet: initialization
-                        if not graph_list[index]["coordinates"]:
-                            graph_list[index]["coordinates"] = {"X": 0, "Y": 0}
+                        if not graph_list[int(index)].get("coordinates"):
+                            graph_list[int(index)]["coordinates"] = {"X": 0, "Y": 0}
                         # Get the coordinate (X or Y, order is not guaranteed)
-                        coordinate = get_occurence(key, "-", 3)
+                        coordinate = get_occurence(key, "-", 4)
                         # First case : the X coordinate
                         if coordinate == "X":
-                            graph_list[index]["coordinates"]["X"] = value
+                            graph_list[int(index)]["coordinates"]["X"] = value
                         # Then the Y coordinate
                         elif coordinate == "Y":
-                            graph_list[index]["coordinates"]["Y"] = value
+                            graph_list[int(index)]["coordinates"]["Y"] = value
 
                 raw_answer[number]["response"] = graph_list
 

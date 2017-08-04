@@ -33,9 +33,10 @@
                   =option
         -elif answer.type == "graph"
           .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
-            -for single_answer in answer.answers
-              %input.hidden{type: "number", value: "", name: "graph-{{ forloop.counter0 }}-{{ single_answer.graph.type }}-X", id: "graph-{{ forloop.counter0 }}-{{ single_answer.graph.type }}-X"}
-              %input.hidden{type: "number", value: "", name: "graph-{{ forloop.counter0 }}-{{ single_answer.graph.type }}-Y", id: "graph-{{ forloop.counter0 }}-{{ single_answer.graph.type }}-Y"}
+          -with toploop_counter0=forloop.counter0
+            -for answer in answer.answers
+              %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X"}
+              %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
         -elif answer.type == "professor"
           %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
           -#%textarea.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", rows: "5"}
