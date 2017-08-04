@@ -38,7 +38,30 @@
   .ligneorangefine
 
   .boxclasse.container-fluid
+    %b
+      %u
+        Légende :
+    %table
+      %tr
+        %td{width:"15%"}
+          %span.label.label-info
+            Mettre en ligne
+        %td{width:"70%"}
+            Le test n'est pas encore disponible pour les étudiants et est encore modifiable.
+      %tr
+        %td{width:"15%"}
+          %span.label.label-success
+            En ligne
+        %td{width:"70%"}
+            Le test est non modifiable et accessible aux élèves.
+      %tr
+        %td{width:"15%"}
+          %span.label.label-danger
+            Clôturé
+        %td{width:"70%"}
+          Le test n'est plus accessible et peut être modifié uniquement si aucun élève ne l'a commencé.
 
+  .boxclasse.container-fluid
     -if all_tests.exists
       %table.table
         -for basetest in all_tests
@@ -53,9 +76,18 @@
                 %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk basetest.pk %}"}
                   =basetest.name
               %td
-                -if not basetest.test.running
+                -if not basetest.test.enabled
+                  %form.inline{action: "{% url 'professor:lesson_test_online_enable' lesson.pk basetest.pk %}", method: "post"}
+                    -csrf_token
+                    %button.hidden-button{type: "submit", data-toggle: "tooltip", data-placement: "top"}
+                      %span.label.label-info
+                        Mettre en ligne
+                -elif not basetest.test.running
                   %span.label.label-danger
                     Clôturé
+                -else
+                  %span.label.label-success
+                    En ligne
 
               %td.align-right
                 %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}

@@ -42,6 +42,16 @@ def lesson_test_online_close_open(request, lesson_pk, pk):
 
     return HttpResponseRedirect(reverse("professor:lesson_test_list", args=(lesson.pk,)))
 
+@user_is_professor
+@require_POST
+def lesson_test_online_enable(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test = get_object_or_404(Test, pk=pk)
+
+    test.enabled = True
+    test.save()
+
+    return HttpResponseRedirect(reverse("professor:lesson_test_list", args=(lesson.pk,)))
 
 @require_POST
 @user_is_professor
@@ -61,6 +71,7 @@ def lesson_test_add_json(request):
             lesson=lesson,
             name=data["name"],
             type=data["type"],
+            enabled=False
         )
 
         for skill_id in data["skills"]:
