@@ -1,50 +1,53 @@
 .form-group
-  %label{for: "{{ forloop.counter0 }}"}= label|safe
-  -if question.type == "text"
-    %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
-    %div{style: "margin-left: 20px; margin-top: 10px"}
-      %p Réponses correctes :
-      %ul
-        -for answer in question.answers
-          %li= answer
-  -elif question.type == "math" or question.type == "math-simple" or question.type == "math-advanced"
-    %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
-    %div{style: "margin-left: 20px; margin-top: 10px"}
-      %p Réponses correctes :
-      %ul
-        -for answer in question.answers
-          %li \({{answer}}\)
-          -if user.is_superuser
-            Code latex: <code>{{ answer }}</code> (visible que par les admins)
-  -elif question.type == "radio"
-    -with name=forloop.counter0
-      -for option, valid in question.answers.items
-        .radio
-          %label
-            %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-            %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
-              =option
-  -elif question.type == "checkbox"
-    -with name=forloop.counter0
-      -for option, valid in question.answers.items
-        .radio
-          %label
-            %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
-            %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
-              =option
-  -elif question.type == "graph"
-    .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
+  %label
+    -if answer.type == "text"
+      %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
+      %div{style: "margin-left: 20px; margin-top: 10px"}
+        %p Réponses correctes :
+        %ul
+          -for answer in answer.answers
+            %li= answer
+    -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
+      %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", disabled: "disabled"}
+      %div{style: "margin-left: 20px; margin-top: 10px"}
+        %p Réponses correctes :
+        %ul
+          -for answer in answer.answers
+            %li \({{answer}}\)
+            -if user.is_superuser
+              Code latex: <code>{{ answer }}</code> (visible que par les admins)
+    -elif answer.type == "radio"
+      -with name=forloop.counter0
+        -for option, valid in answer.answers.items
+          .radio
+            %label
+              %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
+              %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
+                =option
+    -elif answer.type == "checkbox"
+      -with name=forloop.counter0
+        -for option, valid in answer.answers.items
+          .radio
+            %label
+              %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", disabled: "disabled"}
+              %span{style: "color: {% if valid %}green{% else %}red{% endif %}"}
+                =option
+    -elif answer.type == "graph"
+      .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
 
-    %p Réponses :
+      %p Réponses :
 
-    %table.table.table-bordered
-      %tr
-        %th X
-        %th Y
-      -for answer in question.answers
+      %table.table.table-bordered
         %tr
-          %td= answer.graph.coordinates.X
-          %td= answer.graph.coordinates.Y
-
-  -else
-    =question.type
+          %th X
+          %th Y
+        -for answer in answer.answers
+          %tr
+            %td= answer.graph.coordinates.X
+            %td= answer.graph.coordinates.Y
+    -elif answer.type == "professor"
+      %span
+        %p
+          %i A corriger par le professeur
+    -else
+      =answer.type

@@ -1,0 +1,47 @@
+-if content
+  .well.exercice-content
+    =content|safe
+
+%form{method: "POST"}
+  -csrf_token
+  -for label, question in questions.items
+    .form-group
+      %label{for: "{{ forloop.counter0 }}"}= label|safe
+      -if question.type == "text"
+        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
+      -elif question.type == "math" or question.type == "math-simple" or question.type == "math-advanced"
+        %span
+          %textarea.keyboard
+          %span.mathquill{data-keyboard-type: "{{ question.type }}"}
+          %input.form-control.hidden-math-form{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
+      -elif question.type == "radio"
+        -with name=forloop.counter0
+          -for option in question.answers
+            .radio
+              %label
+                %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
+                =option
+      -elif question.type == "checkbox"
+        -with name=forloop.counter0
+          -for option in question.answers
+            .checkbox
+              %label
+                %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
+                =option
+      -elif question.type == "graph"
+        .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
+        -with toploop_counter0=forloop.counter0
+          -for answer in question.answers
+            %input.hidden{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X"}
+            %input.hidden{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
+      -elif question.type == "professor"
+        %i A corriger par le professeur
+      -else
+        =question.type
+
+  %input.btn.btn-primary{type: "submit", value: "Répondre"}
+
+:css
+  body {
+    padding-bottom: 200px;
+  }

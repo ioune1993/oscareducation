@@ -69,7 +69,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     window.location.href = "..";
                 }
 
-                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, merci !<br>Vous pouvez le voir <a href="' + data.url + '" target="_blank">ici</a>.</div>');
+                $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">L\'exercice a correctement été soumis, merci !<br />Vous pouvez le voir <a href="' + data.url + '" target="_blank">ici</a>.</div>');
                 console.log(data);
 
                 $scope.yaml = "";
@@ -90,6 +90,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                         "latex": "",
                         "correct": false,
                     }],
+                    "source": "",
                 }]
             })
             .error(function() {
@@ -165,7 +166,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 latex: "",
                 graph: {type: ""},
                 "correct": false
-            }]
+            }],
+            "source": "",
         })
     }
 
@@ -261,6 +263,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             graph: {type: ""},
             correct: false,
         }],
+        source: "",
     }]
 
     $scope.yamlValidationResult = "";

@@ -50,6 +50,16 @@ class StudentAddForm(forms.Form):
 
         return self.cleaned_data["email"]
 
+    def clean_first_name(self):
+        if not self.cleaned_data["first_name"]:
+            raise forms.ValidationError("Prénom manquant.")
+        return self.cleaned_data["first_name"]
+
+    def clean_last_name(self):
+        if not self.cleaned_data["last_name"]:
+            raise forms.ValidationError("Nom de famille manquant.")
+        return self.cleaned_data["last_name"]
+
     def get_or_generate_email(self, username):
         if self.cleaned_data["email"]:
             return self.cleaned_data["email"]
@@ -57,6 +67,12 @@ class StudentAddForm(forms.Form):
         # hack, django enforce an email usage, let's use @example.com for "I don't have an email"
         return username + "@example.com"
 
+def validate_file_extension(value):
+    if not value.name.endswith('.csv'):
+        raise forms.ValidationError("Only CSV file is accepted")
+
+class CSVForm(forms.Form):
+    csvfile = forms.FileField(validators=[validate_file_extension])
 
 class StudentUpdateForm(forms.ModelForm):
     class Meta:

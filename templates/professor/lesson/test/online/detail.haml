@@ -34,7 +34,7 @@
               Rendre disponible
       %td.center{width: "20px"}
         %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
-          modifier
+          Modifier
       %td.center{width: "20px"}
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
           Effacer
@@ -105,9 +105,9 @@
               =test_student.student
           -for answer in test_student.get_maybe_answer_list
             -if answer
-              %td{class: "{% if answer.correct %}success{% elif answer.correct == False %}danger{% else %}default{% endif %}"}
+              %td{class: "{% if answer.evaluate == 1 %}success{% elif answer.evaluate == 0 %}danger{% elif answer.evaluate == -1 %}warning{% else %}default{% endif %}"}
             -else
-                %td
+              %td
 
 -block javascript
   :javascript

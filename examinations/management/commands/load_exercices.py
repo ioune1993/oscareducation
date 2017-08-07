@@ -8,7 +8,7 @@ import yamlordereddictloader
 from django.core.management.base import BaseCommand
 
 from skills.models import Skill
-from examinations.models import Exercice
+from examinations.models import Context
 
 
 class Command(BaseCommand):
@@ -25,12 +25,12 @@ class Command(BaseCommand):
 
             skill_code = real_name.split(".")[0].split("_")[0]
 
-            if Exercice.objects.filter(file_name=file_name).exists():
+            if Context.objects.filter(file_name=file_name).exists():
                 print "updating", file_name, "...", os.path.exists("exercices/" + file_name + ".html")
-                exercice = Exercice.objects.get(file_name=file_name)
+                exercice = Context.objects.get(file_name=file_name)
             else:
                 print "importing", file_name, "..."
-                exercice = Exercice(file_name=file_name)
+                exercice = Context(file_name=file_name)
 
             try:
                 skill = Skill.objects.get(code__iexact=skill_code)

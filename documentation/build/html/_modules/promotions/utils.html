@@ -40,37 +40,37 @@
           <div class="body" role="main">
             
   <h1>Source code for promotions.utils</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">random</span>
 
 <span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="k">import</span> <span class="n">user_passes_test</span>
 
 
 <div class="viewcode-block" id="generate_random_password"><a class="viewcode-back" href="../../promotions.html#promotions.utils.generate_random_password">[docs]</a><span class="k">def</span> <span class="nf">generate_random_password</span><span class="p">(</span><span class="n">size</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">SystemRandom</span><span class="p">()</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">size</span><span class="p">))</span></div>
+    <span class="k">return</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">SystemRandom</span><span class="p">()</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="n">size</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="user_is_professor"><a class="viewcode-back" href="../../promotions.html#promotions.utils.user_is_professor">[docs]</a><span class="k">def</span> <span class="nf">user_is_professor</span><span class="p">(</span><span class="n">function</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">user_passes_test</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;professor&quot;</span><span class="p">))(</span><span class="n">function</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">user_passes_test</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s">&quot;professor&quot;</span><span class="p">))(</span><span class="n">function</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="force_encoding"><a class="viewcode-back" href="../../promotions.html#promotions.utils.force_encoding">[docs]</a><span class="k">def</span> <span class="nf">force_encoding</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
         <span class="k">pass</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;Utf-8&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;Utf-8&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
         <span class="k">pass</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;latin&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&quot;latin&quot;</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">UnicodeDecodeError</span><span class="p">:</span>
         <span class="k">pass</span>
 
-    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;latin&quot;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&quot;latin&quot;</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -113,7 +113,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>

@@ -14,7 +14,6 @@ from django.db import transaction
 
 from skills.models import Skill, StudentSkill, SkillHistory
 from examinations.models import Test, Answer, TestExercice, TestStudent, Context
-# @TODO verify: has been replaced: Exercice becomes Context
 from examinations import generation
 
 from promotions.models import Lesson
@@ -43,6 +42,16 @@ def lesson_test_online_close_open(request, lesson_pk, pk):
 
     return HttpResponseRedirect(reverse("professor:lesson_test_list", args=(lesson.pk,)))
 
+@user_is_professor
+@require_POST
+def lesson_test_online_enable(request, lesson_pk, pk):
+    lesson = get_object_or_404(Lesson, pk=lesson_pk)
+    test = get_object_or_404(Test, pk=pk)
+
+    test.enabled = True
+    test.save()
+
+    return HttpResponseRedirect(reverse("professor:lesson_test_list", args=(lesson.pk,)))
 
 @require_POST
 @user_is_professor
@@ -62,6 +71,7 @@ def lesson_test_add_json(request):
             lesson=lesson,
             name=data["name"],
             type=data["type"],
+            enabled=False
         )
 
         for skill_id in data["skills"]:
@@ -81,7 +91,7 @@ def lesson_test_add_json(request):
 
         # assign exercices when it's possible
         for test_exercice in test.testexercice_set.all():
-            exercices = test_exercice.skill.exercice_set.filter(approved=True, testable_online=True)
+            exercices = test_exercice.skill.context_set.filter(approved=True, testable_online=True)
             if not exercices.exists():
                 if test.fully_testable_online:
                     test.fully_testable_online = False
@@ -90,7 +100,7 @@ def lesson_test_add_json(request):
                 test_exercice.testable_online = False
 
                 # switch to offline exercices
-                exercices = test_exercice.skill.exercice_set.filter(approved=True, testable_online=False)
+                exercices = test_exercice.skill.context_set.filter(approved=True, testable_online=False)
 
                 if not exercices.exists():
                     test_exercice.save()
@@ -99,9 +109,9 @@ def lesson_test_add_json(request):
             test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
 
             # turn off generation for now
-            if False and generation.needs_to_be_generated(test_exercice.exercice.content):
-                variables = generation.get_variable_list(test_exercice.exercice.content)
-                test_exercice.rendered_content = generation.render(test_exercice.exercice.content, variables)
+            if False and generation.needs_to_be_generated(test_exercice.exercice.context):
+                variables = generation.get_variable_list(test_exercice.exercice.context)
+                test_exercice.rendered_content = generation.render(test_exercice.exercice.context, variables)
                 test_exercice.variables = json.dumps(variables)
 
             test_exercice.save()

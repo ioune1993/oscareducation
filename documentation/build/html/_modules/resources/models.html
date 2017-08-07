@@ -40,7 +40,7 @@
           <div class="body" role="main">
             
   <h1>Source code for resources.models</h1><div class="highlight"><pre>
-<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="c"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">unicode_literals</span>
 <span class="kn">from</span> <span class="nn">django.db</span> <span class="k">import</span> <span class="n">models</span>
 <span class="kn">from</span> <span class="nn">django.contrib.postgres.fields</span> <span class="k">import</span> <span class="n">JSONField</span>
@@ -53,63 +53,63 @@
 <span class="sd">&quot;&quot;&quot;resources models&quot;&quot;&quot;</span>
 
 
-<span class="c1">#main resource Model</span>
+<span class="c">#main resource Model</span>
 <div class="viewcode-block" id="Resource"><a class="viewcode-back" href="../../resources.html#promotions.forms.Resource">[docs]</a><span class="k">class</span> <span class="nc">Resource</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
 
-    <span class="c1">#@todo section is resource added from where (example : excercie, lesson ...)</span>
-    <span class="n">section</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="c1">#json fromat describe resource item</span>
+    <span class="c">#@todo section is resource added from where (example : excercie, lesson ...)</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span><span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="c">#json fromat describe resource item</span>
     <span class="n">content</span> <span class="o">=</span> <span class="n">JSONField</span><span class="p">()</span>
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">modified_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">added_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">modified_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="n">added_by</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 
 
 
-<span class="c1">#khanAcademy video reference data parsed from source url</span>
+<span class="c">#khanAcademy video reference data parsed from source url</span>
 
 <div class="viewcode-block" id="KhanAcademy"><a class="viewcode-back" href="../../resources.html#promotions.forms.KhanAcademy">[docs]</a><span class="k">class</span> <span class="nc">KhanAcademy</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
-    <span class="c1">#subject</span>
+    <span class="c">#subject</span>
     <span class="n">subject</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="n">topic</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">tutorial</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="c1">#youtube id</span>
-    <span class="n">youtube_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c">#youtube id</span>
+    <span class="n">youtube_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
     <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">duration</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">()</span>
-    <span class="n">fr_date_added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">fr_date_added</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
-        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;subject&#39;</span><span class="p">,</span> <span class="s1">&#39;topic&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">]</span></div>
+        <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;subject&#39;</span><span class="p">,</span> <span class="s">&#39;topic&#39;</span><span class="p">,</span> <span class="s">&#39;title&#39;</span><span class="p">]</span></div>
 
 
 
-<span class="c1">#ressource refrence from Sesamath</span>
+<span class="c">#ressource refrence from Sesamath</span>
 <div class="viewcode-block" id="Sesamath"><a class="viewcode-back" href="../../resources.html#promotions.forms.Sesamath">[docs]</a><span class="k">class</span> <span class="nc">Sesamath</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">classe_int</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">()</span>
     <span class="n">classe</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="c1"># cahier, manuel</span>
+    <span class="c"># cahier, manuel</span>
     <span class="n">ressource_kind</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
     <span class="n">chapitre</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="c1"># &quot;Fiche/Page&quot;</span>
+    <span class="c"># &quot;Fiche/Page&quot;</span>
     <span class="n">section_kind</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="n">year</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">year</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveSmallIntegerField</span><span class="p">(</span><span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="n">file_name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
-    <span class="n">on_oscar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">on_oscar</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">URLField</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Sesamath.ressource_kind_with_year"><a class="viewcode-back" href="../../resources.html#promotions.forms.Sesamath.ressource_kind_with_year">[docs]</a>    <span class="k">def</span> <span class="nf">ressource_kind_with_year</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">:</span>
-            <span class="k">return</span> <span class="sa">u</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> - </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ressource_kind</span><span class="p">)</span>
+            <span class="k">return</span> <span class="s">u&quot;%s - %s&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ressource_kind</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ressource_kind</span></div>
 
     <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s1">&#39;classe_int&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;year&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;ressource_kind&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;chapitre&#39;</span><span class="p">,</span>
-            <span class="s1">&#39;section_kind&#39;</span><span class="p">,</span>
+            <span class="s">&#39;classe_int&#39;</span><span class="p">,</span>
+            <span class="s">&#39;year&#39;</span><span class="p">,</span>
+            <span class="s">&#39;ressource_kind&#39;</span><span class="p">,</span>
+            <span class="s">&#39;chapitre&#39;</span><span class="p">,</span>
+            <span class="s">&#39;section_kind&#39;</span><span class="p">,</span>
         <span class="p">]</span></div>
 </pre></div>
 
@@ -153,7 +153,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>

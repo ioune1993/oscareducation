@@ -20,6 +20,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadReque
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, resolve_url
 from django.core.urlresolvers import reverse
+from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
@@ -29,17 +30,23 @@ from django.db.models import Count
 
 from skills.models import Skill, StudentSkill, CodeR
 from resources.models import KhanAcademy, Sesamath, Resource
-from examinations.models import Test, TestStudent, Context, BaseTest, TestExercice
+from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question
 from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
 from .models import Lesson, Stage
-from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm, TestUpdateForm, SesamathForm, ResourceForm
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm,\
+    TestUpdateForm, SesamathForm, ResourceForm, CSVForm
 from .utils import generate_random_password, user_is_professor, force_encoding
-
+import csv
 
 @user_is_professor
 def dashboard(request):
+    """
+    Return an HttpResponse to the dashboard of the professor
+    :param request: 
+    :return: 
+    """
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")).select_related("stage"),
         "no_menu": True,
@@ -48,6 +55,12 @@ def dashboard(request):
 
 @user_is_professor
 def lesson_detail(request, pk):
+    """
+    Get the details of a Lesson (students and heatmap)
+    :param request: 
+    :param pk: primary key of a Lesson 
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
 
     number_of_students = lesson.students.count()
@@ -100,6 +113,11 @@ def lesson_detail(request, pk):
 
 @user_is_professor
 def lesson_add(request):
+    """
+    Either return an HttpResponse with a LessonForm or create a new Lesson if POST method
+    :param request: 
+    :return: 
+    """
     form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
 
     if form.is_valid():
@@ -114,6 +132,12 @@ def lesson_add(request):
 
 @user_is_professor
 def lesson_update(request, pk):
+    """
+    Either return an HttpResponse with a LessonUpdateForm or update a Lesson if POST method
+    :param request: 
+    :param pk: 
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
 
     form = LessonUpdateForm(request.POST, instance=lesson) if request.method == "POST" else LessonUpdateForm(instance=lesson)
@@ -130,48 +154,119 @@ def lesson_update(request, pk):
 
 @user_is_professor
 def lesson_student_add(request, pk):
-
+    """
+    Add one or more students to a lesson : either with a CSV file (template provided) or manually 
+    :param request: 
+    :param pk: primary key of a Lesson
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
-
 
     # TODO: a professor can only see one of his lesson
 
     if request.method == "POST":
-        for i in filter(lambda x: x.startswith("first_name_"), request.POST.keys()):
-            number = i.split("_")[-1]
-            form = StudentAddForm({
-                "first_name": request.POST["first_name_" + number],
-                "last_name": request.POST["last_name_" + number],
-            })
+        # Check the content of request.POST to know if we use a csv file or the manual addition
+        if 'csvfile' in request.FILES:
+            form = CSVForm(request.POST, request.FILES)
+            if form.is_valid():
+                f = csv.DictReader(form.cleaned_data["csvfile"])
+                line_number = 2
+                for row in f:
 
-            if not form.is_valid():
-                print "ERROR: on student entry with number %s" % number, form.errors
-                continue
+                    try:
+                        newStudent = StudentAddForm({
+                            "first_name": row["NOM"],
+                            "last_name": row["PRENOM"],
+                        })
+                    except KeyError:
+                        messages.add_message(request, messages.ERROR, 'Erreur : les champs "NOM" et "PRENOM" n\' ont pas été '
+                                                                      'trouvés. Ne modifiez pas la première ligne '
+                                                                      'du fichier !')
+                        return render(request, "professor/lesson/student/add.haml", {
+                            "lesson": lesson,
+                        })
 
-            first_name = form.cleaned_data["first_name"]
-            last_name = form.cleaned_data["last_name"]
-            username = form.generate_student_username()
-            email = form.get_or_generate_email(username)
+                    if not newStudent.is_valid():
+                        messages.add_message(request, messages.ERROR, 'Erreur : l\'utilisateur à la ligne '+str(line_number)+
+                                             ' n\' a pas de nom ou de prénom. Uniquement les élèves des lignes '
+                                             'précédentes ont été importés.')
+                        return render(request, "professor/lesson/student/add.haml", {
+                            "lesson": lesson,
+                        })
 
-            with transaction.atomic():
-                user = User.objects.create_user(username=username,
-                                                email=email,
-                                                password=generate_random_password(15),
-                                                first_name=first_name,
-                                                last_name=last_name)
+                    first_name = newStudent.cleaned_data["first_name"]
+                    last_name = newStudent.cleaned_data["last_name"]
+                    username = newStudent.generate_student_username()
+                    email = newStudent.get_or_generate_email(username)
 
-                student = Student.objects.create(user=user)
-                student.lesson_set.add(lesson)
+                    with transaction.atomic():
+                        user = User.objects.create_user(username=username,
+                                                        email=email,
+                                                        password=generate_random_password(15),
+                                                        first_name=first_name,
+                                                        last_name=last_name)
+                        student = Student.objects.create(user=user)
+                        student.lesson_set.add(lesson)
 
-                for stage in lesson.stages_in_unchronological_order():
-                    for skill in stage.skills.all():
-                        StudentSkill.objects.create(
-                            student=student,
-                            skill=skill,
-                        )
+                        for stage in lesson.stages_in_unchronological_order():
+                            for skill in stage.skills.all():
+                                StudentSkill.objects.create(
+                                    student=student,
+                                    skill=skill,
+                                )
 
-                for test in Test.objects.filter(lesson=lesson, running=True):
-                    test.add_student(student)
+                        for test in Test.objects.filter(lesson=lesson, running=True):
+                            test.add_student(student)
+
+                        line_number += 1
+                if line_number == 2:
+                    messages.add_message(request, messages.ERROR,'Erreur : le fichier ne contient pas d\'élèves.')
+                    return render(request, "professor/lesson/student/add.haml", {
+                        "lesson": lesson, })
+            else:
+                messages.add_message(request, messages.ERROR, 'Erreur : le fichier fourni doit être en format .csv.')
+                return render(request, "professor/lesson/student/add.haml", {
+                "lesson": lesson,})
+
+            messages.add_message(request, messages.SUCCESS,
+                                 str(line_number - 2) + ' utilisateur(s) ont/a été importé(s) avec succès.')
+
+        elif 'last_name_0' in request.POST:
+            for i in filter(lambda x: x.startswith("first_name_"), request.POST.keys()):
+                number = i.split("_")[-1]
+                form = StudentAddForm({
+                    "first_name": request.POST["first_name_" + number],
+                    "last_name": request.POST["last_name_" + number],
+                })
+
+                if not form.is_valid():
+                    print "ERROR: on student entry with number %s" % number, form.errors
+                    continue
+
+                first_name = form.cleaned_data["first_name"]
+                last_name = form.cleaned_data["last_name"]
+                username = form.generate_student_username()
+                email = form.get_or_generate_email(username)
+
+                with transaction.atomic():
+                    user = User.objects.create_user(username=username,
+                                                    email=email,
+                                                    password=generate_random_password(15),
+                                                    first_name=first_name,
+                                                    last_name=last_name)
+
+                    student = Student.objects.create(user=user)
+                    student.lesson_set.add(lesson)
+
+                    for stage in lesson.stages_in_unchronological_order():
+                        for skill in stage.skills.all():
+                            StudentSkill.objects.create(
+                                student=student,
+                                skill=skill,
+                            )
+
+                    for test in Test.objects.filter(lesson=lesson, running=True):
+                        test.add_student(student)
 
         return HttpResponseRedirect(reverse("professor:lesson_detail", args=(lesson.pk,)))
 
@@ -179,9 +274,15 @@ def lesson_student_add(request, pk):
         "lesson": lesson,
     })
 
-
 @user_is_professor
 def lesson_student_detail(request, lesson_pk, pk):
+    """
+    Query a Student and a Lesson to display it in the detail page
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param pk: primary key of a Student
+    :return: 
+    """
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -194,6 +295,13 @@ def lesson_student_detail(request, lesson_pk, pk):
 
 @user_is_professor
 def lesson_student_update(request, lesson_pk, pk):
+    """
+    Display a form to change a Student's details or submit theses changes
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param pk: primary key of a Student
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     student = get_object_or_404(Student, pk=pk)
 
@@ -214,6 +322,14 @@ def lesson_student_update(request, lesson_pk, pk):
 
 @user_is_professor
 def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
+    """
+    Query a Student, Lesson and a Test and display it in the test detail page
+    :param request: 
+    :param pk: primary key of a Student
+    :param lesson_pk: primary key of a Lesson
+    :param test_pk: primary key of a Test
+    :return: 
+    """
     # TODO: a professor can only see one of his students
 
     student = get_object_or_404(Student, pk=pk)
@@ -228,6 +344,12 @@ def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
 
 @user_is_professor
 def lesson_test_list(request, pk):
+    """
+    Query a Lesson to display its associated tests
+    :param request: 
+    :param pk: primary key of a Lesson 
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
 
     return render(request, "professor/lesson/test/list.haml", {
@@ -238,6 +360,12 @@ def lesson_test_list(request, pk):
 
 @user_is_professor
 def lesson_test_add(request, pk):
+    """
+    Query a Lesson to add tests to it
+    :param request: 
+    :param pk: primary key of a Lesson
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
 
     return render(request, "professor/lesson/test/add.haml", {
@@ -247,6 +375,13 @@ def lesson_test_add(request, pk):
 
 @user_is_professor
 def lesson_test_update(request, lesson_pk, pk):
+    """
+    Display a form to update a BaseTest in a Lesson
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param pk: primary key of a BaseTest
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(BaseTest, pk=pk)
 
@@ -267,6 +402,13 @@ def lesson_test_update(request, lesson_pk, pk):
 
 
 def lesson_skill_detail(request, lesson_pk, skill_code):
+    """
+    Query a Lesson and a Skill to display the details of a skill
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param skill_code: code of a Skill
+    :return: 
+    """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)
     student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by("student__user__last_name", "student__user__first_name")
@@ -289,6 +431,12 @@ def lesson_skill_detail(request, lesson_pk, skill_code):
 @require_POST
 @user_is_professor
 def regenerate_student_password(request):
+    """
+    Regenerate a password for a student
+    :param request: 
+    :return: 
+    """
+    # TODO : TO DELETE ?
     data = json.load(request)
 
     student = get_object_or_404(Student, id=data["student_id"])
@@ -301,39 +449,161 @@ def regenerate_student_password(request):
 
 @user_is_professor
 def update_pedagogical_ressources(request, slug):
-    """ add update and select resource"""
-
+    """
+    Display a form to update a Resource
+    :param request: 
+    :param slug: slug of a Skill
+    :return: 
+    """
     skill = get_object_or_404(Skill, code=slug)
 
     resource_form = ResourceForm()
-    KhanAcademy_form =  KhanAcademyForm()
 
-    personal_resource = skill.resource.filter(added_by_id=request.user,section="personal_resource")
-    other_resource = skill.resource.filter(added_by_id=request.user, section="other_resource")
-    exercice_resource = skill.resource.filter(added_by_id=request.user, section="exercice_resource")
-    lesson_resource = skill.resource.filter(added_by_id=request.user, section="lesson_resource")
+    personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource", skill=skill)
 
+    khanacademy_skill_form = KhanAcademyForm()
+    sesamath_reference_form = SesamathForm()
+    synthese_form = SyntheseForm()
 
+    khanacademy_references = KhanAcademy.objects.all()
 
+    sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="manuel")
+    sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="cahier")
 
-    return render(request, "professor/skill/update_pedagogical_resources.haml",{
+    if request.method == "GET":
+        return render(request, "professor/skill/update_pedagogical_resources.haml", {
+            "resource_form": resource_form,
+            "khanacademy_skill_form": khanacademy_skill_form,
+            "khanacademy_references": khanacademy_references,
+            "sesamath_reference_form": sesamath_reference_form,
+            "sesamath_references_manuals": sesamath_references_manuals,
+            "sesamath_references_cahiers": sesamath_references_cahiers,
+            "synthese_form": synthese_form,
+            "personal_resource": personal_resource,
+            "object": skill,
+        })
 
-        "skill":skill,
-        "personal_resources": personal_resource,
-        "other_resources": other_resource,
-        "exercice_resources": exercice_resource,
-        "lesson_resources": lesson_resource,
-        "resource_form":resource_form,
-        "KhanAcademy_form":KhanAcademy_form,
+    assert request.method == "POST"
+
+    assert int(request.POST["added_by"]) == request.user.pk
+
+    if request.POST["form_type"] in ("personal_resource", "lesson_resource", "exercice_resource", "other_resource"):
+        with transaction.atomic():
+            resource_form = ResourceForm(request.POST, request.FILES)
+
+            if resource_form.is_valid():
+                resource = resource_form.save()
+
+                if not resource.author:
+                    resource.author = unicode(request.user.professor)
+                    resource.save()
+
+                for i in filter(lambda x: x.startswith("link_link_"), request.POST.keys()):
+                    number = i.split("_")[-1]
+                    link = request.POST["link_link_" + number]
+                    title = request.POST["link_title_" + number]
+                    if not title:
+                        try:
+                            b = mechanize.Browser()
+                            b.open(link)
+                            title = b.title()
+                        except Exception as e:
+                            import traceback
+                            traceback.print_exc(file=sys.stdout)
+                            print e
+                            print "Fail to get title for %s" % link
+
+                    rlf = ResourceForm({
+                        "resource": resource.pk,
+                        "link": link,
+                        "title": force_encoding(title),
+                        "kind": request.POST["link_kind_" + number],
+                        "added_by": request.user.pk,
+                    })
+
+                    if rlf.is_valid():
+                        rlf.save()
+                    else:
+                        raise Exception("Resource Link is unvalid: %s" % rlf.errors)
+
+                for i in filter(lambda x: x.startswith("file_file_"), request.FILES.keys()):
+                    number = i.split("_")[-1]
+                    rff = ResourceForm({
+                        "resource": resource.pk,
+                        "title": force_encoding(request.POST["file_title_" + number]),
+                        "kind": request.POST["file_kind_" + number],
+                        "added_by": request.user.pk,
+                    },{
+                        "file": request.FILES["file_file_" + number],
+                    })
+
+                    if rff.is_valid():
+                        rff.save()
+                    else:
+                        raise Exception("Resource Link is unvalid: %s" % rff.errors)
+
+                return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+            else:
+                print resource_form.errors
+
+    elif request.POST["form_type"] == "khanacademy_skill":
+        khanacademy_skill_form = KhanAcademyForm(request.POST)
+
+        if khanacademy_skill_form.is_valid():
+            ref = khanacademy_skill_form.reference
+            KhanAcademy.objects.create(
+                youtube_id=ref.youtube_id,
+                url="https://fr.khanacademy.org/v/%s" % ref.slug,
+                skill=skill,
+                added_by=request.user,
+                reference=ref,
+            )
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+    elif request.POST["form_type"] == "sesamath_reference":
+        sesamath_reference_form = SesamathForm(request.POST)
+
+        if sesamath_reference_form.is_valid():
+            ref = Sesamath.objects.get(id=sesamath_reference_form.cleaned_data["ref_pk"])
+            Sesamath.objects.create(
+                skill=skill,
+                reference=ref,
+                added_by=request.user,
+            )
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+    elif request.POST["form_type"] == "synthese_form":
+        synthese_form = SyntheseForm(request.POST)
+        if synthese_form.is_valid():
+            skill.oscar_synthese = synthese_form.cleaned_data["synthese"]
+            skill.modified_by = request.user
+            skill.save()
+            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
+
+    return render(request, "professor/skill/update_pedagogical_resources.haml", {
+        "resource_form": resource_form,
+        "khanacademy_skill_form": khanacademy_skill_form,
+        "khanacademy_references": khanacademy_references,
+        "sesamath_reference_form": sesamath_reference_form,
+        "sesamath_references_manuals": sesamath_references_manuals,
+        "sesamath_references_cahiers": sesamath_references_cahiers,
+        "synthese_form": synthese_form,
+        "personal_resource": personal_resource,
+        "object": skill,
     })
 
 
 @user_is_professor
-def remove_pedagogical_ressources(request, resource):
-
-    r = Resource.objects.get(id=resource)
-    r.delete()
-    """kind_to_model = {
+def remove_pedagogical_ressources(request, kind, id):
+    """
+    Remove a Sesamath, KhanAcademy or Resource object 
+    :param request: 
+    :param kind: value equal either to "Sesamath", "KhanAcademy" or "Resource" 
+    :param id: id of an object of the class given by kind
+    :return: 
+    """
+    kind_to_model = {
         "sesamath": Sesamath,
         "khanacademy": KhanAcademy,
         "resource": Resource,
@@ -357,14 +627,21 @@ def remove_pedagogical_ressources(request, resource):
 
     skill = object.skill
 
-    object.delete()"""
+    object.delete()
 
-    #return HttpResponseRedirect(reverse("professor:skill_update_pedagogical_ressources", args=(skill.code,)))
+    return HttpResponseRedirect(reverse("professor:skill_update_pedagogical_ressources", args=(skill.code,)))
 
 
 @require_POST
 @user_is_professor
 def validate_student_skill(request, lesson_pk, student_skill):
+    """
+    Validate a Skill for a Student
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param student_skill: id of a StudentSkill
+    :return: 
+    """
     # TODO: a professor can only do this on one of his students
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
 
@@ -382,6 +659,13 @@ def validate_student_skill(request, lesson_pk, student_skill):
 @require_POST
 @user_is_professor
 def unvalidate_student_skill(request, lesson_pk, student_skill):
+    """
+    Invalidate a Skill for a Student
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param student_skill: id of a StudentSkill
+    :return: 
+    """
     # TODO: a professor can only do this on one of his students
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
 
@@ -399,6 +683,13 @@ def unvalidate_student_skill(request, lesson_pk, student_skill):
 @require_POST
 @user_is_professor
 def default_student_skill(request, lesson_pk, student_skill):
+    """
+    Set a default value for a Student's Skill
+    :param request: 
+    :param lesson_pk: primary key of a Lesson
+    :param student_skill: id of a StudentSkill
+    :return: 
+    """
     # TODO: a professor can only do this on one of his students
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
 
@@ -415,6 +706,12 @@ def default_student_skill(request, lesson_pk, student_skill):
 
 @user_is_professor
 def lesson_tests_and_skills(request, lesson_id):
+    """
+    
+    :param request: 
+    :param lesson_id: id of a Lesson 
+    :return: 
+    """
     # TODO: a professor can only see one of his lesson
 
     lesson = get_object_or_404(Lesson, id=lesson_id)
@@ -436,7 +733,9 @@ def lesson_tests_and_skills(request, lesson_id):
 def exercice_list(request):
     return render(request, 'professor/exercice/list.haml', {
         "exercice_list": Context.objects.select_related('skill').order_by("skill__stage__level", "skill__code", "id"),
-        "skills_without_exercices": Skill.objects.filter(exercice__isnull=True).order_by("skill__stage__level", "-skill__code", "id"),
+        # All the skills without any existing context
+        # We use context with lower case to indicate the table Context that refers to Skills
+        "skills_without_exercices": Skill.objects.filter(context__isnull=True).order_by("stage__level", "-code", "id"),
     })
 
 
@@ -450,7 +749,9 @@ def exercice_to_approve_list(request):
 # @require_POST
 @user_is_professor
 def students_password_page(request, pk):
-    # TODO: a professor can only do this on one of his student
+    """
+    Regenerate a code for every student of a lesson (to allow him/her to create a new password)    
+    """
     lesson = get_object_or_404(Lesson, pk=pk)
 
     students = []
@@ -461,13 +762,33 @@ def students_password_page(request, pk):
                 "last_name": student.user.last_name,
                 "first_name": student.user.first_name,
                 "username": student.user.username,
-                "password": student.generate_new_password(),
+                "password": student.generate_new_code(),
             })
 
     return render(request, "professor/lesson/student/password_page.haml", {
         "students": students
     })
 
+@user_is_professor
+def single_student_password_page(request, lesson_pk, student_pk):
+    """
+    Regenerate a code for a student (to allow him/her to create a new password)    
+    """
+
+    students = []
+
+    with transaction.atomic():
+        student = get_object_or_404(Student, pk=student_pk)
+        students.append({
+            "last_name": student.user.last_name,
+            "first_name": student.user.first_name,
+            "username": student.user.username,
+            "password": student.generate_new_code(),
+        })
+
+    return render(request, "professor/lesson/student/password_page.haml", {
+        "students": students
+    })
 
 @require_POST
 @user_is_professor
@@ -494,6 +815,13 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": question["answers"],
             }
 
+        # No provided answer if corrected by a Professor
+        elif question["type"] == "professor":
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                "answers": "",
+            }
+
         else:
             answers = OrderedDict()
             for x in question["answers"]:
@@ -517,7 +845,7 @@ def exercice_validation_form_validate_exercice(request):
             }
         }, indent=4), content_type="application/json")
 
-    rendering = render(request, "examinations/exercice_rendering.haml", {
+    rendering = render(request, "professor/exercice/exercice_rendering.haml", {
         "content": "",
         "questions": questions,
     })
@@ -529,6 +857,7 @@ def exercice_validation_form_validate_exercice(request):
         },
         "rendering": rendering.content,
     }, indent=4), content_type="application/json")
+
 
 
 @require_POST
@@ -545,17 +874,35 @@ def exercice_validation_form_submit(request, pk=None):
     else:
         exercice = None
 
+    # First, Context creation
+    with transaction.atomic():
+        if exercice is not None:
+            exercice.skill = Skill.objects.get(code=skill_code)
+            exercice.context = html
+            exercice.testable_online = testable_online
+            exercice.save()
+        else:
+            exercice = Context.objects.create(
+                file_name="submitted",
+                skill=Skill.objects.get(code=skill_code),
+                context=html,
+                testable_online=testable_online,
+                added_by=request.user,
+            )
+
+    # Then, Question(s) creation, and links in List_question with the Context created
     if testable_online:
-        questions = CommentedMap()
         for question in data["questions"]:
+            new_question_answers = None
+
             if question["type"] == "text":
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": [x["text"] for x in question["answers"]],
                 }
 
             elif question["type"].startswith("math"):
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": [x["latex"] for x in question["answers"] if x.get("latex")],
                 }
@@ -573,9 +920,15 @@ def exercice_validation_form_submit(request, pk=None):
                         del answer["text"]
                     answers.append(answer)
 
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": question["answers"],
+                }
+
+            elif question["type"] == "professor":
+                new_question_answers = {
+                    "type": question["type"],
+                    "answers": "",
                 }
 
             else:
@@ -583,14 +936,32 @@ def exercice_validation_form_submit(request, pk=None):
                 for i in question["answers"]:
                     answers[i["text"]] = i["correct"]
 
-                questions[question["instructions"]] = {
+                new_question_answers = {
                     "type": question["type"],
                     "answers": answers,
                 }
+            yaml_file = ruamel.yaml.round_trip_dump(new_question_answers)
 
-        yaml_file = ruamel.yaml.round_trip_dump(questions)
-    else:
-        yaml_file = ""
+            # Professor info (source) is optional
+            if "source" in question:
+                with transaction.atomic():
+                    new_question, created = Question.objects.get_or_create(
+                        description=question["instructions"],
+                        answer=yaml_file,
+                        source=question["source"],
+                    )
+            else:
+                with transaction.atomic():
+                    new_question, created = Question.objects.get_or_create(
+                        description=question["instructions"],
+                        answer=yaml_file,
+                    )
+
+            with transaction.atomic():
+                link, created = List_question.objects.get_or_create(
+                    context_id=exercice.id,
+                    question_id=new_question.id,
+                )
 
     if data.get("image"):
         exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
@@ -618,25 +989,6 @@ def exercice_validation_form_submit(request, pk=None):
 
         assert not os.path.exists(os.path.join(exercices_folder, name))
         open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
-
-    with transaction.atomic():
-        if exercice is not None:
-            exercice.skill = Skill.objects.get(code=skill_code)
-            exercice.answer = yaml_file
-            exercice.content = html
-            exercice.testable_online = testable_online
-            exercice.modified_by = request.user
-
-            exercice.save()
-        else:
-            exercice = Context.objects.create(
-                file_name="submitted",
-                skill=Skill.objects.get(code=skill_code),
-                answer=yaml_file,
-                content=html,
-                testable_online=testable_online,
-                added_by=request.user,
-            )
 
     return HttpResponse(json.dumps({
         "url": reverse('professor:exercice_detail', args=(exercice.id,)),
@@ -669,7 +1021,7 @@ def exercice_validation_form_validate_exercice_yaml(request):
             }
         }, indent=4), content_type="application/json")
 
-    rendering = render(request, "examinations/exercice_rendering.haml", {
+    rendering = render(request, "professor/exercice/exercice_rendering.haml", {
         "content": "",
         "questions": exercice,
     })
@@ -705,6 +1057,7 @@ def exercice_test(request, pk):
 
 @user_is_professor
 def exercice_update(request, pk):
+
     exercice = get_object_or_404(Context, pk=pk)
 
     if exercice.added_by != request.user and not request.user.is_superuser:
@@ -719,38 +1072,57 @@ def exercice_update(request, pk):
 
 @user_is_professor
 def exercice_update_json(request, pk):
-    exercice = get_object_or_404(Context, pk=pk)
+    """
+    
+    :param request: 
+    :param pk: primary key of a Context 
+    :return: 
+    """
+    context = get_object_or_404(Context, pk=pk)
 
-    if exercice.added_by != request.user and not request.user.is_superuser:
+    if context.added_by != request.user and not request.user.is_superuser:
         return redirect_to_login(request.get_full_path(), resolve_url(settings.LOGIN_URL), REDIRECT_FIELD_NAME)
 
     questions = []
-    for text, data in exercice.get_questions().items():
-        question_type = data["type"]
+    # TODO Create a type field in Question (stored with the answers for the time being)
+    for question in context.get_questions():
+        # Each question has a answer field, which is a text formatted with YAML,
+        # containing a type and its (true/false) answers attached to it
+        question_type = question.get_answer()["type"]
+        answers = None
 
-        if data["type"] == "graph":
-            answers = data["answers"]
-        elif isinstance(data["answers"], list):
-            answers = [{"text": key, "correct": True} for key in data["answers"]]
+        if question_type == "graph":
+            answers = question.get_answer()["answers"]
+        elif question_type == "professor":
+            answers = ""
+        elif isinstance(question.get_answer()["answers"], list):
+            answers = [{"text": key, "correct": True} for key in question.get_answer()["answers"]]
         else:  # assuming dict
-            answers = [{"text": key, "correct": value} for key, value in data["answers"].items()]
+            answers = [{"text": key, "correct": value} for key, value in question.get_answer()["answers"].items()]
 
         questions.append({
-            "instructions": text,
+            "instructions": question.description,
             "type": question_type,
             "answers": answers,
+            "source": question.source,
         })
 
     return HttpResponse(json.dumps({
-        "skillCode": exercice.skill.code,
-        "html": exercice.content,
-        "yaml": exercice.answer,
+        "skillCode": context.skill.code,
+        "html": context.context,
         "questions": questions,
     }))
 
 
 @user_is_professor
 def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
+    """
+    Add an exercice for a test
+    :param request: 
+    :param exercice_pk: primary key of an exercice
+    :param test_exercice_pk: primary key of a TestExercice
+    :return: 
+    """
     exercice = get_object_or_404(Context, pk=exercice_pk)
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
 
@@ -758,6 +1130,9 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 
     with transaction.atomic():
         test_exercice.exercice = exercice
+        if exercice.testable_online:
+            test_exercice.testable_online = True
+            test_exercice.test.fully_testable_online = True
         test_exercice.save()
 
     return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(test_exercice.test.lesson.pk, test_exercice.test.pk,)) + "#%s" % test_exercice_pk)
@@ -765,8 +1140,15 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 
 @user_is_professor
 def exercice_adapt_test_exercice(request, test_exercice_pk):
+    """
+    
+    :param request: 
+    :param test_exercice_pk: primary key of a TestExercice
+    :return: 
+    """
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
     exercice = test_exercice.exercice
+    new_exercice = None
 
     # user shouldn't end up there in that situation but we never know
     if exercice is None:
@@ -777,19 +1159,32 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
     with transaction.atomic():
         new_exercice = Context.objects.create(
             file_name="adapted",
-            content=exercice.content,
-            answer=exercice.answer,
+            context=exercice.context,
             skill=exercice.skill,
             testable_online=exercice.testable_online,
             approved=exercice.approved,
             added_by=request.user,
         )
 
-        return HttpResponseRedirect(reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, exercice.skill))
+    questions = exercice.get_questions()
+
+    for question in questions:
+        with transaction.atomic():
+            link = List_question.objects.create(
+                context_id=new_exercice.id,
+                question_id=question.id,
+            )
+
+    return HttpResponseRedirect(reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, exercice.skill.code))
 
 
 @user_is_professor
 def contribute_page(request):
+    """
+    Display a ResourceForm or submit it 
+    :param request: 
+    :return: 
+    """
     data = {x.short_name: x for x in Stage.objects.all()}
 
     if request.method == "POST":
@@ -811,6 +1206,12 @@ def contribute_page(request):
 
 
 def global_resources_delete(request, pk):
+    """
+    Delete a Resource
+    :param request: 
+    :param pk: primary key of a Resource
+    :return: 
+    """
     gr = get_object_or_404(Resource, pk=pk)
 
     if request.user != gr.added_by:

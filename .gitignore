@@ -5,3 +5,4 @@ db.sqlite3
 oscar/settings_local.py
 *.swo
 .idea/
+*/migrations/

@@ -70,4 +70,6 @@ urlpatterns = [
     url(r'^exercices/adapt_exercice/(?P<test_exercice_pk>\d+)/$', views.exercice_adapt_test_exercice, name='exercice_adapt_test_exercice'),
 
     url(r'^lesson/(?P<pk>\d+)/students_password_page/$', views.students_password_page, name='lesson_student_password_page'),
+    url(r'^lesson/(?P<lesson_pk>\d+)/students_password_page/(?P<student_pk>\d+)/$', views.single_student_password_page,
+        name='single_student_password_page'),
 ]

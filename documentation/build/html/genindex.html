@@ -51,6 +51,7 @@
  | <a href="#E"><strong>E</strong></a>
  | <a href="#F"><strong>F</strong></a>
  | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
  | <a href="#K"><strong>K</strong></a>
  | <a href="#L"><strong>L</strong></a>
@@ -74,12 +75,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="skills.html#skills.models.StudentSkill.acquired">acquired (skills.models.StudentSkill attribute)</a>
 </li>
-      <li><a href="examinations.html#examinations.models.Context.added_by">added_by (examinations.models.Context attribute)</a>
-
-      <ul>
-        <li><a href="resources.html#resources.models.Resource.added_by">(resources.models.Resource attribute)</a>
+      <li><a href="examinations.html#examinations.models.Test.add_student">add_student() (examinations.models.Test method)</a>
 </li>
-      </ul></li>
+      <li><a href="resources.html#resources.models.Resource.added_by">added_by (resources.models.Resource attribute)</a>
+</li>
       <li><a href="examinations.html#examinations.models.Context.added_by_id">added_by_id (examinations.models.Context attribute)</a>
 
       <ul>
@@ -98,13 +97,9 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="examinations.html#examinations.models.TestExercice.answer_set">answer_set (examinations.models.TestExercice attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.TestStudent.answer_set">(examinations.models.TestStudent attribute)</a>
-</li>
-      </ul></li>
       <li><a href="examinations.html#examinations.models.Context.approved">approved (examinations.models.Context attribute)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.Answer.assess">assess() (examinations.models.Answer method)</a>
 </li>
       <li><a href="authentification.html#module-authentification">authentification (module)</a>
 </li>
@@ -131,6 +126,8 @@
       <li><a href="end_test_poll.html#end_test_poll.forms.StudentPollForm.base_fields">base_fields (end_test_poll.forms.StudentPollForm attribute)</a>
 
       <ul>
+        <li><a href="promotions.html#promotions.forms.CSVForm.base_fields">(promotions.forms.CSVForm attribute)</a>
+</li>
         <li><a href="promotions.html#promotions.forms.KhanAcademyForm.base_fields">(promotions.forms.KhanAcademyForm attribute)</a>
 </li>
         <li><a href="promotions.html#promotions.forms.LessonForm.base_fields">(promotions.forms.LessonForm attribute)</a>
@@ -150,35 +147,21 @@
         <li><a href="promotions.html#promotions.forms.TestUpdateForm.base_fields">(promotions.forms.TestUpdateForm attribute)</a>
 </li>
       </ul></li>
-      <li><a href="examinations.html#examinations.models.BaseTest">BaseTest (class in examinations.models)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="examinations.html#examinations.models.BaseTest">BaseTest (class in examinations.models)</a>
+</li>
       <li><a href="examinations.html#examinations.models.BaseTest.DoesNotExist">BaseTest.DoesNotExist</a>
 </li>
       <li><a href="examinations.html#examinations.models.BaseTest.MultipleObjectsReturned">BaseTest.MultipleObjectsReturned</a>
 </li>
-      <li><a href="examinations.html#examinations.models.Test.basetest_ptr">basetest_ptr (examinations.models.Test attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.TestFromClass.basetest_ptr">(examinations.models.TestFromClass attribute)</a>
-</li>
-      </ul></li>
       <li><a href="examinations.html#examinations.models.Test.basetest_ptr_id">basetest_ptr_id (examinations.models.Test attribute)</a>
 
       <ul>
         <li><a href="examinations.html#examinations.models.TestFromClass.basetest_ptr_id">(examinations.models.TestFromClass attribute)</a>
 </li>
       </ul></li>
-      <li><a href="promotions.html#promotions.models.Lesson.basetest_set">basetest_set (promotions.models.Lesson attribute)</a>
-
-      <ul>
-        <li><a href="skills.html#skills.models.Skill.basetest_set">(skills.models.Skill attribute)</a>
-</li>
-      </ul></li>
       <li><a href="promotions.html#promotions.cbgv.BaseTestDelete">BaseTestDelete (class in promotions.cbgv)</a>
-</li>
-      <li><a href="skills.html#skills.models.SkillHistory.by_who">by_who (skills.models.SkillHistory attribute)</a>
 </li>
       <li><a href="skills.html#skills.models.SkillHistory.by_who_id">by_who_id (skills.models.SkillHistory attribute)</a>
 </li>
@@ -188,6 +171,8 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="examinations.html#examinations.models.Test.can_change_exercice">can_change_exercice() (examinations.models.Test method)</a>
+</li>
       <li><a href="resources.html#resources.models.Sesamath.chapitre">chapitre (resources.models.Sesamath attribute)</a>
 </li>
       <li><a href="resources.html#resources.models.Sesamath.classe">classe (resources.models.Sesamath attribute)</a>
@@ -197,6 +182,10 @@
       <li><a href="promotions.html#promotions.forms.StudentAddForm.clean_email">clean_email() (promotions.forms.StudentAddForm method)</a>
 </li>
       <li><a href="promotions.templatetags.html#promotions.templatetags.lesson_tags.clean_file_name">clean_file_name() (in module promotions.templatetags.lesson_tags)</a>
+</li>
+      <li><a href="promotions.html#promotions.forms.StudentAddForm.clean_first_name">clean_first_name() (promotions.forms.StudentAddForm method)</a>
+</li>
+      <li><a href="promotions.html#promotions.forms.StudentAddForm.clean_last_name">clean_last_name() (promotions.forms.StudentAddForm method)</a>
 </li>
       <li><a href="promotions.html#promotions.forms.KhanAcademyForm.clean_url">clean_url() (promotions.forms.KhanAcademyForm method)</a>
 </li>
@@ -208,6 +197,8 @@
         <li><a href="users.html#users.models.Student.code">(users.models.Student attribute)</a>
 </li>
       </ul></li>
+      <li><a href="authentification.html#authentification.views.code">code() (in module authentification.views)</a>
+</li>
       <li><a href="users.html#users.models.Student.code_created_at">code_created_at (users.models.Student attribute)</a>
 </li>
       <li><a href="skills.html#skills.models.CodeR">CodeR (class in skills.models)</a>
@@ -216,24 +207,16 @@
 </li>
       <li><a href="skills.html#skills.models.CodeR.MultipleObjectsReturned">CodeR.MultipleObjectsReturned</a>
 </li>
-      <li><a href="skills.html#skills.models.Section.coder_set">coder_set (skills.models.Section attribute)</a>
-</li>
       <li><a href="resources.html#resources.models.Resource.content">content (resources.models.Resource attribute)</a>
-</li>
-      <li><a href="skills.html#skills.models.SkillHistory.content_type">content_type (skills.models.SkillHistory attribute)</a>
-</li>
-      <li><a href="skills.html#skills.models.SkillHistory.content_type_id">content_type_id (skills.models.SkillHistory attribute)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="skills.html#skills.models.SkillHistory.content_type_id">content_type_id (skills.models.SkillHistory attribute)</a>
+</li>
       <li><a href="examinations.html#examinations.models.Context">Context (class in examinations.models)</a>
 </li>
       <li><a href="examinations.html#examinations.models.Context.context">context (examinations.models.Context attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.List_question.context">(examinations.models.List_question attribute)</a>
 </li>
-      </ul></li>
       <li><a href="examinations.html#examinations.models.Context.DoesNotExist">Context.DoesNotExist</a>
 </li>
       <li><a href="examinations.html#examinations.models.Context.MultipleObjectsReturned">Context.MultipleObjectsReturned</a>
@@ -248,11 +231,11 @@
         <li><a href="promotions.html#promotions.cbgv.LessonStudentListView.context_object_name">(promotions.cbgv.LessonStudentListView attribute)</a>
 </li>
       </ul></li>
-      <li><a href="skills.html#skills.models.Skill.context_set">context_set (skills.models.Skill attribute)</a>
-</li>
       <li><a href="examinations.html#examinations.admin.ContextAdmin">ContextAdmin (class in examinations.admin)</a>
 </li>
       <li><a href="promotions.html#promotions.views.contribute_page">contribute_page() (in module promotions.views)</a>
+</li>
+      <li><a href="authentification.html#authentification.views.create_password">create_password() (in module authentification.views)</a>
 </li>
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.created_at">created_at (end_test_poll.models.StudentPoll attribute)</a>
 
@@ -268,6 +251,8 @@
         <li><a href="resources.html#resources.models.Resource.created_at">(resources.models.Resource attribute)</a>
 </li>
       </ul></li>
+      <li><a href="promotions.html#promotions.forms.CSVForm">CSVForm (class in promotions.forms)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -287,6 +272,8 @@
       <li><a href="end_test_poll.html#end_test_poll.forms.StudentPollForm.declared_fields">declared_fields (end_test_poll.forms.StudentPollForm attribute)</a>
 
       <ul>
+        <li><a href="promotions.html#promotions.forms.CSVForm.declared_fields">(promotions.forms.CSVForm attribute)</a>
+</li>
         <li><a href="promotions.html#promotions.forms.KhanAcademyForm.declared_fields">(promotions.forms.KhanAcademyForm attribute)</a>
 </li>
         <li><a href="promotions.html#promotions.forms.LessonForm.declared_fields">(promotions.forms.LessonForm attribute)</a>
@@ -312,8 +299,6 @@
 </li>
       <li><a href="promotions.html#promotions.views.default_student_skill">default_student_skill() (in module promotions.views)</a>
 </li>
-      <li><a href="skills.html#skills.models.Skill.depends_on">depends_on (skills.models.Skill attribute)</a>
-</li>
       <li><a href="examinations.html#examinations.models.Question.description">description (examinations.models.Question attribute)</a>
 
       <ul>
@@ -321,6 +306,8 @@
 </li>
       </ul></li>
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.difficulties">difficulties (end_test_poll.models.StudentPoll attribute)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.Test.display_test_type">display_test_type() (examinations.models.Test method)</a>
 </li>
       <li><a href="resources.html#resources.models.KhanAcademy.duration">duration (resources.models.KhanAcademy attribute)</a>
 </li>
@@ -348,6 +335,12 @@
 </li>
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.enjoyed_oscar">enjoyed_oscar (end_test_poll.models.StudentPoll attribute)</a>
 </li>
+      <li><a href="examinations.html#examinations.models.Answer.evaluate">evaluate() (examinations.models.Answer method)</a>
+
+      <ul>
+        <li><a href="examinations.html#examinations.models.Question.evaluate">(examinations.models.Question method)</a>
+</li>
+      </ul></li>
       <li><a href="examinations.html#module-examinations">examinations (module)</a>
 </li>
       <li><a href="examinations.html#module-examinations.admin">examinations.admin (module)</a>
@@ -358,10 +351,10 @@
 </li>
       <li><a href="examinations.html#module-examinations.models">examinations.models (module)</a>
 </li>
-      <li><a href="examinations.html#module-examinations.tests">examinations.tests (module)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="examinations.html#module-examinations.tests">examinations.tests (module)</a>
+</li>
       <li><a href="examinations.html#module-examinations.validate">examinations.validate (module)</a>
 </li>
       <li><a href="examinations.html#module-examinations.views">examinations.views (module)</a>
@@ -369,8 +362,6 @@
       <li><a href="examinations.html#examinations.apps.ExaminationsConfig">ExaminationsConfig (class in examinations.apps)</a>
 </li>
       <li><a href="end_test_poll.html#end_test_poll.forms.StudentPollForm.Meta.exclude">exclude (end_test_poll.forms.StudentPollForm.Meta attribute)</a>
-</li>
-      <li><a href="examinations.html#examinations.models.TestExercice.exercice">exercice (examinations.models.TestExercice attribute)</a>
 </li>
       <li><a href="promotions.html#promotions.views.exercice_adapt_test_exercice">exercice_adapt_test_exercice() (in module promotions.views)</a>
 </li>
@@ -438,13 +429,31 @@
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="examinations.html#examinations.models.Test.generate_dependencies_test">generate_dependencies_test() (examinations.models.Test method)</a>
+</li>
+      <li><a href="users.html#users.models.Student.generate_new_code">generate_new_code() (users.models.Student method)</a>
+</li>
       <li><a href="promotions.html#promotions.utils.generate_random_password">generate_random_password() (in module promotions.utils)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.Test.generate_skills_dependencies_test">generate_skills_dependencies_test() (examinations.models.Test method)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.Test.generate_skills_test">generate_skills_test() (examinations.models.Test method)</a>
 </li>
       <li><a href="promotions.html#promotions.forms.StudentAddForm.generate_student_username">generate_student_username() (promotions.forms.StudentAddForm method)</a>
 </li>
+      <li><a href="examinations.html#examinations.models.Question.get_answer">get_answer() (examinations.models.Question method)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.Answer.get_answers">get_answers() (examinations.models.Answer method)</a>
+
+      <ul>
+        <li><a href="examinations.html#examinations.models.Question.get_answers">(examinations.models.Question method)</a>
+</li>
+      </ul></li>
       <li><a href="promotions.html#promotions.cbgv.LessonMixin.get_context_data">get_context_data() (promotions.cbgv.LessonMixin method)</a>
 </li>
       <li><a href="promotions.html#promotions.cbgv.LessonMixin.get_lesson">get_lesson() (promotions.cbgv.LessonMixin method)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.TestStudent.get_maybe_answer_list">get_maybe_answer_list() (examinations.models.TestStudent method)</a>
 </li>
       <li><a href="examinations.html#examinations.models.Answer.get_next_by_answer_datetime">get_next_by_answer_datetime() (examinations.models.Answer method)</a>
 </li>
@@ -510,11 +519,17 @@
 </li>
       <li><a href="users.html#users.models.AuthUserManager.get_queryset">get_queryset() (users.models.AuthUserManager method)</a>
 </li>
+      <li><a href="examinations.html#examinations.models.Context.get_questions">get_questions() (examinations.models.Context method)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.Answer.get_questions_with_answers">get_questions_with_answers() (examinations.models.Answer method)</a>
+</li>
       <li><a href="examinations.html#examinations.models.TestSkillFromClass.get_result_display">get_result_display() (examinations.models.TestSkillFromClass method)</a>
 </li>
       <li><a href="promotions.templatetags.html#promotions.templatetags.lesson_tags.get_skill_heatmap_class">get_skill_heatmap_class() (in module promotions.templatetags.lesson_tags)</a>
 </li>
       <li><a href="promotions.templatetags.html#promotions.templatetags.lesson_tags.get_stage_id">get_stage_id() (in module promotions.templatetags.lesson_tags)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.TestStudent.get_state">get_state() (examinations.models.TestStudent method)</a>
 </li>
       <li><a href="promotions.templatetags.html#promotions.templatetags.lesson_tags.get_students_skills">get_students_skills() (in module promotions.templatetags.lesson_tags)</a>
 </li>
@@ -526,6 +541,8 @@
         <li><a href="promotions.html#promotions.cbgv.StudentDelete.get_success_url">(promotions.cbgv.StudentDelete method)</a>
 </li>
       </ul></li>
+      <li><a href="examinations.html#examinations.models.Question.get_type">get_type() (examinations.models.Question method)</a>
+</li>
       <li><a href="examinations.html#examinations.models.Test.get_type_display">get_type_display() (examinations.models.Test method)</a>
 </li>
       <li><a href="stats.html#stats.models.LoginStats.get_user_kind_display">get_user_kind_display() (stats.models.LoginStats method)</a>
@@ -543,6 +560,14 @@
       <li><a href="skills.html#skills.models.StudentSkill.go_down_visitor">go_down_visitor() (skills.models.StudentSkill method)</a>
 </li>
       <li><a href="skills.html#skills.models.StudentSkill.go_up_visitor">go_up_visitor() (skills.models.StudentSkill method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="examinations.html#examinations.models.TestStudent.has_offline_answers">has_offline_answers() (examinations.models.TestStudent method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -610,6 +635,10 @@
         <li><a href="users.html#users.models.Student.is_pending">(users.models.Student attribute)</a>
 </li>
       </ul></li>
+      <li><a href="authentification.html#authentification.views.is_pending">is_pending() (in module authentification.views)</a>
+</li>
+      <li><a href="examinations.html#examinations.models.TestExercice.is_valid">is_valid() (examinations.models.TestExercice method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -639,8 +668,6 @@
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.lesson">lesson (end_test_poll.models.StudentPoll attribute)</a>
 
       <ul>
-        <li><a href="examinations.html#examinations.models.BaseTest.lesson">(examinations.models.BaseTest attribute)</a>
-</li>
         <li><a href="planification.html#planification.models.RevisionPlanning.lesson">(planification.models.RevisionPlanning attribute)</a>
 </li>
       </ul></li>
@@ -658,14 +685,6 @@
         <li><a href="examinations.html#examinations.models.BaseTest.lesson_id">(examinations.models.BaseTest attribute)</a>
 </li>
         <li><a href="planification.html#planification.models.RevisionPlanning.lesson_id">(planification.models.RevisionPlanning attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="promotions.html#promotions.models.Stage.lesson_set">lesson_set (promotions.models.Stage attribute)</a>
-
-      <ul>
-        <li><a href="users.html#users.models.Professor.lesson_set">(users.models.Professor attribute)</a>
-</li>
-        <li><a href="users.html#users.models.Student.lesson_set">(users.models.Student attribute)</a>
 </li>
       </ul></li>
       <li><a href="promotions.html#promotions.views.lesson_skill_detail">lesson_skill_detail() (in module promotions.views)</a>
@@ -690,12 +709,12 @@
 </li>
       <li><a href="promotions.html#promotions.views.lesson_test_list">lesson_test_list() (in module promotions.views)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="test_online.html#test_online.views.lesson_test_online_add">lesson_test_online_add() (in module test_online.views)</a>
 </li>
       <li><a href="test_online.html#test_online.views.lesson_test_online_change_exercice">lesson_test_online_change_exercice() (in module test_online.views)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="test_online.html#test_online.views.lesson_test_online_close_open">lesson_test_online_close_open() (in module test_online.views)</a>
 </li>
       <li><a href="test_online.html#test_online.views.lesson_test_online_insert_results">lesson_test_online_insert_results() (in module test_online.views)</a>
@@ -724,19 +743,17 @@
 </li>
       <li><a href="promotions.html#promotions.models.Stage.level">level (promotions.models.Stage attribute)</a>
 </li>
+      <li><a href="users.html#users.admin.ProfessorAdmin.list_display">list_display (users.admin.ProfessorAdmin attribute)</a>
+
+      <ul>
+        <li><a href="users.html#users.admin.StudentAdmin.list_display">(users.admin.StudentAdmin attribute)</a>
+</li>
+      </ul></li>
       <li><a href="examinations.html#examinations.models.List_question">List_question (class in examinations.models)</a>
 </li>
       <li><a href="examinations.html#examinations.models.List_question.DoesNotExist">List_question.DoesNotExist</a>
 </li>
       <li><a href="examinations.html#examinations.models.List_question.MultipleObjectsReturned">List_question.MultipleObjectsReturned</a>
-</li>
-      <li><a href="examinations.html#examinations.models.Context.list_question_set">list_question_set (examinations.models.Context attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.Question.list_question_set">(examinations.models.Question attribute)</a>
-</li>
-      </ul></li>
-      <li><a href="authentification.html#authentification.views.login">login() (in module authentification.views)</a>
 </li>
       <li><a href="stats.html#stats.models.LoginStats">LoginStats (class in stats.models)</a>
 </li>
@@ -767,6 +784,8 @@
 </li>
         <li><a href="promotions.html#promotions.admin.StageAdmin.media">(promotions.admin.StageAdmin attribute)</a>
 </li>
+        <li><a href="promotions.html#promotions.forms.CSVForm.media">(promotions.forms.CSVForm attribute)</a>
+</li>
         <li><a href="promotions.html#promotions.forms.KhanAcademyForm.media">(promotions.forms.KhanAcademyForm attribute)</a>
 </li>
         <li><a href="promotions.html#promotions.forms.LessonForm.media">(promotions.forms.LessonForm attribute)</a>
@@ -784,6 +803,10 @@
         <li><a href="promotions.html#promotions.forms.SyntheseForm.media">(promotions.forms.SyntheseForm attribute)</a>
 </li>
         <li><a href="promotions.html#promotions.forms.TestUpdateForm.media">(promotions.forms.TestUpdateForm attribute)</a>
+</li>
+        <li><a href="users.html#users.admin.ProfessorAdmin.media">(users.admin.ProfessorAdmin attribute)</a>
+</li>
+        <li><a href="users.html#users.admin.StudentAdmin.media">(users.admin.StudentAdmin attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -820,8 +843,6 @@
         <li><a href="resources.html#resources.models.Resource.modified_at">(resources.models.Resource attribute)</a>
 </li>
       </ul></li>
-      <li><a href="skills.html#skills.models.Skill.modified_by">modified_by (skills.models.Skill attribute)</a>
-</li>
       <li><a href="skills.html#skills.models.Skill.modified_by_id">modified_by_id (skills.models.Skill attribute)</a>
 </li>
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.my_teacher_should_use_oscar_more">my_teacher_should_use_oscar_more (end_test_poll.models.StudentPoll attribute)</a>
@@ -944,9 +965,9 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="promotions.html#promotions.tests.PageLoadTest">PageLoadTest (class in promotions.tests)</a>
 </li>
-      <li><a href="skills.html#skills.models.CodeR.paired_to">paired_to (skills.models.CodeR attribute)</a>
-</li>
       <li><a href="student.html#student.views.pass_test">pass_test() (in module student.views)</a>
+</li>
+      <li><a href="authentification.html#authentification.views.password">password() (in module authentification.views)</a>
 </li>
       <li><a href="promotions.html#promotions.tests.PermissionsTest">PermissionsTest (class in promotions.tests)</a>
 </li>
@@ -962,19 +983,17 @@
 </li>
       <li><a href="examinations.html#examinations.generation.PositiveIntegerVariable">PositiveIntegerVariable (class in examinations.generation)</a>
 </li>
-      <li><a href="promotions.html#promotions.models.Stage.previous_stage">previous_stage (promotions.models.Stage attribute)</a>
-</li>
       <li><a href="promotions.html#promotions.models.Stage.previous_stage_id">previous_stage_id (promotions.models.Stage attribute)</a>
 </li>
       <li><a href="users.html#users.models.Professor">Professor (class in users.models)</a>
 </li>
       <li><a href="users.html#users.models.Professor.DoesNotExist">Professor.DoesNotExist</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="users.html#users.models.Professor.MultipleObjectsReturned">Professor.MultipleObjectsReturned</a>
 </li>
-      <li><a href="promotions.html#promotions.models.Lesson.professors">professors (promotions.models.Lesson attribute)</a>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="users.html#users.admin.ProfessorAdmin">ProfessorAdmin (class in users.admin)</a>
 </li>
       <li><a href="promotions.html#module-promotions">promotions (module)</a>
 </li>
@@ -1010,12 +1029,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="examinations.html#examinations.models.Question">Question (class in examinations.models)</a>
 </li>
-      <li><a href="examinations.html#examinations.models.List_question.question">question (examinations.models.List_question attribute)</a>
+      <li><a href="examinations.html#examinations.models.Question.DoesNotExist">Question.DoesNotExist</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="examinations.html#examinations.models.Question.DoesNotExist">Question.DoesNotExist</a>
-</li>
       <li><a href="examinations.html#examinations.models.Question.MultipleObjectsReturned">Question.MultipleObjectsReturned</a>
 </li>
       <li><a href="examinations.html#examinations.models.List_question.question_id">question_id (examinations.models.List_question attribute)</a>
@@ -1046,24 +1063,16 @@
 </li>
       <li><a href="resources.html#resources.models.Resource">Resource (class in resources.models)</a>
 </li>
-      <li><a href="skills.html#skills.models.CodeR.resource">resource (skills.models.CodeR attribute)</a>
-
-      <ul>
-        <li><a href="skills.html#skills.models.Section.resource">(skills.models.Section attribute)</a>
-</li>
-        <li><a href="skills.html#skills.models.Skill.resource">(skills.models.Skill attribute)</a>
-</li>
-      </ul></li>
       <li><a href="resources.html#resources.models.Resource.DoesNotExist">Resource.DoesNotExist</a>
 </li>
       <li><a href="resources.html#resources.models.Resource.MultipleObjectsReturned">Resource.MultipleObjectsReturned</a>
 </li>
       <li><a href="promotions.html#promotions.forms.ResourceForm">ResourceForm (class in promotions.forms)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="promotions.html#promotions.forms.ResourceForm.Meta">ResourceForm.Meta (class in promotions.forms)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="resources.html#module-resources">resources (module)</a>
 </li>
       <li><a href="resources.html#module-resources.admin">resources.admin (module)</a>
@@ -1090,8 +1099,6 @@
 </li>
       <li><a href="planification.html#planification.models.RevisionPlanning.MultipleObjectsReturned">RevisionPlanning.MultipleObjectsReturned</a>
 </li>
-      <li><a href="promotions.html#promotions.models.Lesson.revisionplanning_set">revisionplanning_set (promotions.models.Lesson attribute)</a>
-</li>
       <li><a href="planification.html#planification.admin.RevisionPlanningAdmin">RevisionPlanningAdmin (class in planification.admin)</a>
 </li>
       <li><a href="examinations.html#examinations.models.Test.running">running (examinations.models.Test attribute)</a>
@@ -1102,16 +1109,16 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="users.html#users.admin.ProfessorAdmin.search_fields">search_fields (users.admin.ProfessorAdmin attribute)</a>
+
+      <ul>
+        <li><a href="users.html#users.admin.StudentAdmin.search_fields">(users.admin.StudentAdmin attribute)</a>
+</li>
+      </ul></li>
       <li><a href="skills.html#skills.models.Section">Section (class in skills.models)</a>
 </li>
       <li><a href="resources.html#resources.models.Resource.section">section (resources.models.Resource attribute)</a>
-
-      <ul>
-        <li><a href="skills.html#skills.models.CodeR.section">(skills.models.CodeR attribute)</a>
 </li>
-        <li><a href="skills.html#skills.models.Skill.section">(skills.models.Skill attribute)</a>
-</li>
-      </ul></li>
       <li><a href="skills.html#skills.models.Section.DoesNotExist">Section.DoesNotExist</a>
 </li>
       <li><a href="skills.html#skills.models.Section.MultipleObjectsReturned">Section.MultipleObjectsReturned</a>
@@ -1140,24 +1147,10 @@
       </ul></li>
       <li><a href="promotions.html#promotions.models.Stage.short_name">short_name (promotions.models.Stage attribute)</a>
 </li>
-      <li><a href="skills.html#skills.models.Skill.similar_to">similar_to (skills.models.Skill attribute)</a>
+      <li><a href="promotions.html#promotions.views.single_student_password_page">single_student_password_page() (in module promotions.views)</a>
 </li>
       <li><a href="skills.html#skills.models.Skill">Skill (class in skills.models)</a>
 </li>
-      <li><a href="examinations.html#examinations.models.Context.skill">skill (examinations.models.Context attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.TestExercice.skill">(examinations.models.TestExercice attribute)</a>
-</li>
-        <li><a href="examinations.html#examinations.models.TestSkillFromClass.skill">(examinations.models.TestSkillFromClass attribute)</a>
-</li>
-        <li><a href="skills.html#skills.models.CodeR.skill">(skills.models.CodeR attribute)</a>
-</li>
-        <li><a href="skills.html#skills.models.SkillHistory.skill">(skills.models.SkillHistory attribute)</a>
-</li>
-        <li><a href="skills.html#skills.models.StudentSkill.skill">(skills.models.StudentSkill attribute)</a>
-</li>
-      </ul></li>
       <li><a href="skills.html#skills.models.Skill.DoesNotExist">Skill.DoesNotExist</a>
 </li>
       <li><a href="skills.html#skills.models.Skill.MultipleObjectsReturned">Skill.MultipleObjectsReturned</a>
@@ -1176,28 +1169,14 @@
       </ul></li>
       <li><a href="student.html#student.views.skill_pedagogic_ressources">skill_pedagogic_ressources() (in module student.views)</a>
 </li>
-      <li><a href="skills.html#skills.models.Section.skill_set">skill_set (skills.models.Section attribute)</a>
-</li>
       <li><a href="skills.html#skills.models.SkillHistory">SkillHistory (class in skills.models)</a>
 </li>
       <li><a href="skills.html#skills.models.SkillHistory.DoesNotExist">SkillHistory.DoesNotExist</a>
 </li>
       <li><a href="skills.html#skills.models.SkillHistory.MultipleObjectsReturned">SkillHistory.MultipleObjectsReturned</a>
 </li>
-      <li><a href="skills.html#skills.models.Skill.skillhistory_set">skillhistory_set (skills.models.Skill attribute)</a>
-
-      <ul>
-        <li><a href="users.html#users.models.Student.skillhistory_set">(users.models.Student attribute)</a>
+      <li><a href="skills.html#module-skills">skills (module)</a>
 </li>
-      </ul></li>
-      <li><a href="examinations.html#examinations.models.BaseTest.skills">skills (examinations.models.BaseTest attribute)</a>
-
-      <ul>
-        <li><a href="skills.html#module-skills">(module)</a>
-</li>
-        <li><a href="promotions.html#promotions.models.Stage.skills">(promotions.models.Stage attribute)</a>
-</li>
-      </ul></li>
       <li><a href="skills.html#module-skills.admin">skills.admin (module)</a>
 </li>
       <li><a href="skills.html#module-skills.apps">skills.apps (module)</a>
@@ -1207,6 +1186,8 @@
       <li><a href="skills.html#module-skills.tests">skills.tests (module)</a>
 </li>
       <li><a href="skills.html#module-skills.views">skills.views (module)</a>
+</li>
+      <li><a href="promotions.html#promotions.models.Stage.skills_with_exercice_count">skills_with_exercice_count() (promotions.models.Stage method)</a>
 </li>
       <li><a href="skills.html#skills.apps.SkillsConfig">SkillsConfig (class in skills.apps)</a>
 </li>
@@ -1220,24 +1201,18 @@
 </li>
       <li><a href="promotions.html#promotions.models.Stage">Stage (class in promotions.models)</a>
 </li>
-      <li><a href="promotions.html#promotions.models.Lesson.stage">stage (promotions.models.Lesson attribute)</a>
-</li>
       <li><a href="promotions.html#promotions.models.Stage.DoesNotExist">Stage.DoesNotExist</a>
 </li>
       <li><a href="promotions.html#promotions.models.Stage.MultipleObjectsReturned">Stage.MultipleObjectsReturned</a>
 </li>
       <li><a href="promotions.html#promotions.models.Lesson.stage_id">stage_id (promotions.models.Lesson attribute)</a>
 </li>
-      <li><a href="promotions.html#promotions.models.Stage.stage_set">stage_set (promotions.models.Stage attribute)</a>
-
-      <ul>
-        <li><a href="skills.html#skills.models.Skill.stage_set">(skills.models.Skill attribute)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="promotions.html#promotions.admin.StageAdmin">StageAdmin (class in promotions.admin)</a>
 </li>
+      <li><a href="promotions.html#promotions.models.Lesson.stages_in_unchronological_order">stages_in_unchronological_order() (promotions.models.Lesson method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="student.html#student.views.start_test">start_test() (in module student.views)</a>
 </li>
       <li><a href="examinations.html#examinations.models.TestStudent.started_at">started_at (examinations.models.TestStudent attribute)</a>
@@ -1263,15 +1238,7 @@
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.student">student (end_test_poll.models.StudentPoll attribute)</a>
 
       <ul>
-        <li><a href="examinations.html#examinations.models.TestSkillFromClass.student">(examinations.models.TestSkillFromClass attribute)</a>
-</li>
-        <li><a href="examinations.html#examinations.models.TestStudent.student">(examinations.models.TestStudent attribute)</a>
-</li>
         <li><a href="student.html#module-student">(module)</a>
-</li>
-        <li><a href="skills.html#skills.models.SkillHistory.student">(skills.models.SkillHistory attribute)</a>
-</li>
-        <li><a href="skills.html#skills.models.StudentSkill.student">(skills.models.StudentSkill attribute)</a>
 </li>
       </ul></li>
       <li><a href="student.html#module-student.admin">student.admin (module)</a>
@@ -1310,6 +1277,8 @@
       </ul></li>
       <li><a href="promotions.html#promotions.forms.StudentAddForm">StudentAddForm (class in promotions.forms)</a>
 </li>
+      <li><a href="users.html#users.admin.StudentAdmin">StudentAdmin (class in users.admin)</a>
+</li>
       <li><a href="promotions.html#promotions.cbgv.StudentDelete">StudentDelete (class in promotions.cbgv)</a>
 </li>
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll">StudentPoll (class in end_test_poll.models)</a>
@@ -1318,17 +1287,9 @@
 </li>
       <li><a href="end_test_poll.html#end_test_poll.models.StudentPoll.MultipleObjectsReturned">StudentPoll.MultipleObjectsReturned</a>
 </li>
-      <li><a href="promotions.html#promotions.models.Lesson.studentpoll_set">studentpoll_set (promotions.models.Lesson attribute)</a>
-
-      <ul>
-        <li><a href="users.html#users.models.Student.studentpoll_set">(users.models.Student attribute)</a>
-</li>
-      </ul></li>
       <li><a href="end_test_poll.html#end_test_poll.forms.StudentPollForm">StudentPollForm (class in end_test_poll.forms)</a>
 </li>
       <li><a href="end_test_poll.html#end_test_poll.forms.StudentPollForm.Meta">StudentPollForm.Meta (class in end_test_poll.forms)</a>
-</li>
-      <li><a href="promotions.html#promotions.models.Lesson.students">students (promotions.models.Lesson attribute)</a>
 </li>
       <li><a href="promotions.html#promotions.views.students_password_page">students_password_page() (in module promotions.views)</a>
 </li>
@@ -1338,12 +1299,6 @@
 </li>
       <li><a href="skills.html#skills.models.StudentSkill.MultipleObjectsReturned">StudentSkill.MultipleObjectsReturned</a>
 </li>
-      <li><a href="skills.html#skills.models.Skill.studentskill_set">studentskill_set (skills.models.Skill attribute)</a>
-
-      <ul>
-        <li><a href="users.html#users.models.Student.studentskill_set">(users.models.Student attribute)</a>
-</li>
-      </ul></li>
       <li><a href="promotions.html#promotions.forms.StudentUpdateForm">StudentUpdateForm (class in promotions.forms)</a>
 </li>
       <li><a href="promotions.html#promotions.forms.StudentUpdateForm.Meta">StudentUpdateForm.Meta (class in promotions.forms)</a>
@@ -1380,16 +1335,6 @@
       </ul></li>
       <li><a href="examinations.html#examinations.models.Test">Test (class in examinations.models)</a>
 </li>
-      <li><a href="examinations.html#examinations.models.BaseTest.test">test (examinations.models.BaseTest attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.TestExercice.test">(examinations.models.TestExercice attribute)</a>
-</li>
-        <li><a href="examinations.html#examinations.models.TestSkillFromClass.test">(examinations.models.TestSkillFromClass attribute)</a>
-</li>
-        <li><a href="examinations.html#examinations.models.TestStudent.test">(examinations.models.TestStudent attribute)</a>
-</li>
-      </ul></li>
       <li><a href="examinations.html#examinations.models.Test.DoesNotExist">Test.DoesNotExist</a>
 </li>
       <li><a href="examinations.html#examinations.models.Test.MultipleObjectsReturned">Test.MultipleObjectsReturned</a>
@@ -1398,7 +1343,7 @@
 </li>
       <li><a href="examinations.html#examinations.tests.test_detection_one_variable">test_detection_one_variable() (in module examinations.tests)</a>
 </li>
-      <li><a href="examinations.html#examinations.models.Answer.test_exercice">test_exercice (examinations.models.Answer attribute)</a>
+      <li><a href="examinations.html#examinations.models.TestStudent.test_exercice_answer_for_offline_test">test_exercice_answer_for_offline_test() (examinations.models.TestStudent method)</a>
 </li>
       <li><a href="examinations.html#examinations.models.Answer.test_exercice_id">test_exercice_id (examinations.models.Answer attribute)</a>
 </li>
@@ -1450,10 +1395,10 @@
 </li>
       <li><a href="promotions.html#promotions.tests.PermissionsTest.test_redirect_student">test_redirect_student() (promotions.tests.PermissionsTest method)</a>
 </li>
-      <li><a href="examinations.html#examinations.tests.test_render">test_render() (in module examinations.tests)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="examinations.html#examinations.tests.test_render">test_render() (in module examinations.tests)</a>
+</li>
       <li><a href="examinations.html#examinations.tests.test_render_always_lower_case">test_render_always_lower_case() (in module examinations.tests)</a>
 </li>
       <li><a href="examinations.html#examinations.tests.test_render_always_the_same">test_render_always_the_same() (in module examinations.tests)</a>
@@ -1463,8 +1408,6 @@
       <li><a href="examinations.html#examinations.tests.test_render_space">test_render_space() (in module examinations.tests)</a>
 </li>
       <li><a href="promotions.html#promotions.tests.PageLoadTest.test_static_pages_load">test_static_pages_load() (promotions.tests.PageLoadTest method)</a>
-</li>
-      <li><a href="examinations.html#examinations.models.Answer.test_student">test_student (examinations.models.Answer attribute)</a>
 </li>
       <li><a href="examinations.html#examinations.models.Answer.test_student_id">test_student_id (examinations.models.Answer attribute)</a>
 </li>
@@ -1488,17 +1431,13 @@
 </li>
       <li><a href="examinations.html#examinations.models.TestExercice.MultipleObjectsReturned">TestExercice.MultipleObjectsReturned</a>
 </li>
-      <li><a href="examinations.html#examinations.models.Context.testexercice_set">testexercice_set (examinations.models.Context attribute)</a>
-
-      <ul>
-        <li><a href="examinations.html#examinations.models.Test.testexercice_set">(examinations.models.Test attribute)</a>
+      <li><a href="examinations.html#examinations.models.Test.testexercice_testable_offline">testexercice_testable_offline() (examinations.models.Test method)</a>
 </li>
-        <li><a href="skills.html#skills.models.Skill.testexercice_set">(skills.models.Skill attribute)</a>
+      <li><a href="examinations.html#examinations.models.Test.testexercice_testable_online">testexercice_testable_online() (examinations.models.Test method)</a>
 </li>
-      </ul></li>
+      <li><a href="examinations.html#examinations.models.Test.testexercice_with_skills">testexercice_with_skills() (examinations.models.Test method)</a>
+</li>
       <li><a href="examinations.html#examinations.models.TestFromClass">TestFromClass (class in examinations.models)</a>
-</li>
-      <li><a href="examinations.html#examinations.models.BaseTest.testfromclass">testfromclass (examinations.models.BaseTest attribute)</a>
 </li>
       <li><a href="examinations.html#examinations.models.TestFromClass.DoesNotExist">TestFromClass.DoesNotExist</a>
 </li>
@@ -1512,26 +1451,14 @@
 </li>
       <li><a href="examinations.html#examinations.models.TestSkillFromClass.MultipleObjectsReturned">TestSkillFromClass.MultipleObjectsReturned</a>
 </li>
-      <li><a href="examinations.html#examinations.models.TestFromClass.testskillfromclass_set">testskillfromclass_set (examinations.models.TestFromClass attribute)</a>
-
-      <ul>
-        <li><a href="skills.html#skills.models.Skill.testskillfromclass_set">(skills.models.Skill attribute)</a>
-</li>
-        <li><a href="users.html#users.models.Student.testskillfromclass_set">(users.models.Student attribute)</a>
-</li>
-      </ul></li>
       <li><a href="examinations.html#examinations.models.TestStudent">TestStudent (class in examinations.models)</a>
 </li>
       <li><a href="examinations.html#examinations.models.TestStudent.DoesNotExist">TestStudent.DoesNotExist</a>
 </li>
       <li><a href="examinations.html#examinations.models.TestStudent.MultipleObjectsReturned">TestStudent.MultipleObjectsReturned</a>
 </li>
-      <li><a href="examinations.html#examinations.models.Test.teststudent_set">teststudent_set (examinations.models.Test attribute)</a>
-
-      <ul>
-        <li><a href="users.html#users.models.Student.teststudent_set">(users.models.Student attribute)</a>
+      <li><a href="examinations.html#examinations.models.Test.teststudent_with_student">teststudent_with_student() (examinations.models.Test method)</a>
 </li>
-      </ul></li>
       <li><a href="promotions.html#promotions.forms.TestUpdateForm">TestUpdateForm (class in promotions.forms)</a>
 </li>
       <li><a href="promotions.html#promotions.forms.TestUpdateForm.Meta">TestUpdateForm.Meta (class in promotions.forms)</a>
@@ -1561,13 +1488,7 @@
       <li><a href="promotions.html#promotions.views.update_pedagogical_ressources">update_pedagogical_ressources() (in module promotions.views)</a>
 </li>
       <li><a href="stats.html#stats.models.LoginStats.user">user (stats.models.LoginStats attribute)</a>
-
-      <ul>
-        <li><a href="users.html#users.models.Professor.user">(users.models.Professor attribute)</a>
 </li>
-        <li><a href="users.html#users.models.Student.user">(users.models.Student attribute)</a>
-</li>
-      </ul></li>
       <li><a href="stats.html#stats.models.LoginStats.user_id">user_id (stats.models.LoginStats attribute)</a>
 
       <ul>
@@ -1578,13 +1499,15 @@
       </ul></li>
       <li><a href="promotions.html#promotions.utils.user_is_professor">user_is_professor() (in module promotions.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="student.html#student.utils.user_is_student">user_is_student() (in module student.utils)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="stats.html#stats.utils.user_is_superuser">user_is_superuser() (in module stats.utils)</a>
 </li>
       <li><a href="stats.html#stats.models.LoginStats.user_kind">user_kind (stats.models.LoginStats attribute)</a>
+</li>
+      <li><a href="authentification.html#authentification.views.username">username() (in module authentification.views)</a>
 </li>
       <li><a href="users.html#module-users">users (module)</a>
 </li>
@@ -1614,6 +1537,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="promotions.html#promotions.forms.validate_file_extension">validate_file_extension() (in module promotions.forms)</a>
+</li>
       <li><a href="promotions.html#promotions.views.validate_student_skill">validate_student_skill() (in module promotions.views)</a>
 </li>
       <li><a href="skills.html#skills.models.SkillHistory.value">value (skills.models.SkillHistory attribute)</a>
@@ -1699,7 +1624,7 @@
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2017, Maher Chemseddine, Robin Descamps, Laurent Peuch.
+      &copy;2017, Maher Chemseddine, Bastien Claeys, Robin Descamps, Laurent Peuch.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>

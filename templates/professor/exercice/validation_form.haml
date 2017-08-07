@@ -59,7 +59,7 @@
       .form-group
         %label Énoncé
         %div{text-angular: None, ng-model: "html"}
-        -# %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>... Pour utiliser du latex mettez le entre \( et \) ou $$ et $$"}
+          %textarea#exercice-html.form-control{rows: 10, ng-model: "html", placeholder: "Syntaxe html disponible, exemple: <b>gras</b> <i>italique</i>... Pour utiliser du latex mettez le entre \( et \) ou $$ et $$"}
 
         %p.help-block
           Pour ajouter des formules mathématiques dans vos énoncés, utilisez
@@ -75,7 +75,7 @@
           %li.list-group-item{ng-repeat: "question in questions", ng-init: "topIndex = $index.toString()"}
             .form-horizontal
               .form-group
-                %label.control-label.col-sm-2 Énoncé de la sous question
+                %label.control-label.col-sm-2 Énoncé de la question
                 .col-sm-9
                   %input.form-control{type: "text", ng-model: "question.instructions", ng-required: "true"}
                 .col-sm-1
@@ -89,12 +89,16 @@
                     %option{value: "text"} Réponse textuelle exacte
                     %option{value: "math-simple"} Réponse mathématique simple
                     %option{value: "math-advanced"} Réponse mathématique avancée
-                    %option{value: "radio"} Une seule réponse unique possible parmis toutes (radio)
+                    %option{value: "radio"} Une seule réponse unique possible parmi toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
                     %option{value: "graph"} Réponse sur un graphique
-
+                    %option{value: "professor"} Réponse corrigée par le professeur
+              .form-group
+                %label.control-label.col-sm-2 Information pour les professeurs
+                .col-sm-10
+                  %input.form-control{type: "text", ng-model: "question.source", ng-required: "false"}
             %ul.list-group
-              %li.list-group-item{ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
+              %li.list-group-item{ng-if: "question.type != \"professor\"", ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
                 .form-horizontal{ng-if: "question.type != \"graph\""}
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
@@ -117,13 +121,16 @@
                 .form-horizontal{ng-if: "question.type == \"graph\""}
                   .form-group
                     %label.control-label.col-sm-2 Type
-                    .col-sm-10
+                    .col-sm-9
                       %select.form-control{kg-required: "true", ng-model: "answer.graph.type", ng-change: "onChangeGraphAnswerType(answer.graph)"}
                         %option{value: ""}
                         %option{value: "point"} Point
+                    .col-sm-1
+                      %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
+                        %span.glyphicon.glyphicon-remove
                   -# ng-if: point
                   .form-group{ng-if: "answer.graph.type == \"point\""}
-                    %label.control-label.col-sm-2 Coodonnées
+                    %label.control-label.col-sm-2 Coordonnées
                     .form-inline.col-sm-10
                       .input-group.col-sm-5
                         .input-group-addon X
@@ -132,7 +139,7 @@
                         .input-group-addon Y
                         %input.form-control{type: "number", ng-required: "true", placeholder: "0", ng-model: "answer.graph.coordinates.Y"}
 
-            %button.btn.btn-success.btn-sm{ng-click: "addAnswer(topIndex, question)", type: "button"}
+            %button.btn.btn-success.btn-sm{ng-if: "question.type != \"professor\"", ng-click: "addAnswer(topIndex, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 
@@ -174,4 +181,4 @@
 
     .hidden-math-form {
       display: inline;
-    }
+}
