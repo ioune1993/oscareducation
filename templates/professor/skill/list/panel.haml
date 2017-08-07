@@ -8,7 +8,7 @@
 
   .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
     .panel-body
-      -regroup stage.skills_with_exercice_count by section as sections
+      -regroup stage.skills_with_exercice_count by section_id as sections
       -for section in sections
         %table.table.table-bordered.table-hover
           %col
@@ -18,11 +18,12 @@
           %tr.color-title.clickable{style: "background-color: {{ color }}", data-toggle: "collapse", data-target: "#collapse-{{ stage.id }}-{{ section.grouper|slugify }}", id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
             -with code=section.list|first
               %th.center{width: "69px"}= code.code|split_skill_as_section
-            %th{colspan: 5}= section.grouper
+            %th{colspan: 5} {% get_section_name section.grouper %}
           %tbody.collapse{id: "collapse-{{ stage.id }}-{{ section.grouper|slugify }}"}
             %tr.active
               %th.center R
               %th{colspan: 4} Ressources
+                %span {% get_skill_code section.grouper %}
               -with code=section.list|first
                 -for r in code_r
                   -if r.section == code.code|split_skill_as_section

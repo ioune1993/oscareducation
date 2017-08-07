@@ -472,17 +472,15 @@ def update_pedagogical_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
     resource_form = ResourceForm()
+    KhanAcademy_form =  KhanAcademyForm()
 
-    personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource", skill=skill)
+    personal_resource = skill.resource.filter(added_by_id=request.user,section="personal_resource")
+    other_resource = skill.resource.filter(added_by_id=request.user, section="other_resource")
+    exercice_resource = skill.resource.filter(added_by_id=request.user, section="exercice_resource")
+    lesson_resource = skill.resource.filter(added_by_id=request.user, section="lesson_resource")
 
-    khanacademy_skill_form = KhanAcademyForm()
-    sesamath_reference_form = SesamathForm()
-    synthese_form = SyntheseForm()
 
-    khanacademy_references = KhanAcademy.objects.all()
 
-    sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="manuel")
-    sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="cahier")
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {

@@ -1,27 +1,54 @@
-cloneController = function() {
-    return function personal_resourceController($scope) {
-        $scope.links = [];
-        $scope.files = [];
+$(function(){
 
-        $scope.addMore = function(kind, number) {
-            if ($scope[kind].length > 0) {
-                var new_number = $scope[kind][$scope[kind].length - 1] + 1;
-            } else {
-                var new_number = 0;
-            }
+    let countFiles = 0;
+    let countLinks = 0;
+    let countitems = 0;
 
-            for (var i = 0; i < number; ++i) {
-                $scope[kind].push(new_number + i);
-            }
+    $('.addMore').on('click', function( event ){
+
+        event.preventDefault();
+
+        let target = $( this ).data( 'target' );
+        let newElement
+        countitems++
+
+        switch( target ){
+
+            case 'file':
+                
+                countFiles++
+
+                newElement = $('#personal_resource ul li.file').eq(0).clone()
+                
+                console.log('file', newElement )
+                $('#personal_resource ul').append( newElement )
+                $(newElement).removeClass('hidden');
+                $('.btn-files').children('span.badge').text(countFiles)
+
+            break;
+
+
+            case 'link':
+                countLinks++
+                newElement = $('#personal_resource ul li.link').eq(0).clone()
+                console.log('link', newElement )
+                $('#personal_resource ul').append( newElement )
+                $(newElement).removeClass('hidden');
+                $('.btn-links').children('span.badge').text(countLinks)
+
+            break;
+
+                $( newElement ).children('span.badge').text(countitems)
+
+
+
         }
+        
 
-        $scope.remove = function(kind, id) {
-            $scope[kind].splice($scope[kind].indexOf(id), 1);
-        }
-    }
-}
 
-personal_resourceController = cloneController()
-lesson_resourceController = cloneController()
-exercice_resourceController = cloneController()
-other_resourceController = cloneController()
+
+    })
+
+
+
+})

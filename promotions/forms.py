@@ -87,9 +87,11 @@ class TestUpdateForm(forms.ModelForm):
 
 
 class KhanAcademyForm(forms.Form):
-    url = forms.URLField()
 
-    def clean_url(self):
+    #url = forms.URLField()
+    url = forms.CharField(required=False, label="Nom")
+
+    """def clean_url(self):
         data = self.cleaned_data["url"].split("?")[0]
 
         slug = filter(None, data.split("/"))[-1]
@@ -99,7 +101,7 @@ class KhanAcademyForm(forms.Form):
         except KhanAcademy.DoesNotExist:
             raise forms.ValidationError(('Impossible de trouver la vidéo à cette page'), code='invalide')
 
-        return data
+        return data"""
 
 
 class SesamathForm(forms.Form):
@@ -111,7 +113,44 @@ class SyntheseForm(forms.Form):
 
 
 class ResourceForm(forms.ModelForm):
-    text = forms.CharField(required=False, label="Texte", widget=forms.Textarea)
+    """ Resource form """
+    kind = forms.ChoiceField(required=True, label="genre",choices=(
+        ("practical-application", "Application pratique"),
+        ("lesson", "Cours"),
+        ("exercice", "Exercices"),
+        ("commented-exercice", "Exercices commentés"),
+        ("exercice-correction", "Correction d´exercices"),
+        ("learning-sequence", "Séquence d´apprentissage"),
+        ("synthesis", "Synthèse"),
+        ("reference", "Référence (presse, histoire)"),
+        ("other", "(autre)"),
+    ))
+
+    type = forms.ChoiceField(required=True, label="type", choices=(
+        ("animation", "Animation"),
+        ("software", "Application (ordinateur)"),
+        ("mobile-app", "Application mobile"),
+        ("document", "Document"),
+        ("image", "Image"),
+        ("game", "Jeu"),
+        ("tool", "Outil"),
+        ("project", "Projet / énigme"),
+        ("synthesis", "Synthèse"),
+        ("site", "Site"),
+        ("test", "Test"),
+        ("video", "vidéo"),
+        ("other", "autre"),
+    ))
+
+    name = forms.CharField(required=False, label="Nom")
+
+    text = forms.CharField(required=False, label="Commentaire", widget=forms.Textarea)
+
+    link = forms.URLField(required=False, label="Lien")
+
+    file = forms.FileField(required=False,label="Fichier")
+
+
     class Meta:
         model = Resource
         fields = ('content', 'added_by', 'section')

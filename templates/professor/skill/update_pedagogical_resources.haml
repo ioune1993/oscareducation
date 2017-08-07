@@ -10,191 +10,22 @@
         %a{href: "{% url 'professor:dashboard' %}"} Oscar
       %li.active
         Compétence
-        =object.code
-
+        =skill.code
 -block content
-    %h3 Compétence
-      =object.name
+    %h4 Compétence
+      =skill.code
     %hr
-    %h4= object.code
-
+    %h5= skill.name
     .well
       -if user.professor
-        %h5 Ressources personnelles
-          %small pour mes élèves uniquement
-          %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
-            Ajouter
+         
+        -include "professor/skill/update_pedagogical_resources/my_resource.haml"
+        -include "professor/skill/update_pedagogical_resources/exercice_resource.haml"
+        -include "professor/skill/update_pedagogical_resources/lesson_resource.haml"
+        -include "professor/skill/update_pedagogical_resources/other_resource.haml"
+      
       -else
         %h5 Ressources de ma classe
-      -with title="" kind="personal_resource" queryset=personal_resource
-        -include "professor/skill/update_pedagogical_resources/resource.haml"
-
-    .well
-      %h5 Cours
-      %h6
-        Videos
-        %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-        -if user.professor
-          %button.show-form.btn.btn-primary.btn-sm{data-target: "#khan-form", style: "{% if khanacademy_skill_form.errors %}display: none{% endif %}"}
-            Ajouter une vidéo
-
-          %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-            aller sur la section math
-
-      -for video in object.khanacademyvideoskill_set.all
-        %center
-          <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
-          %p
-            %a{href: "{{ video.url }}", target: "_blank"}
-              =video.reference.title|default:video.url
-
-            -if user.professor and video.added_by == request.user
-              %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'khanacademy' video.id %}"}
-                -csrf_token
-                %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                  supprimer
-
-      -if user.professor
-        %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
-          -csrf_token
-
-          %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
-          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
-          %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
-
-          .form-group
-            -bootstrap_form khanacademy_skill_form
-
-          %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
-
-          %p
-            %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
-      %hr
-
-      -with title="Cours" kind="manuel" references=sesamath_references_manuals resources=object.sesamath_manuals
-        -include "professor/skill/update_pedagogical_resources/sesamath.haml"
-
-      %hr
-
-      -with title="Autres cours" kind="lesson_resource" queryset=object.lesson_resource
-        -include "professor/skill/update_pedagogical_resources/resource.haml"
-
-    .well
-      %h5 Exercices
-      -with title="Exercices" kind="cahier" references=sesamath_references_cahiers resources=object.sesamath_cahiers
-        -include "professor/skill/update_pedagogical_resources/sesamath.haml"
-
-      %hr
-
-      -with title="Autres exercices" kind="exercice_resource" queryset=object.exercice_resource
-        -include "professor/skill/update_pedagogical_resources/resource.haml"
-
-    .well
-      %h5 Autres ressources
-        -if user.professor
-          %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
-            Ajouter
-      -with title="" kind="other_resource" queryset=object.other_resource
-        -include "professor/skill/update_pedagogical_resources/resource.haml"
-
-
-  :css
-    .level2 {
-      padding-left: 10px;
-    }
-
-    .level3 {
-      padding-left: 20px;
-    }
-
-    .level4 {
-      padding-left: 30px;
-    }
-
-    .dropdown-menu {
-      float: none;
-      max-width: 100%;
-      width: 5000px;
-    }
-    .dropdown-submenu {
-        position:relative;
-    }
-    .dropdown-submenu>.dropdown-menu {
-        top:0;
-        left:100%;
-        margin-top:-6px;
-        margin-left:-1px;
-        -webkit-border-radius:0 6px 6px 6px;
-        -moz-border-radius:0 6px 6px 6px;
-        border-radius:0 6px 6px 6px;
-    }
-    .dropdown-submenu:hover>.dropdown-menu {
-        display:block;
-    }
-    .dropdown-submenu>a:after {
-        display:block;
-        content:" ";
-        float:right;
-        width:0;
-        height:0;
-        border-color:transparent;
-        border-style:solid;
-        border-width:5px 0 5px 5px;
-        border-left-color:#cccccc;
-        margin-top:5px;
-        margin-right:-10px;
-    }
-    .dropdown-submenu:hover>a:after {
-        border-left-color:#ffffff;
-    }
-    .dropdown-submenu.pull-left {
-        float:none;
-    }
-    .dropdown-submenu.pull-left>.dropdown-menu {
-        left:-100%;
-        margin-left:10px;
-        -webkit-border-radius:6px 0 6px 6px;
-        -moz-border-radius:6px 0 6px 6px;
-        border-radius:6px 0 6px 6px;
-    }
-    .dropdown-menu > li > a {
-      white-space: normal;
-    }
-
-    .remove-form {
-      display: inline;
-    }
-
-    h3, h4 {
-      margin-top: 0px;
-    }
-
-    .well hr {
-      margin-top: 35px;
-      margin-bottom: 35px;
-    }
-
-    .remove {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      border-radius: 0px;
-      border-bottom-left-radius: 3px;
-      padding: 2px 6px;
-    }
-
-    .khan-well {
-      background-color: rgba(159, 182, 59, .4);
-      border-color: rgba(159, 182, 59, .8);
-    }
-
-    .sesamath-well {
-      background-color: rgba(229, 105, 10, .2);
-      border-color: rgba(229, 105, 10, .6);
-    }
-
-
 -block javascript
   -compress js
     %script{src: "{% static 'js/professor_update_pedagogical_resources.js' %}"}
@@ -232,3 +63,6 @@
         event.preventDefault();
       }
     })
+      
+
+

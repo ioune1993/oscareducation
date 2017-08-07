@@ -1,0 +1,8 @@
+-load crispy_forms_tags
+%li.file.hidden
+	.col-md-4
+		%div.form-group=resource_form.file|as_crispy_field
+	.col-md-4
+		%div.form-group=resource_form.type|as_crispy_field
+	.col-md-4
+		%div.form-group=resource_form.name|as_crispy_field

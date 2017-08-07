@@ -129,7 +129,6 @@ class Question(models.Model):
         """
         raw_correct_answers = self.get_answer()
         evaluation_type = raw_correct_answers["type"]
-
         if evaluation_type == "text":
             # We only need the first and only element: the text by the Student
             response = response[0]
@@ -181,48 +180,21 @@ class Question(models.Model):
                 return 0
 
         elif evaluation_type == "graph":
-            """
-            result_answer["answers"] = []
-            points_student_answers = []
-            points_good_answers = []
+            student_answers = list()
+            for elem in response:
+                student_answers.append(elem["coordinates"])
 
-            # first we need to get all student answer and all good answers
-            for subnumber, graph_answers in enumerate(raw_correct_answers["answers"]):
-                if graph_answers["graph"]["type"] == "point":
-                    X = answers.get("graph-%s-point-%s-X" % (number, subnumber), "")
-                    Y = answers.get("graph-%s-point-%s-Y" % (number, subnumber), "")
+            number_good_answers = 0
+            for elem1 in student_answers:
+                for elem2 in raw_correct_answers["answers"]:
+                    if(int(elem1["Y"]) == elem2["graph"]["coordinates"]["Y"] and int(elem1["X"]) == elem2["graph"]["coordinates"]["X"]):
+                        raw_correct_answers["answers"].remove(elem2)
+                        number_good_answers += 1
 
-                    X = int(X) if X.isdigit() else None
-                    Y = int(Y) if Y.isdigit() else None
-
-                    points_student_answers.append({"X": X, "Y": Y})
-                    points_good_answers.append(graph_answers["graph"]["coordinates"])
-                else:
-                    assert False
-
-            # now we need to see if the student answers are in the good answers
-            for point in points_student_answers:
-                print point
-                result_answer["answers"].append({
-                    "answer": point,
-                    "correct": True,
-                    "type": "point",
-                })
-                if point not in points_good_answers:
-                    result_answer["answers"][-1]["correct"] = False
-                    result_answer["answers"][-1]["correct_answer"] = None
-                else:
-                    points_good_answers.remove(point)
-                    result_answer["answers"][-1]["correct_answer"] = point
-
-            # and for all bad answers lets put a correct answer next to it
-            for i in result_answer["answers"]:
-                if i["correct_answer"] is None:
-                    i["correct_answer"] = points_good_answers.pop()
-
-            result_answer["correct"] = all([x["correct"] for x in result_answer["answers"]])
-            """
-            return 0
+            if(number_good_answers == len(student_answers)):
+                return 1
+            else:
+                return 0
 
         elif evaluation_type == "checkbox":
             # The list of correct/incorrect answers
@@ -335,10 +307,6 @@ class Answer(models.Model):
     def get_answers(self):
         """Get the list of answers"""
         return json.loads(self.raw_answer)[0]
-
-    def get_answers_extracted(self):
-        return json.loads(self.raw_answer)[0]
-
 
 class TestStudent(models.Model):
     """A student test

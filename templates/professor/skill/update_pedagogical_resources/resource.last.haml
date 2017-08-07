@@ -1,0 +1,192 @@
+-load crispy_forms_tags
+-load lesson_tags
+
+-if title
+  %h4= title
+    -if kind == "personal_resource"
+      %small pour mes élèves uniquement
+    -if user.professor
+      %button.show-form.btn.btn-sm.btn-primary{data-target: "{{ kind }}-form"}
+        Ajouter
+
+%ul.list-group
+  -for resource in queryset
+    %li.list-group-item
+      %h4.list-group-item-heading= resource.title
+        -if resource.author
+          par
+          %i
+            =resource.author
+        %small= resource.kind
+      %p.list-group-text
+        -if resource.text
+          =resource.text|safe
+
+      .row
+        -if resource.files.exists
+          %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
+                %h5 Fichiers
+
+              .list-group
+                -for file in resource.files.all
+                  %a.list-group-item{href: "{{ MEDIA_URL }}{{ file.file }}"}
+                    %span.badge= file.kind
+                    -if file.title
+                      =file.title
+                    -else
+                      =file.file.name|clean_file_name
+
+        -if resource.links.exists
+          %div{class: "col-md-{% if resource.links.exists and resource.files.exists %}6{% else %}12{% endif %}"}
+                %h5 Liens
+
+                -for link in resource.links.all
+                  %a.list-group-item{href: "{{ link.link }}", target: "_blank"}
+                    %span.badge= link.kind
+                    =link.title|default:link.link
+
+      -if user.professor and resource.added_by == request.user
+        %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:skill_remove_pedagogical_ressources' 'resource' resource.id %}"}
+          supprimer
+
+
+-if user.professor
+    .panel.panel-default{style: "display: none", id: "{{ kind }}-form"}
+      .panel-heading= title
+      .panel-body
+        %form{method: "POST", enctype: "multipart/form-data", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
+          -csrf_token
+
+          -if resource_form.errors
+            =resource_form.errors
+
+          %input{type: "hidden", value: "{{ kind }}", name: "form_type"}
+          %input{type: "hidden", value: "{{ kind }}", name: "section"}
+          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+          %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+          .row
+            -if kind == "personal_resource"
+              .col-md-6
+                -include "professor/skill/update_pedagogical_resources/title_field.haml"
+              .col-md-6
+                -include "professor/skill/update_pedagogical_resources/kind_field.haml"
+            -elif kind == "other_resource"
+              .col-md-4
+                -include "professor/skill/update_pedagogical_resources/title_field.haml"
+              .col-md-4
+                -include "professor/skill/update_pedagogical_resources/kind_field.haml"
+              .col-md-4
+                =resource_form.author|as_crispy_field
+            -elif kind == "exercice_resource"
+              .col-md-4
+                -include "professor/skill/update_pedagogical_resources/title_field.haml"
+              .col-md-4
+                .form-group
+                  %label.control-label.prenom{for: "kind"}
+                    Type*
+                  %select#kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind", value: "", list: "type_list"}
+                    %option{value: "", selected: "selected"} ---------
+                    %option{value: "exercice"} Exercices
+                    %option{value: "commented-exercice"} Exercices commentés
+                    %option{value: "exercice-correction"} Correction d´exercices
+              .col-md-4
+                =resource_form.author|as_crispy_field
+            -else
+              %input{type: "hidden", value: "{{ kind|slice:\":-9\" }}", name: "kind"}
+              .col-md-6
+                -include "professor/skill/update_pedagogical_resources/title_field.haml"
+              .col-md-6
+                =resource_form.author|as_crispy_field
+
+          %div{ng-controller: "{{ kind }}Controller"}
+            %ul.list-group{ng-if: "links.length"}
+              %li.list-group-item{ng-repeat: "link in links"}
+                .row
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "link_link_{& link &}"}
+                        Adresse*
+                      %input.form-control{type: "url", required: "", placeholder: "https://...", name: "link_link_{& link &}", id: "link_link_{& link &}", value: ""}
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "link_kind_{& link &}"}
+                        Type*
+                      %select.form-control{type: "text", required: "", placeholder: "Type", name: "link_kind_{& link &}", id: "link_kind_{& link &}", value: "", list: "type_list"}
+                        %option{value: "", selected: "selected"} ---------
+                        %option{value: "animation"} Animation
+                        %option{value: "software"} Application (ordinateur)
+                        %option{value: "mobile-app"} Application mobile
+                        %option{value: "document"} Document
+                        %option{value: "image"} Image
+                        %option{value: "game"} Jeu
+                        %option{value: "tool"} Outil
+                        %option{value: "project"} Projet / énigme
+                        %option{value: "synthesis"} Synthèse
+                        %option{value: "site"} Site
+                        %option{value: "test"} Test
+                        %option{value: "video"} Vidéo
+                        %option{value: "other"} (autre)
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "link_title_{& link &}"}
+                        Nom (optionnel)
+                      %input.form-control{type: "text", placeholder: "Titre", name: "link_title_{& link &}", id: "link_title_{& link &}", value: ""}
+
+                %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"links\", link)"}
+                  %span.glyphicon.glyphicon-remove
+
+            %div
+              %button.btn.btn-success{type: "button", ng-click: "addMore(\"links\", 1)"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un lien
+
+
+            %br
+
+            %ul.list-group{ng-if: "files.length"}
+              %li.list-group-item{ng-repeat: "file in files"}
+                .row
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "file_file_{& file &}"}
+                        Fichier*
+                      %input{type: "file", required: "", placeholder: "", name: "file_file_{& file &}", id: "file_file_{& file &}", value: "", multiple: "multiple"}
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "file_kind_{& file &}"}
+                        Type*
+                      %select.form-control{type: "text", required: "", placeholder: "Type", name: "file_kind_{& file &}", id: "file_kind_{& file &}", value: ""}
+                        %option{value: "", selected: "selected"} ---------
+                        %option{value: "animation"} Animation
+                        %option{value: "software"} Application (ordinateur)
+                        %option{value: "mobile-app"} Application mobile
+                        %option{value: "document"} Document
+                        %option{value: "image"} Image
+                        %option{value: "game"} Jeu
+                        %option{value: "tool"} Outil
+                        %option{value: "project"} Projet / énigme
+                        %option{value: "synthesis"} Synthèse
+                        %option{value: "site"} Site
+                        %option{value: "test"} Test
+                        %option{value: "video"} Vidéo
+                        %option{value: "other"} (autre)
+                  .col-md-4
+                    .form-group
+                      %label.control-label.prenom{for: "file_title_{& file &}"}
+                        Nom (optionnel)
+                      %input.form-control{type: "text", placeholder: "Titre", name: "file_title_{& file &}", id: "file_title_{& file &}", value: ""}
+
+                %button.btn.btn-danger.btn-sm.remove{type: "button", ng-click: "remove(\"files\", file)"}
+                  %span.glyphicon.glyphicon-remove
+
+            %div
+              %button.btn.btn-success{type: "button", ng-click: "addMore(\"files\", 1)"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un fichier
+
+          %br
+
+          =resource_form.text|as_crispy_field
+
+          %button.btn.btn-primary{type: "submit"}
+            Ajouter

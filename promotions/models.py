@@ -4,7 +4,9 @@ from __future__ import unicode_literals
 from django.db import models
 from django.db.models import Count
 
+# Create your models here.
 
+#stage
 class Stage(models.Model):
     """[FR] Niveau/Degré/Année
 
@@ -24,8 +26,12 @@ class Stage(models.Model):
     """The Skills that belong to this Stage"""
 
     def skills_with_exercice_count(self):
-        print self, self.skills.count()
+        """ count Context in relation with the current Skills """
+        #print self, self.skills.count()
         return self.skills.annotate(Count('context'))
+
+
+
 
     def __unicode__(self):
         return self.name

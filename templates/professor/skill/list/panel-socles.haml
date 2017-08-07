@@ -1,3 +1,5 @@
+-load lesson_tags
+
 .panel.panel-default
   .panel-heading.subpanel{id: "heading{{ stage.id }}", role: "tab"}
     %h4.panel-title
@@ -6,7 +8,7 @@
 
   .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
     .panel-body
-      -regroup stage.skills_with_exercice_count by section as sections
+      -regroup stage.skills_with_exercice_count by section_id as sections
       -for section in sections
         %table.table.table-bordered.table-hover
           %col
@@ -17,9 +19,11 @@
             %tr.active.clickable{data-toggle: "collapse", data-target: "#collapse-{{ stage.id }}-{{ section.grouper|slugify }}", id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
               -with code=section.list|first
                 %th.center{role: "tab", width: "68px"}= code.code|slice:":2"
-              %th{colspan: 5}
-                  =section.grouper
+              %th{colspan: 5} {% get_section_name section.grouper %} 
           %tbody.collapse{id: "collapse-{{ stage.id }}-{{ section.grouper|slugify }}"}
+            %tr
+              %td.center{colspan: 4}
+                %a.btn.btn-info{href: "#"} Ajouter une ressource
             -for skill in section.list
               %tr
                 %td.center
