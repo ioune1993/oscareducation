@@ -15,8 +15,12 @@ class Stage(models.Model):
     skills = models.ManyToManyField("skills.Skill")
 
     def skills_with_exercice_count(self):
-        print self, self.skills.count()
-        return self.skills.annotate(Count('exercice'))
+        """ count Context in relation with the current Skills """
+        #print self, self.skills.count()
+        return self.skills.annotate(Count('context'))
+
+
+
 
     def __unicode__(self):
         return self.name

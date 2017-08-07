@@ -1,0 +1,9 @@
+  .form-group
+    %label.control-label.kind{for: "kind"}
+      Type*
+    %select#kind.form-control{type: "text", required: "", placeholder: "Type", name: "kind", value: "", list: "type_list"}
+      -for value, text in resource_form.fields.kind.choices
+        -if forloop.first
+          %option{value: "{{ value }}", selected: "selected"}= text
+        -else
+          %option{value: "{{ value }}"}= text

@@ -1,0 +1,33 @@
+-load crispy_forms_tags
+-load lesson_tags
+-load static
+-load bootstrap3
+.well
+      %h5 Cours
+      %h6
+        Videos
+        %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+        -if user.professor
+         	%button.show-form.btn.btn-primary.btn-sm{"data-target": "#khan-form", style: "{% if KhanAcademy_form.errors %}display: none{% endif %}"}
+            Ajouter une vidéo
+
+	        %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+	            aller sur la section math
+	        %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+	        -csrf_token
+
+	        %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
+	        %input{type: "hidden", value: "{{ skill.code }}", name: "skill"}
+	        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+
+	        .form-group
+ 
+	        %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+
+	        %p
+	        	%input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
+	        -for video in object.khanacademyvideoskill_set.all
+		        %center
+		          <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+

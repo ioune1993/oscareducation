@@ -301,148 +301,39 @@ def regenerate_student_password(request):
 
 @user_is_professor
 def update_pedagogical_ressources(request, slug):
+    """ add update and select resource"""
+
     skill = get_object_or_404(Skill, code=slug)
 
     resource_form = ResourceForm()
+    KhanAcademy_form =  KhanAcademyForm()
 
-    personal_resource = Resource.objects.filter(added_by=request.user, section="personal_resource", skill=skill)
+    personal_resource = skill.resource.filter(added_by_id=request.user,section="personal_resource")
+    other_resource = skill.resource.filter(added_by_id=request.user, section="other_resource")
+    exercice_resource = skill.resource.filter(added_by_id=request.user, section="exercice_resource")
+    lesson_resource = skill.resource.filter(added_by_id=request.user, section="lesson_resource")
 
-    khanacademy_skill_form = KhanAcademyForm()
-    sesamath_reference_form = SesamathForm()
-    synthese_form = SyntheseForm()
 
-    khanacademy_references = KhanAcademy.objects.all()
 
-    sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="manuel")
-    sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="cahier")
 
-    if request.method == "GET":
-        return render(request, "professor/skill/update_pedagogical_resources.haml", {
-            "resource_form": resource_form,
-            "khanacademy_skill_form": khanacademy_skill_form,
-            "khanacademy_references": khanacademy_references,
-            "sesamath_reference_form": sesamath_reference_form,
-            "sesamath_references_manuals": sesamath_references_manuals,
-            "sesamath_references_cahiers": sesamath_references_cahiers,
-            "synthese_form": synthese_form,
-            "personal_resource": personal_resource,
-            "object": skill,
-        })
+    return render(request, "professor/skill/update_pedagogical_resources.haml",{
 
-    assert request.method == "POST"
-
-    assert int(request.POST["added_by"]) == request.user.pk
-
-    if request.POST["form_type"] in ("personal_resource", "lesson_resource", "exercice_resource", "other_resource"):
-        with transaction.atomic():
-            resource_form = ResourceForm(request.POST, request.FILES)
-
-            if resource_form.is_valid():
-                resource = resource_form.save()
-
-                if not resource.author:
-                    resource.author = unicode(request.user.professor)
-                    resource.save()
-
-                for i in filter(lambda x: x.startswith("link_link_"), request.POST.keys()):
-                    number = i.split("_")[-1]
-                    link = request.POST["link_link_" + number]
-                    title = request.POST["link_title_" + number]
-                    if not title:
-                        try:
-                            b = mechanize.Browser()
-                            b.open(link)
-                            title = b.title()
-                        except Exception as e:
-                            import traceback
-                            traceback.print_exc(file=sys.stdout)
-                            print e
-                            print "Fail to get title for %s" % link
-
-                    rlf = ResourceForm({
-                        "resource": resource.pk,
-                        "link": link,
-                        "title": force_encoding(title),
-                        "kind": request.POST["link_kind_" + number],
-                        "added_by": request.user.pk,
-                    })
-
-                    if rlf.is_valid():
-                        rlf.save()
-                    else:
-                        raise Exception("Resource Link is unvalid: %s" % rlf.errors)
-
-                for i in filter(lambda x: x.startswith("file_file_"), request.FILES.keys()):
-                    number = i.split("_")[-1]
-                    rff = ResourceForm({
-                        "resource": resource.pk,
-                        "title": force_encoding(request.POST["file_title_" + number]),
-                        "kind": request.POST["file_kind_" + number],
-                        "added_by": request.user.pk,
-                    },{
-                        "file": request.FILES["file_file_" + number],
-                    })
-
-                    if rff.is_valid():
-                        rff.save()
-                    else:
-                        raise Exception("Resource Link is unvalid: %s" % rff.errors)
-
-                return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-            else:
-                print resource_form.errors
-
-    elif request.POST["form_type"] == "khanacademy_skill":
-        khanacademy_skill_form = KhanAcademyForm(request.POST)
-
-        if khanacademy_skill_form.is_valid():
-            ref = khanacademy_skill_form.reference
-            KhanAcademy.objects.create(
-                youtube_id=ref.youtube_id,
-                url="https://fr.khanacademy.org/v/%s" % ref.slug,
-                skill=skill,
-                added_by=request.user,
-                reference=ref,
-            )
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-    elif request.POST["form_type"] == "sesamath_reference":
-        sesamath_reference_form = SesamathForm(request.POST)
-
-        if sesamath_reference_form.is_valid():
-            ref = Sesamath.objects.get(id=sesamath_reference_form.cleaned_data["ref_pk"])
-            Sesamath.objects.create(
-                skill=skill,
-                reference=ref,
-                added_by=request.user,
-            )
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-    elif request.POST["form_type"] == "synthese_form":
-        synthese_form = SyntheseForm(request.POST)
-        if synthese_form.is_valid():
-            skill.oscar_synthese = synthese_form.cleaned_data["synthese"]
-            skill.modified_by = request.user
-            skill.save()
-            return HttpResponseRedirect(reverse('professor:skill_update_pedagogical_ressources', args=(skill.code,)))
-
-    return render(request, "professor/skill/update_pedagogical_resources.haml", {
-        "resource_form": resource_form,
-        "khanacademy_skill_form": khanacademy_skill_form,
-        "khanacademy_references": khanacademy_references,
-        "sesamath_reference_form": sesamath_reference_form,
-        "sesamath_references_manuals": sesamath_references_manuals,
-        "sesamath_references_cahiers": sesamath_references_cahiers,
-        "synthese_form": synthese_form,
-        "personal_resource": personal_resource,
-        "object": skill,
+        "skill":skill,
+        "personal_resources": personal_resource,
+        "other_resources": other_resource,
+        "exercice_resources": exercice_resource,
+        "lesson_resources": lesson_resource,
+        "resource_form":resource_form,
+        "KhanAcademy_form":KhanAcademy_form,
     })
 
 
 @user_is_professor
-def remove_pedagogical_ressources(request, kind, id):
-    kind_to_model = {
+def remove_pedagogical_ressources(request, resource):
+
+    r = Resource.objects.get(id=resource)
+    r.delete()
+    """kind_to_model = {
         "sesamath": Sesamath,
         "khanacademy": KhanAcademy,
         "resource": Resource,
@@ -466,9 +357,9 @@ def remove_pedagogical_ressources(request, kind, id):
 
     skill = object.skill
 
-    object.delete()
+    object.delete()"""
 
-    return HttpResponseRedirect(reverse("professor:skill_update_pedagogical_ressources", args=(skill.code,)))
+    #return HttpResponseRedirect(reverse("professor:skill_update_pedagogical_ressources", args=(skill.code,)))
 
 
 @require_POST

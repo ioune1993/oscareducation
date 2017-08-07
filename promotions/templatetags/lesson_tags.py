@@ -1,5 +1,5 @@
 from django import template
-from skills.models import StudentSkill
+from skills.models import StudentSkill, Section, Skill
 from promotions.models import Stage
 
 
@@ -41,3 +41,13 @@ def split_skill_as_section(skill_code):
 @register.filter
 def split_skill_as_subsection(skill_code):
     return skill_code.split("-")[-1]
+
+@register.simple_tag
+def get_section_name(section_id):
+    """ helper tag to get section name from section id"""
+    return Section.objects.get(id=section_id).name
+
+@register.simple_tag
+def get_skill_code(section_id):
+    """ helper tag to get section name from section id"""
+    return Skill.objects.get(id=section_id).code
