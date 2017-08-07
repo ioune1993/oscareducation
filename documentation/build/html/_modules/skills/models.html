@@ -144,19 +144,30 @@
 
 
 <div class="viewcode-block" id="SkillHistory"><a class="viewcode-back" href="../../skills.html#skills.models.SkillHistory">[docs]</a><span class="k">class</span> <span class="nc">SkillHistory</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The reason why a Skill is acquired or not,</span>
+<span class="sd">        or not yet, when and by who/how</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Skill</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill to validate&quot;&quot;&quot;</span>
     <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;users.Student&#39;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Student concerned by this Skill&quot;&quot;&quot;</span>
     <span class="n">datetime</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The date the Skill status was created&quot;&quot;&quot;</span>
     <span class="n">value</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">(</span>
         <span class="p">(</span><span class="s">&#39;unknown&#39;</span><span class="p">,</span> <span class="s">&#39;Inconnu&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&#39;acquired&#39;</span><span class="p">,</span> <span class="s">&#39;Acquise&#39;</span><span class="p">),</span>
         <span class="p">(</span><span class="s">&#39;not acquired&#39;</span><span class="p">,</span> <span class="s">&#39;None Acquise&#39;</span><span class="p">),</span>
     <span class="p">))</span>
+    <span class="sd">&quot;&quot;&quot;The Skill status : unknown, acquired or not acquired&quot;&quot;&quot;</span>
 
     <span class="n">content_type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">ContentType</span><span class="p">)</span>
     <span class="n">object_id</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">PositiveIntegerField</span><span class="p">()</span>
     <span class="n">reason_object</span> <span class="o">=</span> <span class="n">GenericForeignKey</span><span class="p">(</span><span class="s">&#39;content_type&#39;</span><span class="p">,</span> <span class="s">&#39;object_id&#39;</span><span class="p">)</span>
     <span class="n">reason</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">255</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;Why the Skill is validated or not&quot;&quot;&quot;</span>
 
     <span class="n">by_who</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">User</span><span class="p">)</span>
 
@@ -165,16 +176,24 @@
 
 
 <div class="viewcode-block" id="StudentSkill"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill">[docs]</a><span class="k">class</span> <span class="nc">StudentSkill</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The link between a Skill and a Student</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">student</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="s">&#39;users.Student&#39;</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Student concerned by the Skill&quot;&quot;&quot;</span>
     <span class="n">skill</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Skill</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The Skill the Student acquired/did not acquired&quot;&quot;&quot;</span>
     <span class="n">tested</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;When the Skill was tested&quot;&quot;&quot;</span>
     <span class="n">acquired</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">None</span><span class="p">,</span> <span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;When the Skill was acquired&quot;&quot;&quot;</span>
     <span class="c"># bad: doesn&#39;t support regression</span>
 
     <span class="k">def</span> <span class="nf">__unicode__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="s">u&quot;%s - %s - %s&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span> <span class="s">&quot;green&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquired</span> <span class="k">else</span> <span class="p">(</span><span class="s">&quot;orange&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tested</span> <span class="k">else</span> <span class="s">&quot;white&quot;</span><span class="p">))</span>
 
 <div class="viewcode-block" id="StudentSkill.go_down_visitor"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.go_down_visitor">[docs]</a>    <span class="k">def</span> <span class="nf">go_down_visitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Help function to explore and validate prerequisites when a Skill is validated&quot;&quot;&quot;</span>
         <span class="c"># protective code against loops in skill tree</span>
         <span class="n">already_done</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
@@ -188,8 +207,12 @@
 
         <span class="n">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-    <span class="c"># TODO: Does not work, need to create a reverse the Manytomany relation</span>
+    <span class="c"># TODO: Does not work, need to create a reverse to the Manytomany relation</span>
 <div class="viewcode-block" id="StudentSkill.go_up_visitor"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.go_up_visitor">[docs]</a>    <span class="k">def</span> <span class="nf">go_up_visitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Help function to explore and invalidate (parent) Skill that depends on the failed Skill.</span>
+<span class="sd">        A failed prerequisite implies that the Skills that depends on it must be failed too.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c"># protective code against loops in skill tree</span>
         <span class="n">already_done</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 
@@ -204,6 +227,7 @@
         <span class="n">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StudentSkill.validate"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">reason_object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Validates a Skill (change its status to &quot;acquired&quot;)&quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">validate_student_skill</span><span class="p">(</span><span class="n">student_skill</span><span class="p">):</span>
             <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
                 <span class="n">skill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
@@ -220,6 +244,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">go_down_visitor</span><span class="p">(</span><span class="n">validate_student_skill</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StudentSkill.unvalidate"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.unvalidate">[docs]</a>    <span class="k">def</span> <span class="nf">unvalidate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">reason_object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Invalidates a Skill (change its status to &quot;not acquired&quot;)&quot;&quot;&quot;</span>
         <span class="k">def</span> <span class="nf">unvalidate_student_skill</span><span class="p">(</span><span class="n">student_skill</span><span class="p">):</span>
             <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
                 <span class="n">skill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
@@ -237,6 +262,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">go_up_visitor</span><span class="p">(</span><span class="n">unvalidate_student_skill</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StudentSkill.default"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.default">[docs]</a>    <span class="k">def</span> <span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">who</span><span class="p">,</span> <span class="n">reason</span><span class="p">,</span> <span class="n">reason_object</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;Reset&quot; a Skill (change its status to &quot;unknown&quot;)&quot;&quot;&quot;</span>
         <span class="n">SkillHistory</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">skill</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">skill</span><span class="p">,</span>
             <span class="n">student</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">student</span><span class="p">,</span>
@@ -250,7 +276,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">tested</span> <span class="o">=</span> <span class="k">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="StudentSkill.recommanded_to_learn"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.recommanded_to_learn">[docs]</a>    <span class="k">def</span> <span class="nf">recommanded_to_learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StudentSkill.recommended_to_learn"><a class="viewcode-back" href="../../skills.html#skills.models.StudentSkill.recommended_to_learn">[docs]</a>    <span class="k">def</span> <span class="nf">recommended_to_learn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if the Skill is to recommend to the Student.</span>
+<span class="sd">        All the tested and not acquired Skills will be recommended,</span>
+<span class="sd">        except if at least one of its prerequisites is not acquired</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">acquired</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tested</span><span class="p">:</span>
             <span class="k">return</span> <span class="k">False</span>
 

@@ -82,12 +82,14 @@
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">generate_random_password</span><span class="p">,</span> <span class="n">user_is_professor</span><span class="p">,</span> <span class="n">force_encoding</span>
 <span class="kn">import</span> <span class="nn">csv</span>
 
+
 <div class="viewcode-block" id="dashboard"><a class="viewcode-back" href="../../promotions.html#promotions.views.dashboard">[docs]</a><span class="nd">@user_is_professor</span>
 <span class="k">def</span> <span class="nf">dashboard</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Return an HttpResponse to the dashboard of the professor</span>
-<span class="sd">    :param request: </span>
-<span class="sd">    :return: </span>
+<span class="sd">    Return an HttpResponse to the dashboard of the Professor</span>
+
+<span class="sd">    :param request:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&quot;professor/dashboard.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s">&quot;lessons&quot;</span><span class="p">:</span> <span class="n">Lesson</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">professors</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">professor</span><span class="p">)</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">Count</span><span class="p">(</span><span class="s">&quot;students&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;stage&quot;</span><span class="p">),</span>
@@ -99,9 +101,10 @@
 <span class="k">def</span> <span class="nf">lesson_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get the details of a Lesson (students and heatmap)</span>
-<span class="sd">    :param request: </span>
-<span class="sd">    :param pk: primary key of a Lesson </span>
-<span class="sd">    :return: </span>
+
+<span class="sd">    :param request:</span>
+<span class="sd">    :param pk: primary key of a Lesson</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
@@ -129,7 +132,6 @@
                     <span class="n">skill</span><span class="o">.</span><span class="n">heatmap_class</span> <span class="o">=</span> <span class="s">&quot;mastered_not_enough&quot;</span>
                     <span class="k">continue</span>
 
-
                 <span class="n">percentage</span> <span class="o">=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">mastered</span><span class="p">)</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="k">if</span> <span class="n">total</span> <span class="k">else</span> <span class="mi">0</span>
 
                 <span class="k">if</span> <span class="n">percentage</span> <span class="o">&lt;</span> <span class="mf">0.25</span><span class="p">:</span>
@@ -145,7 +147,6 @@
             <span class="nb">print</span> <span class="n">e</span>
             <span class="nb">print</span> <span class="s">&quot;Error: could no calculate heatmap&quot;</span>
 
-
     <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&quot;professor/lesson/detail.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
         <span class="s">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
         <span class="s">&quot;number_of_students&quot;</span><span class="p">:</span> <span class="n">number_of_students</span><span class="p">,</span>
@@ -157,8 +158,9 @@
 <span class="k">def</span> <span class="nf">lesson_add</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Either return an HttpResponse with a LessonForm or create a new Lesson if POST method</span>
-<span class="sd">    :param request: </span>
-<span class="sd">    :return: </span>
+
+<span class="sd">    :param request:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">form</span> <span class="o">=</span> <span class="n">LessonForm</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s">&quot;POST&quot;</span> <span class="k">else</span> <span class="n">LessonForm</span><span class="p">()</span>
 
@@ -176,9 +178,10 @@
 <span class="k">def</span> <span class="nf">lesson_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Either return an HttpResponse with a LessonUpdateForm or update a Lesson if POST method</span>
-<span class="sd">    :param request: </span>
-<span class="sd">    :param pk: </span>
-<span class="sd">    :return: </span>
+
+<span class="sd">    :param request:</span>
+<span class="sd">    :param pk:</span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
@@ -198,9 +201,10 @@
 <span class="k">def</span> <span class="nf">lesson_student_add</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Add one or more students to a lesson : either with a CSV file (template provided) or manually </span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param pk: primary key of a Lesson</span>
-<span class="sd">    :return: </span>
+<span class="sd">    :return:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
@@ -270,6 +274,9 @@
                 <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s">&quot;professor/lesson/student/add.haml&quot;</span><span class="p">,</span> <span class="p">{</span>
                 <span class="s">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,})</span>
 
+            <span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span>
+                                 <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39; utilisateur(s) ont/a été importé(s) avec succès.&#39;</span><span class="p">)</span>
+
         <span class="k">elif</span> <span class="s">&#39;last_name_0&#39;</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;first_name_&quot;</span><span class="p">),</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                 <span class="n">number</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -306,7 +313,6 @@
 
                     <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">Test</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">lesson</span><span class="o">=</span><span class="n">lesson</span><span class="p">,</span> <span class="n">running</span><span class="o">=</span><span class="k">True</span><span class="p">):</span>
                         <span class="n">test</span><span class="o">.</span><span class="n">add_student</span><span class="p">(</span><span class="n">student</span><span class="p">)</span>
-        <span class="n">messages</span><span class="o">.</span><span class="n">add_message</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">messages</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">line_number</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="s">&#39; utilisateur(s) ont/a été importé(s) avec succès.&#39;</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;professor:lesson_detail&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,)))</span>
 
@@ -314,11 +320,13 @@
         <span class="s">&quot;lesson&quot;</span><span class="p">:</span> <span class="n">lesson</span><span class="p">,</span>
     <span class="p">})</span></div>
 
+
 <div class="viewcode-block" id="lesson_student_detail"><a class="viewcode-back" href="../../promotions.html#promotions.views.lesson_student_detail">[docs]</a><span class="nd">@user_is_professor</span>
 <span class="k">def</span> <span class="nf">lesson_student_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Query a Student and a Lesson to display it in the detail page</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param pk: primary key of a Student</span>
 <span class="sd">    :return: </span>
@@ -337,7 +345,8 @@
 <span class="k">def</span> <span class="nf">lesson_student_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display a form to change a Student&#39;s details or submit theses changes</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param pk: primary key of a Student</span>
 <span class="sd">    :return: </span>
@@ -364,7 +373,8 @@
 <span class="k">def</span> <span class="nf">lesson_student_test_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">test_pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Query a Student, Lesson and a Test and display it in the test detail page</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param pk: primary key of a Student</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param test_pk: primary key of a Test</span>
@@ -386,7 +396,8 @@
 <span class="k">def</span> <span class="nf">lesson_test_list</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Query a Lesson to display its associated tests</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param pk: primary key of a Lesson </span>
 <span class="sd">    :return: </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -402,7 +413,8 @@
 <span class="k">def</span> <span class="nf">lesson_test_add</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Query a Lesson to add tests to it</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param pk: primary key of a Lesson</span>
 <span class="sd">    :return: </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -417,7 +429,8 @@
 <span class="k">def</span> <span class="nf">lesson_test_update</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display a form to update a BaseTest in a Lesson</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param pk: primary key of a BaseTest</span>
 <span class="sd">    :return: </span>
@@ -444,7 +457,8 @@
 <div class="viewcode-block" id="lesson_skill_detail"><a class="viewcode-back" href="../../promotions.html#promotions.views.lesson_skill_detail">[docs]</a><span class="k">def</span> <span class="nf">lesson_skill_detail</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">skill_code</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Query a Lesson and a Skill to display the details of a skill</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param skill_code: code of a Skill</span>
 <span class="sd">    :return: </span>
@@ -473,7 +487,8 @@
 <span class="k">def</span> <span class="nf">regenerate_student_password</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Regenerate a password for a student</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :return: </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c"># TODO : TO DELETE ?</span>
@@ -491,7 +506,8 @@
 <span class="k">def</span> <span class="nf">update_pedagogical_ressources</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display a form to update a Resource</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param slug: slug of a Skill</span>
 <span class="sd">    :return: </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -638,7 +654,8 @@
 <span class="k">def</span> <span class="nf">remove_pedagogical_ressources</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">kind</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Remove a Sesamath, KhanAcademy or Resource object </span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param kind: value equal either to &quot;Sesamath&quot;, &quot;KhanAcademy&quot; or &quot;Resource&quot; </span>
 <span class="sd">    :param id: id of an object of the class given by kind</span>
 <span class="sd">    :return: </span>
@@ -677,7 +694,8 @@
 <span class="k">def</span> <span class="nf">validate_student_skill</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">student_skill</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Validate a Skill for a Student</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param student_skill: id of a StudentSkill</span>
 <span class="sd">    :return: </span>
@@ -701,7 +719,8 @@
 <span class="k">def</span> <span class="nf">unvalidate_student_skill</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">student_skill</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Invalidate a Skill for a Student</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param student_skill: id of a StudentSkill</span>
 <span class="sd">    :return: </span>
@@ -725,7 +744,8 @@
 <span class="k">def</span> <span class="nf">default_student_skill</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">student_skill</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Set a default value for a Student&#39;s Skill</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param lesson_pk: primary key of a Lesson</span>
 <span class="sd">    :param student_skill: id of a StudentSkill</span>
 <span class="sd">    :return: </span>
@@ -920,7 +940,6 @@
             <span class="n">exercice</span><span class="o">.</span><span class="n">skill</span> <span class="o">=</span> <span class="n">Skill</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="o">=</span><span class="n">skill_code</span><span class="p">)</span>
             <span class="n">exercice</span><span class="o">.</span><span class="n">context</span> <span class="o">=</span> <span class="n">html</span>
             <span class="n">exercice</span><span class="o">.</span><span class="n">testable_online</span> <span class="o">=</span> <span class="n">testable_online</span>
-
             <span class="n">exercice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">exercice</span> <span class="o">=</span> <span class="n">Context</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
@@ -1171,6 +1190,9 @@
 
     <span class="k">with</span> <span class="n">transaction</span><span class="o">.</span><span class="n">atomic</span><span class="p">():</span>
         <span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span> <span class="o">=</span> <span class="n">exercice</span>
+        <span class="k">if</span> <span class="n">exercice</span><span class="o">.</span><span class="n">testable_online</span><span class="p">:</span>
+            <span class="n">test_exercice</span><span class="o">.</span><span class="n">testable_online</span> <span class="o">=</span> <span class="k">True</span>
+            <span class="n">test_exercice</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">fully_testable_online</span> <span class="o">=</span> <span class="k">True</span>
         <span class="n">test_exercice</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;professor:lesson_test_online_exercices&#39;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">pk</span><span class="p">,))</span> <span class="o">+</span> <span class="s">&quot;#%s&quot;</span> <span class="o">%</span> <span class="n">test_exercice_pk</span><span class="p">)</span></div>
@@ -1220,7 +1242,8 @@
 <span class="k">def</span> <span class="nf">contribute_page</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Display a ResourceForm or submit it </span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :return: </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">short_name</span><span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">Stage</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()}</span>
@@ -1246,7 +1269,8 @@
 <div class="viewcode-block" id="global_resources_delete"><a class="viewcode-back" href="../../promotions.html#promotions.views.global_resources_delete">[docs]</a><span class="k">def</span> <span class="nf">global_resources_delete</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Delete a Resource</span>
-<span class="sd">    :param request: </span>
+
+<span class="sd">    :param request:</span>
 <span class="sd">    :param pk: primary key of a Resource</span>
 <span class="sd">    :return: </span>
 <span class="sd">    &quot;&quot;&quot;</span>

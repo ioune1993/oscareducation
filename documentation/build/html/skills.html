@@ -244,8 +244,10 @@ object the first time, the query is executed.</p>
 
 <dl class="class">
 <dt id="skills.models.SkillHistory">
-<em class="property">class </em><code class="descclassname">skills.models.</code><code class="descname">SkillHistory</code><span class="sig-paren">(</span><em>id</em>, <em>skill</em>, <em>student</em>, <em>datetime</em>, <em>value</em>, <em>content_type</em>, <em>object_id</em>, <em>reason</em>, <em>by_who</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#SkillHistory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.SkillHistory" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">skills.models.</code><code class="descname">SkillHistory</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#SkillHistory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.SkillHistory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>The reason why a Skill is acquired or not,
+or not yet, when and by who/how</p>
 <dl class="exception">
 <dt id="skills.models.SkillHistory.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#skills.models.SkillHistory.DoesNotExist" title="Permalink to this definition">¶</a></dt>
@@ -275,8 +277,7 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="skills.models.SkillHistory.datetime">
 <code class="descname">datetime</code><a class="headerlink" href="#skills.models.SkillHistory.datetime" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>The date the Skill status was created</p>
 </dd></dl>
 
 <dl class="method">
@@ -316,8 +317,7 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="skills.models.SkillHistory.reason">
 <code class="descname">reason</code><a class="headerlink" href="#skills.models.SkillHistory.reason" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>Why the Skill is validated or not</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -346,16 +346,16 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="skills.models.SkillHistory.value">
 <code class="descname">value</code><a class="headerlink" href="#skills.models.SkillHistory.value" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>The Skill status : unknown, acquired or not acquired</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="skills.models.StudentSkill">
-<em class="property">class </em><code class="descclassname">skills.models.</code><code class="descname">StudentSkill</code><span class="sig-paren">(</span><em>id</em>, <em>student</em>, <em>skill</em>, <em>tested</em>, <em>acquired</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">skills.models.</code><code class="descname">StudentSkill</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">django.db.models.base.Model</span></code></p>
+<p>The link between a Skill and a Student</p>
 <dl class="exception">
 <dt id="skills.models.StudentSkill.DoesNotExist">
 <em class="property">exception </em><code class="descname">DoesNotExist</code><a class="headerlink" href="#skills.models.StudentSkill.DoesNotExist" title="Permalink to this definition">¶</a></dt>
@@ -371,24 +371,27 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="skills.models.StudentSkill.acquired">
 <code class="descname">acquired</code><a class="headerlink" href="#skills.models.StudentSkill.acquired" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>When the Skill was acquired</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="skills.models.StudentSkill.default">
 <code class="descname">default</code><span class="sig-paren">(</span><em>who</em>, <em>reason</em>, <em>reason_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.default" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>“Reset” a Skill (change its status to “unknown”)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="skills.models.StudentSkill.go_down_visitor">
 <code class="descname">go_down_visitor</code><span class="sig-paren">(</span><em>function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.go_down_visitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.go_down_visitor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Help function to explore and validate prerequisites when a Skill is validated</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="skills.models.StudentSkill.go_up_visitor">
 <code class="descname">go_up_visitor</code><span class="sig-paren">(</span><em>function</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.go_up_visitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.go_up_visitor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Help function to explore and invalidate (parent) Skill that depends on the failed Skill.
+A failed prerequisite implies that the Skills that depends on it must be failed too.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="skills.models.StudentSkill.id">
@@ -403,9 +406,12 @@ object the first time, the query is executed.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="skills.models.StudentSkill.recommanded_to_learn">
-<code class="descname">recommanded_to_learn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.recommanded_to_learn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.recommanded_to_learn" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="skills.models.StudentSkill.recommended_to_learn">
+<code class="descname">recommended_to_learn</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.recommended_to_learn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.recommended_to_learn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determines if the Skill is to recommend to the Student.
+All the tested and not acquired Skills will be recommended,
+except if at least one of its prerequisites is not acquired</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="skills.models.StudentSkill.skill_id">
@@ -424,19 +430,20 @@ object the first time, the query is executed.</p>
 <dl class="attribute">
 <dt id="skills.models.StudentSkill.tested">
 <code class="descname">tested</code><a class="headerlink" href="#skills.models.StudentSkill.tested" title="Permalink to this definition">¶</a></dt>
-<dd><p>A wrapper for a deferred-loading field. When the value is read from this
-object the first time, the query is executed.</p>
+<dd><p>When the Skill was tested</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="skills.models.StudentSkill.unvalidate">
 <code class="descname">unvalidate</code><span class="sig-paren">(</span><em>who</em>, <em>reason</em>, <em>reason_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.unvalidate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.unvalidate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Invalidates a Skill (change its status to “not acquired”)</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="skills.models.StudentSkill.validate">
 <code class="descname">validate</code><span class="sig-paren">(</span><em>who</em>, <em>reason</em>, <em>reason_object</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/skills/models.html#StudentSkill.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#skills.models.StudentSkill.validate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Validates a Skill (change its status to “acquired”)</p>
+</dd></dl>
 
 </dd></dl>
 

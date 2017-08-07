@@ -57,7 +57,7 @@
 
 <div class="viewcode-block" id="remove_closed_tests"><a class="viewcode-back" href="../../../student.templatetags.html#student.templatetags.student_tags.remove_closed_tests">[docs]</a><span class="nd">@register</span><span class="o">.</span><span class="n">filter</span>
 <span class="k">def</span> <span class="nf">remove_closed_tests</span><span class="p">(</span><span class="n">teststudent_set</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">teststudent_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test__running</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">teststudent_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test__running</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">test__enabled</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
