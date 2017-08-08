@@ -905,6 +905,12 @@ def exercice_validation_form_submit(request, pk=None):
                 testable_online=testable_online,
                 added_by=request.user,
             )
+    # Now, delete all Questions and their links in the Context
+    # To avoid duplicated Questions
+    for q in exercice.get_questions():
+        q.delete()
+    for list_question in List_question.objects.filter(context=exercice.id):
+        list_question.delete()
 
     # Then, Question(s) creation, and links in List_question with the Context created
     if testable_online:
@@ -958,23 +964,18 @@ def exercice_validation_form_submit(request, pk=None):
                 }
             yaml_file = ruamel.yaml.round_trip_dump(new_question_answers)
 
-            # Professor info (source) is optional
-            if "source" in question:
-                with transaction.atomic():
-                    new_question, created = Question.objects.get_or_create(
-                        description=question["instructions"],
-                        answer=yaml_file,
-                        source=question["source"],
-                    )
-            else:
-                with transaction.atomic():
-                    new_question, created = Question.objects.get_or_create(
-                        description=question["instructions"],
-                        answer=yaml_file,
-                    )
+            # Add all the Questions in the Context (even the ones not modified)
+            # We deleted all the Questions and their links to this Context earlier
+            with transaction.atomic():
+                new_question = Question.objects.create(
+                    description=question["instructions"],
+                    answer=yaml_file,
+                    source=question["source"],
+                    indication=question["indication"],
+                )
 
             with transaction.atomic():
-                link, created = List_question.objects.get_or_create(
+                link = List_question.objects.create(
                     context_id=exercice.id,
                     question_id=new_question.id,
                 )
@@ -1121,6 +1122,7 @@ def exercice_update_json(request, pk):
             "type": question_type,
             "answers": answers,
             "source": question.source,
+            "indication": question.indication,
         })
 
     return HttpResponse(json.dumps({
