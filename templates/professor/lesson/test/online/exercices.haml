@@ -71,9 +71,14 @@
                 Erreur : Pas d'énoncé
             -if question.source
               %p
-                %b Information pour les professeurs :
+                %b Source(s) :
               .well.question-source
                 =question.source|safe
+            -if question.indication
+              %p
+                %b Indication pour les professeurs :
+              .well.question-indication
+                =question.indication|safe
 
             -with answer=question.get_answer
               -include "professor/exercice/exercice_with_answers_rendering.haml"

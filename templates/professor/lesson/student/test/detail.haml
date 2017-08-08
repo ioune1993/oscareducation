@@ -111,8 +111,11 @@
                                                     %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                                                     Incorrect
                                   -if question.source
-                                    Informations pour les professeurs:
-                                    %i {{ question.source }}
+                                    Source(s) :
+                                    {{ question.source }}
+                                  -if question.indication
+                                    Indication pour les professeurs :
+                                    {{ question.indication }}
                       -else
                         %i Déduit depuis les autres réponses
 
@@ -252,8 +255,11 @@
                                         %td.right-border{width: "100%"}
                                           Erreur : type de question non reconnu
                               -if question.source
-                                Informations pour les professeurs:
-                                %i {{ question.source }}
+                                Source(s) :
+                                {{ question.source }}
+                              -if question.indication
+                                Indication pour les professeurs :
+                                {{ question.indication }}
                     -else
                       %i Déduit depuis les autres réponses
 

@@ -91,6 +91,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                         "correct": false,
                     }],
                     "source": "",
+                    "indication": "",
                 }]
             })
             .error(function() {
@@ -168,6 +169,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 "correct": false
             }],
             "source": "",
+            "indication": "",
         })
     }
 
@@ -264,6 +266,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             correct: false,
         }],
         source: "",
+        indication: "",
     }]
 
     $scope.yamlValidationResult = "";

@@ -94,9 +94,13 @@
                     %option{value: "graph"} Réponse sur un graphique
                     %option{value: "professor"} Réponse corrigée par le professeur
               .form-group
-                %label.control-label.col-sm-2 Information pour les professeurs
+                %label.control-label.col-sm-2 Source(s)
                 .col-sm-10
-                  %input.form-control{type: "text", ng-model: "question.source", ng-required: "false"}
+                  %textarea.form-control{type: "text", ng-model: "question.source", ng-required: "false", rows: "3"}
+              .form-group
+                %label.control-label.col-sm-2 Indication pour les professeurs
+                .col-sm-10
+                  %input.form-control{type: "text", ng-model: "question.indication", ng-required: "false"}
             %ul.list-group
               %li.list-group-item{ng-if: "question.type != \"professor\"", ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
                 .form-horizontal{ng-if: "question.type != \"graph\""}

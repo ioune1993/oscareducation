@@ -81,7 +81,9 @@ class Question(models.Model):
     """The list of possible true answers, as well as false answers, depending on the type.
         For now, the type is also included in this field."""
     source = models.CharField(max_length=255, null=True, blank=True)
-    """Information that can only the Professors"""
+    """Source(s) needed to create the question"""
+    indication = models.CharField(max_length=255, null=True, blank=True)
+    """Indication/Commentary only visible to the Professor"""
 
     def get_answer(self):
         """Get the type and the correct answers in the YAML format"""
