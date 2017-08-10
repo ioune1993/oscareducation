@@ -147,7 +147,7 @@ def validate_exercice(request, test_student, test_exercice):
             elif data["type"] == "graph":
                 graph_list = list()
                 for key, value in request.POST.items():
-                    #key has the form "graph-0-point-1-Y" for type_question-id_question-type_answer-id_answer
+                    # key has the form "graph-0-point-1-Y" for type_question-id_question-type_answer-id_answer
                     if key == "csrfmiddlewaretoken":
                         continue
                     # If the graph element is read for the first time (a graph element may contain several coordinates)

@@ -261,15 +261,15 @@ class Answer(models.Model):
             index += 1
         return questions_with_answers
 
-    def contains_professor(self):
+    def contains_professor_not_assessed(self):
         """Does the Answer contain a response that need to be assessed by a Professor?
 
-        :return: True if the Answer has at least one response of Professor type, False otherwise
+        :return: True if the Answer has at least one response of Professor type not assessed, False otherwise
         :rtype: bool
         """
         professor = False
-        for question in self.test_exercice.exercice.get_questions():
-            if question.get_type() == "professor":
+        for index, question in enumerate(self.test_exercice.exercice.get_questions()):
+            if question.get_type() == "professor" and self.get_correction(index) == -1:
                 professor = True
         return professor
 
@@ -289,7 +289,21 @@ class Answer(models.Model):
             return False
         else:
             answers[str(index)]["correct"] = correction
+            new_answer = [answers]
+            self.raw_answer = json.dumps(new_answer, indent=4)
+            self.save()
             return True
+
+    def get_correction(self, index):
+        """Get the correction of the answer to the Question number index
+
+        :param index: The question index to consult for the correction
+        :type index: int
+        :return: 1 if the correction is correct, 0 if the correction is incorrect, -1 if it is not corrected yet
+        :rtype: int
+        """
+        answers = self.get_answers()
+        return int(answers[str(index)]["correct"])
 
     def evaluate(self):
         """Evaluates the attached Context, determines if all of its Questions are correct
@@ -329,6 +343,17 @@ class TestStudent(models.Model):
 
     class Meta:
         ordering = ['test__created_at']
+
+    def has_answers_to_assess(self):
+        """Has the test at least one answer that need to be assessed by a Professor?
+
+        :return: True if at least one answer is not corrected yet, False otherwise
+        :rtype: bool
+        """
+        for answer in self.answer_set.all():
+            if answer.contains_professor_not_assessed():
+                return True
+        return False
 
     def test_exercice_answer_for_offline_test(self):
         """Get the TestExercice with their answers for the offline tests"""

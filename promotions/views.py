@@ -30,7 +30,7 @@ from django.db.models import Count
 
 from skills.models import Skill, StudentSkill, CodeR
 from resources.models import KhanAcademy, Sesamath, Resource
-from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question
+from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question, Answer
 from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
@@ -39,6 +39,7 @@ from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, St
     TestUpdateForm, SesamathForm, ResourceForm, CSVForm
 from .utils import generate_random_password, user_is_professor, force_encoding
 import csv
+from django.http import JsonResponse
 
 
 @user_is_professor
@@ -348,6 +349,35 @@ def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
         "student": student,
         "student_test": student_test,
     })
+
+
+def professor_correct(request):
+    """The Professor assess a professor-type Questions for a Student"""
+    correction = request.GET.get('correction', None)
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    answer_id = list_id[0]
+    index_id = list_id[1]
+    answer = Answer.objects.get(id=answer_id)
+    result = answer.assess(index_id, int(correction))
+    data = {
+        "result": result,
+    }
+    return JsonResponse(data)
+
+
+def professor_iscorrect(request):
+    """Get the correction for a professor-type Questions for a Student"""
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    answer_id = list_id[0]
+    index_id = list_id[1]
+    answer = Answer.objects.get(id=answer_id)
+    correction = answer.get_correction(index_id)
+    data = {
+        "correction": correction,
+    }
+    return JsonResponse(data)
 
 
 @user_is_professor
