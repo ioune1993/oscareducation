@@ -40,10 +40,10 @@ $(function() {
                 dataType: 'json',
                 success: function (data) {
                     if (data.result){
-                        alert("Question corrigée ! Good");
+                        // msg: Question corrigée
                     }
                     else{
-                        alert("La question a déjà été corrigée ! Good");
+                        // msg: Question déjà corrigée
                     }
                 }
             });
@@ -91,10 +91,10 @@ $(function() {
                 dataType: 'json',
                 success: function (data) {
                     if (data.result){
-                        alert("Question corrigée ! Bad");
+                        // msg: Question corrigée
                     }
                     else{
-                        alert("La question a déjà été corrigée ! Bad");
+                        // msg: Question déjà corrigée
                     }
                 }
             });
@@ -103,23 +103,4 @@ $(function() {
 
     $(".good").each(color_good);
     $(".bad").each(color_bad);
-
-    /*$(".btn.btn-default.good").each(function (index) {
-        $(this).on("click", function () {
-            var id = this.name;
-
-            $.ajax({
-                url: '/professor/professor_correct/',
-                data: {
-                    'fff': 1
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if (data.correct) {
-                        alert(id);
-                    }
-                }
-            });
-        });
-    });*/
 });

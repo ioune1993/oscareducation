@@ -253,11 +253,9 @@
                                         %td.right-border{width: "100%"}
                                           Erreur : type de question non reconnu
                               -if question.source
-                                Source(s) :
-                                {{ question.source }}
+                                Source(s) : {{ question.source }}
                               -if question.indication
-                                Indication pour les professeurs :
-                                {{ question.indication }}
+                                %br Indication pour les professeurs : {{ question.indication }}
                     -else
                       %i Déduit depuis les autres réponses
 

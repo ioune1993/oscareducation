@@ -10,6 +10,7 @@ from django.contrib.contenttypes.models import ContentType
 import yaml
 import yamlordereddictloader
 import json
+import re
 
 
 class Context(models.Model):
@@ -155,6 +156,13 @@ class Question(models.Model):
                                for x in raw_correct_answers["answers"]]
             response = response.strip().replace(" ", "").lower().encode("Utf-8") if isinstance(response,
                                                                                                basestring) else response
+            # Equivalence case: Replace dot by a comma:
+            # Ex : 0.585 becomes 0,585
+            response = re.sub(r"(\d+).(\d*)", r"\1,\2", response)
+
+            # Equivalence case: Delete the meaningless zeros:
+            # Ex : 0,585000 becomes 0,585
+            response = re.sub(r"^(\d+,\d*?[1-9])0+$", r"\1", response)
 
             if response in [x for x in correct_answers]:
                 return 1
@@ -189,11 +197,11 @@ class Question(models.Model):
             number_good_answers = 0
             for elem1 in student_answers:
                 for elem2 in raw_correct_answers["answers"]:
-                    if(int(elem1["Y"]) == elem2["graph"]["coordinates"]["Y"] and int(elem1["X"]) == elem2["graph"]["coordinates"]["X"]):
+                    if int(elem1["Y"]) == elem2["graph"]["coordinates"]["Y"] and int(elem1["X"]) == elem2["graph"]["coordinates"]["X"]:
                         raw_correct_answers["answers"].remove(elem2)
                         number_good_answers += 1
 
-            if(number_good_answers == len(student_answers)):
+            if number_good_answers == len(student_answers):
                 return 1
             else:
                 return 0
