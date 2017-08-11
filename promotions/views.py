@@ -4,6 +4,11 @@ import os
 import sys
 import json
 import traceback
+import base64
+from django.core.files.storage import default_storage
+import time
+from django.core.files.base import ContentFile
+from urlparse import urljoin
 
 import yaml
 import ruamel.yaml
@@ -28,7 +33,7 @@ from django.views.decorators.http import require_POST
 from django.db import transaction
 from django.db.models import Count
 
-from skills.models import Skill, StudentSkill, CodeR
+from skills.models import Skill, StudentSkill, CodeR, Section
 from resources.models import KhanAcademy, Sesamath, Resource
 from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question
 from users.models import Student
@@ -447,16 +452,188 @@ def regenerate_student_password(request):
     return HttpResponse(new_password)
 
 
+def get_encoded_image(encoded_image=None):
+
+    """
+    Save the received in request base64 encoded image and return the image path to serve.
+    """
+
+    extension = str(encoded_image).split(".")[-1]
+    path = default_storage.save('{file_name}.{extension}'.format(file_name=time.time().__str__(),
+                                                                          extension=extension),
+                                ContentFile(encoded_image.read()))
+    return path
+
 @user_is_professor
-def update_pedagogical_ressources(request, slug):
+def update_pedagogical_ressources(request, type, id):
     """
     Display a form to update a Resource
     :param request: 
-    :param slug: slug of a Skill
+    :param id: id of a Skill, Section or CodeR
+    :param type: string containing either "skill", "section" or "coder"
     :return: 
     """
-    skill = get_object_or_404(Skill, code=slug)
 
+    if request.method == "POST" and request.POST["form_type"] == "my_resource" :
+        data = {}
+        data['kind'] = request.POST["type"]
+        data['title'] = request.POST["title"]
+        data['author'] = request.user.username
+        data['comment'] = request.POST["text"]
+        data['resoures'] = []
+
+        for i in filter(lambda x: x.startswith("link_name"), request.POST.keys()):
+            number = i.split("_")[-1]
+            resource_data = {}
+            resource_data['mediaType'] = "link"
+            resource_data['optionalName'] = request.POST["link_name_" + number]
+            resource_data['type'] = request.POST["link_type_" + number]
+            resource_data['link'] = request.POST["url_" + number]
+            print(resource_data)
+            data['resoures'].append(resource_data)
+
+        for i in filter(lambda x: x.startswith("file_name"), request.POST.keys()):
+            number = i.split("_")[-1]
+            resource_data = {}
+            resource_data['mediaType'] = "file"
+            resource_data['optionalName'] = request.POST["file_name_" + number]
+            resource_data['type'] = request.POST["file_type_" + number]
+            path = get_encoded_image(request.FILES["file_" + number])
+            resource_data['file'] = path
+            data['resoures'].append(resource_data)
+
+        with transaction.atomic():
+            new_resource = Resource.objects.create(section=request.POST['section'],
+                                    content=data,
+                                    added_by_id=request.user.id)
+            if type == 'skill':
+                add_to = Skill.objects.get(id=id)
+            elif type == 'section':
+                add_to = Section.objects.get(id=id)
+            elif type == 'coder':
+                add_to = CodeR.objects.get(id=id)
+            add_to.resource.add(new_resource)
+
+    elif request.method == "POST" and request.POST["form_type"] == "lesson_khanacademy" :
+        print("Creating lesson_khanacademy", request.POST)
+        # TODO : Les urls viennent de KhanAcademy, pas youtube : corriger le split !
+        youtube_id = request.POST["url"].split("?")[1].split("=")[1]
+        if KhanAcademy.objects.filter(youtube_id=youtube_id):
+            my_khanacademy_resource = KhanAcademy.objects.get(youtube_id=youtube_id)
+        else:
+            #TODO : Create KhanAcademy resource if url not found or discard ?
+            print("La ressource n'existe pas ...")
+        existing_resources = Resource.objects.filter(section=request.POST['section'])
+        exist = False
+        for res in existing_resources:
+            if res.content.get('from') == "skills_khanacademyvideoskill":
+                if res.content['refrenced'] == my_khanacademy_resource.id:
+                    new_resource = res
+                    exist = True
+
+        with transaction.atomic():
+            if not exist:
+                data = {}
+                data['from'] = "skills_khanacademyvideoskill"
+                data['refrenced'] = my_khanacademy_resource.id
+                new_resource = Resource.objects.create(section=request.POST['section'],content=data, added_by_id=request.user.id)
+
+            if type == 'skill':
+                add_to = Skill.objects.get(id=id)
+            elif type == 'section':
+                add_to = Section.objects.get(id=id)
+            elif type == 'coder':
+                add_to = CodeR.objects.get(id=id)
+            add_to.resource.add(new_resource)
+
+    elif request.method == "POST" and request.POST["form_type"] == "sesamath_reference":
+        #TODO Adapter les templates pour minimiser les fichiers utilisés (voir code précédent)
+
+        my_sesamath_resource = get_object_or_404(Sesamath, pk=request.POST['ref_pk'])
+        existing_resources = Resource.objects.filter(section=None)
+        exist = False
+        for res in existing_resources:
+            if res.content['from'] == "skills_sesamathskill":
+                if res.content['refrenced'] == my_sesamath_resource.id:
+                    new_resource = res
+                    exist = True
+        with transaction.atomic():
+            if not exist:
+                data = {}
+                data['from'] = "skills_sesamathskill"
+                data['refrenced'] = my_sesamath_resource.id
+                new_resource = Resource.objects.create(section=request.POST['section'],content=data, added_by_id=request.user.id)
+            if type == 'skill':
+                add_to = Skill.objects.get(id=id)
+            elif type == 'section':
+                add_to = Section.objects.get(id=id)
+            elif type == 'coder':
+                print("coder")
+                add_to = CodeR.objects.get(id=id)
+            add_to.resource.add(new_resource)
+
+    elif request.method == "POST":
+        print(request.POST)
+
+    if type =='skill':
+        base = get_object_or_404(Skill, id=id)
+    elif type == 'section':
+        base = get_object_or_404(Section, id=id)
+    elif type == 'coder':
+        base = get_object_or_404(CodeR, id=id)
+
+    resource_form = ResourceForm()
+    KhanAcademy_form = KhanAcademyForm()
+    Sesamath_form = SesamathForm()
+
+    personal_resource = base.resource.filter(section="personal_resource")
+    other_resource = base.resource.filter(section="other_resource")
+    exercice_resource = base.resource.filter(section="exercice_resource")
+    lesson_resource = base.resource.filter(section="lesson_resource")
+    exercice_resource_sesamath = list()
+    lesson_resource_sesamath = list()
+    lesson_resource_khanacademy = list()
+
+    # Sorting the different type of resources by category (personal, lesson, exercice or other)
+    # and by type (khanacademy, sesamath or other)
+    for exo in exercice_resource:
+        if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
+            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            exercice_resource_sesamath.append([exo.pk,resource])
+            exercice_resource = exercice_resource.exclude(pk=exo.pk)
+
+    for exo in lesson_resource:
+        if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
+            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            lesson_resource_sesamath.append([exo.pk,resource])
+            lesson_resource = lesson_resource.exclude(pk=exo.pk)
+
+        elif exo.content.get('from') and exo.content['from'] == "skills_khanacademyvideoskill":
+            resource = get_object_or_404(KhanAcademy, pk=exo.content['refrenced'])
+            lesson_resource_khanacademy.append([exo.pk, resource])
+            lesson_resource = lesson_resource.exclude(pk=exo.pk)
+
+    sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="Manuel")
+    sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="Cahier")
+    return render(request, "professor/skill/update_pedagogical_resources.haml", {
+        "sesamath_references_manuals": sesamath_references_manuals,
+        "sesamath_references_cahier": sesamath_references_cahiers,
+        "base": base,
+        "personal_resources": personal_resource,
+        "other_resources": other_resource,
+        "exercice_resources": exercice_resource,
+        "exercice_resource_sesamath": exercice_resource_sesamath,
+        "lesson_resources": lesson_resource,
+        "lesson_resource_sesamath": lesson_resource_sesamath,
+        "lesson_resource_khanacademy": lesson_resource_khanacademy,
+        "resource_form": resource_form,
+        "KhanAcademy_form": KhanAcademy_form,
+        "sesamath_reference_form": Sesamath_form,
+        "type": type,
+    })
+
+    # TODO : TO DELETE
+    """
     resource_form = ResourceForm()
     KhanAcademy_form =  KhanAcademyForm()
 
@@ -464,9 +641,6 @@ def update_pedagogical_ressources(request, slug):
     other_resource = skill.resource.filter(added_by_id=request.user, section="other_resource")
     exercice_resource = skill.resource.filter(added_by_id=request.user, section="exercice_resource")
     lesson_resource = skill.resource.filter(added_by_id=request.user, section="lesson_resource")
-
-
-
 
     if request.method == "GET":
         return render(request, "professor/skill/update_pedagogical_resources.haml", {
@@ -590,44 +764,43 @@ def update_pedagogical_ressources(request, slug):
         "personal_resource": personal_resource,
         "object": skill,
     })
+    """
 
 
 @user_is_professor
-def remove_pedagogical_ressources(request, kind, id):
+def remove_pedagogical_ressources(request, type, id_type, kind, id):
     """
     Remove a Sesamath, KhanAcademy or Resource object 
     :param request: 
-    :param kind: value equal either to "Sesamath", "KhanAcademy" or "Resource" 
-    :param id: id of an object of the class given by kind
+    :param type: contains "skill", "section" or "coder"
+    :param id_type: id of Skill, Section or CodeR
+    :param kind: value equal either to "sesamath", "khanAcademy" or "resource" 
+    :param id: id of a Resource
     :return: 
     """
-    kind_to_model = {
-        "sesamath": Sesamath,
-        "khanacademy": KhanAcademy,
-        "resource": Resource,
-    }
-
-    if kind not in kind_to_model:
-        print "kind not in models list"
+    if not Resource.objects.filter(id=id):
+        print "The resource doesn't exist (kind : %s, id : %s)" % (kind, id)
         return HttpResponseBadRequest()
 
-    model = kind_to_model[kind]
+    object = Resource.objects.get(id=id)
+    if type == 'skill':
+        base = Skill.objects.get(resource=id)
+    elif type == 'section':
+        base = Section.objects.get(resource=id)
+    elif type == 'coder':
+        base = CodeR.objects.get(resource=id)
+    else:
+        print("The type given (%s)does not exist", type)
 
-    if not model.objects.filter(id=id):
-        print "object doesn't exist in db for %s:%s" % (kind, id)
-        return HttpResponseBadRequest()
+    # We delete the relation with the resource
+    base.resource.remove(object)
 
-    object = model.objects.get(id=id)
-
-    if object.added_by != request.user:
-        print "'%s' didn't added '%s', '%s' did" % (request.user, object, object.added_by)
-        return HttpResponseForbidden()
-
-    skill = object.skill
-
-    object.delete()
-
-    return HttpResponseRedirect(reverse("professor:skill_update_pedagogical_ressources", args=(skill.code,)))
+    # If it's a "personal" resource (i.e. not a sesamath or khanacademy resource), we should also delete it from
+    # Resource table, since a "personal" resource can not be used by other skill/section/coder's
+    # We do not delete the other types of resources because they could be used by another skill (unlike personal resources)
+    if kind == 'resource':
+        object.delete()
+    return HttpResponseRedirect(reverse("professor:update_pedagogical_ressources", args=(type, id_type)))
 
 
 @require_POST

@@ -46,7 +46,7 @@
                     =link.title|default:link.link
 
       -if user.professor and resource.added_by == request.user
-        %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:skill_remove_pedagogical_ressources' 'resource' resource.id %}"}
+        %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:remove_pedagogical_ressources' 'resource' resource.id %}"}
           supprimer
 
 
@@ -54,7 +54,7 @@
     .panel.panel-default{style: "display: none", id: "{{ kind }}-form"}
       .panel-heading= title
       .panel-body
-        %form{method: "POST", enctype: "multipart/form-data", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
+        %form{method: "POST", enctype: "multipart/form-data", action: "{% url 'professor:update_pedagogical_ressources' object.code %}"}
           -csrf_token
 
           -if resource_form.errors

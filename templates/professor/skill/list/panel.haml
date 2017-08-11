@@ -18,18 +18,27 @@
           %tr.color-title.clickable{style: "background-color: {{ color }}", data-toggle: "collapse", data-target: "#collapse-{{ stage.id }}-{{ section.grouper|slugify }}", id: "accordion-{{ stage.id }}-{{ section.id }}", role: "tablist", aria-multiselectable: "true"}
             -with code=section.list|first
               %th.center{width: "69px"}= code.code|split_skill_as_section
-            %th{colspan: 5} {% get_section_name section.grouper %}
+            %th{colspan: 6} {% get_section_name section.grouper %}
           %tbody.collapse{id: "collapse-{{ stage.id }}-{{ section.grouper|slugify }}"}
+            %tr
+              %td.center{colspan: 6}
+                %a.btn.btn-info{href: "{% url 'professor:update_pedagogical_ressources' 'section' section.grouper %}"} Ajouter une ressource
+
             %tr.active
               %th.center R
-              %th{colspan: 4} Ressources
+              %th{colspan: 6} Ressources
                 %span {% get_skill_code section.grouper %}
-              -with code=section.list|first
-                -for r in code_r
-                  -if r.section == code.code|split_skill_as_section
-                    %tr
-                      %td.center= r.sub_code
-                      %td{colspan: 6}= r.name
+
+            -with code=section.list|first
+              -for r in code_r
+                -if r.section.name == code.code|split_skill_as_section
+                  %tr
+                    %td.center= r.sub_code
+                    %td{colspan: 2}= r.name
+                    %td.center
+                      %a.btn.btn-primary{href: "{% url 'professor:update_pedagogical_ressources' 'coder' r.id %}"}
+                        Ajouter une ressource
+
             -regroup section.list by code|split_skill_as_subsection|slice:":1" as categories
             -for category in categories
               %tr.active
@@ -59,7 +68,7 @@
                       Ajouter une question
                     %br
                     %br
-                    %a.btn.btn-primary{href: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
+                    %a.btn.btn-primary{href: "{% url 'professor:update_pedagogical_ressources' 'skill' skill.id %}"}
                       Ajouter une ressource
                     %br
                     %br

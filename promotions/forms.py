@@ -90,8 +90,8 @@ class KhanAcademyForm(forms.Form):
 
     #url = forms.URLField()
     url = forms.CharField(required=False, label="Nom")
-
-    """def clean_url(self):
+    """
+    def clean_url(self):
         data = self.cleaned_data["url"].split("?")[0]
 
         slug = filter(None, data.split("/"))[-1]

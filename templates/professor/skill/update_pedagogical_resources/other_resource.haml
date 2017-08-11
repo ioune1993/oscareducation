@@ -1,0 +1,78 @@
+-load static
+-load bootstrap3
+
+%h5 Autres ressources
+
+%button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
+  Ajouter
+-if user.professor
+  .panel.panel-default{style: "display: none", id: "other_resource-form"}
+      .panel-heading= title
+      .panel-body
+        %form{method: "POST", enctype: "multipart/form-data", action: ""}
+          -csrf_token
+
+          -if resource_form.errors
+            =resource_form.errors
+          %input{type: "hidden", value: "my_resource", name: "form_type"}
+          %input{type: "hidden", value: "other_resource", name: "section"}
+          %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+          .col-md-6
+            -include "professor/skill/update_pedagogical_resources/media/title_field.haml"
+          .col-md-6
+            -include "professor/skill/update_pedagogical_resources/media/kind_field.haml"
+          .row
+            %div.align-right
+              %button.btn.btn-success.addMore.btn-links{type: "button", "data-target":"link"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un lien
+                %span.badge
+                  0
+              %button.btn.btn-success.addMore.btn-files{type: "button", "data-target":"file"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un fichier
+                %span.badge
+                  0
+            %div{id:'form_resource'}
+              %ul.list-group
+                -include "professor/skill/update_pedagogical_resources/media/link_fields.haml"
+              %ul.list-group
+                -include "professor/skill/update_pedagogical_resources/media/file_fields.haml"
+          .col-md-12
+            -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
+          %button.btn.btn-primary{type: "submit"}
+            Valider
+%ul.list-group
+  -for resource in other_resources
+    %li.list-group-item
+      %list-group-item-heading= resource.content.title
+        -if resource.content.author
+          par
+          %i
+            =resource.content.author
+        %small= resource.content.kind
+      %p.list-group-text
+        -if resource.content.comment
+          =resource.content.comment|safe
+
+        -for item in resource.content.resoures
+          -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
+            .row
+              .col-md-12
+                -if item.optionalName
+                  %p.small=item.optionalName
+                %p.badge=item.mediaType
+                -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                  %p=item.link
+                    %a.btn.btn-primary.btn-lg{href: "{{ item.link }}", target: "_blank"}
+                      %span.glyphicon.glyphicon-link Visiter
+                -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                  %p=item.file
+                  %a.btn.btn-primary.btn-lg{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                    %span.glyphicon.glyphicon-save-file Télécharger
+            %hr
+              -if user.professor
+        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+          -csrf_token
+          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+            supprimer

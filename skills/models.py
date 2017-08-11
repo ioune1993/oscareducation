@@ -47,7 +47,7 @@ class Skill(models.Model):
     """The last user that modified this Skill"""
 
     def __unicode__(self):
-        return self.code
+        return self.code + " : " + self.name
 
 
 class Section(models.Model):
@@ -100,6 +100,8 @@ class CodeR(models.Model):
     skill = models.ManyToManyField('Skill', related_name="coder_skill+")
     """The Skills linked to this CodeR. A Skill can be linked to several CodeR"""
 
+    def __unicode__(self):
+        return self.sub_code + " : " + self.name
 
 class SkillHistory(models.Model):
     skill = models.ForeignKey(Skill)

@@ -27,15 +27,10 @@ class Stage(models.Model):
 
     def skills_with_exercice_count(self):
         """ count Context in relation with the current Skills """
-        #print self, self.skills.count()
-        return self.skills.annotate(Count('context'))
-
-
-
+        return self.skills.annotate(count=Count('section_id', distinct=True))
 
     def __unicode__(self):
         return self.name
-
 
     class Meta:
         unique_together = ('name', 'level')

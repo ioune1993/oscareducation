@@ -3,11 +3,11 @@
 
 
 %h5 Ressources personnelles
-          %small pour mes élèves uniquement
-          %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
-            Ajouter
+  %small pour mes élèves uniquement
+    %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
+      Ajouter
 -if user.professor
-    .panel.panel-default{style: "display: none", id: "personal_resource-form"}
+  .panel.panel-default{style: "display: none", id: "personal_resource-form"}
       .panel-heading= title
       .panel-body
         %form{method: "POST", enctype: "multipart/form-data", action: ""}
@@ -15,16 +15,15 @@
 
           -if resource_form.errors
             =resource_form.errors
-          %input{type: "hidden", value: "{{ kind }}", name: "form_type"}
-          %input{type: "hidden", value: "{{ kind }}", name: "section"}
-          %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
+          %input{type: "hidden", value: "my_resource", name: "form_type"}
+          %input{type: "hidden", value: "personal_resource", name: "section"}
           %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
           .col-md-6
             -include "professor/skill/update_pedagogical_resources/media/title_field.haml"
           .col-md-6
             -include "professor/skill/update_pedagogical_resources/media/kind_field.haml"
           .row
-            %div
+            %div.align-right
               %button.btn.btn-success.addMore.btn-links{type: "button", "data-target":"link"}
                 %span.glyphicon.glyphicon-plus
                 Ajouter un lien
@@ -35,11 +34,15 @@
                 Ajouter un fichier
                 %span.badge
                   0
-            %div{id:'personal_resource'}
+            %div{id:'form_resource'}
               %ul.list-group
                 -include "professor/skill/update_pedagogical_resources/media/link_fields.haml"
               %ul.list-group
                 -include "professor/skill/update_pedagogical_resources/media/file_fields.haml"
+          .col-md-12
+            -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
+          %button.btn.btn-primary{type: "submit"}
+            Valider
 
  
 %ul.list-group
@@ -55,8 +58,8 @@
       %p.list-group-text
         -if resource.content.comment
          %small=resource.content.comment|safe
-         %hr
         -for item in resource.content.resoures
+          %hr
           -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
             .row
               .col-md-12
@@ -71,8 +74,10 @@
                   %p=item.file
                   %a.btn.btn-primary.btn-lg{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
                     %span.glyphicon.glyphicon-save-file Télécharger
-    -if user.professor and resource.added_by == request.user
-        //%a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:remove_pedagogical_ressources' 'resource' resource.id %}"}
-          supprimer
+        -if user.professor
+          %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+            -csrf_token
+            %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+              supprimer
 
 
