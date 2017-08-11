@@ -101,11 +101,9 @@
                                                     %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                                                     Incorrect
                                     -if question.source
-                                      Source(s) :
-                                      {{ question.source }}
+                                      Source(s) : {{ question.source }}
                                     -if question.indication
-                                      Indication pour les professeurs :
-                                      {{ question.indication }}
+                                      %br Indication pour les professeurs : {{ question.indication }}
                         -else
                           %i Déduit depuis les autres réponses
 
@@ -148,116 +146,113 @@
                             -if context_questions.context
                               =context_questions.context|safe
                         -for index, question, type, student_answer, correct in answer.get_questions_with_answers
-                          %tr
-                            %td{colspan: 2}
-                              .answers-panel.panel{class: "{% if correct == 1 %}panel-success{% elif correct == 0 %}panel-danger{% else %}panel-warning{% endif %}"}
-                                .panel-heading
-                                  =question.description|safe
-                                .panel-body.answers-panel
-                                  -# The student_answer is an array, even if it contains one answer
-                                  %table.answers-table
-                                    -if type == "checkbox"
-                                      %tr
-                                        %td.right-border{width: "50%"}
-                                          %ul
-                                            -for i in student_answer
+                          -if correct != -1
+                            %tr
+                              %td{colspan: 2}
+                                .answers-panel.panel{class: "{% if correct == 1 %}panel-success{% elif correct == 0 %}panel-danger{% else %}panel-warning{% endif %}"}
+                                  .panel-heading
+                                    =question.description|safe
+                                  .panel-body.answers-panel
+                                    -# The student_answer is an array, even if it contains one answer
+                                    %table.answers-table
+                                      -if type == "checkbox"
+                                        %tr
+                                          %td.right-border{width: "50%"}
+                                            %ul
+                                              -for i in student_answer
+                                                %div
+                                                  %input{type: "checkbox", display: "inline-block", height: "100%", disabled, checked}
+                                                  %label{text-align: "left", display: "inline-block"}
+                                                    =question.get_answers_extracted|answer:i
+                                          %td{width: "50%", display: "block"}
+                                            -for j in question.get_answers_extracted
                                               %div
-                                                %input{type: "checkbox", display: "inline-block", height: "100%", disabled, checked}
-                                                %label{text-align: "left", display: "inline-block"}
-                                                  =question.get_answers_extracted|answer:i
-                                        %td{width: "50%", display: "block"}
-                                          -for j in question.get_answers_extracted
-                                            %div
-                                              -if j.1 == True
-                                                %input{type: "checkbox", display: "inline-block", height: "100%", disabled, checked}
-                                              -else
-                                                %input{type: "checkbox", display: "inline-block", height: "100%", disabled}
+                                                -if j.1 == True
+                                                  %input{type: "checkbox", display: "inline-block", height: "100%", disabled, checked}
+                                                -else
+                                                  %input{type: "checkbox", display: "inline-block", height: "100%", disabled}
 
-                                              %label{text-align: "left", display: "inline-block"}=j.0
-                                    -elif type == "text"
-                                      %tr
-                                        %td.right-border{width: "50%"}
-                                          -for j in student_answer
-                                            = j
-                                        %td{width: "50%"}
-                                          %ul
-                                            -for j in question.get_answers
-                                              %li= j
-                                    -elif type == "math" or type == "math-simple" or type == "math-advanced"
-                                      %tr
-                                        %td.right-border{width: "50%"}
-                                          -for j in student_answer
-                                            \\(
-                                            =j
-                                            \\)
-                                            %br
-                                            (code latex : <code>{{ j }}</code>)
-                                        %td{width: "50%"}
-                                          %ul
-                                            -for j in question.get_answers
-                                              %li
-                                                \\(
-                                                =j
-                                                \\)
-                                                %br
-                                                (code latex : <code>{{ j }}</code>)
-                                    -elif type == "radio"
-                                      %tr
-                                        %td.right-border{width: "50%"}
-                                          %ul
-                                            -for i in student_answer
+                                                %label{text-align: "left", display: "inline-block"}=j.0
+                                      -elif type == "text"
+                                        %tr
+                                          %td.right-border{width: "50%"}
+                                            -for j in student_answer
+                                              = j
+                                          %td{width: "50%"}
+                                            %ul
+                                              -for j in question.get_answers
+                                                %li= j
+                                      -elif type == "math" or type == "math-simple" or type == "math-advanced"
+                                        %tr
+                                          %td.right-border{width: "50%"}
+                                            -for j in student_answer
+                                              \\(
+                                              =j
+                                              \\)
+                                              %br
+                                              (code latex : <code>{{ j }}</code>)
+                                          %td{width: "50%"}
+                                            %ul
+                                              -for j in question.get_answers
+                                                %li
+                                                  \\(
+                                                  =j
+                                                  \\)
+                                                  %br
+                                                  (code latex : <code>{{ j }}</code>)
+                                      -elif type == "radio"
+                                        %tr
+                                          %td.right-border{width: "50%"}
+                                            %ul
+                                              -for i in student_answer
+                                                %div
+                                                  %input{type: "radio", display: "inline-block", height: "100%", disabled, checked}
+                                                  %label{text-align: "left", display: "inline-block"}
+                                                    =question.get_answers_extracted|answer:i
+                                          %td{width: "50%", display: "block"}
+                                            -for j in question.get_answers_extracted
                                               %div
-                                                %input{type: "radio", display: "inline-block", height: "100%", disabled, checked}
-                                                %label{text-align: "left", display: "inline-block"}
-                                                  =question.get_answers_extracted|answer:i
-                                        %td{width: "50%", display: "block"}
-                                          -for j in question.get_answers_extracted
-                                            %div
-                                              -if j.1 == True
-                                                %input{type: "radio", display: "inline-block", height: "100%", disabled, checked}
-                                              -else
-                                                %input{type: "radio", display: "inline-block", height: "100%", disabled}
+                                                -if j.1 == True
+                                                  %input{type: "radio", display: "inline-block", height: "100%", disabled, checked}
+                                                -else
+                                                  %input{type: "radio", display: "inline-block", height: "100%", disabled}
 
-                                              %label{text-align: "left", display: "inline-block"}=j.0
-                                    -elif type == "professor" and correct != -1
-                                      %tr
-                                        %td.right-border{width: "100%"}
-                                          -for j in student_answer
-                                            = j
-                                      %tr
-                                        %td
-                                          .center
-                                            .btn-group-horizontal{data-toggle: "buttons", id: "{{ answer.id }}_{{ index }}"}
-                                              %label.btn.btn-default.good
-                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
-                                                Correct
-                                              %label.btn.btn-default.bad
-                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
-                                                Incorrect
-                                    -elif type == "graph"
-                                      %tr
-                                        %td.right-border{width: "50%"}
-                                          -for j in student_answer
-                                            =j
-                                        %td{width: "50%"}
-                                          %ul
-                                            -for x, y in question.get_graph_points
-                                              %li
-                                                (
-                                                =x
-                                                ;
-                                                =y
-                                                )
-                                    -else
-                                      %tr
-                                        %td.right-border{width: "100%"}
-                                          Erreur : type de question non reconnu
-                              -if question.source
-                                Source(s) : {{ question.source }}
-                              -if question.indication
-                                %br Indication pour les professeurs : {{ question.indication }}
-                    -else
-                      %i Déduit depuis les autres réponses
+                                                %label{text-align: "left", display: "inline-block"}=j.0
+                                      -elif type == "professor"
+                                        %tr
+                                          %td.right-border{width: "100%"}
+                                            -for j in student_answer
+                                              = j
+                                        %tr
+                                          %td
+                                            .center
+                                              .btn-group-horizontal{data-toggle: "buttons", id: "{{ answer.id }}_{{ index }}"}
+                                                %label.btn.btn-default.good
+                                                  %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                  Correct
+                                                %label.btn.btn-default.bad
+                                                  %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                  Incorrect
+                                      -elif type == "graph"
+                                        %tr
+                                          %td.right-border{width: "50%"}
+                                            -for j in student_answer
+                                              =j
+                                          %td{width: "50%"}
+                                            %ul
+                                              -for x, y in question.get_graph_points
+                                                %li
+                                                  (
+                                                  =x
+                                                  ;
+                                                  =y
+                                                  )
+                                -if question.source
+                                  Source(s) : {{ question.source }}
+                                -if question.indication
+                                  %br Indication pour les professeurs : {{ question.indication }}
+                      -else
+                        %i Déduit depuis les autres réponses
 
     -else
       %p L'élève n'a pas encore commencé le test en ligne.

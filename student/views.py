@@ -125,7 +125,7 @@ def validate_exercice(request, test_student, test_exercice):
         """
         # Help function
         def get_occurence(s, delimiter, occurence):
-            """Returns the n'th occurrence of the s splitted with the delimiter."""
+            """Returns the n'th occurrence of s splitted with the delimiter."""
             return s.split(delimiter)[occurence]
 
         raw_answer = {}
@@ -200,25 +200,22 @@ def validate_exercice(request, test_student, test_exercice):
         )
 
         # Evaluates the answer of the whole attached Context to assess the related Skill
-        is_correct = answer.evaluate
+        is_correct = answer.evaluate()
 
         student_skill = StudentSkill.objects.get(student=request.user.student, skill=test_exercice.skill)
 
-        if is_correct:
+        if is_correct == 1:
             student_skill.validate(
                 who=request.user,
                 reason="Réponse à une question.",
                 reason_object=test_exercice,
             )
-        else:
-            # Up traversal does not work, disabled
-            """
+        elif is_correct == 0:
             student_skill.unvalidate(
                 who=request.user,
                 reason="Réponse à une question.",
                 reason_object=test_exercice,
             )
-            """
 
     # update student skills, then redirect to self
     return HttpResponseRedirect(reverse("student_pass_test", args=(test_student.id,)))
