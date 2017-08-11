@@ -40,7 +40,7 @@
                 //=resource.content.resoures.optionalName|default:resource.content.resoures.link
 
       -if user.professor and resource.added_by == request.user
-        %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:skill_remove_pedagogical_ressources' 'resource' resource.id %}"}
+        %a.btn.btn-danger.btn-sm.remove.delete{href: "{% url 'professor:remove_pedagogical_ressources' 'resource' resource.id %}"}
           supprimer
 
 

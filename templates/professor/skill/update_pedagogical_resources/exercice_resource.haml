@@ -1,33 +1,163 @@
--load crispy_forms_tags
--load lesson_tags
 -load static
 -load bootstrap3
-.well
-      %h5 Cours
-      %h6
-        Videos
-        %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
-        -if user.professor
-         	%button.show-form.btn.btn-primary.btn-sm{"data-target": "#khan-form", style: "{% if KhanAcademy_form.errors %}display: none{% endif %}"}
-            Ajouter une vidéo
 
-	        %a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-	            aller sur la section math
-	        %form#khan-form{method: "POST", style: "{% if not khanacademy_skill_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' skill.code %}"}
-	        -csrf_token
+%h5 Exercices
 
-	        %input{type: "hidden", value: "khanacademy_skill", name: "form_type"}
-	        %input{type: "hidden", value: "{{ skill.code }}", name: "skill"}
-	        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+Exercices
+    %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+    -if user.professor
+      %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-cahier-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
+        Ajouter
 
-	        .form-group
- 
-	        %input#khan_ref_pk.form-control{type: "text", value: "", name: "ref_pk", style: "display: none"}
+      %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
+        aller sur la section manuels et cahiers
 
-	        %p
-	        	%input.btn.btn-primary{type: "submit", value: "Ajouter"}
+  .panel.panel-default
+    %table.table
+      -for sesamath in exercice_resource_sesamath
+        %tr{style: "position: relative"}
+          %td.center
+            %a{href: "{{ sesamath.1.on_oscar }}", target: "_blank"}
+              =sesamath.1.title
+          %td.center
+            =sesamath.1.classe
+          %td.center
+            =sesamath.1.year
 
-	        -for video in object.khanacademyvideoskill_set.all
-		        %center
-		          <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+          %td{width: "100px"}
+            -if user.professor
+              %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'sesamath' sesamath.0 %}"}
+                -csrf_token
+                %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                  supprimer
+
+  -if user.professor
+    %form{method: "POST", id: "sesamath-cahier-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: ""}
+      -csrf_token
+
+      %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
+      %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+      %input{type: "hidden", value: "exercice_resource", name: "section"}
+
+      .form-group
+        %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 50%;"}
+          -regroup sesamath_references_manuals by classe as classes
+          -for classe in classes
+            %li.dropdown-submenu
+              %a{tabindex: "-1", href: "#"}= classe.grouper
+              %ul.dropdown-menu
+                -regroup classe.list by chapitre as chapitres
+                  -for chapitre in chapitres
+                    -for ref in chapitre.list
+                      %li
+                        %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\", \"cahier\")"}
+                          -if chapitre.grouper
+                            =chapitre.grouper
+                            \-
+                          -if ref.section_kind and ref.section_kind != "-"
+                            [{{ ref.section_kind.strip }}]
+                          =ref.title
+
+          -for error in sesamath_reference_form.ref_pk.errors
+            %span.help-block= error
+
+        %span.help-block= sesamath_reference_form.errors
+
+      .form-group
+        .input-group
+          .input-group-addon Ressource sélectionnée :
+          %input.form-control{id: "ref_pk_title_cahier", type: "text", value: "", name: "ref_pk_title", disabled: None}
+
+      %input.form-control{type: "text", id: "ref_pk_cahier", value: "", name: "ref_pk", style: "display: none"}
+
+      .panel.panel-default{id: "sesamath_pdf_cahier", style: "display: none"}
+        .panel-heading
+          Aperçu
+        .panel-body
+          %object{data: "", type: "application/pdf", width: "100%", height: "600px"}
+            %iframe{src: "", style: "border: none;", width: "100%", height: "600px"}
+              Votre navigateur ne permet pas de voir des fichiers PDFs,
+              %a{href: "/pdf/sample-3pp.pdf"}
+                télécharger le PDF pour le voir
+
+
+
+      .form-group
+        %input.btn.btn-primary{type: "submit", value: "Ajouter"}
+
+Autres
+%button.show-form.btn.btn-sm.btn-primary{data-target: "#exercice_resource-form"}
+  Ajouter
+-if user.professor
+  .panel.panel-default{style: "display: none", id: "exercice_resource-form"}
+      .panel-heading= title
+      .panel-body
+        %form{method: "POST", enctype: "multipart/form-data", action: ""}
+          -csrf_token
+
+          -if resource_form.errors
+            =resource_form.errors
+          %input{type: "hidden", value: "my_resource", name: "form_type"}
+          %input{type: "hidden", value: "exercice_resource", name: "section"}
+          %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+          .col-md-6
+            -include "professor/skill/update_pedagogical_resources/media/title_field.haml"
+          .col-md-6
+            -include "professor/skill/update_pedagogical_resources/media/kind_field.haml"
+          .row
+            %div.align-right
+              %button.btn.btn-success.addMore.btn-links{type: "button", "data-target":"link"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un lien
+                %span.badge
+                  0
+              %button.btn.btn-success.addMore.btn-files{type: "button", "data-target":"file"}
+                %span.glyphicon.glyphicon-plus
+                Ajouter un fichier
+                %span.badge
+                  0
+            %div{id:'form_resource'}
+              %ul.list-group
+                -include "professor/skill/update_pedagogical_resources/media/link_fields.haml"
+              %ul.list-group
+                -include "professor/skill/update_pedagogical_resources/media/file_fields.haml"
+          .col-md-12
+            -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
+          %button.btn.btn-primary{type: "submit"}
+            Valider
+%ul.list-group
+  -for resource in exercice_resources
+    %li.list-group-item
+      %p.list-group-item-heading=resource.content.title
+        %small.badge=resource.id
+        -if resource.content.author
+          par
+          %span
+            =resource.content.author
+        %small.badge= resource.content.kind
+      %p.list-group-text
+        -if resource.content.comment
+         %small=resource.content.comment|safe
+         %hr
+        -for item in resource.content.resoures
+          -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
+            .row
+              .col-md-12
+                -if item.optionalName
+                    %p.small=item.optionalName
+                %p.badge=item.mediaType
+                -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                  %p=item.link
+                    %a.btn.btn-primary.btn-lg{href: "{{ item.link }}", target: "_blank"}
+                      %span.glyphicon.glyphicon-link Visiter
+                -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                  %p=item.file
+                  %a.btn.btn-primary.btn-lg{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                    %span.glyphicon.glyphicon-save-file Télécharger
+            %hr
+      -if user.professor
+        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+          -csrf_token
+          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+            supprimer
 

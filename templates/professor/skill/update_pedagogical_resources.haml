@@ -10,22 +10,123 @@
         %a{href: "{% url 'professor:dashboard' %}"} Oscar
       %li.active
         Compétence
-        =skill.code
+        =base
 -block content
     %h4 Compétence
-      =skill.code
+      =base
     %hr
-    %h5= skill.name
-    .well
-      -if user.professor
-         
-        -include "professor/skill/update_pedagogical_resources/my_resource.haml"
-        -include "professor/skill/update_pedagogical_resources/exercice_resource.haml"
-        -include "professor/skill/update_pedagogical_resources/lesson_resource.haml"
-        -include "professor/skill/update_pedagogical_resources/other_resource.haml"
-      
-      -else
-        %h5 Ressources de ma classe
+    %h5= base
+    -if user.professor
+      .well
+        -with type=type
+          -include "professor/skill/update_pedagogical_resources/my_resource.haml"
+      .well
+        -with type=type
+          -include "professor/skill/update_pedagogical_resources/lesson_resource.haml"
+      .well
+        -with type=type
+          -include "professor/skill/update_pedagogical_resources/exercice_resource.haml"
+      .well
+        -with type=type
+          -include "professor/skill/update_pedagogical_resources/other_resource.haml"
+
+    -else
+      %h5 Ressources de ma classe
+  -# TODO : Move CSS !
+  :css
+      .level2 {
+        padding-left: 10px;
+      }
+
+      .level3 {
+        padding-left: 20px;
+      }
+
+      .level4 {
+        padding-left: 30px;
+      }
+
+      .dropdown-menu {
+        float: none;
+        max-width: 100%;
+        width: 5000px;
+      }
+      .dropdown-submenu {
+          position:relative;
+      }
+      .dropdown-submenu>.dropdown-menu {
+          top:0;
+          left:100%;
+          margin-top:-6px;
+          margin-left:-1px;
+          -webkit-border-radius:0 6px 6px 6px;
+          -moz-border-radius:0 6px 6px 6px;
+          border-radius:0 6px 6px 6px;
+      }
+      .dropdown-submenu:hover>.dropdown-menu {
+          display:block;
+      }
+      .dropdown-submenu>a:after {
+          display:block;
+          content:" ";
+          float:right;
+          width:0;
+          height:0;
+          border-color:transparent;
+          border-style:solid;
+          border-width:5px 0 5px 5px;
+          border-left-color:#cccccc;
+          margin-top:5px;
+          margin-right:-10px;
+      }
+      .dropdown-submenu:hover>a:after {
+          border-left-color:#ffffff;
+      }
+      .dropdown-submenu.pull-left {
+          float:none;
+      }
+      .dropdown-submenu.pull-left>.dropdown-menu {
+          left:-100%;
+          margin-left:10px;
+          -webkit-border-radius:6px 0 6px 6px;
+          -moz-border-radius:6px 0 6px 6px;
+          border-radius:6px 0 6px 6px;
+      }
+      .dropdown-menu > li > a {
+        white-space: normal;
+      }
+
+      .remove-form {
+        display: inline;
+      }
+
+      h3, h4 {
+        margin-top: 0px;
+      }
+
+      .well hr {
+        margin-top: 35px;
+        margin-bottom: 35px;
+      }
+
+      .remove {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        border-radius: 0px;
+        border-bottom-left-radius: 3px;
+        padding: 2px 6px;
+      }
+
+      .khan-well {
+        background-color: rgba(159, 182, 59, .4);
+        border-color: rgba(159, 182, 59, .8);
+      }
+
+      .sesamath-well {
+        background-color: rgba(229, 105, 10, .2);
+        border-color: rgba(229, 105, 10, .6);
+
 -block javascript
   -compress js
     %script{src: "{% static 'js/professor_update_pedagogical_resources.js' %}"}

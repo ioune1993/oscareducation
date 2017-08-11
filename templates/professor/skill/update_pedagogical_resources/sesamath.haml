@@ -24,13 +24,13 @@
 
           %td{width: "100px"}
             -if user.professor and sesamath.added_by == request.user
-              %form.remove-form{method: "POST", action: "{% url 'professor:skill_remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
+              %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
                 -csrf_token
                 %button.btn.btn-danger.btn-xs.delete.remove{type: "submit"}
                   supprimer
 
   -if user.professor
-    %form{method: "POST", id: "sesamath-{{ kind }}-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: "{% url 'professor:skill_update_pedagogical_ressources' object.code %}"}
+    %form{method: "POST", id: "sesamath-{{ kind }}-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: "{% url 'professor:update_pedagogical_ressources' object.code %}"}
       -csrf_token
 
       %input{type: "hidden", value: "sesamath_reference", name: "form_type"}

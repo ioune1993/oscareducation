@@ -6,3 +6,7 @@
 		%div.form-group=resource_form.type|as_crispy_field
 	.col-md-4
 		%div.form-group=resource_form.name|as_crispy_field
+
+	%button.btn.btn-success.remove.btn-files{type: "button", "data-target":"file"}
+    	%span.glyphicon.glyphicon-plus
+    		Remove
