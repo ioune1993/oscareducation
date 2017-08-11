@@ -126,6 +126,7 @@
     <span class="sd">&quot;&quot;&quot;Information that can only the Professors&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Question.get_answer"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_answer">[docs]</a>    <span class="k">def</span> <span class="nf">get_answer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the type and the correct answers in the YAML format&quot;&quot;&quot;</span>
         <span class="c"># Load YAML answer</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">answer</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yamlordereddictloader</span><span class="o">.</span><span class="n">Loader</span><span class="p">)</span>
@@ -133,21 +134,41 @@
         <span class="k">return</span> <span class="p">{}</span></div>
 
 <div class="viewcode-block" id="Question.get_type"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_type">[docs]</a>    <span class="k">def</span> <span class="nf">get_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the Question type&quot;&quot;&quot;</span>
         <span class="n">yaml_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">yaml_answer</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="Question.get_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_answers">[docs]</a>    <span class="k">def</span> <span class="nf">get_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the correct answers of this Question&quot;&quot;&quot;</span>
         <span class="n">yaml_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">yaml_answer</span><span class="p">[</span><span class="s">&quot;answers&quot;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Question.get_answers_extracted"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_answers_extracted">[docs]</a>    <span class="k">def</span> <span class="nf">get_answers_extracted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Question.get_graph_points"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.get_graph_points">[docs]</a>    <span class="k">def</span> <span class="nf">get_graph_points</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the graph points coordinates, when the type is graph and its subtype is point</span>
+
+<span class="sd">        :returns: The list of coordinates [(x1,y1), (x2, y2), ...]</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">coordinates</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">yaml_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">points</span> <span class="ow">in</span> <span class="n">yaml_answer</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="s">&quot;graph&quot;</span><span class="p">][</span><span class="s">&quot;coordinates&quot;</span><span class="p">][</span><span class="s">&quot;X&quot;</span><span class="p">]</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="s">&quot;graph&quot;</span><span class="p">][</span><span class="s">&quot;coordinates&quot;</span><span class="p">][</span><span class="s">&quot;Y&quot;</span><span class="p">]</span>
+            <span class="n">coordinates</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">coordinates</span></div>
 
 <div class="viewcode-block" id="Question.evaluate"><a class="viewcode-back" href="../../examinations.html#examinations.models.Question.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates this Question with the provided response</span>
 
-<span class="sd">            :param response: The response to assess</span>
-<span class="sd">            :type response: array</span>
-<span class="sd">            :returns: 1 if the response is correct, 0 if incorrect, -1 if automatic evaluation is impossible</span>
-<span class="sd">            :rtype: int</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">        :param response: The response to assess</span>
+<span class="sd">        :type response: array</span>
+<span class="sd">        :returns: 1 if the response is correct, 0 if incorrect, -1 if automatic evaluation is impossible</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">raw_correct_answers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_answer</span><span class="p">()</span>
         <span class="n">evaluation_type</span> <span class="o">=</span> <span class="n">raw_correct_answers</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span>
 
@@ -290,6 +311,11 @@
     <span class="sd">&quot;&quot;&quot;The date we submitted our answers&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Answer.get_questions_with_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.get_questions_with_answers">[docs]</a>    <span class="k">def</span> <span class="nf">get_questions_with_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the Answer and the Questions linked with it</span>
+
+<span class="sd">        :returns: The questions with the answers: (index, question, type, response, correct)</span>
+<span class="sd">        :rtype: list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">questions_with_answers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">get_questions</span><span class="p">():</span>
@@ -298,9 +324,22 @@
                  <span class="n">question</span><span class="p">,</span>
                  <span class="n">question</span><span class="o">.</span><span class="n">get_type</span><span class="p">(),</span>
                  <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;response&quot;</span><span class="p">),</span>
-                 <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;correct&quot;</span><span class="p">)])</span>
+                 <span class="bp">self</span><span class="o">.</span><span class="n">get_answers</span><span class="p">()[</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;correct&quot;</span><span class="p">)</span>
+                 <span class="p">])</span>
             <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
         <span class="k">return</span> <span class="n">questions_with_answers</span></div>
+
+<div class="viewcode-block" id="Answer.contains_professor"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.contains_professor">[docs]</a>    <span class="k">def</span> <span class="nf">contains_professor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Does the Answer contain a response that need to be assessed by a Professor?</span>
+
+<span class="sd">        :return: True if the Answer has at least one response of Professor type, False otherwise</span>
+<span class="sd">        :rtype: bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">professor</span> <span class="o">=</span> <span class="k">False</span>
+        <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">get_questions</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">question</span><span class="o">.</span><span class="n">get_type</span><span class="p">()</span> <span class="o">==</span> <span class="s">&quot;professor&quot;</span><span class="p">:</span>
+                <span class="n">professor</span> <span class="o">=</span> <span class="k">True</span>
+        <span class="k">return</span> <span class="n">professor</span></div>
 
 <div class="viewcode-block" id="Answer.assess"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.assess">[docs]</a>    <span class="k">def</span> <span class="nf">assess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">correction</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Grades manually an answer to a question</span>
@@ -323,10 +362,10 @@
 <div class="viewcode-block" id="Answer.evaluate"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.evaluate">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Evaluates the attached Context, determines if all of its Questions are correct</span>
 
-<span class="sd">            :return: -1 if no all questions are graded, 1 if all the answers to the Questions are correct,</span>
-<span class="sd">                    0 if there is at least a mistake</span>
-<span class="sd">            :rtype: int</span>
-<span class="sd">            &quot;&quot;&quot;</span>
+<span class="sd">        :return: -1 if no all questions are graded, 1 if all the answers to the Questions are correct,</span>
+<span class="sd">                0 if there is at least a mistake</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">for</span> <span class="n">question</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_answer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">question</span><span class="p">[</span><span class="s">&quot;correct&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -336,6 +375,10 @@
         <span class="k">return</span> <span class="n">result</span></div>
 
 <div class="viewcode-block" id="Answer.get_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.get_answers">[docs]</a>    <span class="k">def</span> <span class="nf">get_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the list of answers&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_answer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Answer.get_answers_extracted"><a class="viewcode-back" href="../../examinations.html#examinations.models.Answer.get_answers_extracted">[docs]</a>    <span class="k">def</span> <span class="nf">get_answers_extracted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">raw_answer</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
 
 
@@ -360,21 +403,25 @@
         <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;test__created_at&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="TestStudent.test_exercice_answer_for_offline_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.test_exercice_answer_for_offline_test">[docs]</a>    <span class="k">def</span> <span class="nf">test_exercice_answer_for_offline_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the TestExercice with their answers for the offline tests&quot;&quot;&quot;</span>
         <span class="n">answers</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">test_exercice</span><span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;test_exercice&quot;</span><span class="p">)}</span>
 
         <span class="k">return</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">answers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
                 <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">,</span> <span class="n">testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">exercice__isnull</span><span class="o">=</span><span class="k">False</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="TestStudent.has_offline_answers"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.has_offline_answers">[docs]</a>    <span class="k">def</span> <span class="nf">has_offline_answers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Has the test offline answers?&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">answer_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test_exercice__testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="TestStudent.get_maybe_answer_list"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.get_maybe_answer_list">[docs]</a>    <span class="k">def</span> <span class="nf">get_maybe_answer_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get all the answers the Student has already answered&quot;&quot;&quot;</span>
         <span class="n">answers</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">test_exercice</span><span class="p">:</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
                    <span class="bp">self</span><span class="o">.</span><span class="n">answer_set</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;test_exercice&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&quot;-test_exercice__skill__code&quot;</span><span class="p">)}</span>
 
         <span class="k">return</span> <span class="p">[</span><span class="n">answers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">test</span><span class="p">)</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="s">&quot;-skill__code&quot;</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="TestStudent.get_state"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestStudent.get_state">[docs]</a>    <span class="k">def</span> <span class="nf">get_state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the state in which the TestStudent is for the Student&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">started_at</span><span class="p">:</span>
             <span class="k">return</span> <span class="s">u&quot;pas encore commencé&quot;</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">finished_at</span><span class="p">:</span>
@@ -407,11 +454,7 @@
     <span class="n">rendered_content</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">TextField</span><span class="p">(</span><span class="n">null</span><span class="o">=</span><span class="k">True</span><span class="p">,</span> <span class="n">blank</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
     <span class="sd">&quot;&quot;&quot;Unused field&quot;&quot;&quot;</span>
     <span class="n">testable_online</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;True if this Context is graded automatically, False otherwise&quot;&quot;&quot;</span>
-
-<div class="viewcode-block" id="TestExercice.is_valid"><a class="viewcode-back" href="../../examinations.html#examinations.models.TestExercice.is_valid">[docs]</a>    <span class="k">def</span> <span class="nf">is_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answers</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Verifies if the answers are correct, if they can be graded automatically&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">check_answers</span><span class="p">(</span><span class="n">answers</span><span class="p">)[</span><span class="s">&quot;is_valid&quot;</span><span class="p">]</span></div></div>
+    <span class="sd">&quot;&quot;&quot;True if this Context is graded automatically, False otherwise&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="BaseTest"><a class="viewcode-back" href="../../examinations.html#examinations.models.BaseTest">[docs]</a><span class="k">class</span> <span class="nc">BaseTest</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -457,7 +500,7 @@
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">teststudent_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">started_at__isnull</span><span class="o">=</span><span class="k">False</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="Test.add_student"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.add_student">[docs]</a>    <span class="k">def</span> <span class="nf">add_student</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; subscribe new student in prof created tests &quot;&quot;&quot;</span>
+        <span class="sd">&quot;&quot;&quot; Subscribe new Student in this Test &quot;&quot;&quot;</span>
 
         <span class="n">TestStudent</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
             <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -477,6 +520,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">testexercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">testable_online</span><span class="o">=</span><span class="k">False</span><span class="p">,</span> <span class="n">exercice__isnull</span><span class="o">=</span><span class="k">False</span><span class="p">)</span><span class="o">.</span><span class="n">select_related</span><span class="p">(</span><span class="s">&quot;skill&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Test.display_test_type"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.display_test_type">[docs]</a>    <span class="k">def</span> <span class="nf">display_test_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the test type (skills, prerequisites or both)&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;skills&quot;</span><span class="p">:</span>
             <span class="k">return</span> <span class="s">&quot;compétences&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s">&quot;dependencies&quot;</span><span class="p">:</span>
@@ -485,6 +529,7 @@
             <span class="k">return</span> <span class="s">&quot;compétences et prérequis&quot;</span></div>
 
 <div class="viewcode-block" id="Test.generate_skills_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_skills_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_skills_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate the TestExercices with all the Skills attached to this Test&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">skill</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">skills</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
             <span class="n">TestExercice</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
                 <span class="n">test</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -492,6 +537,10 @@
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Test.generate_dependencies_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_dependencies_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_dependencies_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the prerequisites corresponding to the selected Skills to the Test.</span>
+<span class="sd">        Useful when the Professor creates a Test about Skills prerequisites (but not Skills themselves)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">to_test_skills</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">def</span> <span class="nf">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">skill</span><span class="p">):</span>
@@ -510,11 +559,15 @@
             <span class="p">)</span></div>
 
 <div class="viewcode-block" id="Test.generate_skills_dependencies_test"><a class="viewcode-back" href="../../examinations.html#examinations.models.Test.generate_skills_dependencies_test">[docs]</a>    <span class="k">def</span> <span class="nf">generate_skills_dependencies_test</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add the selected Skills and their prerequisites to the Test.</span>
+<span class="sd">        Useful when the Professor creates a Test about both Skills AND their prerequisites</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">to_test_skills</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">def</span> <span class="nf">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">skill</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">skill</span><span class="o">.</span><span class="n">depends_on</span><span class="o">.</span><span class="n">all</span><span class="p">():</span>
-                <span class="c"># we don&#39;t add dependancies that can&#39;t be tested online</span>
+                <span class="c"># we don&#39;t add dependencies that can&#39;t be tested online</span>
                 <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">to_test_skills</span> <span class="ow">and</span> <span class="n">skill</span><span class="o">.</span><span class="n">exercice_set</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">testable_online</span><span class="o">=</span><span class="k">True</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                     <span class="n">to_test_skills</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                     <span class="n">recursivly_get_skills_to_test</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
@@ -570,7 +623,8 @@
     <span class="p">))</span>
     <span class="sd">&quot;&quot;&quot;The Skill result for the Student with the offline Test&quot;&quot;&quot;</span>
 
-    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span></div>
+    <span class="n">created_at</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">DateTimeField</span><span class="p">(</span><span class="n">auto_now_add</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+    <span class="sd">&quot;&quot;&quot;The offline test date of creation&quot;&quot;&quot;</span></div>
 </pre></div>
 
           </div>

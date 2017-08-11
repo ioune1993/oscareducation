@@ -35,7 +35,7 @@ from django.db.models import Count
 
 from skills.models import Skill, StudentSkill, CodeR, Section
 from resources.models import KhanAcademy, Sesamath, Resource
-from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question
+from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question, Answer
 from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
@@ -44,13 +44,16 @@ from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, St
     TestUpdateForm, SesamathForm, ResourceForm, CSVForm
 from .utils import generate_random_password, user_is_professor, force_encoding
 import csv
+from django.http import JsonResponse
+
 
 @user_is_professor
 def dashboard(request):
     """
-    Return an HttpResponse to the dashboard of the professor
-    :param request: 
-    :return: 
+    Return an HttpResponse to the dashboard of the Professor
+
+    :param request:
+    :return:
     """
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")).select_related("stage"),
@@ -62,9 +65,10 @@ def dashboard(request):
 def lesson_detail(request, pk):
     """
     Get the details of a Lesson (students and heatmap)
-    :param request: 
-    :param pk: primary key of a Lesson 
-    :return: 
+
+    :param request:
+    :param pk: primary key of a Lesson
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -92,7 +96,6 @@ def lesson_detail(request, pk):
                     skill.heatmap_class = "mastered_not_enough"
                     continue
 
-
                 percentage = (float(mastered) / total) if total else 0
 
                 if percentage < 0.25:
@@ -108,7 +111,6 @@ def lesson_detail(request, pk):
             print e
             print "Error: could no calculate heatmap"
 
-
     return render(request, "professor/lesson/detail.haml", {
         "lesson": lesson,
         "number_of_students": number_of_students,
@@ -120,8 +122,9 @@ def lesson_detail(request, pk):
 def lesson_add(request):
     """
     Either return an HttpResponse with a LessonForm or create a new Lesson if POST method
-    :param request: 
-    :return: 
+
+    :param request:
+    :return:
     """
     form = LessonForm(request.POST) if request.method == "POST" else LessonForm()
 
@@ -139,9 +142,10 @@ def lesson_add(request):
 def lesson_update(request, pk):
     """
     Either return an HttpResponse with a LessonUpdateForm or update a Lesson if POST method
-    :param request: 
-    :param pk: 
-    :return: 
+
+    :param request:
+    :param pk:
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -161,9 +165,10 @@ def lesson_update(request, pk):
 def lesson_student_add(request, pk):
     """
     Add one or more students to a lesson : either with a CSV file (template provided) or manually 
-    :param request: 
+
+    :param request:
     :param pk: primary key of a Lesson
-    :return: 
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -279,11 +284,13 @@ def lesson_student_add(request, pk):
         "lesson": lesson,
     })
 
+
 @user_is_professor
 def lesson_student_detail(request, lesson_pk, pk):
     """
     Query a Student and a Lesson to display it in the detail page
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param pk: primary key of a Student
     :return: 
@@ -302,7 +309,8 @@ def lesson_student_detail(request, lesson_pk, pk):
 def lesson_student_update(request, lesson_pk, pk):
     """
     Display a form to change a Student's details or submit theses changes
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param pk: primary key of a Student
     :return: 
@@ -329,7 +337,8 @@ def lesson_student_update(request, lesson_pk, pk):
 def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
     """
     Query a Student, Lesson and a Test and display it in the test detail page
-    :param request: 
+
+    :param request:
     :param pk: primary key of a Student
     :param lesson_pk: primary key of a Lesson
     :param test_pk: primary key of a Test
@@ -347,11 +356,41 @@ def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
     })
 
 
+def professor_correct(request):
+    """The Professor assess a professor-type Questions for a Student"""
+    correction = request.GET.get('correction', None)
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    answer_id = list_id[0]
+    index_id = list_id[1]
+    answer = Answer.objects.get(id=answer_id)
+    result = answer.assess(index_id, int(correction))
+    data = {
+        "result": result,
+    }
+    return JsonResponse(data)
+
+
+def professor_iscorrect(request):
+    """Get the correction for a professor-type Questions for a Student"""
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    answer_id = list_id[0]
+    index_id = list_id[1]
+    answer = Answer.objects.get(id=answer_id)
+    correction = answer.get_correction(index_id)
+    data = {
+        "correction": correction,
+    }
+    return JsonResponse(data)
+
+
 @user_is_professor
 def lesson_test_list(request, pk):
     """
     Query a Lesson to display its associated tests
-    :param request: 
+
+    :param request:
     :param pk: primary key of a Lesson 
     :return: 
     """
@@ -367,7 +406,8 @@ def lesson_test_list(request, pk):
 def lesson_test_add(request, pk):
     """
     Query a Lesson to add tests to it
-    :param request: 
+
+    :param request:
     :param pk: primary key of a Lesson
     :return: 
     """
@@ -382,7 +422,8 @@ def lesson_test_add(request, pk):
 def lesson_test_update(request, lesson_pk, pk):
     """
     Display a form to update a BaseTest in a Lesson
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param pk: primary key of a BaseTest
     :return: 
@@ -409,7 +450,8 @@ def lesson_test_update(request, lesson_pk, pk):
 def lesson_skill_detail(request, lesson_pk, skill_code):
     """
     Query a Lesson and a Skill to display the details of a skill
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param skill_code: code of a Skill
     :return: 
@@ -438,7 +480,8 @@ def lesson_skill_detail(request, lesson_pk, skill_code):
 def regenerate_student_password(request):
     """
     Regenerate a password for a student
-    :param request: 
+
+    :param request:
     :return: 
     """
     # TODO : TO DELETE ?
@@ -808,7 +851,8 @@ def remove_pedagogical_ressources(request, type, id_type, kind, id):
 def validate_student_skill(request, lesson_pk, student_skill):
     """
     Validate a Skill for a Student
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param student_skill: id of a StudentSkill
     :return: 
@@ -832,7 +876,8 @@ def validate_student_skill(request, lesson_pk, student_skill):
 def unvalidate_student_skill(request, lesson_pk, student_skill):
     """
     Invalidate a Skill for a Student
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param student_skill: id of a StudentSkill
     :return: 
@@ -856,7 +901,8 @@ def unvalidate_student_skill(request, lesson_pk, student_skill):
 def default_student_skill(request, lesson_pk, student_skill):
     """
     Set a default value for a Student's Skill
-    :param request: 
+
+    :param request:
     :param lesson_pk: primary key of a Lesson
     :param student_skill: id of a StudentSkill
     :return: 
@@ -1060,6 +1106,12 @@ def exercice_validation_form_submit(request, pk=None):
                 testable_online=testable_online,
                 added_by=request.user,
             )
+    # Now, delete all Questions and their links in the Context
+    # To avoid duplicated Questions
+    for q in exercice.get_questions():
+        q.delete()
+    for list_question in List_question.objects.filter(context=exercice.id):
+        list_question.delete()
 
     # Then, Question(s) creation, and links in List_question with the Context created
     if testable_online:
@@ -1113,23 +1165,18 @@ def exercice_validation_form_submit(request, pk=None):
                 }
             yaml_file = ruamel.yaml.round_trip_dump(new_question_answers)
 
-            # Professor info (source) is optional
-            if "source" in question:
-                with transaction.atomic():
-                    new_question, created = Question.objects.get_or_create(
-                        description=question["instructions"],
-                        answer=yaml_file,
-                        source=question["source"],
-                    )
-            else:
-                with transaction.atomic():
-                    new_question, created = Question.objects.get_or_create(
-                        description=question["instructions"],
-                        answer=yaml_file,
-                    )
+            # Add all the Questions in the Context (even the ones not modified)
+            # We deleted all the Questions and their links to this Context earlier
+            with transaction.atomic():
+                new_question = Question.objects.create(
+                    description=question["instructions"],
+                    answer=yaml_file,
+                    source=question["source"],
+                    indication=question["indication"],
+                )
 
             with transaction.atomic():
-                link, created = List_question.objects.get_or_create(
+                link = List_question.objects.create(
                     context_id=exercice.id,
                     question_id=new_question.id,
                 )
@@ -1276,6 +1323,7 @@ def exercice_update_json(request, pk):
             "type": question_type,
             "answers": answers,
             "source": question.source,
+            "indication": question.indication,
         })
 
     return HttpResponse(json.dumps({
@@ -1353,7 +1401,8 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
 def contribute_page(request):
     """
     Display a ResourceForm or submit it 
-    :param request: 
+
+    :param request:
     :return: 
     """
     data = {x.short_name: x for x in Stage.objects.all()}
@@ -1379,7 +1428,8 @@ def contribute_page(request):
 def global_resources_delete(request, pk):
     """
     Delete a Resource
-    :param request: 
+
+    :param request:
     :param pk: primary key of a Resource
     :return: 
     """

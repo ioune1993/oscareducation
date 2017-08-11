@@ -1,5 +1,6 @@
 -extends "base.haml"
 -load examinations_tags
+-load static
 
 -block breadcrumb
   %ol.breadcrumb
@@ -37,84 +38,76 @@
   .boxclasse.container-fluid
     -if student_test.started_at
       -if not student_test.fully_testable_online
-        %h5 Questions en ligne à corriger
-        %table.table.table-bordered
-          %colgroup
-            %col{width: "20%"}
-            %col
-            %col
-          %thead
-            %th
-              Compétence / question
-            %th
-              Réponse de l'élève
-          %tbody
-            -for answer in student_test.answer_set.all
-              -if answer.contains_professor
-                -with answers=answer.get_answers context_questions=answer.test_exercice.exercice
-                  %tr
-                    %td{class: "{% if answer.evaluate == 1 %}success{% elif answer.evaluate == -1 %}warning{% elif answer.evaluate == 0 %}danger{% endif %}"}
-                      %p
-                        %b Compétence :
-                        %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
-                          =answer.test_exercice.skill
-                        %br
-                        -if answer.test_exercice.exercice.id
-                          %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
-                            %b Question n°
-                            =context_questions.id
-                        -else
-                          Pas de question disponible
-                    %td{colspan: 2}
-                      -if not context_questions and not answer.automatic
-                        %i Pas de question disponible
-                      -elif not answer.automatic
-                        %table.full-width
-                          %tr
-                            %td.exercice-content{colspan: 2}
-                              -if context_questions.context
-                                =context_questions.context|safe
-                          -for index, question, type, student_answer, correct in answer.get_questions_with_answers
-                            -if type == "professor"
-                              %tr
-                                %td{colspan: 2}
-                                  .answers-panel.panel{class: "{% if correct == 1 %}panel-success{% elif correct == 0 %}panel-danger{% else %}panel-warning{% endif %}"}
-                                    .panel-heading
-                                      =question.description|safe
-                                    .panel-body.answers-panel
-                                      -# The student_answer is an array, even if it contains one answer
-                                      %table.answers-table
-                                        %tr
-                                          %td.right-border{width: "100%"}
-                                            -for j in student_answer
-                                              = j
-                                        -# TODO: Link between the buttons and the Question.assess function
-                                        %tr
-                                          %td
-                                            .center
-                                              .btn-group-horizontal{data-toggle: "buttons"}
-                                                -if correct == 1
-                                                  %label.btn.btn-default.good.active
-                                                    %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
-                                                    Correct
-                                                -else
+        -if student_test.has_answers_to_assess
+          %h5 Questions en ligne à corriger
+          %table.table.table-bordered
+            %colgroup
+              %col{width: "20%"}
+              %col
+              %col
+            %thead
+              %th
+                Compétence / question
+              %th
+                Réponse de l'élève
+            %tbody
+              -for answer in student_test.answer_set.all
+                -if answer.contains_professor_not_assessed
+                  -with answers=answer.get_answers context_questions=answer.test_exercice.exercice
+                    %tr
+                      %td{class: "{% if answer.evaluate == 1 %}success{% elif answer.evaluate == -1 %}warning{% elif answer.evaluate == 0 %}danger{% endif %}"}
+                        %p
+                          %b Compétence :
+                          %a{href: "{% url 'professor:lesson_skill_detail' lesson.pk answer.test_exercice.skill %}"}
+                            =answer.test_exercice.skill
+                          %br
+                          -if answer.test_exercice.exercice.id
+                            %a{href: "{% url 'professor:exercice_detail' answer.test_exercice.exercice.id %}"}
+                              %b Question n°
+                              =context_questions.id
+                          -else
+                            Pas de question disponible
+                      %td{colspan: 2}
+                        -if not context_questions and not answer.automatic
+                          %i Pas de question disponible
+                        -elif not answer.automatic
+                          %table.full-width
+                            %tr
+                              %td.exercice-content{colspan: 2}
+                                -if context_questions.context
+                                  =context_questions.context|safe
+                            -for index, question, type, student_answer, correct in answer.get_questions_with_answers
+                              -if type == "professor" and correct == -1
+                                %tr
+                                  %td{colspan: 2}
+                                    .answers-panel.panel{class: "{% if correct == 1 %}panel-success{% elif correct == 0 %}panel-danger{% else %}panel-warning{% endif %}"}
+                                      .panel-heading
+                                        =question.description|safe
+                                      .panel-body.answers-panel
+                                        -# The student_answer is an array, even if it contains one answer
+                                        %table.answers-table
+                                          %tr
+                                            %td.right-border{width: "100%"}
+                                              -for j in student_answer
+                                                = j
+                                          %tr
+                                            %td
+                                              .center
+                                                .btn-group-horizontal{data-toggle: "buttons", id: "{{ answer.id }}_{{ index }}"}
                                                   %label.btn.btn-default.good
-                                                    %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                    %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                                                     Correct
-
-                                                -if correct == 0
-                                                  %label.btn.btn-default.bad.active
-                                                    %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off", checked: "checked"}
-                                                    Incorrect
-                                                -else
                                                   %label.btn.btn-default.bad
-                                                    %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}_{{ subanswer.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                    %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                                                     Incorrect
-                                  -if question.source
-                                    Informations pour les professeurs:
-                                    %i {{ question.source }}
-                      -else
-                        %i Déduit depuis les autres réponses
+                                    -if question.source
+                                      Source(s) :
+                                      {{ question.source }}
+                                    -if question.indication
+                                      Indication pour les professeurs :
+                                      {{ question.indication }}
+                        -else
+                          %i Déduit depuis les autres réponses
 
         %h5 Réponses des questions en ligne
         %table.table.table-bordered
@@ -181,7 +174,6 @@
                                                 %input{type: "checkbox", display: "inline-block", height: "100%", disabled}
 
                                               %label{text-align: "left", display: "inline-block"}=j.0
-                                              =j.1
                                     -elif type == "text"
                                       %tr
                                         %td.right-border{width: "50%"}
@@ -227,12 +219,21 @@
                                                 %input{type: "radio", display: "inline-block", height: "100%", disabled}
 
                                               %label{text-align: "left", display: "inline-block"}=j.0
-                                              =j.1
-                                    -elif type == "professor"
+                                    -elif type == "professor" and correct != -1
                                       %tr
                                         %td.right-border{width: "100%"}
                                           -for j in student_answer
                                             = j
+                                      %tr
+                                        %td
+                                          .center
+                                            .btn-group-horizontal{data-toggle: "buttons", id: "{{ answer.id }}_{{ index }}"}
+                                              %label.btn.btn-default.good
+                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "good_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                Correct
+                                              %label.btn.btn-default.bad
+                                                %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
+                                                Incorrect
                                     -elif type == "graph"
                                       %tr
                                         %td.right-border{width: "50%"}
@@ -252,8 +253,9 @@
                                         %td.right-border{width: "100%"}
                                           Erreur : type de question non reconnu
                               -if question.source
-                                Informations pour les professeurs:
-                                %i {{ question.source }}
+                                Source(s) : {{ question.source }}
+                              -if question.indication
+                                %br Indication pour les professeurs : {{ question.indication }}
                     -else
                       %i Déduit depuis les autres réponses
 
@@ -289,7 +291,7 @@
                     -if test_exercice.exercice.id
                       %a{href: "{% url 'professor:exercice_detail' test_exercice.exercice.id %}"}
                         %b Question n°
-                          =test_exercice.exercice.id
+                        =test_exercice.exercice.id
                     -else
                       Pas de question disponible
                     %br
@@ -312,52 +314,5 @@
 
 -block javascript
   %script{src: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}
-
-  :javascript
-    $(function() {
-      var color_good = function() {
-        var btn = $(this)
-        btn.addClass("btn-success");
-
-        var td = btn.parent().parent().parent();
-        td.addClass("success");
-        td.removeClass("warning");
-
-        var bad_btn = btn.parent().find(".bad");
-        bad_btn.removeClass("btn-warning");
-      }
-
-      var color_bad = function() {
-        var btn = $(this)
-        btn.addClass("btn-warning");
-
-        var td = btn.parent().parent().parent();
-        td.addClass("warning");
-        td.removeClass("success");
-
-        var good_btn = btn.parent().find(".good");
-        good_btn.removeClass("btn-success");
-      }
-
-      var color_unknown = function() {
-        var btn = $(this)
-
-        var td = btn.parent().parent().parent();
-        td.removeClass("success");
-        td.removeClass("warning");
-
-        var good_btn = btn.parent().find(".good");
-        good_btn.removeClass("btn-success");
-
-        var bad_btn = btn.parent().find(".bad");
-        bad_btn.removeClass("btn-warning");
-      }
-
-      $(".good").click(color_good);
-      $(".bad").click(color_bad);
-      $(".unknown").click(color_unknown);
-
-      $(".good.active").each(color_good);
-      $(".bad.active").each(color_bad);
-      $(".unknow.active").each(color_unknow);
-    })
+  %script{src: "https://code.jquery.com/jquery.min.js"}
+  %script{src: "{% static 'js/professor_correct.js' %}"}

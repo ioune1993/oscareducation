@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 import json
-import re
 
 from datetime import datetime
 
@@ -30,6 +29,7 @@ def dashboard(request):
 
 @user_is_student
 def pass_test(request, pk):
+    """A Student takes a Test"""
     test_student = get_object_or_404(TestStudent, pk=pk)
 
     if test_student.student != request.user.student:
@@ -95,6 +95,7 @@ def pass_test(request, pk):
 
 # not a view
 def validate_exercice(request, test_student, test_exercice):
+    """Saves the Student answers to a Context in a Test in the corresponding Answer"""
     raw_answer = None
     is_correct = False
     if test_exercice.exercice is None:
@@ -146,7 +147,7 @@ def validate_exercice(request, test_student, test_exercice):
             elif data["type"] == "graph":
                 graph_list = list()
                 for key, value in request.POST.items():
-                    #key has the form "graph-0-point-1-Y" for type_question-id_question-type_answer-id_answer
+                    # key has the form "graph-0-point-1-Y" for type_question-id_question-type_answer-id_answer
                     if key == "csrfmiddlewaretoken":
                         continue
                     # If the graph element is read for the first time (a graph element may contain several coordinates)
@@ -227,7 +228,7 @@ def validate_exercice(request, test_student, test_exercice):
 @user_is_student
 def start_test(request, pk):
     """
-    The student starts a test that he can access
+    The Student starts a test that he can access
     and is not closed yet.
     """
     test_student = get_object_or_404(TestStudent, pk=pk)

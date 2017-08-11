@@ -84,6 +84,16 @@
 
     <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;professor:lesson_test_list&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,)))</span></div>
 
+<div class="viewcode-block" id="lesson_test_online_enable"><a class="viewcode-back" href="../../test_online.html#test_online.views.lesson_test_online_enable">[docs]</a><span class="nd">@user_is_professor</span>
+<span class="nd">@require_POST</span>
+<span class="k">def</span> <span class="nf">lesson_test_online_enable</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">lesson_pk</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="n">lesson</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Lesson</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">lesson_pk</span><span class="p">)</span>
+    <span class="n">test</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">Test</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+
+    <span class="n">test</span><span class="o">.</span><span class="n">enabled</span> <span class="o">=</span> <span class="k">True</span>
+    <span class="n">test</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&quot;professor:lesson_test_list&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">lesson</span><span class="o">.</span><span class="n">pk</span><span class="p">,)))</span></div>
 
 <div class="viewcode-block" id="lesson_test_add_json"><a class="viewcode-back" href="../../test_online.html#test_online.views.lesson_test_add_json">[docs]</a><span class="nd">@require_POST</span>
 <span class="nd">@user_is_professor</span>
@@ -103,6 +113,7 @@
             <span class="n">lesson</span><span class="o">=</span><span class="n">lesson</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s">&quot;name&quot;</span><span class="p">],</span>
             <span class="nb">type</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">],</span>
+            <span class="n">enabled</span><span class="o">=</span><span class="k">False</span>
         <span class="p">)</span>
 
         <span class="k">for</span> <span class="n">skill_id</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;skills&quot;</span><span class="p">]:</span>

@@ -116,7 +116,6 @@ def lesson_test_add_json(request):
 
             test_exercice.save()
 
-
         test.save()
 
     return HttpResponse(str(test.id))

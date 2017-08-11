@@ -71,6 +71,7 @@
 
 <div class="viewcode-block" id="pass_test"><a class="viewcode-back" href="../../student.html#student.views.pass_test">[docs]</a><span class="nd">@user_is_student</span>
 <span class="k">def</span> <span class="nf">pass_test</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A Student takes a Test&quot;&quot;&quot;</span>
     <span class="n">test_student</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">TestStudent</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">test_student</span><span class="o">.</span><span class="n">student</span> <span class="o">!=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">student</span><span class="p">:</span>
@@ -136,6 +137,7 @@
 
 <span class="c"># not a view</span>
 <div class="viewcode-block" id="validate_exercice"><a class="viewcode-back" href="../../student.html#student.views.validate_exercice">[docs]</a><span class="k">def</span> <span class="nf">validate_exercice</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">test_student</span><span class="p">,</span> <span class="n">test_exercice</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Saves the Student answers to a Context in a Test in the corresponding Answer&quot;&quot;&quot;</span>
     <span class="n">raw_answer</span> <span class="o">=</span> <span class="k">None</span>
     <span class="n">is_correct</span> <span class="o">=</span> <span class="k">False</span>
     <span class="k">if</span> <span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span> <span class="ow">is</span> <span class="k">None</span><span class="p">:</span>
@@ -163,6 +165,11 @@
 <span class="sd">            }</span>
 <span class="sd">        ]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c"># Help function</span>
+        <span class="k">def</span> <span class="nf">get_occurence</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">delimiter</span><span class="p">,</span> <span class="n">occurence</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Returns the n&#39;th occurrence of the s splitted with the delimiter.&quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">delimiter</span><span class="p">)[</span><span class="n">occurence</span><span class="p">]</span>
+
         <span class="n">raw_answer</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">question</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_exercice</span><span class="o">.</span><span class="n">exercice</span><span class="o">.</span><span class="n">get_questions</span><span class="p">()):</span>
             <span class="n">raw_answer</span><span class="p">[</span><span class="n">number</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;response&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s">&quot;correct&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">}</span>
@@ -180,7 +187,32 @@
             <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;math&quot;</span><span class="p">):</span>
                 <span class="n">raw_answer</span><span class="p">[</span><span class="n">number</span><span class="p">][</span><span class="s">&quot;response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)]]</span>
             <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;graph&quot;</span><span class="p">:</span>
-                <span class="n">raw_answer</span><span class="p">[</span><span class="n">number</span><span class="p">][</span><span class="s">&quot;response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&quot;graph-%s&quot;</span> <span class="o">%</span> <span class="n">number</span><span class="p">)}]</span>
+                <span class="n">graph_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&quot;csrfmiddlewaretoken&quot;</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="c"># If the graph element is read for the first time (a graph element may contain several coordinates)</span>
+                    <span class="k">if</span> <span class="n">get_occurence</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">graph_list</span><span class="p">):</span>
+                        <span class="n">graph_list</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="n">get_occurence</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)})</span>
+
+                    <span class="c"># Case 1 : A point</span>
+                    <span class="k">if</span> <span class="n">get_occurence</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;point&quot;</span><span class="p">:</span>
+                        <span class="c"># Format: graph-inputNumber-point-coordinate</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="n">get_occurence</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="c"># Neither X or Y have been read yet: initialization</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">graph_list</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;coordinates&quot;</span><span class="p">):</span>
+                            <span class="n">graph_list</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)][</span><span class="s">&quot;coordinates&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;X&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">&quot;Y&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+                        <span class="c"># Get the coordinate (X or Y, order is not guaranteed)</span>
+                        <span class="n">coordinate</span> <span class="o">=</span> <span class="n">get_occurence</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s">&quot;-&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+                        <span class="c"># First case : the X coordinate</span>
+                        <span class="k">if</span> <span class="n">coordinate</span> <span class="o">==</span> <span class="s">&quot;X&quot;</span><span class="p">:</span>
+                            <span class="n">graph_list</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)][</span><span class="s">&quot;coordinates&quot;</span><span class="p">][</span><span class="s">&quot;X&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+                        <span class="c"># Then the Y coordinate</span>
+                        <span class="k">elif</span> <span class="n">coordinate</span> <span class="o">==</span> <span class="s">&quot;Y&quot;</span><span class="p">:</span>
+                            <span class="n">graph_list</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)][</span><span class="s">&quot;coordinates&quot;</span><span class="p">][</span><span class="s">&quot;Y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+                <span class="n">raw_answer</span><span class="p">[</span><span class="n">number</span><span class="p">][</span><span class="s">&quot;response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph_list</span>
+
             <span class="k">elif</span> <span class="n">data</span><span class="p">[</span><span class="s">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&quot;professor&quot;</span><span class="p">:</span>
                 <span class="n">raw_answer</span><span class="p">[</span><span class="n">number</span><span class="p">][</span><span class="s">&quot;response&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span><span class="p">)]]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -229,7 +261,7 @@
 <span class="nd">@user_is_student</span>
 <span class="k">def</span> <span class="nf">start_test</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    The student starts a test that he can access</span>
+<span class="sd">    The Student starts a test that he can access</span>
 <span class="sd">    and is not closed yet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">test_student</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">TestStudent</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>

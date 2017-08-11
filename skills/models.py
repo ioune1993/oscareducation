@@ -104,19 +104,30 @@ class CodeR(models.Model):
         return self.sub_code + " : " + self.name
 
 class SkillHistory(models.Model):
+    """
+        The reason why a Skill is acquired or not,
+        or not yet, when and by who/how
+
+    """
+
     skill = models.ForeignKey(Skill)
+    """The Skill to validate"""
     student = models.ForeignKey('users.Student')
+    """The Student concerned by this Skill"""
     datetime = models.DateTimeField(auto_now_add=True)
+    """The date the Skill status was created"""
     value = models.CharField(max_length=255, choices=(
         ('unknown', 'Inconnu'),
         ('acquired', 'Acquise'),
         ('not acquired', 'None Acquise'),
     ))
+    """The Skill status : unknown, acquired or not acquired"""
 
     content_type = models.ForeignKey(ContentType)
     object_id = models.PositiveIntegerField()
     reason_object = GenericForeignKey('content_type', 'object_id')
     reason = models.CharField(max_length=255)
+    """Why the Skill is validated or not"""
 
     by_who = models.ForeignKey(User)
 
@@ -125,16 +136,24 @@ class SkillHistory(models.Model):
 
 
 class StudentSkill(models.Model):
+    """
+        The link between a Skill and a Student
+    """
     student = models.ForeignKey('users.Student')
+    """The Student concerned by the Skill"""
     skill = models.ForeignKey(Skill)
+    """The Skill the Student acquired/did not acquired"""
     tested = models.DateTimeField(default=None, null=True)
+    """When the Skill was tested"""
     acquired = models.DateTimeField(default=None, null=True)
+    """When the Skill was acquired"""
     # bad: doesn't support regression
 
     def __unicode__(self):
         return u"%s - %s - %s" % (self.student, self.skill, "green" if self.acquired else ("orange" if self.tested else "white"))
 
     def go_down_visitor(self, function):
+        """Help function to explore and validate prerequisites when a Skill is validated"""
         # protective code against loops in skill tree
         already_done = set()
 
@@ -148,8 +167,12 @@ class StudentSkill(models.Model):
 
         traverse(self)
 
-    # TODO: Does not work, need to create a reverse the Manytomany relation
+    # TODO: Does not work, need to create a reverse to the Manytomany relation
     def go_up_visitor(self, function):
+        """
+        Help function to explore and invalidate (parent) Skill that depends on the failed Skill.
+        A failed prerequisite implies that the Skills that depends on it must be failed too.
+        """
         # protective code against loops in skill tree
         already_done = set()
 
@@ -164,6 +187,7 @@ class StudentSkill(models.Model):
         traverse(self)
 
     def validate(self, who, reason, reason_object):
+        """Validates a Skill (change its status to "acquired")"""
         def validate_student_skill(student_skill):
             SkillHistory.objects.create(
                 skill=self.skill,
@@ -180,6 +204,7 @@ class StudentSkill(models.Model):
         self.go_down_visitor(validate_student_skill)
 
     def unvalidate(self, who, reason, reason_object):
+        """Invalidates a Skill (change its status to "not acquired")"""
         def unvalidate_student_skill(student_skill):
             SkillHistory.objects.create(
                 skill=self.skill,
@@ -197,6 +222,7 @@ class StudentSkill(models.Model):
         self.go_up_visitor(unvalidate_student_skill)
 
     def default(self, who, reason, reason_object):
+        """"Reset" a Skill (change its status to "unknown")"""
         SkillHistory.objects.create(
             skill=self.skill,
             student=self.student,
@@ -210,7 +236,12 @@ class StudentSkill(models.Model):
         self.tested = None
         self.save()
 
-    def recommanded_to_learn(self):
+    def recommended_to_learn(self):
+        """
+        Determines if the Skill is to recommend to the Student.
+        All the tested and not acquired Skills will be recommended,
+        except if at least one of its prerequisites is not acquired
+        """
         if self.acquired or not self.tested:
             return False
 
