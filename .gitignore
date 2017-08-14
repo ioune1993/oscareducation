@@ -6,3 +6,4 @@ oscar/settings_local.py
 *.swo
 .idea/
 */migrations/
+documentation/build/
