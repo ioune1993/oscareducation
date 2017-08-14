@@ -33,7 +33,7 @@ class Student(models.Model):
 
     user = models.OneToOneField(User)
     is_pending = models.BooleanField(default=True)
-    code = models.IntegerField(null=True,blank=True)
+    code = models.IntegerField(null=True, blank=True)
     code_created_at = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
@@ -51,3 +51,24 @@ class Student(models.Model):
 
     class Meta:
         ordering = ['user__last_name']
+
+    def get_email(self):
+        if self.user.email.endswith("@example.com"):
+            return ""
+        return self.user.email
+
+    def done_tests(self):
+        return self.teststudent_set.filter(finished_at__isnull=False)
+
+    def todo_tests(self):
+        return self.teststudent_set.filter(finished_at__isnull=True)
+
+    def get_last_test(self):
+        return self.teststudent_set.order_by('-test__created_at').first()
+
+    def has_recommended_skills(self):
+        for student_skill in self.studentskill_set.all():
+            if student_skill.recommended_to_learn():
+                return True
+
+        return False

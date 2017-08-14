@@ -224,7 +224,21 @@ class StudentSkill(models.Model):
             student_skill.tested = datetime.now()
             student_skill.save()
 
-        self.go_up_visitor(unvalidate_student_skill)
+        # Up traversal does not work, disabled
+        # self.go_up_visitor(unvalidate_student_skill)
+
+        # TODO: erase the following lines when go_up_visitor is repaired
+        SkillHistory.objects.create(
+            skill=self.skill,
+            student=self.student,
+            value="not acquired",
+            by_who=who,
+            reason=reason,
+            reason_object=reason_object,
+        )
+        self.acquired = None
+        self.tested = datetime.now()
+        self.save()
 
     def default(self, who, reason, reason_object):
         """"Reset" a Skill (change its status to "unknown")"""

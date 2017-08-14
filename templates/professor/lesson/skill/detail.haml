@@ -9,9 +9,9 @@
         =skill.code
         \-
         =skill.name
-      %th.center.success
+      %th.center
         Maitrisé
-      %th.center.warning
+      %th.center
         Non maitrisé
       %th.center
         Non testé
@@ -26,12 +26,12 @@
           %td
         -elif student_skill.tested
           %td
-          %td.warning
+          %td.danger
           %td
         -else
           %td
           %td
-          %td
+          %td.warning
 
     %tr
       %td

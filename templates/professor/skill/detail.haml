@@ -89,7 +89,7 @@
 
         %h3 Questions
         %ul.list-group
-          -for exercice in skill.exercice_set.all
+          -for exercice in skill.context_set.all
             %li.list-group-item
               %a{href: "{% url 'professor:exercice_detail' exercice.id %}"}
                 Question n°

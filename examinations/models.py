@@ -314,23 +314,26 @@ class Answer(models.Model):
         return int(answers[str(index)]["correct"])
 
     def evaluate(self):
-        """Evaluates the attached Context, determines if all of its Questions are correct
+        """
+        Evaluates the attached Context, determines if all of its Questions are correct
+        Useful to determine if a Skill is acquired or not
 
-        :return: -1 if no all questions are graded, 1 if all the answers to the Questions are correct,
-                0 if there is at least a mistake
+
+        :return: -1 if not all the questions are graded, 1 if all the answers to the Questions are correct,
+                0 if there is at least one mistake
         :rtype: int
         """
-        result = 1
         for question in json.loads(self.raw_answer)[0].values():
             if question["correct"] == -1:
                 return -1
             elif question["correct"] != 1:
-                result = 0
-        return result
+                return 0
+        return 1
 
     def get_answers(self):
         """Get the list of answers"""
         return json.loads(self.raw_answer)[0]
+
 
 class TestStudent(models.Model):
     """A student test
