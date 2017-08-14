@@ -385,6 +385,21 @@ def professor_iscorrect(request):
     return JsonResponse(data)
 
 
+def professor_set_skill(request):
+    """The Professor set a particular Skill to acquired/not acquired/not tested for a Student"""
+    correction = request.GET.get('correction', None)
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    answer_id = list_id[0]
+    index_id = list_id[1]
+    answer = Answer.objects.get(id=answer_id)
+    result = answer.assess(index_id, int(correction))
+    data = {
+        "result": result,
+    }
+    return JsonResponse(data)
+
+
 @user_is_professor
 def lesson_test_list(request, pk):
     """
