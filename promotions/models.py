@@ -25,8 +25,8 @@ class Stage(models.Model):
     skills = models.ManyToManyField("skills.Skill")
     """The Skills that belong to this Stage"""
 
-    def skills_with_exercice_count(self):
-        """ count Context in relation with the current Skills """
+    def skills_by_id(self):
+        """ Group skills by section """
         return self.skills.annotate(count=Count('section_id', distinct=True))
 
     def __unicode__(self):
