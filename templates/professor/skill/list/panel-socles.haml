@@ -8,7 +8,7 @@
 
   .panel-collapse.collapse{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}", id: "collapse{{ stage.id }}"}
     .panel-body
-      -regroup stage.skills_with_exercice_count by section_id as sections
+      -regroup stage.skills_by_id by section_id as sections
       -for section in sections
         %table.table.table-bordered.table-hover
           %col
@@ -31,10 +31,10 @@
                 %td
                   %a{href: "{% url 'professor:skill_detail' skill.code %}"}= skill.name
                 %td
-                  -if skill.exercice__count
+                  -if skill.skills_with_exercice_count
                     %a{href: "{% url 'professor:skill_detail' skill.code %}"}
-                      =skill.exercice__count
-                      question{{ skill.exercice__count|pluralize }}
+                      =skill.skills_with_exercice_count
+                      question{{ skill.skills_with_exercice_count|pluralize }}
                   -else
                     %i Pas de questions disponibles.
                 %td.center

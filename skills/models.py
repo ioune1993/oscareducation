@@ -6,7 +6,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-
+from examinations.models import Context
 
 class Skill(models.Model):
     """[FR] Compétence
@@ -48,6 +48,11 @@ class Skill(models.Model):
 
     def __unicode__(self):
         return self.code + " : " + self.name
+
+    def skills_with_exercice_count(self):
+        """ Count Context in relation with the current Skills"""
+        return Context.objects.filter(skill=self).count()
+
 
 
 class Section(models.Model):
