@@ -249,8 +249,10 @@ def skill_pedagogic_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
     list_resource_id = list()
+    # ManyToMany relation from Skill to Resource
     for skill_object in Skill.objects.all():
-        list_resource_id.append(skill_object.resource)
+        for skill_object_resource in skill_object.resource.all():
+            list_resource_id.append(skill_object_resource.id)
 
     personal_resource = Resource.objects.filter(added_by__professor__lesson__students=request.user.student, section="personal_resource", id__in=list_resource_id)
 
