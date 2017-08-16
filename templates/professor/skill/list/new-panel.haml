@@ -45,7 +45,7 @@
                     %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
                       = skill.name
                   %td{:width => "20%"}
-                    %a{:href => "#"}
+                    %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
                       =skill.skills_with_exercice_count
                       question{{ skill.skills_with_exercice_count|pluralize }}
                   %td{:width => "10%"}
