@@ -1420,7 +1420,7 @@ def contribute_page(request):
         gr = form.save()
         gr.added_by = request.user
         gr.save()
-        return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")
+        return HttpResponseRedirect(reverse("professor:main-education") + "#global_resources")
 
     return render(request, "professor/skill/list.haml", data)
 
@@ -1440,4 +1440,43 @@ def global_resources_delete(request, pk):
 
     gr.delete()
 
-    return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")
+    return HttpResponseRedirect(reverse("professor:main-education") + "#global_resources")
+
+def main_education(request):
+    return render(request, "professor/skill/main-education.haml")
+
+def socles_competence(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all()
+
+    return render(request, "professor/skill/new-list-socles.haml", data)
+
+def enseign_pro(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
+
+    return render(request, "professor/skill/new-list-pro.haml", data)
+
+def enseign_techart(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
+
+    return render(request, "professor/skill/new-list-techart.haml", data)
+
+def enseign_trans(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
+
+    return render(request, "professor/skill/new-list-trans.haml", data)

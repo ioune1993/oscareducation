@@ -42,8 +42,6 @@ urlpatterns = [
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>.+)/$', views.lesson_skill_detail, name='lesson_skill_detail'),
 
     url(r'^regenerate_student_password/$', views.regenerate_student_password, name='regenerate_student_password'),
-
-    url(r'^skill/$', views.contribute_page, name='skill_list'),
     url(r'^global_resources/(?P<pk>\d+)/delete/$', views.global_resources_delete, name='global_resources_delete'),
     url(r'^skill/(?P<slug>.+)/$', user_is_professor(DetailView.as_view(model=Skill, slug_field="code", template_name="professor/skill/detail.haml")), name='skill_detail'),
     url(r'^pedagogical/(?P<type>.+)/(?P<id_type>.+)/(?P<kind>.+)/resource/remove/(?P<id>\d+)/$', views.remove_pedagogical_ressources, name='remove_pedagogical_ressources'),
@@ -74,4 +72,11 @@ urlpatterns = [
     url(r'^lesson/(?P<pk>\d+)/students_password_page/$', views.students_password_page, name='lesson_student_password_page'),
     url(r'^lesson/(?P<lesson_pk>\d+)/students_password_page/(?P<student_pk>\d+)/$', views.single_student_password_page,
         name='single_student_password_page'),
+
+    url(r'^education/$', views.main_education, name ='main-education'),
+    url(r'^education/socles-competences/$', views.socles_competence, name='socles-competence'),
+    url(r'^education/enseignement-professionnel/$', views.enseign_pro, name='enseign-pro'),
+    url(r'^education/enseignement-tech-art/$', views.enseign_techart, name='enseign-techart'),
+    url(r'^education/enseignement-transition/$', views.enseign_trans, name='enseign-trans'),
+
 ]

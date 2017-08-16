@@ -1,0 +1,48 @@
+-extends "base.haml"
+
+
+-block content
+  .container
+    #skillTab.row
+      %ul.nav.nav-pills
+        %li.active
+          %a{:data-toggle => "tab", :href => "#1a"}
+            1-2 primaire
+            (2
+            %sup ème
+            cycle)
+        %li
+          %a{:data-toggle => "tab", :href => "#2a"}
+            3-6 primaire
+            (3
+            %sup ème
+            et 4
+            %sup ème
+            cycles)
+        %li
+          %a{:data-toggle => "tab", :href => "#3a"}
+            1-2 secondaire
+            (5
+            %sup> ème
+            cycle)
+      %a.btn.btn-primary{href: "{% url 'professor:main-education' %}"}
+        Précédent
+
+      .tab-content.clearfix
+        #1a.tab-pane.active
+          #accordion.panel-group{:aria-multiselectable => "true", :role => "tablist"}
+            .panel-body{style: "padding-top: 10px"}
+            -with stage=1e
+              -include "professor/skill/list/new-panel-socles.haml"
+
+        #2a.tab-pane.active
+          #accordion.panel-group{:aria-multiselectable => "true", :role => "tablist"}
+            .panel-body{style: "padding-top: 10px"}
+            -with stage=2e
+              -include "professor/skill/list/new-panel-socles.haml"
+
+        #3a.tab-pane.active
+          #accordion.panel-group{:aria-multiselectable => "true", :role => "tablist"}
+            .panel-body{style: "padding-top: 10px"}
+            -with stage=3e
+              -include "professor/skill/list/new-panel-socles.haml"
