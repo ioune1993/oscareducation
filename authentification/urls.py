@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^codelogin/$', views.code, name='code_login'),
     url(r'^createpassword/$', views.create_password, name="create_password"),
     url(r'^logout/$', views.logout, name='logout'),
+    url(r'^subscribe/$', views.subscribe_teacher, name='subscribe_teacher'),
     url('^', include(urls)),
 ]

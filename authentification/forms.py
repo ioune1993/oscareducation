@@ -1,7 +1,12 @@
+# encoding: utf-8
+
 from django import forms
 from django.contrib.auth.models import User
 from users.models import Professor,Student
 from datetime import datetime, timedelta
+from django.core.validators import RegexValidator
+from django.template.defaultfilters import slugify
+
 
 class UsernameLoginForm(forms.Form):
     username = forms.CharField(max_length=120)
@@ -54,3 +59,49 @@ class CreatePasswordForm(UsernameLoginForm):
             raise forms.ValidationError("The given password are not the same.")
 
         return cleaned_data
+
+class SubscribeTeacherForm(forms.Form):
+    first_name = forms.CharField()
+    last_name = forms.CharField()
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
+    # TODO : Correct regex, should be 4 and not 3 digits expected at the end
+    registration_number_validator = RegexValidator(r'^(1|2){1}(\d{2})(\d{2})(\d{2})(\d{3})', "Le matricule donné n'est pas valide.")
+    registration_number = forms.CharField(validators=[registration_number_validator])
+
+    def generate_teacher_username(self):
+        username = slugify(self.cleaned_data["first_name"]) + "." + slugify(self.cleaned_data["last_name"])
+
+        # handle duplicated usernames
+        # not optimised at all
+        base_username = username
+
+        number = 1
+        while User.objects.filter(username=username):
+            username = base_username + str(number)
+            number += 1
+
+        return username
+
+    def clean_email(self):
+        if not self.cleaned_data["email"]:
+            raise forms.ValidationError("Email manquant.")
+        if User.objects.filter(email=self.cleaned_data["email"]):
+            raise forms.ValidationError("Cette adresse email est déjà utilisée par un autre utilisateur.")
+
+        return self.cleaned_data["email"]
+
+    def clean_first_name(self):
+        if not self.cleaned_data["first_name"]:
+            raise forms.ValidationError("Prénom manquant.")
+        return self.cleaned_data["first_name"]
+
+    def clean_last_name(self):
+        if not self.cleaned_data["last_name"]:
+            raise forms.ValidationError("Nom de famille manquant.")
+        return self.cleaned_data["last_name"]
+
+    def clean_password(self):
+        if not self.cleaned_data["password"]:
+            raise forms.ValidationError("Mot de passe manquant.")
+        return self.cleaned_data["password"]

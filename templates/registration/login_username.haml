@@ -13,6 +13,12 @@
   .background-image
   .login
     %h1.title <span class="o-letter">O</span>scar
+    %ul{class:"messages"}
+      {% if messages %}
+        {%for message in messages %}
+          %li  {{ message }}
+        {% endfor %}
+      {% endif %}
     -if form.errors
       .alert.alert-danger
         Le nom d'utilisateur saisi n'existe pas.
@@ -44,6 +50,8 @@
         %label
           &nbsp
         %input.btn.btn-primary{type: "submit", value: "Connexion"}
+    %a{href: "{% url 'subscribe_teacher' %}"}
+      S'inscrire
 
   :css
     html {

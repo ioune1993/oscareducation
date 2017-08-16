@@ -1,9 +1,11 @@
+# encoding: utf-8
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url
-from django.shortcuts import resolve_url, redirect
+from django.shortcuts import resolve_url, redirect, render
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -14,8 +16,13 @@ from stats.models import LoginStats
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout)
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.models import User
+from users.models import Professor
+from django.db import transaction
+from django.contrib import messages
 
-from forms import UsernameLoginForm, CodeForm, CreatePasswordForm
+
+from forms import UsernameLoginForm, CodeForm, CreatePasswordForm, SubscribeTeacherForm
 
 @sensitive_post_parameters()
 @csrf_protect
@@ -159,7 +166,7 @@ def code(request, template_name='registration/login_code.haml',
              current_app=None, extra_context=None) :
 
     """
-    Displays the code form and handles the login action.
+    Displays the authentication-code form and handles the login action.
     """
 
     redirect_to = request.POST.get(redirect_field_name,
@@ -193,7 +200,7 @@ def create_password(request, template_name='registration/create_password.haml',
                     cp_form=CreatePasswordForm,current_app=None, extra_context=None):
 
     """
-    Displays the creation of password form and handles the login action.
+    Displays the password creation form and handles the login action.
     """
     redirect_to = request.POST.get(redirect_field_name,
                                    request.GET.get(redirect_field_name, ''))
@@ -223,6 +230,39 @@ def create_password(request, template_name='registration/create_password.haml',
     }
     return TemplateResponse(request, template_name, context, current_app)
 
+def subscribe_teacher(request):
+    if request.method == "POST":
+        form = SubscribeTeacherForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            username = form.generate_teacher_username()
+            password = form.cleaned_data["password"]
+            email = form.cleaned_data["email"]
+            registration_number = form.cleaned_data["registration_number"]
+
+            with transaction.atomic():
+                user = User.objects.create_user(username=username,
+                                                email=email,
+                                                password=password,
+                                                first_name=first_name,
+                                                last_name=last_name)
+                prof = Professor.objects.create(user=user, code=registration_number, is_pending=False)
+                # Send email to confirm and thus set is_pending to True instead of False ?
+            #from django.core.mail import send_mail
+            #send_mail(u'Votre événément "{}" a été accepté'.format(event.title),
+            #body,
+            #'moderation@louvainfo.be',
+            #[event.mail_auteur],
+            #fail_silently=False
+            #)
+            # TODO : Est-ce qu'on envoie un mail de confirmation/récapitulatif au professeur ?
+            # TODO: => Communiquer le username via cet email
+            messages.add_message(request, messages.SUCCESS, 'Votre compte a été créé, vous pouvez vous connecter avec le username "{}".'.format(username))
+            return HttpResponseRedirect(reverse('username_login'))
+
+    return render(request,'registration/subscribe_teacher.haml', locals())
 
 def logout(request, next_page=None,
            template_name='registration/logged_out.html',

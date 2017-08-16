@@ -1,0 +1,29 @@
+-extends "base.haml"
+
+
+-block content
+  .container
+    #skillTab.row
+      %ul.nav.nav-pills
+        %li.active
+          %a{:data-toggle => "tab", :href => "#1a"}
+            Deuxième degré
+        %li
+          %a{:data-toggle => "tab", :href => "#2a"}
+            Troisième degré
+
+      %a.btn.btn-primary{href: "{% url 'professor:main-education' %}"}
+        Précédent
+
+      .tab-content.clearfix
+        #1a.tab-pane.active
+          #accordion.panel-group{:aria-multiselectable => "true", :role => "tablist"}
+            .panel-body{style: "padding-top: 10px"}
+            -with stage=2p
+              -include "professor/skill/list/new-panel.haml"
+
+        #2a.tab-pane.active
+          #accordion.panel-group{:aria-multiselectable => "true", :role => "tablist"}
+            .panel-body{style: "padding-top: 10px"}
+            -with stage=3p
+              -include "professor/skill/list/new-panel.haml"

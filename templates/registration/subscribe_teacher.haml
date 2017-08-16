@@ -14,9 +14,7 @@
   .login
     %h1.title <span class="o-letter">O</span>scar
     -if form.errors
-      .alert.alert-danger
-        Le code saisi est incorrect ou a expiré.
-
+      {{ form.errors }}
     -if next
       -if user.is_authenticated
         .alert.alert-warning
@@ -29,18 +27,23 @@
       -csrf_token
 
       .form-group{class: "{% if form.id_username.errors %}has-error{% elif form.data and form.id_username %}has-success{% endif %}"}
-        %label.control-label{for: "id_username"}
-          Nom d'utilisateur
-        %input#id_username.form-control{type: "text", required: "", placeholder: "Nom d'utilisateur", value: "{{ user }}",
-         name: "username", readonly}
-        -for error in form.id_username.errors
-          %span.help-block= error
-
-      .form-group{class: "{% if form.id_password.errors %}has-error{% elif form.data and form.id_password %}has-success{% endif %}"}
+        %label.control-label{for: "first_name"}
+          Prénom
+        %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "{{ form.first_name.value }}"}
+        %label.control-label{for: "id_last_name"}
+          Nom
+        %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name", value: "{{ form.last_name.value }}"}
         %label.control-label{for: "id_password"}
-          Code
-        %input#id_password.form-control{type: "password", required: "", placeholder: "Code", name: "code"}
-        -for error in form.id_password.errors
+          Mot de passe
+        %input#id_password.form-control{type: "password", required: "", placeholder: "Mot de passe", name: "password"}
+        %label.control-label{for: "id_registration_number"}
+          Matricule enseignant
+        %input#id_registration_number.form-control{type: "text", required: "", placeholder: "Matricule", name: "registration_number", value: "{{ form.registration_number.value }}"}
+        %label.control-label{for: "id_email"}
+          Adresse e-mail
+        %input#id_email.form-control{type: "email", required: "", placeholder: "Email", name: "email", value: "{{ form.email.value }}"}
+
+        -for error in form.id_username.errors
           %span.help-block= error
 
       -url 'admin_password_reset' as password_reset_url
@@ -52,6 +55,9 @@
         %label
           &nbsp
         %input.btn.btn-primary{type: "submit", value: "Connexion"}
+    %a{href: "{% url 'username_login' %}"}
+      Se connecter
+
   :css
     html {
       height: 100%;
