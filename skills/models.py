@@ -108,6 +108,7 @@ class CodeR(models.Model):
     def __unicode__(self):
         return self.sub_code + " : " + self.name
 
+
 class SkillHistory(models.Model):
     """
         The reason why a Skill is acquired or not,
