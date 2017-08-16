@@ -54,7 +54,7 @@
 
       .form-group
         %label Image (optionnel)
-        %input{ng-model: "image", multiple: "multiple", type: "file", onchange: "angular.element(this).scope().uploadFile(this.files)"}
+        %input{id: "upload", ng-model: "image", multiple: "multiple", type: "file", onchange: "angular.element(this).scope().uploadFile(this.files)"}
 
       .form-group
         %label Énoncé

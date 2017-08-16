@@ -385,6 +385,19 @@ def professor_iscorrect(request):
     return JsonResponse(data)
 
 
+def professor_rename_test(request):
+    """A Professor renames an existing test"""
+    received_id = request.GET.get('id', None)
+    name = request.GET.get('name', None)
+    test = Test.objects.get(id=received_id)
+    test.name = name
+    test.save()
+    data = {
+        "name": name,
+    }
+    return JsonResponse(data)
+
+
 def professor_set_skill(request):
     """The Professor set a particular Skill to acquired/not acquired/not tested for a Student"""
     correction = request.GET.get('correction', None)

@@ -248,7 +248,11 @@ def start_test(request, pk):
 def skill_pedagogic_ressources(request, slug):
     skill = get_object_or_404(Skill, code=slug)
 
-    personal_resource = Resource.objects.filter(added_by__professor__lesson__students=request.user.student, section="personal_resource", skill=skill)
+    list_resource_id = list()
+    for skill_object in Skill.objects.all():
+        list_resource_id.append(skill_object.resource)
+
+    personal_resource = Resource.objects.filter(added_by__professor__lesson__students=request.user.student, section="personal_resource", id__in=list_resource_id)
 
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
         "object": skill,
