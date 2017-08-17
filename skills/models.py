@@ -26,7 +26,7 @@ class Skill(models.Model):
     """The Skill description"""
 
     section = models.ForeignKey('Section', null=True)
-    """The Section to which the Skill belongs"""
+    """The Section to which the Skill belongs @to remove after """
 
     depends_on = models.ManyToManyField('Skill', related_name="depends_on+")
     """If a Skill depends on another (i.e. a prerequisite), this is set in this relation"""
@@ -46,12 +46,32 @@ class Skill(models.Model):
     modified_by = models.ForeignKey(User, null=True)
     """The last user that modified this Skill"""
 
+    relations = models.ManyToManyField("self", through="Relations", related_name="relation", symmetrical=False)
+    """ Make relation between skills through a relation Model with a strict options : depended_on , similar_to  and identic_to """
+
     def __unicode__(self):
         return self.code + " : " + self.name
 
     def skills_with_exercice_count(self):
         """ Count Context in relation with the current Skills"""
         return Context.objects.filter(skill=self).count()
+
+
+class Relations(models.Model):
+
+    """ The through relation skill model """
+
+    from_skill = models.ForeignKey(Skill, null=False, blank=False, related_name='from_skill', default=0)
+    to_skill = models.ForeignKey(Skill, null=False, blank=False, related_name='to_skill', default=0)
+    relation_type = models.CharField(max_length=255,null=False, blank=False, choices=(
+
+        ("dependend_on", "dépend de"),
+        ("similar_to", "similaire à"),
+        ("identic_to","identique à"),
+    ))
+
+    def __unicode__(self):
+        return self.from_skill.code + " , " + self.to_skill.code + ", " + self.relation_type
 
 
 
@@ -96,8 +116,7 @@ class CodeR(models.Model):
     """The CodeR name"""
 
     paired_to = models.ManyToManyField('CodeR', related_name="paired_to+")
-    """If several CodeR cover the same concepts, but belong to different Sections,
-        they are paired in this relation"""
+    """@todo remove """
 
     resource = models.ManyToManyField('resources.Resource', related_name="coder_resource+")
     """The Resources linked to this CodeR. A Resource can be linked to several CodeR"""
@@ -107,6 +126,23 @@ class CodeR(models.Model):
 
     def __unicode__(self):
         return self.sub_code + " : " + self.name
+
+
+class CodeR_relations(models.Model):
+
+    """ The through relation CodeR model  """
+
+    from_coder = models.ForeignKey(CodeR, null=False, blank=False, related_name='from_coder', default=0)
+    to_coder = models.ForeignKey(CodeR, null=False, blank=False, related_name='to_coder', default=0)
+    relation_type = models.CharField(max_length=255,null=False, blank=False, choices=(
+
+        ("dependend_on", "dépend de"),
+        ("similar_to", "similaire à"),
+        ("identic_to","identique à"),
+    ))
+
+    def __unicode__(self):
+        return self.from_coder.name + " , " + self.to_coder.name + ", " + self.relation_type
 
 class SkillHistory(models.Model):
     """
