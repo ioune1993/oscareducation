@@ -385,6 +385,29 @@ def professor_iscorrect(request):
     return JsonResponse(data)
 
 
+def professor_rename_test(request):
+    """A Professor renames an existing test"""
+    received_id = request.GET.get('id', None)
+    name = request.GET.get('name', None)
+    test = Test.objects.get(id=received_id)
+    test.name = name
+    test.save()
+    data = {
+        "name": name,
+    }
+    return JsonResponse(data)
+
+
+def professor_test_add_question(request):
+    """The Professor add a Question for a Skill in a Test"""
+    test_exercice = request.GET.get('test_exercice', None)
+    skill = request.GET.get('skill', None)
+    data = {
+        "id": id,
+    }
+    return JsonResponse(data)
+
+
 @user_is_professor
 def lesson_test_list(request, pk):
     """
@@ -506,6 +529,7 @@ def get_encoded_image(encoded_image=None):
                                                                           extension=extension),
                                 ContentFile(encoded_image.read()))
     return path
+
 
 @user_is_professor
 def update_pedagogical_ressources(request, type, id):
@@ -986,6 +1010,7 @@ def students_password_page(request, pk):
         "students": students
     })
 
+
 @user_is_professor
 def single_student_password_page(request, lesson_pk, student_pk):
     """
@@ -1006,6 +1031,7 @@ def single_student_password_page(request, lesson_pk, student_pk):
     return render(request, "professor/lesson/student/password_page.haml", {
         "students": students
     })
+
 
 @require_POST
 @user_is_professor
@@ -1074,7 +1100,6 @@ def exercice_validation_form_validate_exercice(request):
         },
         "rendering": rendering.content,
     }, indent=4), content_type="application/json")
-
 
 
 @require_POST
@@ -1398,6 +1423,23 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
 
 
 @user_is_professor
+def exercice_remove_test_exercice(request, test_exercice_pk):
+    """Removes an exercice (TestExercice) from a Test
+
+    :param request:
+    :param test_exercice_pk: primary key of a TestExercice
+    :return:
+    """
+    test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
+    lesson_pk = test_exercice.pk
+    test_pk = test_exercice.pk
+    test_exercice.delete()
+
+    return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(
+    lesson_pk, test_pk,)))
+
+
+@user_is_professor
 def contribute_page(request):
     """
     Display a ResourceForm or submit it 
@@ -1420,7 +1462,7 @@ def contribute_page(request):
         gr = form.save()
         gr.added_by = request.user
         gr.save()
-        return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")
+        return HttpResponseRedirect(reverse("professor:main-education") + "#global_resources")
 
     return render(request, "professor/skill/list.haml", data)
 
@@ -1440,4 +1482,43 @@ def global_resources_delete(request, pk):
 
     gr.delete()
 
-    return HttpResponseRedirect(reverse("professor:skill_list") + "#global_resources")
+    return HttpResponseRedirect(reverse("professor:main-education") + "#global_resources")
+
+def main_education(request):
+    return render(request, "professor/skill/main-education.haml")
+
+def socles_competence(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all()
+
+    return render(request, "professor/skill/new-list-socles.haml", data)
+
+def enseign_pro(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
+
+    return render(request, "professor/skill/new-list-pro.haml", data)
+
+def enseign_techart(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
+
+    return render(request, "professor/skill/new-list-techart.haml", data)
+
+def enseign_trans(request):
+    data = {x.short_name: x for x in Stage.objects.all()}
+
+
+    data["global_resources"] = Resource.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
+
+    return render(request, "professor/skill/new-list-trans.haml", data)

@@ -1,9 +1,11 @@
+# encoding: utf-8
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url
-from django.shortcuts import resolve_url, redirect
+from django.shortcuts import resolve_url, redirect, render, get_object_or_404
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
@@ -14,8 +16,15 @@ from stats.models import LoginStats
 from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout)
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.models import User
+from users.models import Professor
+from django.db import transaction
+from django.contrib import messages
 
-from forms import UsernameLoginForm, CodeForm, CreatePasswordForm
+
+from forms import UsernameLoginForm, CodeForm, CreatePasswordForm, SubscribeTeacherForm
+from django.core.mail import send_mail
+from users.models import Student, Professor
 
 @sensitive_post_parameters()
 @csrf_protect
@@ -52,7 +61,6 @@ def username(request, template_name='registration/login_username.haml',
     """
     Displays the username form and handles the login action.
     """
-
     if request.user.is_superuser:
         return HttpResponseRedirect("/admin/")
 
@@ -89,6 +97,32 @@ def username(request, template_name='registration/login_username.haml',
     return TemplateResponse(request, template_name, context,
                         current_app)
 
+def pending_teacher(request):
+    if request.method == "POST":
+        if User.objects.filter(email=request.POST['email']):
+            user = User.objects.get(email=request.POST['email'])
+            if Professor.objects.filter(user_id=user.id):
+                professor = Professor.objects.get(user_id=user.id)
+                if professor.is_pending:
+                    domain = request.META['HTTP_HOST']
+                    url = "http://{}/accounts/confirmteacher/{}".format(domain, user.id)
+                    body = "Bonjour, suivez ce lien pour confirmer votre inscription : {}".format(url)
+                    send_mail(u'Votre inscription a bien été enregistrée.', body, 'noreply@oscar.education',
+                        [request.POST['email']], fail_silently=False)
+                    messages.add_message(request, messages.SUCCESS, "Un email a bien été renvoyé à {}".format(request.POST['email']))
+                else:
+                    messages.add_message(request, messages.ERROR, "Ce compte est déjà actif !")
+        else:
+            messages.add_message(request, messages.ERROR, "Cette adresse e-mail n'est associée à aucun compte !")
+    return render(request, 'registration/pending_teacher.haml', locals())
+
+def confirm_teacher(request, user_id):
+    user = get_object_or_404(Professor, user_id=user_id, is_pending=True)
+    user.is_pending = False
+    user.save()
+    messages.add_message(request, messages.SUCCESS, "Votre compte a été activé, vous pouvez désormais vous connecter.")
+    return HttpResponseRedirect(reverse('username_login'))
+
 def is_pending(request, user):
     """
     Redirect the user either to :
@@ -96,9 +130,13 @@ def is_pending(request, user):
     - password page if he already has a password
     """
 
-    if (user[0].is_pending):
-        request.session['user'] = user[1]
-        return HttpResponseRedirect(reverse('code_login'))
+    if user[0].is_pending:
+        if isinstance(user[0], Student):
+            request.session['user'] = user[1]
+            return HttpResponseRedirect(reverse('code_login'))
+        elif isinstance(user[0], Professor):
+            request.session['user'] = user[1]
+            return HttpResponseRedirect(reverse('pending_teacher'))
     else:
         request.session['user'] = user[1]
         return HttpResponseRedirect(reverse('password_login'))
@@ -159,7 +197,7 @@ def code(request, template_name='registration/login_code.haml',
              current_app=None, extra_context=None) :
 
     """
-    Displays the code form and handles the login action.
+    Displays the authentication-code form and handles the login action.
     """
 
     redirect_to = request.POST.get(redirect_field_name,
@@ -193,7 +231,7 @@ def create_password(request, template_name='registration/create_password.haml',
                     cp_form=CreatePasswordForm,current_app=None, extra_context=None):
 
     """
-    Displays the creation of password form and handles the login action.
+    Displays the password creation form and handles the login action.
     """
     redirect_to = request.POST.get(redirect_field_name,
                                    request.GET.get(redirect_field_name, ''))
@@ -223,6 +261,36 @@ def create_password(request, template_name='registration/create_password.haml',
     }
     return TemplateResponse(request, template_name, context, current_app)
 
+def subscribe_teacher(request):
+    if request.method == "POST":
+        form = SubscribeTeacherForm(request.POST)
+        if form.is_valid():
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            username = form.generate_teacher_username()
+            password = form.cleaned_data["password"]
+            email = form.cleaned_data["email"]
+            registration_number = form.cleaned_data["registration_number"]
+
+            with transaction.atomic():
+                user = User.objects.create_user(username=username,
+                                                email=email,
+                                                password=password,
+                                                first_name=first_name,
+                                                last_name=last_name)
+                prof = Professor.objects.create(user=user, code=registration_number, is_pending=True)
+                # Send email to confirm and thus set is_pending to True instead of False ?
+            domain = request.META['HTTP_HOST']
+            url = "http://{}/accounts/confirmteacher/{}".format(domain, user.id)
+            body = "Bonjour, merci de vous etre inscrit sur Oscar ! Votre nom d'utilisateur est {}" \
+                   ". Pour finaliser votre inscription, veuillez suivre ce lien : {}".format(username, url)
+            send_mail(u'Votre inscription a bien été enregistrée.', body, 'noreply@oscar.education',
+                      [request.POST['email']], fail_silently=False)
+            messages.add_message(request, messages.SUCCESS,
+                                 "Veuillez consulter votre boite mail ({}) pour activer votre compte.".format(request.POST['email']))
+            return HttpResponseRedirect(reverse('username_login'))
+
+    return render(request,'registration/subscribe_teacher.haml', locals())
 
 def logout(request, next_page=None,
            template_name='registration/logged_out.html',

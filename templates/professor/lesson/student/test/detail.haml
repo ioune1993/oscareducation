@@ -100,10 +100,19 @@
                                                   %label.btn.btn-default.bad
                                                     %input{type: "radio", name: "{{ student.id }}_{{ student_test.id }}_{{ question.id }}", value: "bad_{{ student.id }}_{{ skill.id }}", autocomplete: "off"}
                                                     Incorrect
-                                    -if question.source
-                                      Source(s) : {{ question.source }}
-                                    -if question.indication
-                                      %br Indication pour les professeurs : {{ question.indication }}
+                                    %a.btn.btn-default.infos{id: "{{ question.id }}"} Afficher les sources/informations
+                                    %p.hiddeninfo{id: "source_{{ question.id }}"}
+                                      %u Source(s) :
+                                      -if question.source
+                                        %br {{ question.source }}
+                                      -else
+                                        %br (Pas de source)
+                                    %p.hiddeninfo{id: "indication_{{ question.id }}"}
+                                      %u Indication pour les professeurs :
+                                      -if question.indication
+                                        %br {{ question.indication }}
+                                      -else
+                                        %br (Pas d'indication)
                         -else
                           %i Déduit depuis les autres réponses
 
@@ -247,10 +256,19 @@
                                                   ;
                                                   =y
                                                   )
-                                -if question.source
-                                  Source(s) : {{ question.source }}
-                                -if question.indication
-                                  %br Indication pour les professeurs : {{ question.indication }}
+                                %a.btn.btn-default.infos{id: "{{ question.id }}"} Afficher les sources/informations
+                                %p.hiddeninfo{id: "source_{{ question.id }}"}
+                                  %u Source(s) :
+                                  -if question.source
+                                    %br {{ question.source }}
+                                  -else
+                                    %br (Pas de source)
+                                %p.hiddeninfo{id: "indication_{{ question.id }}"}
+                                  %u Indication pour les professeurs :
+                                  -if question.indication
+                                    %br {{ question.indication }}
+                                  -else
+                                    %br (Pas d'indication)
                       -else
                         %i Déduit depuis les autres réponses
 

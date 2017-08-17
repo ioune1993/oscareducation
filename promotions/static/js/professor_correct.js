@@ -101,6 +101,32 @@ $(function() {
         });
     }
 
+    var infos = function() {
+        var btn = $(this);
+        var id = btn.attr("id");
+
+        $(this).on("click", function () {
+
+            // Hide the button
+            btn.hide();
+
+            var source = $('#source_' + id);
+            var indication = $('#indication_' + id);
+            source.show();
+            indication.show();
+
+            // Remove selection color of the other button
+            var good_btn = btn.parent().find(".good");
+            good_btn.removeClass("btn-success");
+        });
+    }
+
+    var hiddeninfo = function() {
+        $(this).hide();
+    }
+
     $(".good").each(color_good);
     $(".bad").each(color_bad);
+    $(".infos").each(infos);
+    $(".hiddeninfo").each(hiddeninfo);
 });

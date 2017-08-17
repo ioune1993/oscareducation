@@ -23,6 +23,10 @@
   .ligneorange
 
   .container-fluid.boxclassetitle
+    .pull-left
+      %td.center{width: "20px"}
+        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
+          Tests
     .pull-right
       %td.center{width: "20px"}
         %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk test.pk %}", method: "post"}
@@ -33,17 +37,11 @@
             -else
               Rendre disponible
       %td.center{width: "20px"}
-        %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk test.pk %}"}
+        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test.pk %}"}
           Modifier
       %td.center{width: "20px"}
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk test.pk %}"}
           Effacer
-      %td.center{width: "20px"}
-        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk test.pk %}"}
-          Exercices
-      %td.center{width: "20px"}
-        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-          Tests
 
   .ligneorangefine
 

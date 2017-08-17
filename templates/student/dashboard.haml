@@ -26,144 +26,144 @@
   %br
 
   -with lesson=user.student.lesson_set.first
-      .row
-        .col-md-6
-          -for stage in lesson.stages_in_unchronological_order
-            -get_students_skills of user.student at stage rename "student_skills"
-            -if forloop.first
+    .row
+      .col-md-6
+        -for stage in lesson.stages_in_unchronological_order
+          -get_students_skills of user.student at stage rename "student_skills"
+          -if forloop.first
+            .container-fluid.boxclassetitle
+              %h5 Mon empreinte
+                Niveau {{ stage.name }}
+
+            .ligneorangefine
+
+            .container-fluid.boxclasse
+              -regroup student_skills by skill.section as sections
+              -for section in sections
+                .panel.panel-default
+                  .panel-heading.student-section-round
+                    =section.grouper
+                    -with student_skill=section.list|first
+                      %i.round-section-icon{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+                      %span{style:'float:right;'} LIEN
+                %table.table-hover.table
+                  -for student_skill in section.list
+                    %tr.legend-list
+                      %td.legend
+                        -if student_skill.acquired
+                          %img.icon.student-skill{src: "{% static 'img/icons/mastered.png' %}"}
+                        -elif student_skill.tested
+                          -if student_skill.recommended_to_learn
+                            %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
+                          -else
+                            %img.icon.student-skill{src: "{% static 'img/icons/not-mastered.png' %}"}
+                        -else
+                          %img.icon.student-skill{src: "{% static 'img/icons/not-tested.png' %}"}
+                      %td.legend
+                        %a{href: '{% url "student_skill_pedagogic_ressources" "skill" student_skill.skill.code %}'}
+                          {{ student_skill.skill.name }}
+
+            %br
+          -else
+            -if forloop.counter == 2
               .container-fluid.boxclassetitle
-                %h5 Mon empreinte
-                  Niveau {{ stage.name }}
+                %h5 Années précédentes
 
               .ligneorangefine
 
-              .container-fluid.boxclasse
-                -regroup student_skills by skill.section as sections
-                -for section in sections
-                  .panel.panel-default
-                    .panel-heading.student-section-round
-                      =section.grouper
-                      -with student_skill=section.list|first
-                        %i.round-section-icon{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+              <div class="container-fluid boxclasse">
+            .panel.panel-default
+              .panel-heading
+                Niveau {{ stage.name }}
+              .panel-body
+                %table
+                  -for student_skill in student_skills|strip_untested_skills
+                    -if forloop.first
+                      <tr>
+                    -elif forloop.counter0|divisibleby:5
+                      </tr><tr>
+                    %td{style: "text-align: center; width: 100px; padding: 10px;"}
+                      %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%{% if student_skill.recommended_to_learn %}; border: black solid;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" "skill" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
+                        %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
 
-                  %table.table-hover.table
-                    -for student_skill in section.list
-                      %tr.legend-list
-                        %td.legend
-                          -if student_skill.acquired
-                            %img.icon.student-skill{src: "{% static 'img/icons/mastered.png' %}"}
-                          -elif student_skill.tested
-                            -if student_skill.recommended_to_learn
-                              %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
-                            -else
-                              %img.icon.student-skill{src: "{% static 'img/icons/not-mastered.png' %}"}
-                          -else
-                            %img.icon.student-skill{src: "{% static 'img/icons/not-tested.png' %}"}
-                        %td.legend
-                          %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
-                            {{ student_skill.skill.name }}
+                    -if forloop.last
+                      </tr>
+            -if forloop.last
+              </div>
 
-              %br
-            -else
-              -if forloop.counter == 2
-                .container-fluid.boxclassetitle
-                  %h5 Années précédentes
+          -#
+            %h5 Légende
 
-                .ligneorangefine
+            .row
+              .col-md-6
+                %ul.legend-list
+                  %li.legend
+                    .btn.btn-default.right-space %i.fa.fa-plus-square
+                    nombres
+                  %li.legend
+                    .btn.btn-default.right-space
+                      %i.fa.fa-cube
+                    solides et figures
+                  %li.legend
+                    .btn.btn-default.right-space
+                      %i.fa.fa-arrows-v
+                    grandeurs
+                  %li.legend
+                    .btn.btn-default.right-space
+                      %i.fa.fa-bar-chart
+                    traitement de données
+              .col-md-6
+                %ul.legend-list
+                  %li.legend
+                    .btn.btn-default.right-space
+                      %i.fa.fa-area-chart
+                    fonctions
+                  %li.legend
+                    .btn.btn-default.right-space
+                      %i.fa.fa-pie-chart
+                    probabilités et statistiques
+                  %li.legend
+                    .btn.btn-default.right-space
+                      %i.fa.fa-gears
+                    compétences transversales
 
-                <div class="container-fluid boxclasse">
-              .panel.panel-default
-                .panel-heading
-                  Niveau {{ stage.name }}
-                .panel-body
-                  %table
-                    -for student_skill in student_skills|strip_untested_skills
-                      -if forloop.first
-                        <tr>
-                      -elif forloop.counter0|divisibleby:5
-                        </tr><tr>
-                      %td{style: "text-align: center; width: 100px; padding: 10px;"}
-                        %a{type: "button", style: '{% if student_skill.tested or student_skill.acquired %}color: white;{% endif %}; width: 100%{% if student_skill.recommended_to_learn %}; border: black solid;{% endif %}', href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}', class: "btn btn-{% if student_skill.acquired %}success{% elif student_skill.tested %}warning{% else %}default{% endif %} skill"}
-                          %i{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
+      .col-md-6
+        -if user.student.has_recommended_skills
+          .container-fluid.boxclassetitle
+            %h5 Compétences recommandées
 
-                      -if forloop.last
-                        </tr>
-              -if forloop.last
-                </div>
+          .ligneorangefine
 
-            -#
-              %h5 Légende
+          .container-fluid.boxclasse
 
-              .row
-                .col-md-6
-                  %ul.legend-list
-                    %li.legend
-                      .btn.btn-default.right-space %i.fa.fa-plus-square
-                      nombres
-                    %li.legend
-                      .btn.btn-default.right-space
-                        %i.fa.fa-cube
-                      solides et figures
-                    %li.legend
-                      .btn.btn-default.right-space
-                        %i.fa.fa-arrows-v
-                      grandeurs
-                    %li.legend
-                      .btn.btn-default.right-space
-                        %i.fa.fa-bar-chart
-                      traitement de données
-                .col-md-6
-                  %ul.legend-list
-                    %li.legend
-                      .btn.btn-default.right-space
-                        %i.fa.fa-area-chart
-                      fonctions
-                    %li.legend
-                      .btn.btn-default.right-space
-                        %i.fa.fa-pie-chart
-                      probabilités et statistiques
-                    %li.legend
-                      .btn.btn-default.right-space
-                        %i.fa.fa-gears
-                      compétences transversales
+            %table.table.table-hover
+              -for stage in lesson.stages_in_unchronological_order
+                -get_students_skills of user.student at stage rename "student_skills"
+                -for student_skill in student_skills
+                  -if student_skill.recommended_to_learn
+                    %tr.legend-list
+                      %td.legend
+                        %i.round-section-icon.recommended{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}", data-toggle: "tooltip", data-placement: "right", section: "{{ student_skill.skill.section }}"}
+                      %td.legend
+                        %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
+                      %td
+                        %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
+                          {{ student_skill.skill.name }}
 
-        .col-md-6
+        -if user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
           -if user.student.has_recommended_skills
-            .container-fluid.boxclassetitle
-              %h5 Compétences recommandées
+            %br
 
-            .ligneorangefine
+          .container-fluid.boxclassetitle
+            %h5 Test{{ user.student.teststudent_set.all|keep_unfinished_tests|pluralize }} à passer
 
-            .container-fluid.boxclasse
+          .ligneorangefine
 
-              %table.table.table-hover
-                -for stage in lesson.stages_in_unchronological_order
-                  -get_students_skills of user.student at stage rename "student_skills"
-                  -for student_skill in student_skills
-                    -if student_skill.recommended_to_learn
-                      %tr.legend-list
-                        %td.legend
-                          %i.round-section-icon.recommended{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}", data-toggle: "tooltip", data-placement: "right", section: "{{ student_skill.skill.section }}"}
-                        %td.legend
-                          %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
-                        %td
-                          %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
-                            {{ student_skill.skill.name }}
+          .container-fluid.boxclasse
 
-          -if user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
-            -if user.student.has_recommended_skills
-              %br
-
-            .container-fluid.boxclassetitle
-              %h5 Test{{ user.student.teststudent_set.all|keep_unfinished_tests|pluralize }} à passer
-
-            .ligneorangefine
-
-            .container-fluid.boxclasse
-
-              .list-group
-                -for student_test in user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
-                  -if not student_test.finished
-                    %a.list-group-item{href: "{% url 'student_pass_test' student_test.id %}"}
-                      %span.badge= student_test.test.created_at|date:"d/m/Y"
-                      =student_test.test.name
+            .list-group
+              -for student_test in user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
+                -if not student_test.finished
+                  %a.list-group-item{href: "{% url 'student_pass_test' student_test.id %}"}
+                    %span.badge= student_test.test.created_at|date:"d/m/Y"
+                    =student_test.test.name

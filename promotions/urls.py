@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/test/(?P<test_pk>\d+?)/$', views.lesson_student_test_detail, name='lesson_student_test'),
     url(r'^professor_correct/$', views.professor_correct, name='professor_correct'),
     url(r'^professor_iscorrect/$', views.professor_iscorrect, name='professor_iscorrect'),
+    url(r'^professor_rename_test/$', views.professor_rename_test, name='professor_rename_test'),
 
     url(r'^lesson/(?P<pk>\d+)/test/$', views.lesson_test_list, name='lesson_test_list'),
     url(r'^lesson/(?P<pk>\d+)/test/add/$', views.lesson_test_add, name='lesson_test_add'),
@@ -42,8 +43,6 @@ urlpatterns = [
     url(r'^lesson/(?P<lesson_pk>\d+)/skill/(?P<skill_code>.+)/$', views.lesson_skill_detail, name='lesson_skill_detail'),
 
     url(r'^regenerate_student_password/$', views.regenerate_student_password, name='regenerate_student_password'),
-
-    url(r'^skill/$', views.contribute_page, name='skill_list'),
     url(r'^global_resources/(?P<pk>\d+)/delete/$', views.global_resources_delete, name='global_resources_delete'),
     url(r'^skill/(?P<slug>.+)/$', user_is_professor(DetailView.as_view(model=Skill, slug_field="code", template_name="professor/skill/detail.haml")), name='skill_detail'),
     url(r'^pedagogical/(?P<type>.+)/(?P<id_type>.+)/(?P<kind>.+)/resource/remove/(?P<id>\d+)/$', views.remove_pedagogical_ressources, name='remove_pedagogical_ressources'),
@@ -70,8 +69,16 @@ urlpatterns = [
     url(r'^exercices/validation_form/submit/$', views.exercice_validation_form_submit, name='exercice_validation_form_pull_request'),
     url(r'^exercices/(?P<exercice_pk>\d+)/for_test_exercice/(?P<test_exercice_pk>\d+)/$', views.exercice_for_test_exercice, name='exercice_for_test_exercice'),
     url(r'^exercices/adapt_exercice/(?P<test_exercice_pk>\d+)/$', views.exercice_adapt_test_exercice, name='exercice_adapt_test_exercice'),
+    url(r'^exercices/remove_exercice/(?P<test_exercice_pk>\d+)/$', views.exercice_remove_test_exercice, name='exercice_remove_test_exercice'),
 
     url(r'^lesson/(?P<pk>\d+)/students_password_page/$', views.students_password_page, name='lesson_student_password_page'),
     url(r'^lesson/(?P<lesson_pk>\d+)/students_password_page/(?P<student_pk>\d+)/$', views.single_student_password_page,
         name='single_student_password_page'),
+
+    url(r'^education/$', views.main_education, name ='main-education'),
+    url(r'^education/socles-competences/$', views.socles_competence, name='socles-competence'),
+    url(r'^education/enseignement-professionnel/$', views.enseign_pro, name='enseign-pro'),
+    url(r'^education/enseignement-tech-art/$', views.enseign_techart, name='enseign-techart'),
+    url(r'^education/enseignement-transition/$', views.enseign_trans, name='enseign-trans'),
+
 ]

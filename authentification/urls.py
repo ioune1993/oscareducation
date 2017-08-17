@@ -10,5 +10,8 @@ urlpatterns = [
     url(r'^codelogin/$', views.code, name='code_login'),
     url(r'^createpassword/$', views.create_password, name="create_password"),
     url(r'^logout/$', views.logout, name='logout'),
+    url(r'^subscribe/$', views.subscribe_teacher, name='subscribe_teacher'),
+    url(r'^pendingteacher/$', views.pending_teacher, name='pending_teacher'),
+    url(r'^confirmteacher/(?P<user_id>\d+)/$', views.confirm_teacher, name='confirm_teacher'),
     url('^', include(urls)),
 ]

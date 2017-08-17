@@ -13,10 +13,10 @@ from django.db import transaction
 
 # from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
-from skills.models import StudentSkill, Skill
-from resources.models import Resource
+from skills.models import StudentSkill, Skill, Section, CodeR
 from end_test_poll.models import StudentPoll
 from end_test_poll.forms import StudentPollForm
+from resources.models import KhanAcademy, Sesamath, Resource
 
 
 from utils import user_is_student
@@ -245,13 +245,67 @@ def start_test(request, pk):
     return HttpResponseRedirect(reverse('student_pass_test', args=(test_student.pk,)))
 
 
-def skill_pedagogic_ressources(request, slug):
-    skill = get_object_or_404(Skill, code=slug)
+def skill_pedagogic_ressources(request, type, slug):
+    """skill = get_object_or_404(Skill, code=slug)
 
-    personal_resource = Resource.objects.filter(added_by__professor__lesson__students=request.user.student, section="personal_resource", skill=skill)
+    list_resource_id = list()
+    # ManyToMany relation from Skill to Resource
+    for skill_object in Skill.objects.all():
+        for skill_object_resource in skill_object.resource.all():
+            list_resource_id.append(skill_object_resource.id)
+
+    personal_resource = Resource.objects.filter(added_by__professor__lesson__students=request.user.student, section="personal_resource", id__in=list_resource_id)
 
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
         "object": skill,
         "skill": skill,
         "personal_resource": personal_resource,
+    })"""
+
+    if type =='skill':
+        base = get_object_or_404(Skill, code=slug)
+    elif type == 'section':
+        base = get_object_or_404(Section, id=slug)
+
+    personal_resource = base.resource.filter(section="personal_resource")
+    other_resource = base.resource.filter(section="other_resource")
+    exercice_resource = base.resource.filter(section="exercice_resource")
+    lesson_resource = base.resource.filter(section="lesson_resource")
+    exercice_resource_sesamath = list()
+    lesson_resource_sesamath = list()
+    lesson_resource_khanacademy = list()
+
+    # Sorting the different type of resources by category (personal, lesson, exercice or other)
+    # and by type (khanacademy, sesamath or other)
+    for exo in exercice_resource:
+        if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
+            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            exercice_resource_sesamath.append([exo.pk,resource])
+            exercice_resource = exercice_resource.exclude(pk=exo.pk)
+
+    for exo in lesson_resource:
+        if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
+            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            lesson_resource_sesamath.append([exo.pk,resource])
+            lesson_resource = lesson_resource.exclude(pk=exo.pk)
+
+        elif exo.content.get('from') and exo.content['from'] == "skills_khanacademyvideoskill":
+            resource = get_object_or_404(KhanAcademy, pk=exo.content['refrenced'])
+            lesson_resource_khanacademy.append([exo.pk, resource])
+            lesson_resource = lesson_resource.exclude(pk=exo.pk)
+
+    sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="Manuel")
+    sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="Cahier")
+    return render(request, "professor/skill/update_pedagogical_resources.haml", {
+        "sesamath_references_manuals": sesamath_references_manuals,
+        "sesamath_references_cahier": sesamath_references_cahiers,
+        "base": base,
+        "personal_resources": personal_resource,
+        "other_resources": other_resource,
+        "exercice_resources": exercice_resource,
+        "exercice_resource_sesamath": exercice_resource_sesamath,
+        "lesson_resources": lesson_resource,
+        "lesson_resource_sesamath": lesson_resource_sesamath,
+        "lesson_resource_khanacademy": lesson_resource_khanacademy,
+        "type": type,
     })

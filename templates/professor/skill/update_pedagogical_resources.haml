@@ -12,26 +12,27 @@
         Compétence
         =base
 -block content
-    %h4 Compétence
+    %h4
+      Compétence
       =base
     %hr
     %h5= base
-    -if user.professor
-      .well
-        -with type=type
-          -include "professor/skill/update_pedagogical_resources/my_resource.haml"
-      .well
-        -with type=type
-          -include "professor/skill/update_pedagogical_resources/lesson_resource.haml"
-      .well
-        -with type=type
-          -include "professor/skill/update_pedagogical_resources/exercice_resource.haml"
-      .well
-        -with type=type
-          -include "professor/skill/update_pedagogical_resources/other_resource.haml"
+    -if type == "skill"
+      %a{href: "{% url 'student_skill_pedagogic_ressources' 'section' base.section_id %}"}
+        Consulter les ressources du chapitre en cours
+    .well
+      -with type=type
+        -include "professor/skill/update_pedagogical_resources/my_resource.haml"
+    .well
+      -with type=type
+        -include "professor/skill/update_pedagogical_resources/lesson_resource.haml"
+    .well
+      -with type=type
+        -include "professor/skill/update_pedagogical_resources/exercice_resource.haml"
+    .well
+      -with type=type
+        -include "professor/skill/update_pedagogical_resources/other_resource.haml"
 
-    -else
-      %h5 Ressources de ma classe
   -# TODO : Move CSS !
   :css
       .level2 {

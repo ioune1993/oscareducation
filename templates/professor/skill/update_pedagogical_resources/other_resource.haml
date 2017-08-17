@@ -3,9 +3,9 @@
 
 %h5 Autres ressources
 
-%button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
-  Ajouter
 -if user.professor
+  %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
+    Ajouter
   .panel.panel-default{style: "display: none", id: "other_resource-form"}
       .panel-heading= title
       .panel-body
@@ -72,7 +72,8 @@
                     %span.glyphicon.glyphicon-save-file Télécharger
             %hr
               -if user.professor
-        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
-          -csrf_token
-          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-            supprimer
+        -if user.professor
+          %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+            -csrf_token
+            %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+              supprimer

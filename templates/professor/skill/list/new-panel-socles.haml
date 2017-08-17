@@ -1,0 +1,40 @@
+-load lesson_tags
+
+.panel.panel-default
+  -regroup stage.skills_by_id by section_id as sections
+  -for section in sections
+
+    .panel-heading.row{id: "heading{{ stage.id }}{{ section.grouper }}", role: "tab"}
+      .col-md-9
+        %h4.panel-title
+          %a{:aria-controls => "collapse{{ stage.id }}{{ section.grouper }}", :aria-expanded => "true", :data-parent => "#accordion", :data-toggle => "collapse", :href => "#collapse{{ stage.id }}{{ section.grouper }}", :role => "button"}
+            -with code=section.list|first
+              =code.code|slice:":2"
+            {% get_section_name section.grouper %}
+      .col-md-3
+        %a.btn.btn-block.btn-default{:href => "{% url 'professor:update_pedagogical_ressources' 'section' section.grouper %}"} Ajouter une ressource
+    .panel-collapse.collapse.in{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}{{ section.grouper }}", id: "collapse{{ stage.id }}{{ section.grouper }}"}
+      .panel-body
+        %table.table.no-border
+          %tbody
+            -for skill in section.list
+              %tr
+                %td{:width => "10%"}
+                  %a.btn.btn-block.btn-default{:href => "{% url 'professor:skill_detail' skill.code %}"}
+                    = skill.code|slice:"2:"
+                %td{:width => "40%"}
+                  %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
+                    = skill.name
+                %td{:width => "20%"}
+                  %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
+                    =skill.skills_with_exercice_count
+                    question{{ skill.skills_with_exercice_count|pluralize }}
+                %td{:width => "10%"}
+                  %a{:href => "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
+                    %img{:alt => "Ajouter une question", :height => "25%", :src => "../img/icons/add-question.png", :width => "25%"}/
+                %td{:width => "10%"}
+                  %a{:href => "{% url 'professor:update_pedagogical_ressources' 'skill' skill.id %}"}
+                    %img{:alt => "Ajouter une ressource", :height => "25%", :src => "../img/icons/add-ressource.png", :width => "25%"}/
+                %td{:width => "10%"}
+                  %a{:href => "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
+                    %img{:alt => "Signaler un problème", :height => "25%", :src => "../img/icons/report.png", :width => "25%"}/

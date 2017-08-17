@@ -175,3 +175,21 @@ if "STATIC_ROOT" not in globals():
 CRISPY_FAIL_SILENTLY = not DEBUG
 
 INTERNAL_IPS = ('127.0.0.1',)
+
+# Email settings
+#DEFAULT_FROM_EMAIL = 'noreply@louvainfo.be'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'smtp.gmail.com'
+
+# Port for sending e-mail.
+EMAIL_PORT = 587
+
+# Credentials to account
+# You need to "allow less scure apps" on your Gmail account first
+EMAIL_HOST_USER ="bclassetest@gmail.com"
+EMAIL_HOST_PASSWORD ="bclassetest2"
+
+EMAIL_USE_TLS = True

@@ -1,5 +1,8 @@
 -extends "base.haml"
 
+-load bootstrap3
+-load static
+
 -block breadcrumb
   %ol.breadcrumb
     %li
@@ -9,29 +12,63 @@
         Classe
         =lesson.name
     %li
-      %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
-        Test
-        =test.name
+      -if test.test
+        %a{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+          Test
+          %span.test-name
+            =test.name
+      -else
+        %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+          Évaluation libre
+          =test.name
     %li.active
-      Questions
+      Modifier
 
 -block content
+  .panel.panel-default
+    .panel-heading
+      Modifier le nom :
+      %i.test-name {{ test.name }}
+
+    .panel-body
+      .form-group
+        %label.control-label.col-sm-2 Nom
+        %input.form-control{id: "new_name", type: "text"}
+      {% buttons %}
+        %a.button.btn.btn-primary.modify{id: "{{ test.id }}"}
+          Modifier
+        -if test.test
+          %a.btn.btn-default{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+            Annuler
+        -else
+          %a.btn.btn-default{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk test.pk %}"}
+            Annuler
+      {% endbuttons %}
+      %p{id: "name_modified_message", style: "display:none"} Nom modifié !
   -if not test.can_change_exercice
     .alert.alert-warning
       %b Remarque :
       au moins un élève a commencé le test, il n'est plus possible de changer les exercices
 
-  %h3 Exercices sélectionnés pour le test <i>{{ object.name }}</i>
+  %h3 Exercices sélectionnés pour le test
+    %i.test-name {{ object.name }}
     %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
         Valider
   %hr
+  %h5 Ajouter une compétence
+  %hr
 
   -for test_exercice in object.testexercice_set.all
+    %h4 Compétence {{ test_exercice.skill.code }} : {{ test_exercice.skill.name }}
+    %h6.center (supprimer cette compétence du test)
+      %br
+        %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk test.pk %}"}
+          Ajouter une question
     .panel.panel-default
       %a.anchor{name: "{{ test_exercice.id }}"}
       .panel-heading.subpanel
-        Exercice n°
+        Question n°
         =test_exercice.exercice.id
         sur
         =test_exercice.skill.code
@@ -44,12 +81,16 @@
                   remplacer
             -if test_exercice.exercice
               %td.center{width: "20px"}
-                %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier l´exercice. Cela ne modifiera l´exercice que pour ce test."}
+                %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier la question. Cela ne modifiera la question que pour ce test."}
                   modifier
           -if test_exercice.test.can_change_exercice or not test_exercice.exercice
             %td.center{width: "20px"}
               %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}", data-toggle: "tooltip", data-placement: "top", title: "Écrire une nouvelle question pour tester cette compétence"}
                 nouveau
+          -if test_exercice.test.can_change_exercice and test_exercice.exercice
+            %td.center{width: "20px"}
+              %a.btn.btn-danger.btn-xs{href: "{% url 'professor:exercice_remove_test_exercice' test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Supprimer la question"}
+                supprimer
 
       .panel-body
         -if test_exercice.exercice
@@ -116,3 +157,5 @@
       {% endfor %}
       {% endfor %}
     });
+  %script{src: "https://code.jquery.com/jquery.min.js"}
+  %script{src: "{% static 'js/professor_rename_test.js' %}"}
