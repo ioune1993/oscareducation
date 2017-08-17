@@ -13,48 +13,34 @@
   .background-image
   .login
     %h1.title <span class="o-letter">O</span>scar
+    %ul{class:"messages"}
+      {% if messages %}
+        {%for message in messages %}
+          %li {{ message }}
+        {% endfor %}
+      {% endif %}
+
     -if form.errors
-      {{ form.errors }}
-    -if next
-      -if user.is_authenticated
-        .alert.alert-warning
-          Votre compte n'a pas accès à cette page, veuillez vous connecter avec un compte ayant les droits adéquats pour pouvoir la voir.
-      -else
-        .alert.alert-info
-          Veuillez vous connecter pour pouvoir voir cette page.
+      %li {{ form.errors }}
+
+    Votre compte n'est pas actif pour le moment. Pour l'activer, cliquez sur le lien de confirmation
+    envoyé à votre adresse e-mail.
 
     %form#login-form{action: "{{ app_path }}", method: "post", role: "form"}
       -csrf_token
 
       .form-group{class: "{% if form.id_username.errors %}has-error{% elif form.data and form.id_username %}has-success{% endif %}"}
-        %label.control-label{for: "first_name"}
-          Prénom
-        %input#id_first_name.form-control{type: "text", required: "", placeholder: "Prénom", name: "first_name", value: "{{ form.first_name.value }}"}
-        %label.control-label{for: "id_last_name"}
-          Nom
-        %input#id_last_name.form-control{type: "text", required: "", placeholder: "Nom", name: "last_name", value: "{{ form.last_name.value }}"}
-        %label.control-label{for: "id_password"}
-          Mot de passe
-        %input#id_password.form-control{type: "password", required: "", placeholder: "Mot de passe", name: "password"}
-        %label.control-label{for: "id_registration_number"}
-          Matricule enseignant
-        %input#id_registration_number.form-control{type: "text", required: "", placeholder: "Matricule", name: "registration_number", value: "{{ form.registration_number.value }}"}
         %label.control-label{for: "id_email"}
-          Adresse e-mail
+          Vous n'avez pas reçu d'email ? Renseignez ici votre adresse pour renvoyer un lien.
         %input#id_email.form-control{type: "email", required: "", placeholder: "Email", name: "email", value: "{{ form.email.value }}"}
 
         -for error in form.id_username.errors
           %span.help-block= error
 
-      -url 'admin_password_reset' as password_reset_url
-      -if password_reset_url
-        .password-reset-link
-          %a{href: "{{ password_reset_url }}"}
-            -trans 'Forgotten your password or username?'
       .submit-row
         %label
           &nbsp
-        %input.btn.btn-primary{type: "submit", value: "S'inscrire"}
+        %input.btn.btn-primary{type: "submit", value: "Connexion"}
     %a{href: "{% url 'username_login' %}"}
       Se connecter
 

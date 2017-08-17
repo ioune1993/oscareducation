@@ -86,9 +86,9 @@ Exercices
       %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
 Autres
-%button.show-form.btn.btn-sm.btn-primary{data-target: "#exercice_resource-form"}
-  Ajouter
 -if user.professor
+  %button.show-form.btn.btn-sm.btn-primary{data-target: "#exercice_resource-form"}
+    Ajouter
   .panel.panel-default{style: "display: none", id: "exercice_resource-form"}
     .panel-heading= title
     .panel-body
@@ -125,6 +125,7 @@ Autres
           -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
         %button.btn.btn-primary{type: "submit"}
           Valider
+
 %ul.list-group
   -for resource in exercice_resources
     %li.list-group-item
