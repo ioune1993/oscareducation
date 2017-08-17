@@ -6,42 +6,36 @@
 Videos
 %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
 -if user.professor
-	%button.show-form.btn.btn-primary.btn-sm{"data-target": "#khan-form"}
-    	Ajouter une vidéo
+  %button.show-form.btn.btn-primary.btn-sm{"data-target": "#khan-form"}
+    Ajouter une vidéo
 
-	%a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
-	    Aller sur la section math
+%a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+  Aller sur la section math
 
-	-for video in lesson_resource_khanacademy
-      %center
-        <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
-          %p
-            %a{href: "{{ video.1.url }}", target: "_blank"}
-              =video.1.title|default:"Vidéo KhanAcademy"
+-for video in lesson_resource_khanacademy
+  %center
+    <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+      %p
+        %a{href: "{{ video.1.url }}", target: "_blank"}
+          =video.1.title|default:"Vidéo KhanAcademy"
 
-            -if user.professor
-              %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'khanacademy' video.0 %}"}
-                -csrf_token
-                %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-                  supprimer
+      -if user.professor
+        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'khanacademy' video.0 %}"}
+          -csrf_token
+          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+            supprimer
 
-	%form#khan-form{method: "POST", style: "display: none", action: "{% url 'professor:update_pedagogical_ressources' type base.id %}"}
-		-csrf_token
-		%input{type: "hidden", value: "lesson_khanacademy", name: "form_type"}
-	    %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
-	    %input{type: "hidden", value: "lesson_resource", name: "section"}
-	    %label
-	      URL
-	    %input{type: "url", placeholder: "http:// ...", name: "url"}
-
-	    %p
-	     	%input.btn.btn-primary{type: "submit", value: "Ajouter"}
--for video in object.khanacademyvideoskill_set.all
-	%center
-		<iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
-          %p
-            %a{href: "{{ video.url }}", target: "_blank"}
-              =video.reference.title|default:video.url
+-if user.professor
+  %form#khan-form{method: "POST", style: "display: none", action: "{% url 'professor:update_pedagogical_ressources' type base.id %}"}
+    -csrf_token
+	  %input{type: "hidden", value: "lesson_khanacademy", name: "form_type"}
+	  %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+	  %input{type: "hidden", value: "lesson_resource", name: "section"}
+	  %label
+	    URL
+	  %input{type: "url", placeholder: "http:// ...", name: "url"}
+	  %p
+	    %input.btn.btn-primary{type: "submit", value: "Ajouter"}
 
 %hr
 Cours
@@ -121,8 +115,6 @@ Cours
               Votre navigateur ne permet pas de voir des fichiers PDFs,
               %a{href: "/pdf/sample-3pp.pdf"}
                 télécharger le PDF pour le voir
-            .
-
 
       .form-group
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
@@ -130,9 +122,10 @@ Cours
 
 %hr
 Autres
-%button.show-form.btn.btn-sm.btn-primary{data-target: "#my_resource-form"}
-  Ajouter
+
 -if user.professor
+  %button.show-form.btn.btn-sm.btn-primary{data-target: "#my_resource-form"}
+    Ajouter
   .panel.panel-default{style: "display: none", id: "my_resource-form"}
       .panel-heading= title
       .panel-body

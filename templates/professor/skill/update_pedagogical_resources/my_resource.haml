@@ -2,11 +2,13 @@
 -load lesson_tags
 
 
-%h5 Ressources personnelles
+%h5
+  Ressources personnelles
   %small pour mes élèves uniquement
-    %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
-      Ajouter
 -if user.professor
+  %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
+    Ajouter
+
   .panel.panel-default{style: "display: none", id: "personal_resource-form"}
       .panel-heading= title
       .panel-body
@@ -44,7 +46,7 @@
           %button.btn.btn-primary{type: "submit"}
             Valider
 
- 
+
 %ul.list-group
   -for resource in personal_resources
     %li.list-group-item
