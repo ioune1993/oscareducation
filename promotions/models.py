@@ -27,7 +27,7 @@ class Stage(models.Model):
 
     def skills_by_id(self):
         """ Group skills by section """
-        return self.skills.annotate(count=Count('section_id', distinct=True))
+        return self.skills.order_by('section_id').annotate(count=Count('section_id', distinct=True))
 
     def __unicode__(self):
         return self.name

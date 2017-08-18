@@ -423,6 +423,7 @@ def professor_test_add_question(request):
 
 def professor_test_delete_question(request):
     """The Professor removes a question (Context) from a Test"""
+    # TODO: When we remove the last question in an existing Skill, display a message to add at lest one exercice for that Skill
     test_exercice_id = request.GET.get('test_exercice_id', None)
 
     TestExercice.objects.get(id=test_exercice_id).delete()
@@ -438,18 +439,21 @@ def professor_test_add_skill(request):
     test_id = request.GET.get('test_id', None)
     skill_id = request.GET.get('skill_id', None)
     # Proposes an exercice by default when a Skill is added
-    exercice = Context.objects.filter(skill_id=skill_id)[:1].get().id
+    exercice = None
+    if Context.objects.filter(skill_id=skill_id):
+        exercice = Context.objects.filter(skill_id=skill_id)[:1].get().id
 
     new_test_exercice = None
 
-    with transaction.atomic():
-        new_test_exercice = TestExercice.objects.create(
-            testable_online=True,
-            exercice_id=exercice,
-            skill_id=skill_id,
-            test_id=test_id,
-        )
-        Test.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
+    if not exercice:
+        with transaction.atomic():
+            new_test_exercice = TestExercice.objects.create(
+                testable_online=True,
+                exercice_id=exercice,
+                skill_id=skill_id,
+                test_id=test_id,
+            )
+    Test.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
     data = {
         "new_test_exercice_id": new_test_exercice.id,
     }
@@ -1586,5 +1590,6 @@ def enseign_trans(request):
 
     data["global_resources"] = Resource.objects.all()
     data["code_r"] = CodeR.objects.all().order_by('id')
+    data["section"] = Section.objects.all()
 
     return render(request, "professor/skill/new-list-trans.haml", data)

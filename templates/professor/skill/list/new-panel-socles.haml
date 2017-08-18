@@ -2,6 +2,7 @@
 
 .panel.panel-default
   -regroup stage.skills_by_id by section_id as sections
+  -# TODO: section are not ordered
   -for section in sections
 
     .panel-heading.row{id: "heading{{ stage.id }}{{ section.grouper }}", role: "tab"}
