@@ -1,45 +1,75 @@
 -load static
 
-  %h4
-    =title
-    %img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
-    -if user.professor
-      %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-{{ kind }}-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
-        Ajouter
+%b Cours
+%img{src: "{% static 'img/sesamath-logo.png' %}", width: "143px", style: "padding-bottom: 15px;"}
+-if user.professor and add
+  %button.show-form.btn.btn-primary.btn-sm{data-target: "#sesamath-manuel-form", style: "{% if sesamath_reference_form.errors %}display: none{% endif %}"}
+    Ajouter
 
-      %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
-        aller sur la section manuels et cahiers
+  %a.btn.btn-xs.btn-info{href: "http://manuel.sesamath.net/index.php?page=telechargement", target: "_blank"}
+    aller sur la section manuels et cahiers
 
+-for base in resource_sesamath_skills
+  %p
+    Cours lié(s) au Skill
+    %b
+      =base.0
   .panel.panel-default
     %table.table
-      -for sesamath in resources
+      -for sesamath in base.1
         %tr{style: "position: relative"}
           %td.center
-            %a{href: "{{ sesamath.reference.on_oscar }}", target: "_blank"}
-              =sesamath.reference.title
+            %a{href: "{{ sesamath.1.on_oscar }}", target: "_blank"}
+              =sesamath.1.title
           %td.center
-            =sesamath.reference.classe
+            =sesamath.1.classe
           %td.center
-            =sesamath.reference.year
+            =sesamath.1.year
 
           %td{width: "100px"}
-            -if user.professor and sesamath.added_by == request.user
-              %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' 'sesamath' sesamath.id %}"}
+            -if user.professor and add
+              %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'sesamath' sesamath.0 %}"}
                 -csrf_token
-                %button.btn.btn-danger.btn-xs.delete.remove{type: "submit"}
+                %button.btn.btn-danger.btn-xs.delete{type: "submit"}
                   supprimer
 
-  -if user.professor
-    %form{method: "POST", id: "sesamath-{{ kind }}-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: "{% url 'professor:update_pedagogical_ressources' object.code %}"}
+-for base in resource_sesamath_coder
+  %p
+    Cours lié(s) au Code R
+    %b
+      =base.0
+  .panel.panel-default
+    %table.table
+      -for sesamath in base.1
+        %tr{style: "position: relative"}
+          %td.center
+            %a{href: "{{ sesamath.1.on_oscar }}", target: "_blank"}
+              =sesamath.1.title
+          %td.center
+            =sesamath.1.classe
+          %td.center
+            =sesamath.1.year
+
+          %td{width: "100px"}
+            -if user.professor and add
+              %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'sesamath' sesamath.0 %}"}
+                -csrf_token
+                %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                  supprimer
+
+
+  -if user.professor and add
+    %form{method: "POST", id: "sesamath-manuel-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: ""}
       -csrf_token
 
       %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
-      %input{type: "hidden", value: "{{ object.pk }}", name: "skill"}
       %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+      %input{type: "hidden", value: "lesson_resource", name: "section"}
+
 
       .form-group
         %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 50%;"}
-          -regroup references by classe as classes
+          -regroup sesamath_references_manuals by classe as classes
           -for classe in classes
             %li.dropdown-submenu
               %a{tabindex: "-1", href: "#"}= classe.grouper
@@ -48,7 +78,7 @@
                   -for chapitre in chapitres
                     -for ref in chapitre.list
                       %li
-                        %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\", \"{{ kind }}\")"}
+                        %a{href: "javascript:selectionSesamathReference({{ ref.id }}, \"{{ ref.title }}\", \"{{ ref.on_oscar }}\", \"manuel\")"}
                           -if chapitre.grouper
                             =chapitre.grouper
                             \-
@@ -64,11 +94,11 @@
       .form-group
         .input-group
           .input-group-addon Ressource sélectionnée :
-          %input.form-control{id: "ref_pk_title_{{ kind }}", type: "text", value: "", name: "ref_pk_title", disabled: None}
+          %input.form-control{id: "ref_pk_title_manuel", type: "text", value: "", name: "ref_pk_title", disabled: None}
 
-      %input.form-control{type: "text", id: "ref_pk_{{ kind }}", value: "", name: "ref_pk", style: "display: none"}
+      %input.form-control{type: "text", id: "ref_pk_manuel", value: "", name: "ref_pk", style: "display: none"}
 
-      .panel.panel-default{id: "sesamath_pdf_{{ kind }}", style: "display: none"}
+      .panel.panel-default{id: "sesamath_pdf_manuel", style: "display: none"}
         .panel-heading
           Aperçu
         .panel-body
@@ -77,8 +107,6 @@
               Votre navigateur ne permet pas de voir des fichiers PDFs,
               %a{href: "/pdf/sample-3pp.pdf"}
                 télécharger le PDF pour le voir
-            .
-
 
       .form-group
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}

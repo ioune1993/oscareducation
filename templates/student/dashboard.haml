@@ -32,7 +32,8 @@
           -get_students_skills of user.student at stage rename "student_skills"
           -if forloop.first
             .container-fluid.boxclassetitle
-              %h5 Mon empreinte
+              %h5
+                Mon empreinte
                 Niveau {{ stage.name }}
 
             .ligneorangefine
@@ -45,7 +46,10 @@
                     =section.grouper
                     -with student_skill=section.list|first
                       %i.round-section-icon{class: "fa fa-{{ student_skill.skill.image }}", title: "{{ student_skill.skill.name }}"}
-                      %span{style:'float:right;'} LIEN
+                      %span{style:'float:right;'}
+                        %a{href: '{% url "student_skill_pedagogic_ressources" "section" section.grouper.id %}'}
+                          %img.icon{src: "{% static 'img/icons/ressource-white.png' %}", title: "Accéder aux ressources du chapitre" }
+
                 %table.table-hover.table
                   -for student_skill in section.list
                     %tr.legend-list
@@ -91,41 +95,42 @@
             -if forloop.last
               </div>
 
-          -#
-            %h5 Légende
 
-            .row
-              .col-md-6
-                %ul.legend-list
-                  %li.legend
-                    .btn.btn-default.right-space %i.fa.fa-plus-square
-                    nombres
-                  %li.legend
-                    .btn.btn-default.right-space
-                      %i.fa.fa-cube
-                    solides et figures
-                  %li.legend
-                    .btn.btn-default.right-space
-                      %i.fa.fa-arrows-v
-                    grandeurs
-                  %li.legend
-                    .btn.btn-default.right-space
-                      %i.fa.fa-bar-chart
-                    traitement de données
-              .col-md-6
-                %ul.legend-list
-                  %li.legend
-                    .btn.btn-default.right-space
-                      %i.fa.fa-area-chart
-                    fonctions
-                  %li.legend
-                    .btn.btn-default.right-space
-                      %i.fa.fa-pie-chart
-                    probabilités et statistiques
-                  %li.legend
-                    .btn.btn-default.right-space
-                      %i.fa.fa-gears
-                    compétences transversales
+        %h5 Légende
+
+        .row
+          .col-md-6
+            %ul.legend-list
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-plus-square
+                nombres
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-cube
+                solides et figures
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-arrows-v
+                grandeurs
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-bar-chart
+                traitement de données
+          .col-md-6
+            %ul.legend-list
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-area-chart
+                fonctions
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-pie-chart
+                probabilités et statistiques
+              %li.legend
+                .btn.btn-default.right-space
+                  %i.fa.fa-gears
+                compétences transversales
 
       .col-md-6
         -if user.student.has_recommended_skills
