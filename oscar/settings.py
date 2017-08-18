@@ -63,7 +63,7 @@ INSTALLED_APPS = (
 
 ) + ADDITIONAL_APPS
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,6 +109,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'oscar',
+        'USER': 'oscar',
+        'PASSWORD': 'oscar',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 

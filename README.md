@@ -6,7 +6,10 @@
 First, install PostgreSQL version 9.4 or above
 (installation instructions depends on your OS).
 Then we advise you to install a tool such as
-`pgAdmin` to administrate the database.
+`pgAdmin` to administrate the database. By default,
+as it is stated in `oscar/settings.py`, the database
+name is 'oscar', accessible from `localhost:5432, with
+the user 'oscar' and the password 'oscar'.
 
 ### Django
 You only need to perform these commands once:

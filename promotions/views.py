@@ -399,11 +399,77 @@ def professor_rename_test(request):
 
 
 def professor_test_add_question(request):
-    """The Professor add a Question for a Skill in a Test"""
-    test_exercice = request.GET.get('test_exercice', None)
-    skill = request.GET.get('skill', None)
+    """The Professor add a question (Context) for a Skill in a Test"""
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    skill = list_id[0]
+    test = list_id[1]
+    exercice = Context.objects.filter(skill_id=skill)[:1].get().id
+
+    new_test_exercice = None
+
+    with transaction.atomic():
+        new_test_exercice = TestExercice.objects.create(
+            testable_online=True,
+            exercice_id=exercice,
+            skill_id=skill,
+            test_id=test,
+        )
     data = {
-        "id": id,
+        "new_test_exercice_id": new_test_exercice.id,
+    }
+    return JsonResponse(data)
+
+
+def professor_test_delete_question(request):
+    """The Professor removes a question (Context) from a Test"""
+    test_exercice_id = request.GET.get('test_exercice_id', None)
+
+    TestExercice.objects.get(id=test_exercice_id).delete()
+
+    data = {
+
+    }
+    return JsonResponse(data)
+
+
+def professor_test_add_skill(request):
+    """The Professor add a Skill (with one Context) in a Test"""
+    test_id = request.GET.get('test_id', None)
+    skill_id = request.GET.get('skill_id', None)
+    # Proposes an exercice by default when a Skill is added
+    exercice = Context.objects.filter(skill_id=skill_id)[:1].get().id
+
+    new_test_exercice = None
+
+    with transaction.atomic():
+        new_test_exercice = TestExercice.objects.create(
+            testable_online=True,
+            exercice_id=exercice,
+            skill_id=skill_id,
+            test_id=test_id,
+        )
+        Test.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
+    data = {
+        "new_test_exercice_id": new_test_exercice.id,
+    }
+    return JsonResponse(data)
+
+
+def professor_test_delete_skill(request):
+    """The Professor removes a Skill from a Test, and all the Contexts attached to that Skill in the Test"""
+    received_id = request.GET.get('id', None)
+    list_id = received_id.split("_")
+    skill_id = list_id[0]
+    test_id = list_id[1]
+
+    for test_exercice in Test.objects.get(id=test_id).testexercice_set.all():
+        # Primary keys (id) are in integer format
+        if test_exercice.skill.id == int(skill_id):
+            test_exercice.delete()
+    Test.objects.get(id=test_id).skills.remove(Skill.objects.get(id=skill_id))
+    data = {
+        'skill_id': skill_id,
     }
     return JsonResponse(data)
 
