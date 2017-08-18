@@ -10,10 +10,11 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.decorators.http import require_POST
 from django.db import transaction
+from django.db.models import Q
 
 # from examinations import generation
 from examinations.models import TestStudent, Answer, TestExercice
-from skills.models import StudentSkill, Skill, Section, CodeR
+from skills.models import StudentSkill, Skill, Section, CodeR, Relations, CodeR_relations
 from end_test_poll.models import StudentPoll
 from end_test_poll.forms import StudentPollForm
 from resources.models import KhanAcademy, Sesamath, Resource
@@ -262,31 +263,46 @@ def skill_pedagogic_ressources(request, type, slug):
         "personal_resource": personal_resource,
     })"""
 
-    if type =='skill':
+    if type == 'skill':
         base = get_object_or_404(Skill, code=slug)
     elif type == 'section':
         base = get_object_or_404(Section, id=slug)
+    else:
+        # type == 'coder'
+        base = get_object_or_404(CodeR, id=slug)
 
     personal_resource = base.resource.filter(section="personal_resource")
-    other_resource = base.resource.filter(section="other_resource")
-    exercice_resource = base.resource.filter(section="exercice_resource")
     lesson_resource = base.resource.filter(section="lesson_resource")
+    exercice_resource = base.resource.filter(section="exercice_resource")
+    other_resource = base.resource.filter(section="other_resource")
+
     exercice_resource_sesamath = list()
     lesson_resource_sesamath = list()
     lesson_resource_khanacademy = list()
 
+    sori_skills_lesson_resources = list()
+    sori_skills_exercice_resources = list()
+    sori_skills_other_resources = list()
+
+    sori_skills_lesson_resource_sesamath = list()
+    sori_skills_lesson_resource_khanacademy = list()
+    sori_skills_exercice_resource_sesamath = list()
+
+    sori_coder_lesson_resources = list()
+    sori_coder_exercice_resources = list()
+    sori_coder_other_resources = list()
+
+    sori_coder_lesson_resource_sesamath = list()
+    sori_coder_lesson_resource_khanacademy = list()
+    sori_coder_exercice_resource_sesamath = list()
+
     # Sorting the different type of resources by category (personal, lesson, exercice or other)
     # and by type (khanacademy, sesamath or other)
-    for exo in exercice_resource:
-        if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
-            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
-            exercice_resource_sesamath.append([exo.pk,resource])
-            exercice_resource = exercice_resource.exclude(pk=exo.pk)
 
     for exo in lesson_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
             resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
-            lesson_resource_sesamath.append([exo.pk,resource])
+            lesson_resource_sesamath.append([exo.pk, resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
         elif exo.content.get('from') and exo.content['from'] == "skills_khanacademyvideoskill":
@@ -294,8 +310,185 @@ def skill_pedagogic_ressources(request, type, slug):
             lesson_resource_khanacademy.append([exo.pk, resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
+    for exo in exercice_resource:
+        if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
+            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            exercice_resource_sesamath.append([exo.pk, resource])
+            exercice_resource = exercice_resource.exclude(pk=exo.pk)
+
+    # Do the same operation for similar or identical resources :
+    # Some Skill or CodeR can be similar or identical to other Skill or CodeR
+    # We have to display the resources of those as well
+
+    # We achieve this only if we have either a Skill or a CodeR.
+    # If it is a Section, we don't display the similar/identical resources
+    # First step : is base a Skill or a CodeR ?
+    if isinstance(base, Skill):
+        # Begin with the Skills, same step is done for CodeR a bit further
+
+        # Retrieve all the similar and identical Relations for Skills
+        skills_from = Relations.objects.filter(Q(relation_type__in=['similar_to', 'identic_to'], from_skill=base.id))
+        skills_to = Relations.objects.filter(Q(relation_type__in=['similar_to', 'identic_to'], to_skill=base.id))
+
+        # This list will gather all the similar or 'identic' Skills
+        # (similar_or_identic = sori)
+        sori_skills = list()
+        for skill_from in skills_from:
+            sori_skills.append(skill_from.to_skill)
+        for skill_to in skills_to:
+            sori_skills.append(skill_to.from_skill)
+
+        for x in sori_skills:
+            print(x.id)
+        # Get the associated resources for these Skills
+        # We need to keep them separated by section to ease their use in the template
+
+        for skill in sori_skills:
+            lesson = skill.resource.filter(section="lesson_resource")
+            if lesson:
+                sori_skills_lesson_resources.append([skill, lesson])
+            exercice = skill.resource.filter(section="exercice_resource")
+            if exercice:
+                sori_skills_exercice_resources.append([skill, exercice])
+            other = skill.resource.filter(section="other_resource")
+            if other:
+                sori_skills_other_resources.append([skill, other])
+
+        # sori_skills_lesson_resources has resources of different types, we need to distinguish them
+        for skill in sori_skills_lesson_resources:
+            # Lists to regroup resources together
+            sesamath_list = list()
+            khan_list = list()
+
+            for res in skill[1]:
+                if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
+                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    sesamath_list.append([res.pk, resource])
+                    skill[1] = skill[1].exclude(pk=res.pk)
+
+                elif res.content.get('from') and res.content['from'] == "skills_khanacademyvideoskill":
+                    resource = get_object_or_404(KhanAcademy, pk=res.content['refrenced'])
+                    khan_list.append([res.pk, resource])
+                    skill[1] = skill[1].exclude(pk=res.pk)
+
+            # If we have emptied the ressources in the Skill, we remove it from the list
+            if not skill[1]:
+                sori_skills_lesson_resources.remove(skill)
+
+            # Once resources are sorted, we can add them with the associated Skill
+            if sesamath_list:
+                sori_skills_lesson_resource_sesamath.append([skill[0], sesamath_list])
+            if khan_list:
+                sori_skills_lesson_resource_khanacademy.append([skill[0], khan_list])
+
+        # sori_skills_exercice_resources has resources of different types, we need to distinguish them
+        for skill in sori_skills_exercice_resources:
+            # List to regroup resources together
+            sesamath_list = list()
+
+            for res in skill[1]:
+                if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
+                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    sesamath_list.append([res.pk, resource])
+                    skill[1] = skill[1].exclude(pk=res.pk)
+
+            # If we have emptied the ressources in the Skill, we remove it from the list
+            if not skill[1]:
+                sori_skills_exercice_resources.remove(skill)
+
+            # Once resources are sorted, we can add them with the associated Skill
+            if sesamath_list:
+                sori_skills_exercice_resource_sesamath.append([skill[0], sesamath_list])
+
+    if isinstance(base, CodeR) or isinstance(base, Skill):
+        # Repeat this operation for the CodeR
+        # TODO : Group these steps as a function for Skill and CodeR
+        # Retrieve all the CodeR related to the current Skill or to the current CodeR
+
+        if isinstance(base, Skill):
+            related_coder = CodeR.objects.filter(skill=base.id)
+            for r in related_coder:
+                print(r.id)
+        else:
+            coder_from = CodeR_relations.objects.filter(
+                Q(relation_type__in=['similar_to', 'identic_to'], from_coder=base.id))
+            coder_to = CodeR_relations.objects.filter(
+                Q(relation_type__in=['similar_to', 'identic_to'], to_coder=base.id))
+
+            # This list will gather all the similar or 'identic' CodeR
+            related_coder = list()
+            for coder_from in coder_from:
+                related_coder.append(coder_from.to_coder)
+            for coder_to in coder_to:
+                related_coder.append(coder_to.from_coder)
+            for r in related_coder:
+                print(r.id)
+                # Case where we look for CodeR similar or identic to a CodeR
+
+        # Get the associated resources for these CodeR
+
+        for coder in related_coder:
+            lesson = coder.resource.filter(section="lesson_resource")
+            if lesson:
+                sori_coder_lesson_resources.append([coder, lesson])
+            exercice = coder.resource.filter(section="exercice_resource")
+            if exercice:
+                sori_coder_exercice_resources.append([coder, exercice])
+            other = coder.resource.filter(section="other_resource")
+            if other:
+                sori_coder_other_resources.append([coder, other])
+
+        # sori_skills_lesson_resources has resources of different types, we need to distinguish them
+        for coder in sori_coder_lesson_resources:
+            # Lists to regroup resources together
+            sesamath_list = list()
+            khan_list = list()
+
+            for res in coder[1]:
+                if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
+                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    sesamath_list.append([res.pk, resource])
+                    coder[1] = coder[1].exclude(pk=res.pk)
+
+                elif res.content.get('from') and res.content['from'] == "skills_khanacademyvideoskill":
+                    resource = get_object_or_404(KhanAcademy, pk=res.content['refrenced'])
+                    khan_list.append([res.pk, resource])
+                    coder[1] = coder[1].exclude(pk=res.pk)
+
+            # If we have emptied the ressources in the Skill, we remove it from the list
+            if not coder[1]:
+                sori_coder_lesson_resources.remove(coder)
+
+            # Once resources are sorted, we can add them with the associated Skill
+            if sesamath_list:
+                sori_coder_lesson_resource_sesamath.append([coder[0], sesamath_list])
+            if khan_list:
+                sori_coder_lesson_resource_khanacademy.append([coder[0], khan_list])
+
+        # sori_coder_exercice_resources has resources of different types, we need to distinguish them
+        for coder in sori_coder_exercice_resources:
+            # List to regroup resources together
+            sesamath_list = list()
+
+            for res in coder[1]:
+                if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
+                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    sesamath_list.append([res.pk, resource])
+                    coder[1] = coder[1].exclude(pk=res.pk)
+
+            # If we have emptied the ressources in the CodeR, we remove it from the list
+            if not coder[1]:
+                sori_coder_exercice_resources.remove(coder)
+
+            # Once resources are sorted, we can add them with the associated CodeR
+            if sesamath_list:
+                sori_coder_exercice_resource_sesamath.append([coder[0], sesamath_list])
+
+    print(lesson_resource_khanacademy)
+
     sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="Manuel")
     sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="Cahier")
+
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
         "sesamath_references_manuals": sesamath_references_manuals,
         "sesamath_references_cahier": sesamath_references_cahiers,
@@ -308,4 +501,16 @@ def skill_pedagogic_ressources(request, type, slug):
         "lesson_resource_sesamath": lesson_resource_sesamath,
         "lesson_resource_khanacademy": lesson_resource_khanacademy,
         "type": type,
+        "sori_skills_exercice_resources": sori_skills_exercice_resources,
+        "sori_skills_lesson_resources": sori_skills_lesson_resources,
+        "sori_skills_other_resources": sori_skills_other_resources,
+        "sori_skills_lesson_resource_sesamath": sori_skills_lesson_resource_sesamath,
+        "sori_skills_lesson_resource_khanacademy": sori_skills_lesson_resource_khanacademy,
+        "sori_skills_exercice_resource_sesamath": sori_skills_exercice_resource_sesamath,
+        "sori_coder_exercice_resources": sori_coder_exercice_resources,
+        "sori_coder_lesson_resources": sori_coder_lesson_resources,
+        "sori_coder_other_resources": sori_coder_other_resources,
+        "sori_coder_lesson_resource_sesamath": sori_coder_lesson_resource_sesamath,
+        "sori_coder_lesson_resource_khanacademy": sori_coder_lesson_resource_khanacademy,
+        "sori_coder_exercice_resource_sesamath": sori_coder_exercice_resource_sesamath,
     })

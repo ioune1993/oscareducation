@@ -1,0 +1,63 @@
+-load crispy_forms_tags
+-load lesson_tags
+-load static
+-load bootstrap3
+
+Videos
+%img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+-if user.professor and add
+  %button.show-form.btn.btn-primary.btn-sm{"data-target": "#khan-form"}
+    Ajouter une vidéo
+
+%a.btn.btn-xs.btn-info{href: "https://fr.khanacademy.org/math", target: "_blank"}
+  Aller sur la section math
+
+-for base in resource_khanacademy_skills
+  %p
+    Vidéo(s) liée(s) au Skill
+    %b
+      =base.0
+  -for video in base.1
+    %center
+      <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.1.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+        %p
+          %a{href: "https://fr.khanacademy.org/v/{{ video.1.slug }}", target: "_blank"}
+            =video.1.title|default:"Vidéo KhanAcademy"
+
+        -if user.professor and add
+          %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'khanacademy' video.0 %}"}
+            -csrf_token
+            %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+              supprimer
+
+-for base in resource_khanacademy_coder
+  %p
+    Vidéo(s) liée(s) au Code R
+    %b
+      =base.0
+  -for video in base.1
+    %center
+      <iframe height="480" frameborder="0" width="100%" mozallowfullscreen="" webkitallowfullscreen="" allowfullscreen="" src="https://www.youtube.com/embed/{{ video.1.youtube_id }}?enablejsapi=1&amp;html5=1&amp;wmode=transparent&amp;modestbranding=1&amp;rel=0&amp;fs=1&amp;showinfo=0&amp;autoplay=0&amp;" data-translatedyoutubelang="fr" data-translatedyoutubeid="{{ video.youtube_id }}" data-youtubeid="{{ video.youtube_id }}" type="text/html" class="player"></iframe>
+        %p
+          %a{href: "https://fr.khanacademy.org/v/{{ video.1.slug }}", target: "_blank"}
+            =video.1.title|default:"Vidéo KhanAcademy"
+
+        -if user.professor and add
+          %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'khanacademy' video.0 %}"}
+            -csrf_token
+            %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+              supprimer
+
+-# Display similar or identic videos, specify which skill/coder is concerned
+
+-if user.professor and add
+  %form#khan-form{method: "POST", style: "display: none", action: "{% url 'professor:update_pedagogical_ressources' type base.id %}"}
+    -csrf_token
+	  %input{type: "hidden", value: "lesson_khanacademy", name: "form_type"}
+	  %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+	  %input{type: "hidden", value: "lesson_resource", name: "section"}
+	  %label
+	    URL
+	  %input{type: "url", placeholder: "http:// ...", name: "url"}
+	  %p
+	    %input.btn.btn-primary{type: "submit", value: "Ajouter"}

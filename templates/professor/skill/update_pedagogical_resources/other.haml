@@ -1,15 +1,9 @@
--load crispy_forms_tags
--load lesson_tags
+%b Autres
 
-
-%h5
-  Ressources personnelles
-  %small pour mes élèves uniquement
--if user.professor
-  %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
+-if user.professor and add
+  %button.show-form.btn.btn-sm.btn-primary{data-target: "#my_resource-form"}
     Ajouter
-
-  .panel.panel-default{style: "display: none", id: "personal_resource-form"}
+  .panel.panel-default{style: "display: none", id: "my_resource-form"}
       .panel-heading= title
       .panel-body
         %form{method: "POST", enctype: "multipart/form-data", action: ""}
@@ -18,7 +12,7 @@
           -if resource_form.errors
             =resource_form.errors
           %input{type: "hidden", value: "my_resource", name: "form_type"}
-          %input{type: "hidden", value: "personal_resource", name: "section"}
+          %input{type: "hidden", value: "lesson_resource", name: "section"}
           %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
           .col-md-6
             -include "professor/skill/update_pedagogical_resources/media/title_field.haml"
@@ -46,22 +40,24 @@
           %button.btn.btn-primary{type: "submit"}
             Valider
 
-
 %ul.list-group
-  -for resource in personal_resources
-    %li.list-group-item
-      %p.list-group-item-heading=resource.content.title
-        %small.badge=resource.id
-        -if resource.content.author
-          par
-          %span
-            =resource.content.author
-        %small.badge= resource.content.kind
-      %p.list-group-text
-        -if resource.content.comment
-          %small=resource.content.comment|safe
+  -for base in resource_lesson_skills
+    Ressource(s) liée(s) au Skill
+    %b
+      =base.0
+    -for resource in base.1
+      %li.list-group-item
+        %list-group-item-heading= resource.content.title
+          -if resource.content.author
+            par
+            %i
+              =resource.content.author
+          %small= resource.content.kind
+        %p.list-group-text
+          -if resource.content.comment
+            =resource.content.comment|safe
+
         -for item in resource.content.resoures
-          %hr
           -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
             .row
               .col-md-12
@@ -76,7 +72,46 @@
                   %p=item.file
                   %a.btn.btn-primary.btn-lg{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
                     %span.glyphicon.glyphicon-save-file Télécharger
-        -if user.professor
+            %hr
+        -if user.professor and add
+          %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+            -csrf_token
+            %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+              supprimer
+
+  -for base in resource_lesson_coder
+    Ressource(s) liée(s) au Code R
+    %b
+      =base.0
+    -for resource in base.1
+      %li.list-group-item
+        %list-group-item-heading= resource.content.title
+          -if resource.content.author
+            par
+            %i
+              =resource.content.author
+          %small= resource.content.kind
+        %p.list-group-text
+          -if resource.content.comment
+            =resource.content.comment|safe
+
+        -for item in resource.content.resoures
+          -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
+            .row
+              .col-md-12
+                -if item.optionalName
+                  %p.small=item.optionalName
+                %p.badge=item.mediaType
+                -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                  %p=item.link
+                    %a.btn.btn-primary.btn-lg{href: "{{ item.link }}", target: "_blank"}
+                      %span.glyphicon.glyphicon-link Visiter
+                -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                  %p=item.file
+                  %a.btn.btn-primary.btn-lg{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                    %span.glyphicon.glyphicon-save-file Télécharger
+            %hr
+        -if user.professor and add
           %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
             -csrf_token
             %button.btn.btn-danger.btn-xs.delete{type: "submit"}
