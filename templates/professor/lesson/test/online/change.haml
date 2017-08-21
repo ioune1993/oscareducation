@@ -71,8 +71,8 @@
     %h3 Exercices disponibles
     %hr
 
-    -if test_exercice.skill.context_set.all.count > 1
-      -for other_exercice in test_exercice.skill.context_set.all
+    -if exercices > 1
+      -for other_exercice in exercices
         -if other_exercice != test_exercice.exercice
           .panel.panel-success
             .panel-heading
@@ -120,7 +120,7 @@
 
     -else
       %p
-        Nous n'avons pas encore de questions pour cette compétence
+        Nous n'avons pas d'autres questions disponibles pour cette compétence.
 
       %p
         %td.center{width: "20px"}
