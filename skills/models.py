@@ -99,7 +99,7 @@ class CodeR(models.Model):
     """[FR] Ressource (ou Code R),
     à ne pas confondre avec une ressource pédagogique
 
-        A CodeR describes concept(s) to master, in order
+        A CodeR describes concept(s) to master, in orderskills_coder_skill
         to acquire the skill(s) based on that CodeR.
         Unlike a Skill, A CodeR cannot be evaluated
         directly.
