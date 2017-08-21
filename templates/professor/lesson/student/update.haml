@@ -60,14 +60,18 @@
         {% endbuttons %}
 
   .panel.panel-default{ng-app: "oscar"}
-    .panel-heading Authentification de l'élève
+    .panel-heading
+      Authentification de l'élève
+      %img.icon{src: "{% static 'img/icons/multy-mdp.png' %}", data-toggle: "tooltip", data-placement: "top"}
 
     .panel-body
       %div{ng-controller: "regeneratePasswordController", ng-init: "studentId={{ student.id }}"}
-        %form{ng-submit: "askForNewPassword()"}
-          %p{ng-hide: "!password"}
-            Nouveau mot de passe :
-            %span.label.label-default
-              {& password &}
-
-          %input.btn.btn-primary{type: "submit", value: "Générer un nouveau mot de passe pour cet élève"}
+        %a{target:"_blank", href: "{% url 'professor:single_student_password_page' lesson.pk student.pk %}"}
+          %input.btn.btn-primary{value: "Regénérer un code"}
+      %div
+        %p
+          Si l'élève a oublié son mot de passe, il est possible de lui générer un nouveau code via ce lien pour se
+          connecter.
+        %p
+          Attention : une fois le code généré, l'élève sera obligé de l'utiliser pour se connecter, même s'il se souvient
+          après coup de son mot de passe.

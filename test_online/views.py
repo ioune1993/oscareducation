@@ -198,7 +198,7 @@ def lesson_test_add_json(request):
             test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
 
             # turn off generation for now
-            # TODO : "If False" -> To delete ?
+            # TODO : To delete ?
             if False and generation.needs_to_be_generated(test_exercice.exercice.context):
                 variables = generation.get_variable_list(test_exercice.exercice.context)
                 test_exercice.rendered_content = generation.render(test_exercice.exercice.context, variables)
