@@ -77,3 +77,8 @@
             -csrf_token
             %button.btn.btn-danger.btn-xs.delete{type: "submit"}
               supprimer
+
+%h5 Ressources similaires & identiques
+-with type=type add=False resource_lesson_coder=sori_coder_other_resources resource_lesson_skills=sori_skills_other_resources
+  -if resource_lesson_coder or resource_lesson_skills
+    -include "professor/skill/update_pedagogical_resources/other.haml"
