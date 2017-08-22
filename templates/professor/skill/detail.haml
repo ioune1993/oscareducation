@@ -48,14 +48,14 @@
           .col-md-6
             .panel.panel-default
               .panel-heading
-                -if skill.depends_on.count
-                  Compétence{{ skill.depends_on.count|pluralize }} prérequise{{ skill.depends_on.count|pluralize }}
+                -if skill.get_prerequisites_skills.count
+                  Compétence{{ skill.get_prerequisites_skills.count|pluralize }} prérequise{{ skill.get_prerequisites_skills.count|pluralize }}
                 -else
                   Compétence prérequise
 
-              -if skill.depends_on.all
+              -if skill.get_prerequisites_skills
                 .list-group
-                  -for dependance in skill.depends_on.all
+                  -for dependance in skill.get_prerequisites_skills
                     -if lesson
                       %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
                         {{ dependance.code }} - {{ dependance.name }}
@@ -69,14 +69,14 @@
           .col-md-6
             .panel.panel-default
               .panel-heading
-                -if skill.skill_set.count
-                  Compétence{{ skill.skill_set.count|pluralize }} dépendante{{ skill.skill_set.count|pluralize }}
+                -if skill.get_depending_skills.count
+                  Compétence{{ skill.get_depending_skills.count|pluralize }} dépendante{{ skill.get_depending_skills.count|pluralize }}
                 -else
                   Compétence dépendante
 
-              -if skill.skill_set.all
+              -if skill.get_depending_skills.all
                 .list-group
-                  -for dependance in skill.skill_set.all
+                  -for dependance in skill.get_depending_skills.all
                     -if lesson
                       %a.list-group-item{href: "{% url 'professor:lesson_skill_detail' lesson.pk dependance.code %}"}
                         {{ dependance.code }} - {{ dependance.name }}
@@ -100,14 +100,3 @@
           -empty
             %p
               %i Il n'y a pas de questions disponibles pour cette compétence pour l'instant.
-
-
-        -block after
-
-      -#
-        .col-md-3
-          -if skill.skill_set.exists or skill.depends_on.exists
-            .mermaid{style: "color: white"}
-              graph BT;
-                -for i in skill.mermaid_graph
-                  =i

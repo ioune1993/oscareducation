@@ -39,7 +39,7 @@
       .form-group{class: "{% if form.id_password.errors %}has-error{% elif form.data and form.id_password %}has-success{% endif %}"}
         %label.control-label{for: "id_password"}
           Code
-        %input#id_password.form-control{type: "password", required: "", placeholder: "Code", name: "code"}
+        %input#id_password.form-control{type: "text", required: "", placeholder: "Code", name: "code"}
         -for error in form.id_password.errors
           %span.help-block= error
 

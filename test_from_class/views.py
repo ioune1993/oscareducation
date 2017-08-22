@@ -99,6 +99,8 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
 
         return HttpResponseRedirect(reverse('professor:lesson_test_from_class_detail', args=(lesson.pk, test_from_class.pk)))
 
+    print(lesson)
+    print(test_from_class)
     return render(request, "professor/lesson/test/from-class/fill.haml", {
         "lesson": lesson,
         "test_from_class": test_from_class,

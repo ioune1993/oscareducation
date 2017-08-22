@@ -46,7 +46,7 @@ class Skill(models.Model):
     modified_by = models.ForeignKey(User, null=True)
     """The last user that modified this Skill"""
 
-    relations = models.ManyToManyField("self", through="Relations", related_name="relation", symmetrical=False)
+    relations = models.ManyToManyField("self", through="Relations", related_name="related_to", symmetrical=False)
     """ Make relation between skills through a relation Model with a strict options : depended_on , similar_to  and identic_to """
 
     def __unicode__(self):
@@ -56,6 +56,24 @@ class Skill(models.Model):
         """ Count Context in relation with the current Skills"""
         return Context.objects.filter(skill=self).count()
 
+    def get_prerequisites_skills(self):
+        """
+
+        :return: Queryset of prerequisites Skills for the current Skill
+        """
+        return self.related_to.filter(
+            from_skill__relation_type="dependend_on"
+        )
+
+    def get_depending_skills(self):
+        """
+
+        :return: Queryset of Skills depending on the current Skill
+        """
+
+        return self.relations.filter(
+            to_skill__relation_type="dependend_on"
+        )
 
 class Relations(models.Model):
 
@@ -204,7 +222,7 @@ class StudentSkill(models.Model):
         def traverse(student_skill):
             function(student_skill)
 
-            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all(), student=self.student):
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.get_prerequisites_skills(), student=self.student):
                 if sub_student_skill.id not in already_done:
                     already_done.add(sub_student_skill.id)
                     traverse(sub_student_skill)
@@ -223,7 +241,7 @@ class StudentSkill(models.Model):
         def traverse(student_skill):
             function(student_skill)
 
-            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.depends_on.all(), student=self.student):
+            for sub_student_skill in StudentSkill.objects.filter(skill__in=student_skill.skill.get_prerequisites_skills(), student=self.student):
                 if sub_student_skill.id not in already_done:
                     already_done.add(sub_student_skill.id)
                     traverse(sub_student_skill)
@@ -303,7 +321,7 @@ class StudentSkill(models.Model):
         if self.acquired or not self.tested:
             return False
 
-        for skill in self.skill.depends_on.all():
+        for skill in self.skill.get_prerequisites_skills():
             skill = StudentSkill.objects.get(student=self.student, skill=skill)
             if not skill.acquired and skill.tested:
                 return False

@@ -508,7 +508,7 @@ class Test(BaseTest):
         to_test_skills = []
 
         def recursivly_get_skills_to_test(skill):
-            for i in skill.depends_on.all():
+            for i in skill.get_prerequisites_skills():
                 if i not in to_test_skills:
                     to_test_skills.append(i)
                     recursivly_get_skills_to_test(i)
@@ -530,9 +530,9 @@ class Test(BaseTest):
         to_test_skills = []
 
         def recursivly_get_skills_to_test(skill):
-            for i in skill.depends_on.all():
+            for i in skill.get_prerequisites_skills():
                 # we don't add dependencies that can't be tested online
-                if i not in to_test_skills and skill.exercice_set.filter(testable_online=True).exists():
+                if i not in to_test_skills and skill.context_set.filter(testable_online=True).exists():
                     to_test_skills.append(i)
                     recursivly_get_skills_to_test(i)
 
@@ -564,7 +564,19 @@ class TestFromClass(BaseTest):
         Its purpose is to encode the results online.
 
     """
-    pass
+
+    def get_skills_with_encoded_values(self):
+        result = []
+
+        students = self.lesson.students.all()
+        skills = self.skills.all()
+        encoded_values = {(x.student, x.skill): x for x in
+                          self.testskillfromclass_set.all().select_related("skill", "student").order_by("id")}
+        print(encoded_values)
+        for student in students:
+            result.append((student, [(skill, encoded_values.get((student, skill))) for skill in skills]))
+
+        return result
 
 
 class TestSkillFromClass(models.Model):

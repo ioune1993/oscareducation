@@ -50,13 +50,13 @@
       .alert.alert-warning
         %b Attention : ce test n'est pas entièrement faisable en ligne
 
-    %h5 Compétences sélectionnées
     -if not test.fully_testable_online and object.testexercice_testable_offline.exists
-      %h5 À évaluer en classe
+      %h5
+        À imprimer (non évaluable sur Oscar)
         %a.print-questions.btn.btn-sm.btn-primary{href: "#"}
-          imprimer les questions
+          %span.glyphicon.glyphicon-print
         %a.btn.btn-sm.btn-success{href: "{% url 'professor:lesson_test_online_insert_results' lesson.pk object.pk %}"}
-          entrer les résultats
+          Entrer les résultats
       %ul.heatmap-list
         -for test_exercice in object.testexercice_testable_offline
           %li
@@ -65,26 +65,26 @@
 
             =test_exercice.skill.name
 
-      %h5 Évaluable en ligne
+    %h5 Évaluable en ligne
+    %b Compétences sélectionnées
 
     %ul.heatmap-list
       -for test_exercice in object.testexercice_testable_online
         %li
           %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
             %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
-
           =test_exercice.skill.name
+
       -empty
         Il n'y a pas de compétences évaluables en ligne pour ce test.
 
-    -if object.prerequisistes
-      %h5 Compétences prérequises
+    -if object.type == "skills-dependencies" or object.type == "dependencies"
+      %b Prérequis des compétences sélectionnées
       %ul.heatmap-list
-        -for skill in object.prerequisistes
-          %li
+        -for test_exercice in object.testexercice_testable_online
+          -for skill in test_exercice.skill.get_prerequisites_skills
             %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
               %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
-
             =skill.name
 
     %h5 Réponse des élèves

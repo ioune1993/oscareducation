@@ -9,12 +9,36 @@
       =test_student.test
 
 -block content
-  %h3 Test:
-    =test.name
-  %hr
+  .well
+    %center
+      %h5
+        Test:
+        =test.name
+    %hr
 
-  %center
-    %form{method: "POST", action: "{% url 'student_start_test' test_student.id %}"}
-      -csrf_token
-      %button.btn.btn-lg.btn-primary{type: "submit"}
-        Commencer le test
+    Salut !
+
+    Bienvenue au début du test
+    %i
+      =test.name
+    !
+
+    %p
+      &rarr; Ce test est un outil pour te permettre de mieux comprendre tes forces et tes besoins d'apprentissage.
+      Oscar va tester ta compréhension de certaines matières, et parfois aussi de certains prérequis
+      (matières des années précédentes). Ne t'étonne donc pas s'il y a parfois des questions faciles
+      et difficiles mélangées, c'est normal :-)
+    %p
+      &rarr; Après le test, Oscar va t'indiquer ton Parcours d'apprentissage personnalisé,
+      par une liste de compétences à développer.
+    %p
+      &rarr; En cliquant sur une de ces compétences, tu arriveras sur la page wikimaths de cette dernière.
+      Tu y trouveras des ressources qui t'aideront à mieux comprendre cette matière.
+    %p
+      A vos maths, prêt, feu !
+
+    %center
+      %form{method: "POST", action: "{% url 'student_start_test' test_student.id %}"}
+        -csrf_token
+        %button.btn.btn-lg.btn-primary{type: "submit"}
+          Go !

@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 
-from skills.models import Skill, StudentSkill, SkillHistory
+from skills.models import Skill, StudentSkill, SkillHistory, Relations, CodeR
 from examinations.models import Test, Answer, TestExercice, TestStudent, Context
 from examinations import generation
 
@@ -29,7 +29,7 @@ def lesson_test_online_add(request, pk):
         "lesson": lesson,
         "stages": lesson.stages_in_unchronological_order(),
     })
-
+    # TODO : Code unreachable  -> To delete ?
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(Test, pk=pk)
 
@@ -167,7 +167,20 @@ def lesson_test_add_json(request):
 
         # assign exercices when it's possible
         for test_exercice in test.testexercice_set.all():
+
+            # Gather exercices related to the Skill concerned
             exercices = test_exercice.skill.context_set.filter(approved=True, testable_online=True)
+
+            # Gather exercices for identical Skills to the Skill concerned
+            identical_to_skills = Relations.objects.filter(
+                relation_type="identic_to", from_skill=test_exercice.skill)
+            identical_from_skills = Relations.objects.filter(
+                relation_type="identic_to", to_skill=test_exercice.skill)
+            for relation in identical_to_skills:
+                exercices = exercices | relation.to_skill.context_set.filter(approved=True, testable_online=True)
+            for relation in identical_from_skills:
+                exercices = exercices | relation.from_skill.context_set.filter(approved=True, testable_online=True)
+
             if not exercices.exists():
                 if test.fully_testable_online:
                     test.fully_testable_online = False
@@ -185,6 +198,7 @@ def lesson_test_add_json(request):
             test_exercice.exercice = exercices[random.choice(range(exercices.count()))]
 
             # turn off generation for now
+            # TODO : To delete ?
             if False and generation.needs_to_be_generated(test_exercice.exercice.context):
                 variables = generation.get_variable_list(test_exercice.exercice.context)
                 test_exercice.rendered_content = generation.render(test_exercice.exercice.context, variables)
@@ -281,6 +295,19 @@ def lesson_test_online_change_exercice(request, lesson_pk, test_pk, test_exercic
     test = get_object_or_404(Test, pk=test_pk)
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
 
+    # Gather exercices related to the Skill concerned
+    exercices = test_exercice.skill.context_set.filter(approved=True, testable_online=True)
+
+    # Gather exercices for identical Skills to the Skill concerned
+    identical_to_skills = Relations.objects.filter(
+        relation_type="identic_to", from_skill=test_exercice.skill)
+    identical_from_skills = Relations.objects.filter(
+        relation_type="identic_to", to_skill=test_exercice.skill)
+    for relation in identical_to_skills:
+        exercices = exercices | relation.to_skill.context_set.filter(approved=True, testable_online=True)
+    for relation in identical_from_skills:
+        exercices = exercices | relation.from_skill.context_set.filter(approved=True, testable_online=True)
+
     if request.method == "POST":
         new_exercice_id = request.POST["exercice_id"]
         with transaction.atomic():
@@ -294,4 +321,5 @@ def lesson_test_online_change_exercice(request, lesson_pk, test_pk, test_exercic
         "lesson": lesson,
         "test": test,
         "test_exercice": test_exercice,
+        "exercices": exercices,
     })
