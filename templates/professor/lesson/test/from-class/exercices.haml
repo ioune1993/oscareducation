@@ -1,0 +1,90 @@
+-extends "base.haml"
+
+-load bootstrap3
+-load static
+
+-block breadcrumb
+  %ol.breadcrumb
+    %li
+      %a{href: "{% url 'professor:dashboard' %}"} Oscar
+    %li
+      %a{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+        Classe
+        =lesson.name
+    %li
+      %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk object.pk %}"}
+        Évaluation libre
+          =object.name
+    %li.active
+      Modifier
+
+-block content
+  .panel.panel-default
+    .panel-heading
+      Modifier le nom :
+      %i.test-name {{ object.name }}
+
+    .panel-body
+      .form-group
+        %label.control-label.col-sm-2 Nom
+        %input.form-control{id: "new_name", type: "text"}
+      {% buttons %}
+        %a.button.btn.btn-primary.modify{id: "{{ object.id }}"}
+          Modifier
+          %a.btn.btn-default{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk object.pk %}"}
+            Annuler
+      {% endbuttons %}
+      %p{id: "name_modified_message", style: "display:none"} Nom modifié !
+  -if not object.can_change_exercice
+    .alert.alert-warning
+      %b Remarque :
+      au moins un élève a commencé le test, il n'est plus possible de changer les exercices
+
+  %h3
+    Exercices sélectionnés pour le test
+    %i.test-name {{ object.name }}
+    %br
+      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk object.pk %}"}
+        Retour au récapitulatif du test
+  %h3
+  %hr
+    .form-group
+      %label.control-label= object.lesson.stage
+      .form-group
+        %select.form-control{id: "skills_to_add"}
+          -regroup object.lesson.stage.skills.all by section as sections
+          -for section in sections
+            %optgroup{label: "{{ section.grouper }}"}
+              -for skill in section.list reversed
+                %option{value: "{{ skill.code }}", id: "{{ skill.id }}"}
+                  {{ skill.code }} - {{ skill.name }}
+    .form-group
+      %a.btn.btn-primary.add-skill{id: "{{object.id}}", title: "Ajouter la compétence sélectionnée à ce test"}
+        Ajouter une compétence
+  %hr
+
+  -for skill in object.skills.all
+    %h4{id: "display_skill_{{skill.id}}"}
+      Compétence {{ skill.code }}
+      %br {{ skill.name }}
+      %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{object.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
+        Supprimer cette compétence
+  .center
+    %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
+      Retour au récapitulatif du test
+
+  %br
+
+-block javascript
+  :javascript
+    $(function() {
+      {% for test_exercice in object.testexercice_set.all %}
+      {% for _, question in test_exercice.exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+      new Graph('graph-' + {{ forloop.counter0 }})
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+    });
+  %script{src: "https://code.jquery.com/jquery.min.js"}
+  %script{src: "{% static 'js/professor_modify_test.js' %}"}

@@ -35,7 +35,8 @@ from django.db.models import Count, Q
 
 from skills.models import Skill, StudentSkill, CodeR, Section, Relations, CodeR_relations
 from resources.models import KhanAcademy, Sesamath, Resource
-from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question, Answer
+from examinations.models import Test, TestStudent, BaseTest, TestExercice, Context, List_question, Question, Answer, \
+    TestFromClass
 from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
@@ -443,25 +444,31 @@ def professor_test_add_skill(request):
     """The Professor add a Skill (with one Context) in a Test"""
     test_id = request.GET.get('test_id', None)
     skill_id = request.GET.get('skill_id', None)
-    # Proposes an exercice by default when a Skill is added
-    exercice = None
-    if Context.objects.filter(skill_id=skill_id):
-        exercice = Context.objects.filter(skill_id=skill_id)[:1].get().id
+    # Check if we add a Skill to a Test or a TestFromClass
+    if Test.objects.filter(id=test_id):
+        # Proposes an exercice by default when a Skill is added
+        exercice = None
+        if Context.objects.filter(skill_id=skill_id):
+            exercice = Context.objects.filter(skill_id=skill_id)[:1].get().id
 
-    new_test_exercice = None
+        new_test_exercice = None
 
-    if not exercice:
-        with transaction.atomic():
-            new_test_exercice = TestExercice.objects.create(
-                testable_online=True,
-                exercice_id=exercice,
-                skill_id=skill_id,
-                test_id=test_id,
-            )
-    Test.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
-    data = {
-        "new_test_exercice_id": new_test_exercice.id,
-    }
+        if not exercice:
+            with transaction.atomic():
+                new_test_exercice = TestExercice.objects.create(
+                    testable_online=True,
+                    exercice_id=exercice,
+                    skill_id=skill_id,
+                    test_id=test_id,
+                )
+        Test.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
+        data = {
+            "new_test_exercice_id": new_test_exercice.id,
+        }
+    #Otherwise, if it is a TestFromClass, we don't need to add an exercice
+    else:
+        TestFromClass.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
+        data = {}
     return JsonResponse(data)
 
 
@@ -471,12 +478,15 @@ def professor_test_delete_skill(request):
     list_id = received_id.split("_")
     skill_id = list_id[0]
     test_id = list_id[1]
+    if Test.objects.filter(id=test_id):
+        for test_exercice in Test.objects.get(id=test_id).testexercice_set.all():
+            # Primary keys (id) are in integer format
+            if test_exercice.skill.id == int(skill_id):
+                test_exercice.delete()
+        Test.objects.get(id=test_id).skills.remove(Skill.objects.get(id=skill_id))
 
-    for test_exercice in Test.objects.get(id=test_id).testexercice_set.all():
-        # Primary keys (id) are in integer format
-        if test_exercice.skill.id == int(skill_id):
-            test_exercice.delete()
-    Test.objects.get(id=test_id).skills.remove(Skill.objects.get(id=skill_id))
+    else:
+        TestFromClass.objects.get(id=test_id).skills.remove(Skill.objects.get(id=skill_id))
     data = {
         'skill_id': skill_id,
     }
@@ -656,12 +666,10 @@ def update_pedagogical_ressources(request, type, id):
             add_to.resource.add(new_resource)
 
     elif request.method == "POST" and request.POST["form_type"] == "lesson_khanacademy":
-        # TODO : Les urls viennent de KhanAcademy, pas youtube : corriger le split !
-        youtube_id = request.POST["url"].split("?")[1].split("=")[1]
-        if KhanAcademy.objects.filter(youtube_id=youtube_id):
-            my_khanacademy_resource = KhanAcademy.objects.get(youtube_id=youtube_id)
+        slug = request.POST["url"].split("/v/")[1]
+        if KhanAcademy.objects.filter(slug=slug):
+            my_khanacademy_resource = KhanAcademy.objects.get(slug=slug)
         else:
-            # TODO : Create KhanAcademy resource if url not found or discard ?
             print("La ressource n'existe pas ...")
         existing_resources = Resource.objects.filter(section=request.POST['section'])
         exist = False
