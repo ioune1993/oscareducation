@@ -1,4 +1,5 @@
 -load lesson_tags
+-load skills_tags
 
 .panel.panel-default
   -regroup stage.skills_by_id by section_id as sections
@@ -15,45 +16,46 @@
         %a.btn.btn-block.btn-default{:href => "{% url 'professor:update_pedagogical_ressources' 'section' section.grouper %}"} Ajouter une ressource
     .panel-collapse.collapse.in{role: "tabpanel", aria-labelledby: "heading{{ stage.id }}{{ section.grouper }}", id: "collapse{{ stage.id }}{{ section.grouper }}"}
       .panel-body
-          %table.table.no-border
-            %tbody
-              %tr.active
-                %th.center{:width => "10%"}
-                  R
-                %th{:width => "80%"}
-                  Ressources
-                  %span {% get_skill_code section.grouper %}
-                %th.center{:width => "10%"}
+        %table.table.no-border
+          %tbody
+            %tr.active
+              %th.center{:width => "10%"}
+                R
+              %th{:width => "80%"}
+                Ressources
+                %span {% get_skill_code section.grouper %}
+              %th.center{:width => "10%"}
 
 
-              -with code=section.list|first
-                -for r in code_r
-                  -if r.section.name == code.code|split_skill_as_section
-                    %tr
-                      %td.center{:width => "10%"}= r.sub_code
-                      %td{:width => "80%"}= r.name
-                      %td.center{:width => "10%"}
-                        %a.btn.btn-primary{href: "{% url 'professor:update_pedagogical_ressources' 'coder' r.id %}"}
-                          Ajouter une ressource
-
-              -for skill in section.list
-                %tr
-                  %td{:width => "10%"}
-                    %a.btn.btn-block.btn-default{:href => "{% url 'professor:skill_detail' skill.code %}"}
-                      = skill.code|slice:"2:"
-                  %td{:width => "40%"}
-                    %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
-                      = skill.name
-                  %td{:width => "20%"}
-                    %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
-                      =skill.skills_with_exercice_count
-                      question{{ skill.skills_with_exercice_count|pluralize }}
-                  %td{:width => "10%"}
-                    %a{:href => "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
-                      %img{:alt => "Ajouter une question", :height => "25%", :src => "../img/icons/add-question.png", :width => "10%"}/
-                  %td{:width => "10%"}
-                    %a{:href => "{% url 'professor:update_pedagogical_ressources' 'skill' skill.id %}"}
-                      %img{:alt => "Ajouter une ressource", :height => "25%", :src => "../img/icons/add-ressource.png", :width => "10%"}/
-                  %td{:width => "10%"}
-                    %a{:href => "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
-                      %img{:alt => "Signaler un problème", :height => "25%", :src => "../img/icons/report.png", :width => "10%"}/
+            -with code=section.list|first
+              -for r in code_r
+                -if r.section.name == code.code|split_skill_as_section
+                  %tr
+                    %td.center{:width => "10%"}= r.sub_code
+                    %td{:width => "80%"}= r.name
+                    %td.center{:width => "10%"}
+                      %a.btn.btn-primary{href: "{% url 'professor:update_pedagogical_ressources' 'coder' r.id %}"}
+                        Ajouter une ressource
+        %table.table.no-border
+          %tbody
+            -for skill in section.list
+              %tr
+                %td{:width => "10%"}
+                  %a.btn.btn-block.btn-default{:href => "{% url 'professor:skill_detail' skill.code %}"}
+                    = skill|splitcode
+                %td{:width => "40%"}
+                  %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
+                    = skill.name
+                %td{:width => "20%"}
+                  %a{:href => "{% url 'professor:skill_detail' skill.code %}"}
+                    =skill.skills_with_exercice_count
+                    question{{ skill.skills_with_exercice_count|pluralize }}
+                %td{:width => "10%"}
+                  %a{:href => "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
+                    %img{:alt => "Ajouter une question", :height => "25%", :src => "/static/img/icons/add-question.png", :width => "25%"}/
+                %td{:width => "10%"}
+                  %a{:href => "{% url 'professor:update_pedagogical_ressources' 'skill' skill.id %}"}
+                    %img{:alt => "Ajouter une ressource", :height => "25%", :src => "/static/img/icons/add-ressource.png", :width => "25%"}/
+                %td{:width => "10%"}
+                  %a{:href => "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
+                    %img{:alt => "Signaler un problème", :height => "25%", :src => "/static/img/icons/report.png", :width => "25%"}/
