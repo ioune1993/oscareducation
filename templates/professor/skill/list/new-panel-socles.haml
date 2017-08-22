@@ -32,10 +32,10 @@
                     question{{ skill.skills_with_exercice_count|pluralize }}
                 %td{:width => "10%"}
                   %a{:href => "{% url 'professor:exercice_validation_form' %}#?code={{ skill.code }}"}
-                    %img{:alt => "Ajouter une question", :height => "25%", :src => "../img/icons/add-question.png", :width => "25%"}/
+                    %img{:alt => "Ajouter une question", :height => "25%", :src => "/static/img/icons/add-question.png", :width => "25%"}/
                 %td{:width => "10%"}
                   %a{:href => "{% url 'professor:update_pedagogical_ressources' 'skill' skill.id %}"}
-                    %img{:alt => "Ajouter une ressource", :height => "25%", :src => "../img/icons/add-ressource.png", :width => "25%"}/
+                    %img{:alt => "Ajouter une ressource", :height => "25%", :src => "/static/img/icons/add-ressource.png", :width => "25%"}/
                 %td{:width => "10%"}
                   %a{:href => "mailto:support@oscar.education?subject=Problème avec la compétence [{{ skill.code }}] {{ skill.name }}"}
-                    %img{:alt => "Signaler un problème", :height => "25%", :src => "../img/icons/report.png", :width => "25%"}/
+                    %img{:alt => "Signaler un problème", :height => "25%", :src => "/static/img/icons/report.png", :width => "25%"}/

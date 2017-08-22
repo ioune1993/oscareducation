@@ -617,7 +617,7 @@ def update_pedagogical_ressources(request, type, id):
         data['title'] = request.POST["title"]
         data['author'] = request.user.username
         data['comment'] = request.POST["text"]
-        data['resoures'] = []
+        data['resources'] = []
 
         for i in filter(lambda x: x.startswith("link_name"), request.POST.keys()):
             number = i.split("_")[-1]
@@ -626,7 +626,7 @@ def update_pedagogical_ressources(request, type, id):
             resource_data['optionalName'] = request.POST["link_name_" + number]
             resource_data['type'] = request.POST["link_type_" + number]
             resource_data['link'] = request.POST["url_" + number]
-            data['resoures'].append(resource_data)
+            data['resources'].append(resource_data)
 
         for i in filter(lambda x: x.startswith("file_name"), request.POST.keys()):
             number = i.split("_")[-1]
@@ -636,7 +636,7 @@ def update_pedagogical_ressources(request, type, id):
             resource_data['type'] = request.POST["file_type_" + number]
             path = get_encoded_image(request.FILES["file_" + number])
             resource_data['file'] = path
-            data['resoures'].append(resource_data)
+            data['resources'].append(resource_data)
 
         with transaction.atomic():
             new_resource = Resource.objects.create(section=request.POST['section'],
@@ -662,7 +662,7 @@ def update_pedagogical_ressources(request, type, id):
         exist = False
         for res in existing_resources:
             if res.content.get('from') == "skills_khanacademyvideoskill":
-                if res.content['refrenced'] == my_khanacademy_resource.id:
+                if res.content['referenced'] == my_khanacademy_resource.id:
                     new_resource = res
                     exist = True
 
@@ -670,7 +670,7 @@ def update_pedagogical_ressources(request, type, id):
             if not exist:
                 data = {}
                 data['from'] = "skills_khanacademyvideoskill"
-                data['refrenced'] = my_khanacademy_resource.id
+                data['referenced'] = my_khanacademy_resource.id
                 new_resource = Resource.objects.create(section=request.POST['section'],content=data, added_by_id=request.user.id)
 
             if type == 'skill':
@@ -689,12 +689,12 @@ def update_pedagogical_ressources(request, type, id):
         exist = False
         for res in existing_resources:
             if res.content['from'] == "skills_sesamathskill":
-                if res.content['refrenced'] == my_sesamath_resource.id:
+                if res.content['referenced'] == my_sesamath_resource.id:
                     new_resource = res
                     exist = True
         with transaction.atomic():
             if not exist:
-                data = {'from': "skills_sesamathskill", 'refrenced': my_sesamath_resource.id}
+                data = {'from': "skills_sesamathskill", 'referenced': my_sesamath_resource.id}
                 new_resource = Resource.objects.create(section=request.POST['section'],content=data, added_by_id=request.user.id)
             if type == 'skill':
                 add_to = Skill.objects.get(id=id)
@@ -749,18 +749,18 @@ def update_pedagogical_ressources(request, type, id):
 
     for exo in lesson_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
-            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            resource = get_object_or_404(Sesamath, pk=exo.content['referenced'])
             lesson_resource_sesamath.append([exo.pk,resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
         elif exo.content.get('from') and exo.content['from'] == "skills_khanacademyvideoskill":
-            resource = get_object_or_404(KhanAcademy, pk=exo.content['refrenced'])
+            resource = get_object_or_404(KhanAcademy, pk=exo.content['referenced'])
             lesson_resource_khanacademy.append([exo.pk, resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
     for exo in exercice_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
-            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            resource = get_object_or_404(Sesamath, pk=exo.content['referenced'])
             exercice_resource_sesamath.append([exo.pk,resource])
             exercice_resource = exercice_resource.exclude(pk=exo.pk)
 
@@ -808,12 +808,12 @@ def update_pedagogical_ressources(request, type, id):
 
             for res in skill[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     skill[1] = skill[1].exclude(pk=res.pk)
 
                 elif res.content.get('from') and res.content['from'] == "skills_khanacademyvideoskill":
-                    resource = get_object_or_404(KhanAcademy, pk=res.content['refrenced'])
+                    resource = get_object_or_404(KhanAcademy, pk=res.content['referenced'])
                     khan_list.append([res.pk, resource])
                     skill[1] = skill[1].exclude(pk=res.pk)
 
@@ -834,7 +834,7 @@ def update_pedagogical_ressources(request, type, id):
 
             for res in skill[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     skill[1] = skill[1].exclude(pk=res.pk)
 
@@ -888,12 +888,12 @@ def update_pedagogical_ressources(request, type, id):
 
             for res in coder[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     coder[1] = coder[1].exclude(pk=res.pk)
 
                 elif res.content.get('from') and res.content['from'] == "skills_khanacademyvideoskill":
-                    resource = get_object_or_404(KhanAcademy, pk=res.content['refrenced'])
+                    resource = get_object_or_404(KhanAcademy, pk=res.content['referenced'])
                     khan_list.append([res.pk, resource])
                     coder[1] = coder[1].exclude(pk=res.pk)
 
@@ -914,7 +914,7 @@ def update_pedagogical_ressources(request, type, id):
 
             for res in coder[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     coder[1] = coder[1].exclude(pk=res.pk)
 

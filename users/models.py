@@ -17,7 +17,7 @@ class Professor(models.Model):
     objects = AuthUserManager()
     user = models.OneToOneField(User)
     is_pending = models.BooleanField(default=True)
-    code = models.IntegerField(null=True,blank=True)
+    code = models.BigIntegerField(null=True,blank=True)
 
     def __unicode__(self):
         return ("%s %s" % (

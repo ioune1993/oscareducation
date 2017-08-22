@@ -65,7 +65,7 @@ class Relations(models.Model):
     to_skill = models.ForeignKey(Skill, null=False, blank=False, related_name='to_skill', default=0)
     relation_type = models.CharField(max_length=255,null=False, blank=False, choices=(
 
-        ("dependend_on", "dépend de"),
+        ("depend_on", "dépend de"),
         ("similar_to", "similaire à"),
         ("identic_to","identique à"),
     ))
@@ -139,7 +139,7 @@ class CodeR_relations(models.Model):
     to_coder = models.ForeignKey(CodeR, null=False, blank=False, related_name='to_coder', default=0)
     relation_type = models.CharField(max_length=255,null=False, blank=False, choices=(
 
-        ("dependend_on", "dépend de"),
+        ("depend_on", "dépend de"),
         ("similar_to", "similaire à"),
         ("identic_to","identique à"),
     ))

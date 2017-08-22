@@ -6,4 +6,4 @@ class RevisionPlanningAdmin(admin.ModelAdmin):
     pass
 
 
-admin.site.register(RevisionPlanning, RevisionPlanningAdmin)
+#admin.site.register(RevisionPlanning, RevisionPlanningAdmin)

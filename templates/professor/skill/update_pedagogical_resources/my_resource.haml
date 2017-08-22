@@ -60,7 +60,7 @@
       %p.list-group-text
         -if resource.content.comment
           %small=resource.content.comment|safe
-        -for item in resource.content.resoures
+        -for item in resource.content.resources
           %hr
           -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
             .row
