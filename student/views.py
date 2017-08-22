@@ -301,18 +301,18 @@ def skill_pedagogic_ressources(request, type, slug):
 
     for exo in lesson_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
-            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            resource = get_object_or_404(Sesamath, pk=exo.content['referenced'])
             lesson_resource_sesamath.append([exo.pk, resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
         elif exo.content.get('from') and exo.content['from'] == "skills_khanacademyvideoskill":
-            resource = get_object_or_404(KhanAcademy, pk=exo.content['refrenced'])
+            resource = get_object_or_404(KhanAcademy, pk=exo.content['referenced'])
             lesson_resource_khanacademy.append([exo.pk, resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
     for exo in exercice_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
-            resource = get_object_or_404(Sesamath, pk=exo.content['refrenced'])
+            resource = get_object_or_404(Sesamath, pk=exo.content['referenced'])
             exercice_resource_sesamath.append([exo.pk, resource])
             exercice_resource = exercice_resource.exclude(pk=exo.pk)
 
@@ -362,12 +362,12 @@ def skill_pedagogic_ressources(request, type, slug):
 
             for res in skill[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     skill[1] = skill[1].exclude(pk=res.pk)
 
                 elif res.content.get('from') and res.content['from'] == "skills_khanacademyvideoskill":
-                    resource = get_object_or_404(KhanAcademy, pk=res.content['refrenced'])
+                    resource = get_object_or_404(KhanAcademy, pk=res.content['referenced'])
                     khan_list.append([res.pk, resource])
                     skill[1] = skill[1].exclude(pk=res.pk)
 
@@ -388,7 +388,7 @@ def skill_pedagogic_ressources(request, type, slug):
 
             for res in skill[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     skill[1] = skill[1].exclude(pk=res.pk)
 
@@ -446,12 +446,12 @@ def skill_pedagogic_ressources(request, type, slug):
 
             for res in coder[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     coder[1] = coder[1].exclude(pk=res.pk)
 
                 elif res.content.get('from') and res.content['from'] == "skills_khanacademyvideoskill":
-                    resource = get_object_or_404(KhanAcademy, pk=res.content['refrenced'])
+                    resource = get_object_or_404(KhanAcademy, pk=res.content['referenced'])
                     khan_list.append([res.pk, resource])
                     coder[1] = coder[1].exclude(pk=res.pk)
 
@@ -472,7 +472,7 @@ def skill_pedagogic_ressources(request, type, slug):
 
             for res in coder[1]:
                 if res.content.get('from') and res.content['from'] == "skills_sesamathskill":
-                    resource = get_object_or_404(Sesamath, pk=res.content['refrenced'])
+                    resource = get_object_or_404(Sesamath, pk=res.content['referenced'])
                     sesamath_list.append([res.pk, resource])
                     coder[1] = coder[1].exclude(pk=res.pk)
 

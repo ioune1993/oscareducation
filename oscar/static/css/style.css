@@ -956,3 +956,23 @@ h7 {
 .asteriskField {
     display: none;
 }
+
+/* hacking boostrap list */
+*:not(li) {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+*:not(li):before,
+*:not(li):after {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+
+
+#skillTab .nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover {
+    background-color: #D46925;
+    color: #fff;
+}
