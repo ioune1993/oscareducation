@@ -40,7 +40,7 @@ from users.models import Student
 from examinations.validate import validate_exercice_yaml_structure
 
 from .models import Lesson, Stage
-from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm,\
+from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, StudentUpdateForm, LessonUpdateForm, \
     TestUpdateForm, SesamathForm, ResourceForm, CSVForm
 from .utils import generate_random_password, user_is_professor, force_encoding
 import csv
@@ -56,7 +56,8 @@ def dashboard(request):
     :return:
     """
     return render(request, "professor/dashboard.haml", {
-        "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")).select_related("stage"),
+        "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")).select_related(
+            "stage"),
         "no_menu": True,
     })
 
@@ -149,7 +150,8 @@ def lesson_update(request, pk):
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
-    form = LessonUpdateForm(request.POST, instance=lesson) if request.method == "POST" else LessonUpdateForm(instance=lesson)
+    form = LessonUpdateForm(request.POST, instance=lesson) if request.method == "POST" else LessonUpdateForm(
+        instance=lesson)
 
     if form.is_valid():
         form.save()
@@ -189,15 +191,17 @@ def lesson_student_add(request, pk):
                             "last_name": row["PRENOM"],
                         })
                     except KeyError:
-                        messages.add_message(request, messages.ERROR, 'Erreur : les champs "NOM" et "PRENOM" n\' ont pas été '
-                                                                      'trouvés. Ne modifiez pas la première ligne '
-                                                                      'du fichier !')
+                        messages.add_message(request, messages.ERROR,
+                                             'Erreur : les champs "NOM" et "PRENOM" n\' ont pas été '
+                                             'trouvés. Ne modifiez pas la première ligne '
+                                             'du fichier !')
                         return render(request, "professor/lesson/student/add.haml", {
                             "lesson": lesson,
                         })
 
                     if not newStudent.is_valid():
-                        messages.add_message(request, messages.ERROR, 'Erreur : l\'utilisateur à la ligne '+str(line_number)+
+                        messages.add_message(request, messages.ERROR,
+                                             'Erreur : l\'utilisateur à la ligne ' + str(line_number) +
                                              ' n\' a pas de nom ou de prénom. Uniquement les élèves des lignes '
                                              'précédentes ont été importés.')
                         return render(request, "professor/lesson/student/add.haml", {
@@ -230,13 +234,13 @@ def lesson_student_add(request, pk):
 
                         line_number += 1
                 if line_number == 2:
-                    messages.add_message(request, messages.ERROR,'Erreur : le fichier ne contient pas d\'élèves.')
+                    messages.add_message(request, messages.ERROR, 'Erreur : le fichier ne contient pas d\'élèves.')
                     return render(request, "professor/lesson/student/add.haml", {
                         "lesson": lesson, })
             else:
                 messages.add_message(request, messages.ERROR, 'Erreur : le fichier fourni doit être en format .csv.')
                 return render(request, "professor/lesson/student/add.haml", {
-                "lesson": lesson,})
+                    "lesson": lesson, })
 
             messages.add_message(request, messages.SUCCESS,
                                  str(line_number - 2) + ' utilisateur(s) ont/a été importé(s) avec succès.')
@@ -318,7 +322,8 @@ def lesson_student_update(request, lesson_pk, pk):
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     student = get_object_or_404(Student, pk=pk)
 
-    form = StudentUpdateForm(request.POST, instance=student.user) if request.method == "POST" else StudentUpdateForm(instance=student.user)
+    form = StudentUpdateForm(request.POST, instance=student.user) if request.method == "POST" else StudentUpdateForm(
+        instance=student.user)
 
     # TODO: a professor can only see one of his lesson
 
@@ -551,7 +556,8 @@ def lesson_skill_detail(request, lesson_pk, skill_code):
     """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)
-    student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by("student__user__last_name", "student__user__first_name")
+    student_skills = StudentSkill.objects.filter(student__lesson=lesson, skill=skill).order_by(
+        "student__user__last_name", "student__user__first_name")
 
     number_of_students = student_skills.count()
     number_acquired = student_skills.filter(acquired__isnull=False).count()
@@ -589,14 +595,13 @@ def regenerate_student_password(request):
 
 
 def get_encoded_image(encoded_image=None):
-
     """
     Save the received in request base64 encoded image and return the image path to serve.
     """
 
     extension = str(encoded_image).split(".")[-1]
     path = default_storage.save('{file_name}.{extension}'.format(file_name=time.time().__str__(),
-                                                                          extension=extension),
+                                                                 extension=extension),
                                 ContentFile(encoded_image.read()))
     return path
 
@@ -611,7 +616,7 @@ def update_pedagogical_ressources(request, type, id):
     :return: 
     """
 
-    if request.method == "POST" and request.POST["form_type"] == "my_resource" :
+    if request.method == "POST" and request.POST["form_type"] == "my_resource":
         data = {}
         data['kind'] = request.POST["type"]
         data['title'] = request.POST["title"]
@@ -640,8 +645,8 @@ def update_pedagogical_ressources(request, type, id):
 
         with transaction.atomic():
             new_resource = Resource.objects.create(section=request.POST['section'],
-                                    content=data,
-                                    added_by_id=request.user.id)
+                                                   content=data,
+                                                   added_by_id=request.user.id)
             if type == 'skill':
                 add_to = Skill.objects.get(id=id)
             elif type == 'section':
@@ -650,13 +655,13 @@ def update_pedagogical_ressources(request, type, id):
                 add_to = CodeR.objects.get(id=id)
             add_to.resource.add(new_resource)
 
-    elif request.method == "POST" and request.POST["form_type"] == "lesson_khanacademy" :
+    elif request.method == "POST" and request.POST["form_type"] == "lesson_khanacademy":
         # TODO : Les urls viennent de KhanAcademy, pas youtube : corriger le split !
         youtube_id = request.POST["url"].split("?")[1].split("=")[1]
         if KhanAcademy.objects.filter(youtube_id=youtube_id):
             my_khanacademy_resource = KhanAcademy.objects.get(youtube_id=youtube_id)
         else:
-            #TODO : Create KhanAcademy resource if url not found or discard ?
+            # TODO : Create KhanAcademy resource if url not found or discard ?
             print("La ressource n'existe pas ...")
         existing_resources = Resource.objects.filter(section=request.POST['section'])
         exist = False
@@ -671,7 +676,8 @@ def update_pedagogical_ressources(request, type, id):
                 data = {}
                 data['from'] = "skills_khanacademyvideoskill"
                 data['referenced'] = my_khanacademy_resource.id
-                new_resource = Resource.objects.create(section=request.POST['section'],content=data, added_by_id=request.user.id)
+                new_resource = Resource.objects.create(section=request.POST['section'], content=data,
+                                                       added_by_id=request.user.id)
 
             if type == 'skill':
                 add_to = Skill.objects.get(id=id)
@@ -682,7 +688,7 @@ def update_pedagogical_ressources(request, type, id):
             add_to.resource.add(new_resource)
 
     elif request.method == "POST" and request.POST["form_type"] == "sesamath_reference":
-        #TODO Adapter les templates pour minimiser les fichiers utilisés (voir code précédent)
+        # TODO Adapter les templates pour minimiser les fichiers utilisés (voir code précédent)
 
         my_sesamath_resource = get_object_or_404(Sesamath, pk=request.POST['ref_pk'])
         existing_resources = Resource.objects.filter(section=None)
@@ -695,7 +701,8 @@ def update_pedagogical_ressources(request, type, id):
         with transaction.atomic():
             if not exist:
                 data = {'from': "skills_sesamathskill", 'referenced': my_sesamath_resource.id}
-                new_resource = Resource.objects.create(section=request.POST['section'],content=data, added_by_id=request.user.id)
+                new_resource = Resource.objects.create(section=request.POST['section'], content=data,
+                                                       added_by_id=request.user.id)
             if type == 'skill':
                 add_to = Skill.objects.get(id=id)
             elif type == 'section':
@@ -750,7 +757,7 @@ def update_pedagogical_ressources(request, type, id):
     for exo in lesson_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
             resource = get_object_or_404(Sesamath, pk=exo.content['referenced'])
-            lesson_resource_sesamath.append([exo.pk,resource])
+            lesson_resource_sesamath.append([exo.pk, resource])
             lesson_resource = lesson_resource.exclude(pk=exo.pk)
 
         elif exo.content.get('from') and exo.content['from'] == "skills_khanacademyvideoskill":
@@ -761,7 +768,7 @@ def update_pedagogical_ressources(request, type, id):
     for exo in exercice_resource:
         if exo.content.get('from') and exo.content['from'] == "skills_sesamathskill":
             resource = get_object_or_404(Sesamath, pk=exo.content['referenced'])
-            exercice_resource_sesamath.append([exo.pk,resource])
+            exercice_resource_sesamath.append([exo.pk, resource])
             exercice_resource = exercice_resource.exclude(pk=exo.pk)
 
     # Do the same operation for similar or identical resources :
@@ -773,7 +780,7 @@ def update_pedagogical_ressources(request, type, id):
     # First step : is base a Skill or a CodeR ?
     if isinstance(base, Skill):
         # Begin with the Skills, same step is done for CodeR a bit further
-        
+
         # Retrieve all the similar and identical Relations for Skills
         skills_from = Relations.objects.filter(Q(relation_type__in=['similar_to', 'identic_to'], from_skill=base.id))
         skills_to = Relations.objects.filter(Q(relation_type__in=['similar_to', 'identic_to'], to_skill=base.id))
@@ -800,7 +807,7 @@ def update_pedagogical_ressources(request, type, id):
             if other:
                 sori_skills_other_resources.append([skill, other])
 
-        #sori_skills_lesson_resources has resources of different types, we need to distinguish them
+        # sori_skills_lesson_resources has resources of different types, we need to distinguish them
         for skill in sori_skills_lesson_resources:
             # Lists to regroup resources together
             sesamath_list = list()
@@ -827,7 +834,7 @@ def update_pedagogical_ressources(request, type, id):
             if khan_list:
                 sori_skills_lesson_resource_khanacademy.append([skill[0], khan_list])
 
-        #sori_skills_exercice_resources has resources of different types, we need to distinguish them
+        # sori_skills_exercice_resources has resources of different types, we need to distinguish them
         for skill in sori_skills_exercice_resources:
             # List to regroup resources together
             sesamath_list = list()
@@ -842,7 +849,7 @@ def update_pedagogical_ressources(request, type, id):
             if not skill[1]:
                 sori_skills_exercice_resources.remove(skill)
 
-            #Once resources are sorted, we can add them with the associated Skill
+            # Once resources are sorted, we can add them with the associated Skill
             if sesamath_list:
                 sori_skills_exercice_resource_sesamath.append([skill[0], sesamath_list])
 
@@ -856,7 +863,8 @@ def update_pedagogical_ressources(request, type, id):
         else:
             coder_from = CodeR_relations.objects.filter(
                 Q(relation_type__in=['similar_to', 'identic_to'], from_coder=base.id))
-            coder_to = CodeR_relations.objects.filter(Q(relation_type__in=['similar_to', 'identic_to'], to_coder=base.id))
+            coder_to = CodeR_relations.objects.filter(
+                Q(relation_type__in=['similar_to', 'identic_to'], to_coder=base.id))
 
             # This list will gather all the similar or 'identic' CodeR
             related_coder = list()
@@ -879,8 +887,7 @@ def update_pedagogical_ressources(request, type, id):
             if other:
                 sori_coder_other_resources.append([coder, other])
 
-
-        #sori_skills_lesson_resources has resources of different types, we need to distinguish them
+        # sori_skills_lesson_resources has resources of different types, we need to distinguish them
         for coder in sori_coder_lesson_resources:
             # Lists to regroup resources together
             sesamath_list = list()
@@ -907,7 +914,7 @@ def update_pedagogical_ressources(request, type, id):
             if khan_list:
                 sori_coder_lesson_resource_khanacademy.append([coder[0], khan_list])
 
-        #sori_coder_exercice_resources has resources of different types, we need to distinguish them
+        # sori_coder_exercice_resources has resources of different types, we need to distinguish them
         for coder in sori_coder_exercice_resources:
             # List to regroup resources together
             sesamath_list = list()
@@ -922,7 +929,7 @@ def update_pedagogical_ressources(request, type, id):
             if not coder[1]:
                 sori_coder_exercice_resources.remove(coder)
 
-            #Once resources are sorted, we can add them with the associated CodeR
+            # Once resources are sorted, we can add them with the associated CodeR
             if sesamath_list:
                 sori_coder_exercice_resource_sesamath.append([coder[0], sesamath_list])
 
@@ -1151,7 +1158,8 @@ def validate_student_skill(request, lesson_pk, student_skill):
         reason_object=lesson,
     )
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
+    return HttpResponseRedirect(
+        reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
 
 
 @require_POST
@@ -1176,7 +1184,8 @@ def unvalidate_student_skill(request, lesson_pk, student_skill):
         reason_object=lesson,
     )
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
+    return HttpResponseRedirect(
+        reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
 
 
 @require_POST
@@ -1201,7 +1210,8 @@ def default_student_skill(request, lesson_pk, student_skill):
         reason_object=lesson,
     )
 
-    return HttpResponseRedirect(reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
+    return HttpResponseRedirect(
+        reverse('professor:lesson_student_detail', args=(lesson.pk, student_skill.student.id,)) + "#heatmap")
 
 
 @user_is_professor
@@ -1558,7 +1568,6 @@ def exercice_test(request, pk):
 
 @user_is_professor
 def exercice_update(request, pk):
-
     exercice = get_object_or_404(Context, pk=pk)
 
     if exercice.added_by != request.user and not request.user.is_superuser:
@@ -1637,7 +1646,8 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
             test_exercice.test.fully_testable_online = True
         test_exercice.save()
 
-    return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(test_exercice.test.lesson.pk, test_exercice.test.pk,)) + "#%s" % test_exercice_pk)
+    return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(
+    test_exercice.test.lesson.pk, test_exercice.test.pk,)) + "#%s" % test_exercice_pk)
 
 
 @user_is_professor
@@ -1654,7 +1664,8 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
 
     # user shouldn't end up there in that situation but we never know
     if exercice is None:
-        return HttpResponseRedirect(reverse('professor:exercice_validation_form') + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, test_exercice.skill))
+        return HttpResponseRedirect(reverse('professor:exercice_validation_form') + "#?for_test_exercice=%s&code=%s" % (
+        test_exercice_pk, test_exercice.skill))
 
     assert test_exercice.test.can_change_exercice(), "Can't change an exercice if the test has started"
 
@@ -1677,7 +1688,9 @@ def exercice_adapt_test_exercice(request, test_exercice_pk):
                 question_id=question.id,
             )
 
-    return HttpResponseRedirect(reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (test_exercice_pk, exercice.skill.code))
+    return HttpResponseRedirect(
+        reverse('professor:exercice_update', args=(new_exercice.id,)) + "#?for_test_exercice=%s&code=%s" % (
+        test_exercice_pk, exercice.skill.code))
 
 
 @user_is_professor
@@ -1694,7 +1707,7 @@ def exercice_remove_test_exercice(request, test_exercice_pk):
     test_exercice.delete()
 
     return HttpResponseRedirect(reverse('professor:lesson_test_online_exercices', args=(
-    lesson_pk, test_pk,)))
+        lesson_pk, test_pk,)))
 
 
 @user_is_professor
@@ -1750,16 +1763,14 @@ def main_education(request):
 def socles_competence(request):
     data = {x.short_name: x for x in Stage.objects.all()}
 
-
     data["global_resources"] = Resource.objects.all()
-    data["code_r"] = CodeR.objects.all()
+    data["code_r"] = CodeR.objects.all().order_by('id')
 
     return render(request, "professor/skill/new-list-socles.haml", data)
 
 
 def enseign_pro(request):
     data = {x.short_name: x for x in Stage.objects.all()}
-
 
     data["global_resources"] = Resource.objects.all()
     data["code_r"] = CodeR.objects.all().order_by('id')
@@ -1770,18 +1781,17 @@ def enseign_pro(request):
 def enseign_techart(request):
     data = {x.short_name: x for x in Stage.objects.all()}
 
-
     data["global_resources"] = Resource.objects.all()
     data["code_r"] = CodeR.objects.all().order_by('id')
 
     return render(request, "professor/skill/new-list-techart.haml", data)
 
+
 def enseign_trans(request):
     data = {x.short_name: x for x in Stage.objects.all()}
-
 
     data["global_resources"] = Resource.objects.all()
     data["code_r"] = CodeR.objects.all().order_by('id')
     data["section"] = Section.objects.all()
-
+    print(CodeR.objects.all().order_by('id'))
     return render(request, "professor/skill/new-list-trans.haml", data)

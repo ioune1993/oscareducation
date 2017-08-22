@@ -1,14 +1,14 @@
 $(function(){
 
-    let countFiles = 0;
-    let countLinks = 0;
-    let countitems = 0;
+    countFiles = 0;
+    countLinks = 0;
+    countitems = 0;
 
     $('.addMore').on('click', function( event ){
         event.preventDefault();
 
-        let target = $( this ).data( 'target' );
-        let newElement;
+        target = $( this ).data( 'target' );
+        newElement;
         countitems++;
 
         switch( target ){
