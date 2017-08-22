@@ -22,10 +22,10 @@
     .pull-right
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk object.pk %}"}
-          l'encoder
+          Encoder
       %td.center{width: "20px"}
         %a.btn.btn-default{href: "{% url 'professor:lesson_test_update' lesson.pk object.pk %}"}
-          modifier
+          Modifier
       %td.center{width: "20px"}
         %a.btn.btn-danger{href: "{% url 'professor:lesson_test_delete' lesson.pk object.pk %}"}
           Effacer

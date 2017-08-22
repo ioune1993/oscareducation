@@ -564,7 +564,19 @@ class TestFromClass(BaseTest):
         Its purpose is to encode the results online.
 
     """
-    pass
+
+    def get_skills_with_encoded_values(self):
+        result = []
+
+        students = self.lesson.students.all()
+        skills = self.skills.all()
+        encoded_values = {(x.student, x.skill): x for x in
+                          self.testskillfromclass_set.all().select_related("skill", "student").order_by("id")}
+        print(encoded_values)
+        for student in students:
+            result.append((student, [(skill, encoded_values.get((student, skill))) for skill in skills]))
+
+        return result
 
 
 class TestSkillFromClass(models.Model):

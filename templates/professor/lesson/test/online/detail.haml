@@ -65,27 +65,27 @@
 
             =test_exercice.skill.name
 
-      %h5 Évaluable en ligne
-      %b Compétences sélectionnées
+    %h5 Évaluable en ligne
+    %b Compétences sélectionnées
 
+    %ul.heatmap-list
+      -for test_exercice in object.testexercice_testable_online
+        %li
+          %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
+            %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
+          =test_exercice.skill.name
+
+      -empty
+        Il n'y a pas de compétences évaluables en ligne pour ce test.
+
+    -if object.type == "skills-dependencies" or object.type == "dependencies"
+      %b Prérequis des compétences sélectionnées
       %ul.heatmap-list
         -for test_exercice in object.testexercice_testable_online
-          %li
-            %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk test_exercice.skill.code %}"}
-              %abbr{title: "{{ test_exercice.skill.name }}", style: "cursor: default; border: none"}= test_exercice.skill.code
-
-            =test_exercice.skill.name
-        -empty
-          Il n'y a pas de compétences évaluables en ligne pour ce test.
-
-      -if object.type == "skills-dependencies" or object.type == "dependencies"
-        %b Prérequis des compétences sélectionnées
-        %ul.heatmap-list
-          -for test_exercice in object.testexercice_testable_online
-            -for skill in test_exercice.skill.get_prerequisites_skills
-              %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
-                %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
-              =skill.name
+          -for skill in test_exercice.skill.get_prerequisites_skills
+            %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
+              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+            =skill.name
 
     %h5 Réponse des élèves
 
