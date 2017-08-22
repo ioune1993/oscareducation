@@ -10,41 +10,41 @@
     Ajouter
 
   .panel.panel-default{style: "display: none", id: "personal_resource-form"}
-      .panel-heading= title
-      .panel-body
-        %form{method: "POST", enctype: "multipart/form-data", action: ""}
-          -csrf_token
+    .panel-heading= title
+    %div.panel-body
+      %form{method: "POST", enctype: "multipart/form-data", action: ""}
+        -csrf_token
 
-          -if resource_form.errors
-            =resource_form.errors
-          %input{type: "hidden", value: "my_resource", name: "form_type"}
-          %input{type: "hidden", value: "personal_resource", name: "section"}
-          %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
-          .col-md-6
-            -include "professor/skill/update_pedagogical_resources/media/title_field.haml"
-          .col-md-6
-            -include "professor/skill/update_pedagogical_resources/media/kind_field.haml"
-          .row
-            %div.align-right
-              %button.btn.btn-success.addMore.btn-links{type: "button", "data-target":"link"}
-                %span.glyphicon.glyphicon-plus
-                Ajouter un lien
-                %span.badge
-                  0
-              %button.btn.btn-success.addMore.btn-files{type: "button", "data-target":"file"}
-                %span.glyphicon.glyphicon-plus
-                Ajouter un fichier
-                %span.badge
-                  0
-            %div{id:'form_resource'}
-              %ul.list-group
-                -include "professor/skill/update_pedagogical_resources/media/link_fields.haml"
-              %ul.list-group
-                -include "professor/skill/update_pedagogical_resources/media/file_fields.haml"
-          .col-md-12
-            -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
-          %button.btn.btn-primary{type: "submit"}
-            Valider
+        -if resource_form.errors
+          =resource_form.errors
+        %input{type: "hidden", value: "my_resource", name: "form_type"}
+        %input{type: "hidden", value: "personal_resource", name: "section"}
+        %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
+        .col-md-6
+          -include "professor/skill/update_pedagogical_resources/media/title_field.haml"
+        .col-md-6
+          -include "professor/skill/update_pedagogical_resources/media/kind_field.haml"
+        %div.align-right
+          %button.btn.btn-success.addMore.btn-links{type: "button", "data-target":"link"}
+            %span.glyphicon.glyphicon-plus
+            Ajouter un lien
+            %span.badge
+              0
+          %button.btn.btn-success.addMore.btn-files{type: "button", "data-target":"file"}
+            %span.glyphicon.glyphicon-plus
+            Ajouter un fichier
+            %span.badge
+              0
+        %div{id:'form_resource'}
+          %ul.list-group
+            -include "professor/skill/update_pedagogical_resources/media/link_fields.haml"
+          %ul.list-group
+            -include "professor/skill/update_pedagogical_resources/media/file_fields.haml"
+        %p
+        %div
+          -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
+        %button.btn.btn-primary{type: "submit"}
+          Valider
 
 
 %ul.list-group

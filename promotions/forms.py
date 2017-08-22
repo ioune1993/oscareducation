@@ -114,7 +114,7 @@ class SyntheseForm(forms.Form):
 
 class ResourceForm(forms.ModelForm):
     """ Resource form """
-    kind = forms.ChoiceField(required=True, label="genre",choices=(
+    kind = forms.ChoiceField(required=True, label="Genre",choices=(
         ("practical-application", "Application pratique"),
         ("lesson", "Cours"),
         ("exercice", "Exercices"),
@@ -126,7 +126,7 @@ class ResourceForm(forms.ModelForm):
         ("other", "(autre)"),
     ))
 
-    type = forms.ChoiceField(required=True, label="type", choices=(
+    type = forms.ChoiceField(required=True, label="Type", choices=(
         ("animation", "Animation"),
         ("software", "Application (ordinateur)"),
         ("mobile-app", "Application mobile"),
