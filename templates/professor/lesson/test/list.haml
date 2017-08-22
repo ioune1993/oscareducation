@@ -47,13 +47,13 @@
           %span.label.label-info
             Mettre en ligne
         %td{width:"70%"}
-            Le test n'est pas encore disponible pour les étudiants et est encore modifiable.
+          Le test n'est pas encore disponible pour les étudiants et est encore modifiable.
       %tr
         %td{width:"15%"}
           %span.label.label-success
             En ligne
         %td{width:"70%"}
-            Le test est non modifiable et accessible aux élèves.
+          Le test est non modifiable et accessible aux élèves.
       %tr
         %td{width:"15%"}
           %span.label.label-danger
@@ -92,35 +92,38 @@
               %td.align-right
                 %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk basetest.pk %}", method: "post"}
                   -csrf_token
-                  %button.hidden-button{type: "submit", data-toggle: "tooltip", data-placement: "top", title: "{% if basetest.test.running %}clôturer{% else %}rendre disponible{% endif %}"}
+                  %button.hidden-button{type: "submit", data-toggle: "tooltip", data-placement: "top", title: "{% if basetest.test.running %}Clôturer{% else %}Rendre disponible{% endif %}"}
                     -if basetest.test.running
                       %img.icon{src: "{% static 'img/icons/not-available.png' %}"}
                     -else
                       %img.icon{src: "{% static 'img/icons/accessible.png' %}"}
                 %a{href: "{% url 'professor:lesson_test_online_exercices' lesson.pk basetest.pk %}"}
-                  %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+                  %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier"}
                 %a{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
-                  %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
+                  %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Supprimer"}
 
             -else
               %td{width: "8px"}
                 %small Papier
               %td
                 %a{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk basetest.pk %}"}
-                  =basetest
+                  =basetest.name
               %td
                 -if not basetest.testfromclass.testskillfromclass_set.exists
-                  %span.label.label-warning
-                    pas encore encodé
+                  %span.label.label-info
+                    Pas encore encodé
+                -else
+                  %span.label.label-success
+                    Encodé
 
               %td.align-right
                 -if not basetest.testfromclass.testskillfromclass_set.exists
                   %a{href: "{% url 'professor:lesson_test_from_class_fill' lesson.pk basetest.pk %}"}
-                    %img.icon{src: "{% static 'img/icons/encode.png' %}", data-toggle: "tooltip", data-placement: "top", title: "l´encoder"}
-                %a{href: "{% url 'professor:lesson_test_update' lesson.pk basetest.pk %}"}
-                  %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+                    %img.icon{src: "{% static 'img/icons/encode.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Encoder"}
+                %a{href: "{% url 'professor:lesson_test_from_class_modify' lesson.pk basetest.pk %}"}
+                  %img.icon{src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier"}
                 %a{href: "{% url 'professor:lesson_test_delete' lesson.pk basetest.pk %}"}
-                  %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
+                  %img.icon{src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "Supprimer"}
 
     -else
       %p

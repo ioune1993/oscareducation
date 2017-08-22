@@ -32,6 +32,10 @@
 	  %input{type: "hidden", value: "lesson_khanacademy", name: "form_type"}
 	  %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
 	  %input{type: "hidden", value: "lesson_resource", name: "section"}
+	  %p
+	    L'URL fournie doit être de la forme : "https://fr.khanacademy.org/.../v/...". Exemple
+	   %a{href:"https://fr.khanacademy.org/math/pre-algebra/pre-algebra-factors-multiples/pre-algebra-prime-numbers/v/prime-numbers"}
+	    ici
 	  %label
 	    URL
 	  %input{type: "url", placeholder: "http:// ...", name: "url"}
