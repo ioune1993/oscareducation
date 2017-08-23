@@ -5,6 +5,7 @@ import sys
 import json
 import traceback
 import base64
+import random
 from django.core.files.storage import default_storage
 import time
 from django.core.files.base import ContentFile
@@ -444,31 +445,90 @@ def professor_test_add_skill(request):
     """The Professor add a Skill (with one Context) in a Test"""
     test_id = request.GET.get('test_id', None)
     skill_id = request.GET.get('skill_id', None)
-    # Check if we add a Skill to a Test or a TestFromClass
+    # Check if we add a Skill to a Test or a TestFromClass (the latter doesn't need exercices)
     if Test.objects.filter(id=test_id):
-        # Proposes an exercice by default when a Skill is added
-        exercice = None
-        if Context.objects.filter(skill_id=skill_id):
-            exercice = Context.objects.filter(skill_id=skill_id)[:1].get().id
+        test = Test.objects.get(id=test_id)
 
-        new_test_exercice = None
+        # Add the Skill to the Test
+        skill = Skill.objects.get(id=skill_id)
+        test.skills.add(skill)
 
-        if not exercice:
+        # We have to create a TestExercice for the Skill
+        # In order to do that, we search for an exercice to provide by default
+        # If none exists, we will leave it blank
+
+        # Gather exercices related to the Skill concerned
+        exercices = skill.context_set.filter(approved=True, testable_online=True)
+
+        # Gather exercices for identical Skills to the Skill concerned
+        identical_to_skills = Relations.objects.filter(
+            relation_type="identic_to", from_skill=skill)
+        identical_from_skills = Relations.objects.filter(
+            relation_type="identic_to", to_skill=skill)
+        for relation in identical_to_skills:
+            exercices = exercices | relation.to_skill.context_set.filter(approved=True, testable_online=True)
+        for relation in identical_from_skills:
+            exercices = exercices | relation.from_skill.context_set.filter(approved=True, testable_online=True)
+
+        # If no exercice exists, we will leave it blank and the user will have to create one
+        if not exercices.exists():
+            if test.fully_testable_online:
+                test.fully_testable_online = False
+                test.save()
+
+            # We check if an offline exercice is available instead
+            exercices = skill.context_set.filter(approved=True, testable_online=False)
+            for relation in identical_to_skills:
+                exercices = exercices | relation.to_skill.context_set.filter(approved=True, testable_online=False)
+            for relation in identical_from_skills:
+                exercices = exercices | relation.from_skill.context_set.filter(approved=True, testable_online=False)
+
+            if not exercices.exists():
+                with transaction.atomic():
+                    new_test_exercice = TestExercice.objects.create(
+                        testable_online=False,
+                        skill=skill,
+                        test=test,
+                    )
+                data = {
+                    "new_test_exercice_id": new_test_exercice.id
+                }
+                #GET OUT
+            else:
+                exercice = exercices[random.choice(range(exercices.count()))]
+                with transaction.atomic():
+                    new_test_exercice = TestExercice.objects.create(
+                        testable_online=False,
+                        exercice=exercice,
+                        skill=skill,
+                        test=test,
+                    )
+                data = {
+                    "new_test_exercice_id": new_test_exercice.id
+                }
+
+        # An exercice exists
+        else:
+            exercice = exercices[random.choice(range(exercices.count()))]
+
+            # We now create the TestExercice
             with transaction.atomic():
                 new_test_exercice = TestExercice.objects.create(
                     testable_online=True,
-                    exercice_id=exercice,
-                    skill_id=skill_id,
-                    test_id=test_id,
+                    exercice=exercice,
+                    skill=skill,
+                    test=test,
                 )
-        Test.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
-        data = {
-            "new_test_exercice_id": new_test_exercice.id,
-        }
+            data = {
+                "new_test_exercice_id": new_test_exercice.id
+            }
+
+
     #Otherwise, if it is a TestFromClass, we don't need to add an exercice
     else:
         TestFromClass.objects.get(id=test_id).skills.add(Skill.objects.get(id=skill_id))
         data = {}
+
     return JsonResponse(data)
 
 

@@ -33,7 +33,7 @@
     .panel-body
       .form-group
         %label.control-label.col-sm-2 Nom
-        %input.form-control{id: "new_name", type: "text"}
+        %input.form-control{id: "new_name", type: "text", value: "{{ test.name }}"}
       {% buttons %}
         %a.button.btn.btn-primary.modify{id: "{{ test.id }}"}
           Modifier
@@ -50,34 +50,40 @@
       %b Remarque :
       au moins un élève a commencé le test, il n'est plus possible de changer les exercices
 
-  %h3 Exercices sélectionnés pour le test
+  %h3
+    Exercices sélectionnés pour le test
     %i.test-name {{ object.name }}
     %br
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
         Retour au récapitulatif du test
-  %hr
-    .form-group
-      %label.control-label= test.lesson.stage
+
+  -if test.can_change_exercice
+    %hr
       .form-group
-        %select.form-control{id: "skills_to_add"}
-          -regroup test.lesson.stage.skills.all by section as sections
-          -for section in sections
-            %optgroup{label: "{{ section.grouper }}"}
-              -for skill in section.list reversed
-                %option{value: "{{ skill.code }}", id: "{{ skill.id }}"}
-                  {{ skill.code }} - {{ skill.name }}
-    .form-group
-      %a.btn.btn-primary.add-skill{id: "{{test.id}}", title: "Ajouter la compétence sélectionnée à ce test"}
-        Ajouter une compétence
+        %label.control-label= test.lesson.stage
+        .form-group
+          %select.form-control{id: "skills_to_add"}
+            -regroup test.lesson.stage.skills.all by section as sections
+            -for section in sections
+              %optgroup{label: "{{ section.grouper }}"}
+                -for skill in section.list reversed
+                  -if skill not in test.skills.all
+                    %option{value: "{{ skill.code }}", id: "{{ skill.id }}"}
+                      {{ skill.code }} - {{ skill.name }}
+      .form-group
+        %a.btn.btn-primary.add-skill{id: "{{test.id}}", title: "Ajouter la compétence sélectionnée à ce test"}
+          Ajouter une compétence
   %hr
 
   -for skill in test.skills.all
-    %h4{id: "display_skill_{{skill.id}}"} Compétence {{ skill.code }}
+    %h4{id: "display_skill_{{skill.id}}"}
+      Compétence {{ skill.code }}
       %br {{ skill.name }}
-      %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
-        Ajouter une question
-      %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
-        Supprimer cette compétence
+      -if test.can_change_exercice
+        %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
+          Ajouter une question
+        %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
+          Supprimer cette compétence
     -for test_exercice in test.testexercice_set.all
       -if test_exercice.skill == skill
         -# ID set to delete a question, class set to delete questions linked to a deleted skill
@@ -145,7 +151,8 @@
                 Nous n'avons pas encore de questions pour cette compétence
 
               -if test_exercice.test.can_change_exercice and test_exercice.skill.context_set.count > 0
-                %p Mais il y en a des disponibles :
+                %p
+                  Mais il y en a des disponibles :
                   %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
                     en choisir un
 
