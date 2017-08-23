@@ -145,6 +145,7 @@
               -for stage in lesson.stages_in_unchronological_order
                 -get_students_skills of user.student at stage rename "student_skills"
                 -for student_skill in student_skills
+                  HELLO
                   -if student_skill.recommended_to_learn
                     %tr.legend-list
                       %td.legend
@@ -152,7 +153,7 @@
                       %td.legend
                         %img.icon.student-skill{src: "{% static 'img/icons/recommended.png' %}"}
                       %td
-                        %a{href: '{% url "student_skill_pedagogic_ressources" student_skill.skill.code %}'}
+                        %a{href: '{% url "student_skill_pedagogic_ressources" "skill "student_skill.skill.code %}'}
                           {{ student_skill.skill.name }}
 
         -if user.student.teststudent_set.all|keep_unfinished_tests|remove_closed_tests
