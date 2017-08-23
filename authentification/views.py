@@ -83,7 +83,7 @@ def username(request, template_name='registration/login_username.haml',
             user = form.cleaned_data['username']
             return is_pending(request,user)
     else:
-        form = usernamelogin_form(request)
+        form = usernamelogin_form()
 
     current_site = get_current_site(request)
 
