@@ -16,7 +16,6 @@ $(function(){
             case 'file':
                 // TODO : TO OPTIMIZE
                 countFiles++;
-                console.log("Allo");
                 newElement = $(this).closest('div.panel-body').find('#form_resource ul li.file').eq(0).clone(true,true);
                 $(newElement).find('.clearablefileinput').attr("name","file_"+countFiles);
                 $(newElement).find('.form-control').attr("name","file_type_"+countFiles);

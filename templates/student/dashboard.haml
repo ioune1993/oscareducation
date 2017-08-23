@@ -145,7 +145,6 @@
               -for stage in lesson.stages_in_unchronological_order
                 -get_students_skills of user.student at stage rename "student_skills"
                 -for student_skill in student_skills
-                  HELLO
                   -if student_skill.recommended_to_learn
                     %tr.legend-list
                       %td.legend
