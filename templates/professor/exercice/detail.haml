@@ -44,27 +44,29 @@
       .well.context-context
         =context.context|safe
 
-    -for question in context.get_questions
-      -if question.description
-        .well.question-description
-          =question.description|safe
-      -else
-        -# Should never reach this error
-        %div.alert.alert-danger
-          Erreur : Pas d'énoncé
-      -if question.source
-        %p
-          %b Source(s) :
-        .well.question-source
-          =question.source|safe
-      -if question.indication
-        %p
-          %b Indication pour les professeurs :
-        .well.question-indication
-          =question.indication|safe
-
-      -with answer=question.get_answer
-        -include "professor/exercice/exercice_with_answers_rendering.haml"
+    -if context.get_questions
+      -for question in context.get_questions
+        -if question.description
+          .well.question-description
+            =question.description|safe
+        -else
+          -# Should never reach this error
+          %div.alert.alert-danger
+            Erreur : Pas d'énoncé
+        -if question.source
+          %p
+            %b Source(s) :
+          .well.question-source
+            =question.source|safe
+        -if question.indication
+          %p
+            %b Indication pour les professeurs :
+          .well.question-indication
+            =question.indication|safe
+        -with answer=question.get_answer
+          -include "professor/exercice/exercice_with_answers_rendering.haml"
+    -else
+      Aucune question n'est reliée à ce contexte !
 
 -block javascript
   :javascript

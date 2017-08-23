@@ -16,7 +16,6 @@ def dashboard(request):
     questions_per_stage = []
     for stage in Stage.objects.annotate(Count("skills"), Count("skills__exercice")):
         skills = stage.skills_with_exercice_count()
-        print stage.skills__exercice__count
         questions_per_stage.append({
             "stage": stage,
             "skills_count_with_questions": skills.filter(exercice__count__gt=0),
