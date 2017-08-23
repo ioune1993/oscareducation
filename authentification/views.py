@@ -175,7 +175,7 @@ def password(request, template_name='registration/login_password.haml',
             else:
                 raise Exception("Unknown user kind, can't login")
     else:
-        form = authentication_form(request)
+        form = authentication_form()
 
     current_site = get_current_site(request)
 
@@ -210,7 +210,7 @@ def code(request, template_name='registration/login_code.haml',
             return HttpResponseRedirect(reverse('create_password'))
 
     else:
-        form = code_form(request)
+        form = code_form()
 
     current_site = get_current_site(request)
 
@@ -248,7 +248,7 @@ def create_password(request, template_name='registration/create_password.haml',
             auth_login(request, user)
             return HttpResponseRedirect(reverse('username_login'))
     else:
-        form = cp_form(request)
+        form = cp_form()
 
 
     current_site = get_current_site(request)
