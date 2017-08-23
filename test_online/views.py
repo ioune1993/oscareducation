@@ -35,12 +35,10 @@ def lesson_test_online_add(request, pk):
 
     if request.method == "POST":
         second_run = []
-        print request.POST.items()
 
         with transaction.atomic():
             for key in filter(lambda x: x.startswith(("good", "bad", "unknown")), request.POST.values()):
                 result, student, test_exercice = key.split("_", 2)
-                print result, student, test_exercice
                 student = Student.objects.get(pk=student)
                 test_exercice = TestExercice.objects.select_related("skill").get(pk=test_exercice)
                 test_student = TestStudent.objects.get(student=student, test=test)
@@ -217,12 +215,10 @@ def lesson_test_online_insert_results(request, lesson_pk, pk):
 
     if request.method == "POST":
         second_run = []
-        print request.POST.items()
 
         with transaction.atomic():
             for key in filter(lambda x: x.startswith(("good", "bad", "unknown")), request.POST.values()):
                 result, student, test_exercice = key.split("_", 2)
-                print result, student, test_exercice
                 student = Student.objects.get(pk=student)
                 test_exercice = TestExercice.objects.select_related("skill").get(pk=test_exercice)
                 test_student = TestStudent.objects.get(student=student, test=test)

@@ -37,12 +37,10 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
 
     if request.method == "POST":
         second_run = []
-        print request.POST.items()
 
         with transaction.atomic():
             for key in filter(lambda x: x.startswith(("good", "bad", "unknown")), request.POST.values()):
                 result, student, skill = key.split("_", 2)
-                print result, student, skill
                 student = Student.objects.get(pk=student)
                 skill = Skill.objects.get(pk=skill)
 
@@ -99,8 +97,6 @@ def lesson_test_from_class_fill(request, lesson_pk, pk):
 
         return HttpResponseRedirect(reverse('professor:lesson_test_from_class_detail', args=(lesson.pk, test_from_class.pk)))
 
-    print(lesson)
-    print(test_from_class)
     return render(request, "professor/lesson/test/from-class/fill.haml", {
         "lesson": lesson,
         "test_from_class": test_from_class,

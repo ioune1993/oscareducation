@@ -719,9 +719,6 @@ def update_pedagogical_ressources(request, type, id):
                 add_to = CodeR.objects.get(id=id)
             add_to.resource.add(new_resource)
 
-    elif request.method == "POST":
-        print(request.POST)
-
     if type == 'skill':
         base = get_object_or_404(Skill, id=id)
     elif type == 'section':
@@ -1801,5 +1798,4 @@ def enseign_trans(request):
     data["global_resources"] = Resource.objects.all()
     data["code_r"] = CodeR.objects.all().order_by('id')
     data["section"] = Section.objects.all()
-    print(CodeR.objects.all().order_by('id'))
     return render(request, "professor/skill/new-list-trans.haml", data)

@@ -105,7 +105,6 @@ class Question(models.Model):
         return yaml_answer["answers"]
 
     def get_answers_extracted(self):
-        print(type(self.get_answers().items()))
         return self.get_answers().items()
 
     def get_graph_points(self):
@@ -572,7 +571,6 @@ class TestFromClass(BaseTest):
         skills = self.skills.all()
         encoded_values = {(x.student, x.skill): x for x in
                           self.testskillfromclass_set.all().select_related("skill", "student").order_by("id")}
-        print(encoded_values)
         for student in students:
             result.append((student, [(skill, encoded_values.get((student, skill))) for skill in skills]))
 
