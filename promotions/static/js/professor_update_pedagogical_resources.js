@@ -7,8 +7,8 @@ $(function(){
     $('.addMore').on('click', function( event ){
         event.preventDefault();
 
-        target = $( this ).data( 'target' );
-        newElement;
+        let target = $( this ).data( 'target' );
+        let newElement;
         countitems++;
 
         switch( target ){

@@ -60,6 +60,7 @@ def pass_test(request, pk):
                 StudentPoll.objects.create(student=test_student.student, lesson=test_student.student.lesson_set.first(), **pool_form.cleaned_data)
                 return HttpResponseRedirect(reverse('student_dashboard'))
             print pool_form.errors
+    irint(lesson_resource_khanacademy)
         """
         return render(request, "examinations/test_finished.haml", {
             "test_student": test_student,
@@ -338,8 +339,6 @@ def skill_pedagogic_ressources(request, type, slug):
         for skill_to in skills_to:
             sori_skills.append(skill_to.from_skill)
 
-        for x in sori_skills:
-            print(x.id)
         # Get the associated resources for these Skills
         # We need to keep them separated by section to ease their use in the template
 
@@ -407,8 +406,6 @@ def skill_pedagogic_ressources(request, type, slug):
 
         if isinstance(base, Skill):
             related_coder = CodeR.objects.filter(skill=base.id)
-            for r in related_coder:
-                print(r.id)
         else:
             coder_from = CodeR_relations.objects.filter(
                 Q(relation_type__in=['similar_to', 'identic_to'], from_coder=base.id))
@@ -421,8 +418,6 @@ def skill_pedagogic_ressources(request, type, slug):
                 related_coder.append(coder_from.to_coder)
             for coder_to in coder_to:
                 related_coder.append(coder_to.from_coder)
-            for r in related_coder:
-                print(r.id)
                 # Case where we look for CodeR similar or identic to a CodeR
 
         # Get the associated resources for these CodeR
@@ -484,7 +479,6 @@ def skill_pedagogic_ressources(request, type, slug):
             if sesamath_list:
                 sori_coder_exercice_resource_sesamath.append([coder[0], sesamath_list])
 
-    print(lesson_resource_khanacademy)
 
     sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="Manuel")
     sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="Cahier")

@@ -39,8 +39,6 @@ class CodeForm(UsernameLoginForm):
         if not username or not username[0].code == int(code):
             raise forms.ValidationError("This code is not correct.")
         # Check if the code is not expired
-        print(datetime.now())
-        print(username[0].code_created_at)
         dt = datetime.now() - username[0].code_created_at.replace(tzinfo=None) - timedelta(days=2)
         if dt > timedelta(hours=0):
             raise forms.ValidationError("This code has expired.")

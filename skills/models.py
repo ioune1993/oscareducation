@@ -61,8 +61,9 @@ class Skill(models.Model):
 
         :return: Queryset of prerequisites Skills for the current Skill
         """
-        return self.related_to.filter(
-            from_skill__relation_type="depend_on"
+        
+        return self.relations.filter(
+            to_skill__relation_type="depend_on"
         )
 
     def get_depending_skills(self):
@@ -71,8 +72,8 @@ class Skill(models.Model):
         :return: Queryset of Skills depending on the current Skill
         """
 
-        return self.relations.filter(
-            to_skill__relation_type="depend_on"
+        return self.related_to.filter(
+            from_skill__relation_type="depend_on"
         )
 
 class Relations(models.Model):
