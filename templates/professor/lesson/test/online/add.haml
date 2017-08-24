@@ -77,7 +77,7 @@
                   %label.control-label= stage.name
                   .form-group
                     %select.form-control{ng-model: "stage{{ stage.id }}SelectedSkill"}
-                      -regroup stage.skills.all by section as sections
+                      -regroup stage.skills_by_id by section as sections
                       -for section in sections
                         %optgroup{label: "{{ section.grouper }}"}
                           -for skill in section.list reversed
