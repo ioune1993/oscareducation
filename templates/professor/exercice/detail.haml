@@ -47,8 +47,8 @@
     -if context.get_questions
       -for question in context.get_questions
         -if question.description
-          .well.question-description
-            =question.description|safe
+          %p
+            %strong=question.description|safe
         -else
           -# Should never reach this error
           %div.alert.alert-danger
