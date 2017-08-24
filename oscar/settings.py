@@ -55,11 +55,11 @@ INSTALLED_APPS = (
     'planification',
     'examinations',
     'student',
-    'end_test_poll',
     'stats',
     'compressor',
     'users',
     'resources',
+    'end_test_poll',
 
 ) + ADDITIONAL_APPS
 

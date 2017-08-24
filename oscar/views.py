@@ -8,4 +8,4 @@ def root_redirection(request):
     return HttpResponseRedirect(reverse("username_login"))
 
 def home(request):
-    return TemplateResponse(request, "home.html", {})
+    return TemplateResponse(request, "home.haml", {})
