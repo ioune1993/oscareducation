@@ -28,10 +28,10 @@ class Skill(models.Model):
     section = models.ForeignKey('Section', null=True)
     """The Section to which the Skill belongs @to remove after """
 
-    depends_on = models.ManyToManyField('Skill', related_name="depends_on+")
+    #depends_on = models.ManyToManyField('Skill', related_name="depends_on+")
     """If a Skill depends on another (i.e. a prerequisite), this is set in this relation"""
 
-    similar_to = models.ManyToManyField('Skill', related_name="similar_to+")
+    #similar_to = models.ManyToManyField('Skill', related_name="similar_to+")
     """The Skills that are similar, but with different references"""
 
     resource = models.ManyToManyField('resources.Resource', related_name="skill_resource+")
@@ -136,7 +136,7 @@ class CodeR(models.Model):
     name = models.CharField(max_length=255)
     """The CodeR name"""
 
-    paired_to = models.ManyToManyField('CodeR', related_name="paired_to+")
+    #paired_to = models.ManyToManyField('CodeR', related_name="paired_to+")
     """@todo remove """
 
     resource = models.ManyToManyField('resources.Resource', related_name="coder_resource+")
