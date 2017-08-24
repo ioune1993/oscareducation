@@ -25,7 +25,7 @@
       Modifier
 
 -block content
-  .panel.panel-default
+  -#.panel.panel-default
     .panel-heading
       Modifier le nom :
       %i.test-name {{ test.name }}
@@ -54,10 +54,10 @@
     Exercices sélectionnés pour le test
     %i.test-name {{ object.name }}
     %br
-    %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-      Retour au récapitulatif du test
+    -#%a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
+      Accéder au récapitulatif du test
 
-  -if test.can_change_exercice
+  -#-if test.can_change_exercice
     .well
       .form-group
         %label.control-label
@@ -75,7 +75,7 @@
       .form-group
         %a.btn.btn-primary.add-skill{id: "{{test.id}}", title: "Ajouter la compétence sélectionnée à ce test"}
           Ajouter une compétence
-  %hr
+  -#%hr
 
   -for skill in test.skills.all
     .well
@@ -168,7 +168,7 @@
 
   .center
     %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-      Retour au récapitulatif du test
+      Accéder au récapitulatif du test
 
   %br
 
