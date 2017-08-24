@@ -54,16 +54,18 @@
     Exercices sélectionnés pour le test
     %i.test-name {{ object.name }}
     %br
-      %a.btn.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-        Retour au récapitulatif du test
+    %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
+      Retour au récapitulatif du test
 
   -if test.can_change_exercice
-    %hr
+    .well
       .form-group
-        %label.control-label= test.lesson.stage
+        %label.control-label
+          Ajout de compétences -
+          = test.lesson.stage
         .form-group
           %select.form-control{id: "skills_to_add"}
-            -regroup test.lesson.stage.skills.all by section as sections
+            -regroup test.lesson.stage.skills_by_id by section as sections
             -for section in sections
               %optgroup{label: "{{ section.grouper }}"}
                 -for skill in section.list reversed
@@ -76,91 +78,93 @@
   %hr
 
   -for skill in test.skills.all
-    %h4{id: "display_skill_{{skill.id}}"}
-      Compétence {{ skill.code }}
-      %br {{ skill.name }}
-      -if test.can_change_exercice
-        %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
-          Ajouter une question
-        %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
-          Supprimer cette compétence
-    -for test_exercice in test.testexercice_set.all
-      -if test_exercice.skill == skill
-        -# ID set to delete a question, class set to delete questions linked to a deleted skill
-        .panel.panel-default{id: "display_context_{{test_exercice.id}}", class: "skill-{{skill.id}}"}
-          %a.anchor{name: "{{ test_exercice.id }}"}
-          .panel-heading.subpanel
-            Question n°
-            =test_exercice.exercice.id
-            sur
-            =test_exercice.skill.code
+    .well
+      %h6.orange{id: "display_skill_{{skill.id}}"}
+        Compétence {{ skill.code }} :
+        %b {{ skill.name }}
+        -if test.can_change_exercice
+          %p
+            %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
+              Ajouter une question
+            %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
+              Supprimer cette compétence
+      -for test_exercice in test.testexercice_set.all
+        -if test_exercice.skill == skill
+          -# ID set to delete a question, class set to delete questions linked to a deleted skill
+          .panel.panel-default{id: "display_context_{{test_exercice.id}}", class: "skill-{{skill.id}}"}
+            %a.anchor{name: "{{ test_exercice.id }}"}
+            .panel-heading.subpanel
+              Question n°
+              =test_exercice.exercice.id
+              sur
+              =test_exercice.skill.code
 
-            .pull-right
-              -if test_exercice.test.can_change_exercice
-                -if test_exercice.skill.context_set.count > 1
+              .pull-right
+                -if test_exercice.test.can_change_exercice
+                  -if test_exercice.skill.context_set.count > 1
+                    %td.center{width: "20px"}
+                      %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Remplacer par une autre question tirée des questions disponible dans Oscar"}
+                        remplacer
+                  -if test_exercice.exercice
+                    %td.center{width: "20px"}
+                      %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier la question. Cela ne modifiera la question que pour ce test."}
+                        modifier
+                -if test_exercice.test.can_change_exercice or not test_exercice.exercice
                   %td.center{width: "20px"}
-                    %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Remplacer par une autre question tirée des questions disponible dans Oscar"}
-                      remplacer
-                -if test_exercice.exercice
+                    %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}", data-toggle: "tooltip", data-placement: "top", title: "Écrire une nouvelle question pour tester cette compétence"}
+                      nouveau
+                -if test_exercice.test.can_change_exercice and test_exercice.exercice
                   %td.center{width: "20px"}
-                    %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier la question. Cela ne modifiera la question que pour ce test."}
-                      modifier
-              -if test_exercice.test.can_change_exercice or not test_exercice.exercice
-                %td.center{width: "20px"}
-                  %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}", data-toggle: "tooltip", data-placement: "top", title: "Écrire une nouvelle question pour tester cette compétence"}
-                    nouveau
-              -if test_exercice.test.can_change_exercice and test_exercice.exercice
-                %td.center{width: "20px"}
-                  %a.btn.btn-danger.btn-xs.delete-question{id: "{{test_exercice.id}}", data-toggle: "tooltip", data-placement: "top", title: "Supprimer la question"}
-                    supprimer
+                    %a.btn.btn-danger.btn-xs.delete-question{id: "{{test_exercice.id}}", data-toggle: "tooltip", data-placement: "top", title: "Supprimer la question"}
+                      supprimer
 
-          .panel-body
-            -if test_exercice.exercice
-              -if not test_exercice.exercice.testable_online
-                .alert.alert-warning
-                  Cet exercice devra être testé hors ligne
+            .panel-body
+              -if test_exercice.exercice
+                -if not test_exercice.exercice.testable_online
+                  .alert.alert-warning
+                    Cet exercice devra être testé hors ligne
 
-              -if test_exercice.exercice.context
-                .well.exercice-content
-                  =test_exercice.exercice.context|safe
+                -if test_exercice.exercice.context
+                  .well.exercice-content
+                    =test_exercice.exercice.context|safe
 
-              -for question in test_exercice.exercice.get_questions
-                -if question.description
-                  .well.question-description
-                    =question.description|safe
-                -else
-                  -# Should never reach this error
-                  %div.alert.alert-danger
-                    Erreur : Pas d'énoncé
-                -if question.source
-                  %p
-                    %b Source(s) :
-                  .well.question-source
-                    =question.source|safe
-                -if question.indication
-                  %p
-                    %b Indication pour les professeurs :
-                  .well.question-indication
-                    =question.indication|safe
+                -for question in test_exercice.exercice.get_questions
+                  -if question.description
+                    .well.question-description
+                      =question.description|safe
+                  -else
+                    -# Should never reach this error
+                    %div.alert.alert-danger
+                      Erreur : Pas d'énoncé
+                  -if question.source
+                    %p
+                      %b Source(s) :
+                    .well.question-source
+                      =question.source|safe
+                  -if question.indication
+                    %p
+                      %b Indication pour les professeurs :
+                    .well.question-indication
+                      =question.indication|safe
 
-                -with answer=question.get_answer
-                  -include "professor/exercice/exercice_with_answers_rendering.haml"
-
-            -else
-              %p
-                Nous n'avons pas encore de questions pour cette compétence
-
-              -if test_exercice.test.can_change_exercice and test_exercice.skill.context_set.count > 0
-                %p
-                  Mais il y en a des disponibles :
-                  %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
-                    en choisir un
-
+                  -with answer=question.get_answer
+                    -include "professor/exercice/exercice_with_answers_rendering.haml"
 
               -else
                 %p
-                  %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}"}
-                    Écrire une question pour cette compétence
+                  Nous n'avons pas encore de questions pour cette compétence
+
+                -if test_exercice.test.can_change_exercice and test_exercice.skill.context_set.count > 0
+                  %p
+                    Mais il y en a des disponibles :
+                    %a.btn.btn-primary.btn-xs{href: "{% url 'professor:lesson_test_online_change_exercice' lesson.pk test.pk test_exercice.pk %}"}
+                      en choisir un
+
+
+                -else
+                  %p
+                    %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}"}
+                      Écrire une question pour cette compétence
 
   .center
     %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}

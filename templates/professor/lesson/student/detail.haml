@@ -143,7 +143,7 @@
                     %a{role: "button", data-toggle: "collapse", data-parent: "#accordion", href: "#collapse{{ stage.name|slugify }}", aria-expanded: "{% if forloop.counter == 1 %}true{% else %}false{% endif %}", aria-controls: "collapse{{ stage.name|slugify }}"}
                       Niveau {{ stage.name }}
 
-                -regroup stage.skills.all by section as sections
+                -regroup stage.skills_by_id by section as sections
 
                 .panel-collapse.collapse{id: "collapse{{ stage.name|slugify }}", role: "tabpanel", aria-labelledby: "heading{{ stage.name|slugify }}", class: "{% if forloop.counter == 1 %}in{% endif %}"}
                   .panel-body
