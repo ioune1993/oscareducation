@@ -1,0 +1,185 @@
+-load static
+-load compress
+
+%html
+  %head
+    %meta{content:"text/html; charset=UTF-8", "http-equiv":"Content-Type"}
+    %title oscar home page layout
+    %meta{charset:"UTF-8"}
+    -compress css
+      %link{href: "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700", rel: "stylesheet"}
+      %link{href: "{% static 'homepage/css/oscar.css' %}", rel: "stylesheet", type :"text/css"}
+      %link{href: "{% static 'homepage/css/slick.css' %}", rel: "stylesheet", type :"text/css"}
+      %link{href: "{% static 'homepage/css/style.css' %}", rel: "stylesheet", type :"text/css"}
+  %body
+    .row
+      -# navigation
+      %nav.navbar.navbar-default
+        .container
+          .navbar-header
+            %button.navbar-toggle.collapsed{"aria-expanded" : "false", "data-target" : "#bs-example-navbar-collapse-1", "data-toggle" : "collapse", type : "button"}
+              %span.sr-only Toggle navigation
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            %a.navbar-brand{href : "#"}
+              %img.img-responsive{alt : "oscar", height : "15%", src : "{% static 'homepage/images/Logo-Oscar.png' %} ", width : "15%"}
+          #bs-example-navbar-collapse-1.collapse.navbar-collapse
+            %ul.nav.navbar-nav.navbar-right
+              %li.active
+                %a{href : "{% url 'username_login' %}", target:'__blank'}
+                  se connecter
+                  %span.sr-only (current)
+              %li
+                %a{href : "{% url 'subscribe_teacher' %}", target:'__blank'} s'inscrire
+          -# section header
+        %header#header.row
+          -# left
+          .col-md-6.header-left
+            .float-section
+              %h4.with-bg.uppercase.blue votre profil
+              %ul.list-unstyled.shadow
+                %li.orange-text.bg-gray-1
+                  %p Vous avez
+                  %p=static
+                  %p.text-meduim des classes hétérogènes
+                %li.orange-text.bg-gray-2
+                  %p Vous voulez
+                  %p.text-meduim connaitre les besoins d'apprentissage de vos élèves
+                %li.orange-text.bg-gray-3
+                  %p Vous voulez
+                  %p.text-meduim gagner du temps
+          -# right
+          .col-md-6.header-right
+            .content
+              %h3.uppercase.white-text.text-large.text-strong différencier l'enseignement.
+              %h4.uppercase.white-text Apprendre avec plaisir
+              %h2.uppercase.orange-text.text-larger Je suis enseignant
+          -#section header
+        %section#registration.row
+          .col-md-4.section-left
+          .col-md-offset-2.col-md-6.section-right
+            .content
+              %h3.h1.uppercase.text-strong
+                %span.orange-text Inscrivez-vous gratuitement à la
+                %span.blue-text version BETA
+                %span.orange-text d'oscar
+              %h4.h2.text-blue et saisissez un des 500 comptes disponibles !
+        -#section process
+        %section#process.row
+          %h1.text-center.orange-text.text-larger
+            Le
+            %strong processus
+          %img.img-responsive{alt :"process image", src : "{% static 'homepage/images/process-content.png' %}"}
+        -#section quote
+        %section#quote.row
+          .content.container
+            %h1.text-center.orange-text.text-larger
+              Les
+              %strong témoignages
+            .blockquote
+              .item
+                %blockquote.quote-box.shadow
+                  %p.quotation-mark “
+                  %h6.quote-text
+                    Avec Oscar, je vais pouvoir accompagner mes élèves de manière
+                    différenciée, tout en leur proposant un environnement ludique pour faire
+                    des maths.
+                  .blog-post-actions
+                    %p.blog-post-bottom.pull-left.orange-text.text-small
+                      Lucie, 31 ans, enseignante en général de transition.
+              .item
+                %blockquote.quote-box.shadow
+                  %p.quotation-mark “
+                  %h6.quote-text
+                    Oscar, cela change! Mes élèves sont heureux de faire des maths dans un
+                    contexte numérique attractif. Pour ma part, je peux précisément cerner
+                    les besoins de la classe.
+                  .blog-post-actions
+                    %p.blog-post-bottom.pull-left.orange-text.text-small
+                      Isabelle, 56 ans, enseignante en technique et professionnel.
+              .item
+                %blockquote.quote-box.shadow
+                  %p.quotation-mark “
+                  %h6.quote-text
+                    Grâce aux fonctionnalités d'impression sur papier, je suis heureux de
+                    pouvoir utiliser Oscar en classe malgré le fait que nous n'avons pas
+                    d'accès internet à l'école.
+                  .blog-post-actions
+                    %p.blog-post-bottom.pull-left.orange-text.text-small
+                      Gaëtan, 35 ans, enseignant en technique de qualification.
+              .item
+                %blockquote.quote-box.shadow
+                  %p.quotation-mark “
+                  %h6.quote-text
+                    Oscar, c'est ma bibliothèque virtuelle professionnelle. Un lieu pour
+                    partager mes propres ressources crées au fur et à mesure des années et
+                    en découvrir de nouvelles!
+                  .blog-post-actions
+                    %p.blog-post-bottom.pull-left.orange-text.text-small
+                      Marie, 32 ans, enseignante en secondaire inférieur.
+              .item
+                %blockquote.quote-box.shadow
+                  %p.quotation-mark “
+                  %h6.quote-text Un outil très utile pour la préparation au CEB!
+                  .blog-post-actions
+                    %p.blog-post-bottom.pull-left.orange-text.text-small
+                      Pierre, 45 ans, enseignant en primaire.
+              .item
+                %blockquote.quote-box.shadow
+                  %p.quotation-mark “
+                  %h6.quote-text
+                    J'ai toujours appris les maths en regardant des vidéos sur Youtube,
+                    même si la qualité n'y était pas toujours. Je me réjouis de voir un
+                    outil de confiance, qui rendra des ressources diverses disponibles à de
+                    nombreux élèves!
+                  .blog-post-actions
+                    %p.blog-post-bottom.pull-left.orange-text.text-small
+                      Maureen, 22 ans, régente professeur de maths.
+        -# section registration_2
+        %section#registration_2.row
+          .col-md-6.section-left.shadow
+            .content
+              %h2
+                Oscar
+                %strong c'est
+              %ul.list-unstyled.with-image
+                %li
+                  %img.push-small-right{src : "{% static 'homepage/images/ok.png' %}"}>
+                  un
+                  %strong diagnostic complet
+                  des prérequis en primaire et secondaire
+                %li
+                  %img.push-small-right{src : "{% static 'homepage/images/ok.png' %}"}>
+                  un outil d'
+                  %strong évaluation continue
+                %li
+                  %img.push-small-right{src : "{% static 'homepage/images/construction.png' %}"}>
+                  la construction collective d'une bibliothèque de
+                  %strong ressources éducatives
+                  ou "wikimath"
+                  %small (en cours)
+          .col-md-6.section-right
+            .content
+              %h2
+                Oscar
+                %strong sera aussi
+              %ul.list-unstyled.with-image
+                %li
+                  %img.push-small-right{src : "{% static 'homepage/images/construction.png' %}"}>
+                  un
+                  %strong parcours d'apprentissage personnalisé
+                  pour chaque élève
+                  %small en cours de développement)
+                %li
+                  %img.push-small-right{src : "{% static 'homepage/images/dont.png' %}"}>
+                  une aide à la remédiation des maths dans un
+                  %strong environnement ludique
+              .registration_btn
+                %a.btn.btn-default.btn-large.uppercase.shadow{href : "{% url 'subscribe_teacher' %}", target:'__blank'} Je m'inscris
+        %footer#footer.row
+
+    -compress js
+      %script{type: "text/javascript", src: "{% static 'js/jquery.min.js' %}"}
+      %script{type: "text/javascript", src: "{% static 'homepage/js/slick.js' %}"}
+      %script{type: "text/javascript", src: "{% static 'homepage/js/core.js' %}"}
