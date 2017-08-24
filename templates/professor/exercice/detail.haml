@@ -1,4 +1,5 @@
 -extends "base.haml"
+-load lesson_tags
 
 -load static
 
@@ -48,7 +49,7 @@
       -for question in context.get_questions
         -if question.description
           %p
-            %strong=question.description|safe
+            %strong=question.description|safe|encode_utf8
         -else
           -# Should never reach this error
           %div.alert.alert-danger

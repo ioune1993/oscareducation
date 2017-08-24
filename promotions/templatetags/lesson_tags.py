@@ -51,3 +51,7 @@ def get_section_name(section_id):
 def get_skill_code(section_id):
     """ helper tag to get section name from section id"""
     return Skill.objects.get(id=section_id).code
+@register.filter
+def encode_utf8( string ):
+    return string.encode('Windows-1252', 'ignore')
+ 
