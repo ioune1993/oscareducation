@@ -57,7 +57,7 @@
     -#%a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
       Accéder au récapitulatif du test
 
-  -#-if test.can_change_exercice
+  -if test.can_change_exercice
     .well
       .form-group
         %label.control-label
@@ -79,13 +79,14 @@
 
   -for skill in test.skills.all
     .well
-      %h6.orange{id: "display_skill_{{skill.id}}"}
+      %h6.orange.line-min{id: "display_skill_{{skill.id}}"}
         Compétence {{ skill.code }} :
         %b {{ skill.name }}
         -if test.can_change_exercice
           %p
-            %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
-              Ajouter une question
+            -if skill.context_set.all
+              %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
+                Ajouter une question
             %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
               Supprimer cette compétence
       -for test_exercice in test.testexercice_set.all
@@ -109,7 +110,7 @@
                     %td.center{width: "20px"}
                       %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_adapt_test_exercice' test_exercice.pk %}", data-toggle: "tooltip", data-placement: "top", title: "Modifier la question. Cela ne modifiera la question que pour ce test."}
                         modifier
-                -if test_exercice.test.can_change_exercice or not test_exercice.exercice
+                -if test_exercice.test.can_change_exercice and test_exercice.exercice
                   %td.center{width: "20px"}
                     %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}", data-toggle: "tooltip", data-placement: "top", title: "Écrire une nouvelle question pour tester cette compétence"}
                       nouveau

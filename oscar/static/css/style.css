@@ -282,6 +282,10 @@ ul.orange > li.active > a
     line-height: 3;
 }
 
+.orange.line-min {
+    line-height: 2;
+}
+
 .gris {
     color:#a6a3a2;
 }
