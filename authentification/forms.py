@@ -63,7 +63,7 @@ class SubscribeTeacherForm(forms.Form):
     last_name = forms.CharField()
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
-    # TODO : Correct regex, should be 4 and not 3 digits expected at the end
+
     registration_number_validator = RegexValidator(r'^(0|1|2){1}(\d{2})(\d{2})(\d{2})(\d{4})', "Le matricule donné n'est pas valide.")
     registration_number = forms.CharField(validators=[registration_number_validator])
 

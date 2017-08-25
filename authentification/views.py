@@ -282,7 +282,7 @@ def subscribe_teacher(request):
                 # Send email to confirm and thus set is_pending to True instead of False ?
             domain = request.META['HTTP_HOST']
             url = "http://{}/accounts/confirmteacher/{}".format(domain, user.id)
-            body = "Bonjour, merci de vous etre inscrit sur Oscar ! Votre nom d'utilisateur est {}" \
+            body = "Bonjour, merci de votre inscription sur Oscar ! Votre nom d'utilisateur est {}" \
                    ". Pour finaliser votre inscription, veuillez suivre ce lien : {}".format(username, url)
             send_mail(u'Votre inscription a bien été enregistrée.', body, 'noreply@oscar.education',
                       [request.POST['email']], fail_silently=False)
