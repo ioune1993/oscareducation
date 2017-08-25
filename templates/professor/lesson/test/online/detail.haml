@@ -26,7 +26,7 @@
     .pull-left
       %td.center{width: "20px"}
         %a.btn.btn-primary{href: "{% url 'professor:lesson_test_list' lesson.pk %}"}
-          Tests
+          Retour aux tests
     .pull-right
       %td.center{width: "20px"}
         %form.inline{action: "{% url 'professor:lesson_test_online_close_open' lesson.pk test.pk %}", method: "post"}
@@ -66,7 +66,7 @@
             =test_exercice.skill.name
 
     %h5 Évaluable en ligne
-    %b Compétences sélectionnées
+    %h6.orange Compétences sélectionnées
 
     %ul.heatmap-list
       -for test_exercice in object.testexercice_testable_online
@@ -79,13 +79,14 @@
         Il n'y a pas de compétences évaluables en ligne pour ce test.
 
     -if object.type == "skills-dependencies" or object.type == "dependencies"
-      %b Prérequis des compétences sélectionnées
+      %h6.orange Prérequis des compétences sélectionnées
       %ul.heatmap-list
         -for test_exercice in object.testexercice_testable_online
           -for skill in test_exercice.skill.get_prerequisites_skills
-            %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
-              %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
-            =skill.name
+            %li
+              %a.btn.btn-default.skill{type: "button", href: "{% url 'professor:lesson_skill_detail' object.lesson.pk skill.code %}"}
+                %abbr{title: "{{ skill.name }}", style: "cursor: default; border: none"}= skill.code
+              =skill.name
 
     %h5 Réponse des élèves
 

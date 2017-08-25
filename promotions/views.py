@@ -10,11 +10,13 @@ from django.core.files.storage import default_storage
 import time
 from django.core.files.base import ContentFile
 from urlparse import urljoin
+from itertools import izip
 
 import yaml
 import ruamel.yaml
 import mechanize
 import yamlordereddictloader
+import pandas as pd
 
 from ruamel.yaml.comments import CommentedMap
 
@@ -168,7 +170,7 @@ def lesson_update(request, pk):
 @user_is_professor
 def lesson_student_add(request, pk):
     """
-    Add one or more students to a lesson : either with a CSV file (template provided) or manually 
+    Add one or more students to a lesson : either with an XLS file (template provided) or manually 
 
     :param request:
     :param pk: primary key of a Lesson
@@ -183,23 +185,29 @@ def lesson_student_add(request, pk):
         if 'csvfile' in request.FILES:
             form = CSVForm(request.POST, request.FILES)
             if form.is_valid():
-                f = csv.DictReader(form.cleaned_data["csvfile"])
-                line_number = 2
-                for row in f:
+                xls = pd.ExcelFile(form.cleaned_data["csvfile"])
+                sheet = xls.parse(0) # 0 is the sheet number
+                try:
+                    last_name_column = sheet['NOM']
+                    first_name_column = sheet['PRENOM']
+                except KeyError:
+                    messages.add_message(request, messages.ERROR,
+                                         'Erreur : les champs "NOM" et "PRENOM" n\' ont pas été '
+                                         'trouvés. Ne modifiez pas la première ligne '
+                                         'du fichier !')
+                    return render(request, "professor/lesson/student/add.haml", {
+                        "lesson": lesson,
+                    })
 
-                    try:
-                        newStudent = StudentAddForm({
-                            "first_name": row["NOM"],
-                            "last_name": row["PRENOM"],
-                        })
-                    except KeyError:
-                        messages.add_message(request, messages.ERROR,
-                                             'Erreur : les champs "NOM" et "PRENOM" n\' ont pas été '
-                                             'trouvés. Ne modifiez pas la première ligne '
-                                             'du fichier !')
-                        return render(request, "professor/lesson/student/add.haml", {
-                            "lesson": lesson,
-                        })
+                names = izip(last_name_column, first_name_column)
+
+                line_number = 2
+                for last_name,first_name in names:
+                    # We use this form to create at the same time the username
+                    newStudent = StudentAddForm({
+                        "first_name": last_name,
+                        "last_name": first_name,
+                    })
 
                     if not newStudent.is_valid():
                         messages.add_message(request, messages.ERROR,
@@ -240,12 +248,12 @@ def lesson_student_add(request, pk):
                     return render(request, "professor/lesson/student/add.haml", {
                         "lesson": lesson, })
             else:
-                messages.add_message(request, messages.ERROR, 'Erreur : le fichier fourni doit être en format .csv.')
+                messages.add_message(request, messages.ERROR, 'Erreur : le fichier fourni doit être en format .xls.')
                 return render(request, "professor/lesson/student/add.haml", {
                     "lesson": lesson, })
 
             messages.add_message(request, messages.SUCCESS,
-                                 str(line_number - 2) + ' utilisateur(s) ont/a été importé(s) avec succès.')
+                                 str(line_number - 2) + ' utilisateur(s) a/ont été importé(s) avec succès.')
 
         elif 'last_name_0' in request.POST:
             for i in filter(lambda x: x.startswith("first_name_"), request.POST.keys()):

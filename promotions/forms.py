@@ -68,8 +68,8 @@ class StudentAddForm(forms.Form):
         return username + "@example.com"
 
 def validate_file_extension(value):
-    if not value.name.endswith('.csv'):
-        raise forms.ValidationError("Only CSV file is accepted")
+    if not value.name.endswith('.xls'):
+        raise forms.ValidationError("Only XLS file is accepted")
 
 class CSVForm(forms.Form):
     csvfile = forms.FileField(validators=[validate_file_extension])

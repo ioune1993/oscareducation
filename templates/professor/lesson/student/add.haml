@@ -34,13 +34,13 @@
   .ligneorangefine
 
   .boxclasse.container-fluid
-    %form.form{action: "", method: "post", name: "csvfile", enctype: "multipart/form-data"}
+    %form.form{action: "", method: "post", name: "xlsfile", enctype: "multipart/form-data"}
       -csrf_token
 
       %label{for: "file"}
         Importer une liste d'élèves :
       Téléchargez et remplissez
-      %a{'href': "{% static 'student_list_template.csv'%}" } ce fichier
+      %a{'href': "{% static 'student_list_template.xls'%}" } ce fichier
       pour ajouter des élèves.
       %input{type: "file", name: "csvfile"}
       .container-fluid.boxclassetitle

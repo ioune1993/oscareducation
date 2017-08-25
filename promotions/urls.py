@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^lesson/(?P<pk>\d+)/update/$', views.lesson_update, name='lesson_update'),
     url(r'^lesson/(?P<pk>\d+)/delete/$', user_is_professor(LessonDelete.as_view()), name='lesson_delete'),
 
+    # TODO : Delete lesson_student_list and its template
     url(r'^lesson/(?P<pk>\d+)/student/$', user_is_professor(LessonStudentListView.as_view()), name='lesson_student_list'),
     url(r'^lesson/(?P<pk>\d+)/student/add/$', views.lesson_student_add, name='lesson_student_add'),
     url(r'^lesson/(?P<lesson_pk>\d+)/student/(?P<pk>\d+)/$', views.lesson_student_detail, name='lesson_student_detail'),
