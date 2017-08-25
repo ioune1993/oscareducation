@@ -980,3 +980,23 @@ h7 {
     background-color: #D46925;
     color: #fff;
 }
+
+/* hacking alert */
+.status.alert {
+
+    border-radius:0px;
+    margin-bottom: 0px;
+    padding: 2px 5px;
+
+
+}
+
+.status.alert.alert-success, .status.alert.alert-danger, .status.alert.alert-info {
+
+    background: transparent;
+}
+
+
+ 
+
+
