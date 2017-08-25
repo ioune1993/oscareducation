@@ -50,13 +50,13 @@
           Le test n'est pas encore disponible pour les étudiants et est encore modifiable.
       %tr
         %td{width:"15%"}
-          %span.label.label-success
+          %span.status.alert.alert-success
             En ligne
         %td{width:"70%"}
           Le test est non modifiable et accessible aux élèves.
       %tr
         %td{width:"15%"}
-          %span.label.label-danger
+          %span.status.alert.alert-danger
             Clôturé
         %td{width:"70%"}
           Le test n'est plus accessible et peut être modifié uniquement si aucun élève ne l'a commencé.
@@ -83,10 +83,10 @@
                       %span.label.label-info
                         Mettre en ligne
                 -elif not basetest.test.running
-                  %span.label.label-danger
+                  %span.status.alert.alert-danger
                     Clôturé
                 -else
-                  %span.label.label-success
+                  %span.status.alert.alert-success
                     En ligne
 
               %td.align-right
@@ -110,10 +110,10 @@
                   =basetest.name
               %td
                 -if not basetest.testfromclass.testskillfromclass_set.exists
-                  %span.label.label-info
+                  %span.status.alert.alert-info
                     Pas encore encodé
                 -else
-                  %span.label.label-success
+                  %span.status.alert.alert-info
                     Encodé
 
               %td.align-right
