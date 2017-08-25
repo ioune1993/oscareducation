@@ -45,8 +45,11 @@
               %span.icon-bar
               %span.icon-bar
               %span.icon-bar
-            %a.brand.navbar-brand{href: "/"}
-              <span style="color: #F58025">O</span>scar
+            -if user.professor
+              %a.brand.navbar-brand{href: "{% url 'professor:dashboard' %}"}
+                <span style="color: #F58025">O</span>scar
+            -else
+              %a.brand.navbar-brand{href: "{% url 'student_dashboard' %}"}
             -if user.professor and not no_menu
               .nav-global-shortcuts
                 %a.global-shortcut.home{href: "{% url 'professor:dashboard' %}", data-toggle: "tooltip", data-placement: "bottom", title: "Page d´accueil"}
