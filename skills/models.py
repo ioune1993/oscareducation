@@ -92,7 +92,10 @@ class Relations(models.Model):
     def __unicode__(self):
         return self.from_skill.code + " , " + self.to_skill.code + ", " + self.relation_type
 
+    class Meta:
 
+        verbose_name = 'Relations between Skill'
+        verbose_name_plural = 'Relations between Skill\'s'
 
 class Section(models.Model):
     """[FR] Rubrique
@@ -106,8 +109,8 @@ class Section(models.Model):
 
     name = models.CharField(max_length=255)
     """The Section name"""
-
-    resource = models.ManyToManyField('resources.Resource', related_name="section_resource+")
+    #editable=False,
+    resource = models.ManyToManyField('resources.Resource',  related_name="section_resource+")
     """The resources linked to this Section. A resource can be linked to several Sections"""
 
     def __unicode__(self):
@@ -148,6 +151,14 @@ class CodeR(models.Model):
 
     def __unicode__(self):
         return self.sub_code + " : " + self.name
+    class Meta:
+
+        verbose_name = 'CodeR'
+        verbose_name_plural = 'CodeR'
+
+
+
+
 
 
 class CodeR_relations(models.Model):
@@ -165,6 +176,11 @@ class CodeR_relations(models.Model):
 
     def __unicode__(self):
         return self.from_coder.name + " , " + self.to_coder.name + ", " + self.relation_type
+
+    class Meta:
+
+        verbose_name = 'Relations between CodeR'
+        verbose_name_plural = 'Relations between CodeR\'s'
 
 class SkillHistory(models.Model):
     """

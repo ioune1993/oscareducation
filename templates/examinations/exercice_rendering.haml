@@ -1,51 +1,53 @@
-%form{method: "POST"}
-  -csrf_token
-  -for question in questions
-    -if question.description
-      .well.question-description
-        =question.description|safe
-    -else
-      -# Should never reach this error
-      %div.alert.alert-danger
-        Erreur : Pas d'énoncé
-    -with answer=question.get_answer
-      .form-group
-        -if answer.type == "text"
-          %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
-        -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
-          %span
-            %textarea.keyboard
-            %span.mathquill{data-keyboard-type: "{{ answer.type }}"}
-            %input.form-control.hidden-math-form{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
-        -elif answer.type == "radio"
-          -with name=forloop.counter0
-            -for option in answer.answers
-              .radio
-                %label
-                  %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
-                  =option
-        -elif answer.type == "checkbox"
-          -with name=forloop.counter0
-            -for option in answer.answers
-              .checkbox
-                %label
-                  %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
-                  =option
-        -elif answer.type == "graph"
-          .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
-          -with toploop_counter0=forloop.counter0
-            -for answer in answer.answers
-              %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X"}
-              %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
-        -elif answer.type == "professor"
-          %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
-          -#%textarea.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", rows: "5"}
-        -else
-          =answer.type
+-load lesson_tags
 
-  %input.btn.btn-primary{type: "submit", value: "Répondre"}
+  %form{method: "POST"}
+    -csrf_token
+    -for question in questions
+      -if question.description
+        .well.question-description
+          =question.description|safe|encode_utf8
+      -else
+        -# Should never reach this error
+        %div.alert.alert-danger
+          Erreur : Pas d'énoncé
+      -with answer=question.get_answer
+        .form-group
+          -if answer.type == "text"
+            %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
+          -elif answer.type == "math" or answer.type == "math-simple" or answer.type == "math-advanced"
+            %span
+              %textarea.keyboard
+              %span.mathquill{data-keyboard-type: "{{ answer.type }}"}
+              %input.form-control.hidden-math-form{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
+          -elif answer.type == "radio"
+            -with name=forloop.counter0
+              -for option in answer.answers
+                .radio
+                  %label
+                    %input{type: "radio", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
+                    =option
+          -elif answer.type == "checkbox"
+            -with name=forloop.counter0
+              -for option in answer.answers
+                .checkbox
+                  %label
+                    %input{type: "checkbox", value: "{{ forloop.counter0 }}", name: "{{ name }}", autocomplete: "off"}
+                    =option
+          -elif answer.type == "graph"
+            .graph{id: "graph-{{ forloop.counter0 }}", style: "width: 500px; height: 500px"}
+            -with toploop_counter0=forloop.counter0
+              -for answer in answer.answers
+                %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X"}
+                %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
+          -elif answer.type == "professor"
+            %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
+            -#%textarea.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", rows: "5"}
+          -else
+            =answer.type
 
-:css
-  body {
-    padding-bottom: 200px;
-  }
+    %input.btn.btn-primary{type: "submit", value: "Répondre"}
+
+  :css
+    body {
+      padding-bottom: 200px;
+    }
