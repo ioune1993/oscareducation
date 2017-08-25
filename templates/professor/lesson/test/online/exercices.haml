@@ -25,6 +25,7 @@
       Modifier
 
 -block content
+  -# Temporarily removed
   -#.panel.panel-default
     .panel-heading
       Modifier le nom :
@@ -54,9 +55,8 @@
     Exercices sélectionnés pour le test
     %i.test-name {{ object.name }}
     %br
-    -#%a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-      Accéder au récapitulatif du test
 
+  -# Temporarily removed
   -#-if test.can_change_exercice
     .well
       .form-group
@@ -84,7 +84,8 @@
         %b {{ skill.name }}
         -if test.can_change_exercice
           %p
-            -if skill.context_set.all
+            -# Temporarily removed
+            -#-if skill.context_set.all
               %a.btn.btn-primary.add-question{id: "{{skill.id}}_{{test.id}}", title: "Ajouter une question pour cette compétence"}
                 Ajouter une question
             %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
@@ -114,7 +115,8 @@
                   %td.center{width: "20px"}
                     %a.btn.btn-primary.btn-xs{href: "{% url 'professor:exercice_validation_form' %}#?for_test_exercice={{ test_exercice.pk }}&code={{ test_exercice.skill.code }}", data-toggle: "tooltip", data-placement: "top", title: "Écrire une nouvelle question pour tester cette compétence"}
                       nouveau
-                -if test_exercice.test.can_change_exercice and test_exercice.exercice
+                -# Temporarily removed
+                -#-if test_exercice.test.can_change_exercice and test_exercice.exercice
                   %td.center{width: "20px"}
                     %a.btn.btn-danger.btn-xs.delete-question{id: "{{test_exercice.id}}", data-toggle: "tooltip", data-placement: "top", title: "Supprimer la question"}
                       supprimer

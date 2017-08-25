@@ -19,6 +19,7 @@
       Modifier
 
 -block content
+  -# Temporarily removed
   -#.panel.panel-default
     .panel-heading
       Modifier le nom :
@@ -35,10 +36,6 @@
             Annuler
       {% endbuttons %}
       %p{id: "name_modified_message", style: "display:none"} Nom modifié !
-  -if not object.can_change_exercice
-    .alert.alert-warning
-      %b Remarque :
-      au moins un élève a commencé le test, il n'est plus possible de changer les exercices
   %h3
     Exercices sélectionnés pour le test
     %i.test-name {{ object.name }}
@@ -46,6 +43,7 @@
       %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_detail' lesson.pk object.pk %}"}
         Retour au récapitulatif du test
   %h3
+  -# Temporarily removed
   -#%hr
     .form-group
       %label.control-label= object.lesson.stage

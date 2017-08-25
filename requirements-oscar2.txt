@@ -4,7 +4,6 @@ django-debug-toolbar==1.8
 django-extensions==1.8.1
 django-pdb==0.6.1
 django-hamlpy==1.1.1
-hamlpy==0.82.2
 ipdb==0.8.1
 ipython==3.2.0
 Markdown==2.6.2
@@ -27,3 +26,5 @@ rcssmin==1.0.6
 rjsmin==1.0.12
 sqlparse==0.2.3
 sphinx==1.6.3
+pandas==0.20.3
+xlrd==1.1.0
