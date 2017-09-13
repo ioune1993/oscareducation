@@ -30,6 +30,18 @@ all the requirements
 $ source ve/bin/activate
 $ pip install -r requirements-oscar2.txt
 ```
+Then addling fields into your database
+```sh
+$ python manage.py makemigrations
+$ python manage.py migrate
+```
+Then optionally with `pgAdmin` import sql data file 'oscar-data.sql'
+
+finaly create superuser account
+```sh
+$ python manage.py createsuperuser
+```
+and follow the steps
 
 Once all the steps above done, run the server with:
 ```sh    
