@@ -27,6 +27,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     $scope.htmlRendering = $sce.trustAsHtml($scope.html);
 
                     $timeout(function() {
+                        
                         $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
                         MathJax.Hub.Typeset(document.getElementById("exercice-rendering-panel"));
 

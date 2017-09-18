@@ -471,6 +471,7 @@ class Test(BaseTest):
         )
 
     def testexercice_with_skills(self):
+
         return self.testexercice_set.select_related("skill").order_by('-skill__code')
 
     def teststudent_with_student(self):

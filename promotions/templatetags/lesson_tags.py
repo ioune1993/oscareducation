@@ -53,5 +53,6 @@ def get_skill_code(section_id):
     return Skill.objects.get(id=section_id).code
 @register.filter
 def encode_utf8( string ):
-    return string.encode('Windows-1252', 'ignore')
+   # return string.encode('Windows-1252', 'ignore')
+    return string
  

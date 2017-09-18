@@ -173,7 +173,7 @@
         .panel-body
 
           #exercice-rendering-html.well{ng-if: "htmlRendering != \"\" || base64img != \"\""}
-            %img{ng-if: "base64img", src: "{& base64img &}"}
+            %img{ng-if: "base64img", src: "{& base64img &}", class: "img-responsive"}
             %div{ng-bind-html: "htmlRendering"}
 
           #exercice-rendering-yaml{ng-if: "yamlRendering != \"\"", ng-bind-html: "yamlRendering"}

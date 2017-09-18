@@ -8,7 +8,7 @@
     .form-group
       %label{for: "{{ forloop.counter0 }}"}= label|safe
       -if question.type == "text"
-        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
+        %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off", disabled:"disabled"}
       -elif question.type == "math" or question.type == "math-simple" or question.type == "math-advanced"
         %span
           %textarea.keyboard
@@ -39,7 +39,7 @@
       -else
         =question.type
 
-  %input.btn.btn-primary{type: "submit", value: "Répondre"}
+  %input.btn.btn-primary{type: "submit", value: "Répondre", disabled:"disabled"}
 
 :css
   body {

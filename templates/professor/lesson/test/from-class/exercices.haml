@@ -68,11 +68,7 @@
         %p
           %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{object.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
             Supprimer cette compétence
-  .center
-    %a.btn.btn-lg.btn-primary{href: "{% url 'professor:lesson_test_online_detail' lesson.pk object.pk %}"}
-      Retour au récapitulatif du test
-
-  %br
+  
 
 -block javascript
   :javascript

@@ -1458,6 +1458,34 @@ def exercice_validation_form_submit(request, pk=None):
     else:
         exercice = None
 
+
+    if data.get("image"):
+        exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
+        if not os.path.exists(exercices_folder):
+            os.makedirs(exercices_folder)
+
+        existing_images = {x for x in os.listdir(os.path.join(settings.BASE_DIR, "exercices"))}
+        existing_images = existing_images.union({x for x in os.listdir(exercices_folder)})
+
+        image_extension, image = data["image"].split(",", 1)
+
+        image_extension = image_extension.split("/")[1].split(";")[0]
+
+        for i in range(1, 1000):
+            name = ("%s_%.2d.%s" % (skill_code, i, image_extension)).upper()
+            if name not in existing_images:
+                break
+        else:
+            raise Exception()
+
+        if html:
+            html = ('<img src="%sexercices/%s" class="img-responsive" />\n' % (settings.MEDIA_URL, name)) + html
+        else:
+            html = '<img src="%sexercices/%s" class="img-responsive" />\n' % (settings.MEDIA_URL, name)
+
+        assert not os.path.exists(os.path.join(exercices_folder, name))
+        open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
+
     # First, Context creation
     with transaction.atomic():
         if exercice is not None:
@@ -1547,32 +1575,7 @@ def exercice_validation_form_submit(request, pk=None):
                     question_id=new_question.id,
                 )
 
-    if data.get("image"):
-        exercices_folder = os.path.join(settings.MEDIA_ROOT, "exercices")
-        if not os.path.exists(exercices_folder):
-            os.makedirs(exercices_folder)
 
-        existing_images = {x for x in os.listdir(os.path.join(settings.BASE_DIR, "exercices"))}
-        existing_images = existing_images.union({x for x in os.listdir(exercices_folder)})
-
-        image_extension, image = data["image"].split(",", 1)
-
-        image_extension = image_extension.split("/")[1].split(";")[0]
-
-        for i in range(1, 1000):
-            name = ("%s_%.2d.%s" % (skill_code, i, image_extension)).upper()
-            if name not in existing_images:
-                break
-        else:
-            raise Exception()
-
-        if html:
-            html = ('<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)) + html
-        else:
-            html = '<img src="%sexercices/%s" />\n' % (settings.MEDIA_URL, name)
-
-        assert not os.path.exists(os.path.join(exercices_folder, name))
-        open(os.path.join(exercices_folder, name), "w").write(b64decode(image))
 
     return HttpResponse(json.dumps({
         "url": reverse('professor:exercice_detail', args=(exercice.id,)),
