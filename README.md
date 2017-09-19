@@ -35,7 +35,7 @@ Then addling fields into your database
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
-Then optionally with `pgAdmin` import sql data file 'oscar-data.sql'
+Then optionally with `pgAdmin` import sql data file 'oscar-data.sql.zip'
 
 finaly create superuser account
 ```sh
