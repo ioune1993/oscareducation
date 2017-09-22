@@ -6,10 +6,15 @@
 First, install PostgreSQL version 9.4 or above
 (installation instructions depends on your OS).
 Then we advise you to install a tool such as
-`pgAdmin` to administrate the database, `DbVisualizer` visualize the database schema and `pycharm community edition` a python IDE. By default,
+`pgAdmin` to administrate the database, `DbVisualizer`
+visualize the database schema and
+`PyCharm Community Edition` a python IDE. By default,
 as it is stated in `oscar/settings.py`, the database
-name is 'oscar', accessible from `localhost:5432, with
-the user 'oscar' and the password 'oscar'.
+name is 'oscar', accessible from `localhost:5432`, with
+the user 'oscar' and the password 'oscar'. So, create a
+PostgreSQL server with a database, with the parameters 
+you chose or the default parameters stated above if you 
+do not intend to change the `oscar/settings.py`.
 
 ### Django
 You only need to perform these commands once:
@@ -30,14 +35,22 @@ all the requirements
 $ source ve/bin/activate
 $ pip install -r requirements-oscar2.txt
 ```
-Then addling fields into your database
+Then adding fields into your database
 ```sh
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
-Then optionally with `pgAdmin` import sql data file 'oscar-data.sql.zip'
+If the second command does not create the fields, and report 
+that there are missing relations, use the `makemigrations.sh` 
+script to make the migrations for each app one by one (and then 
+do the second command). This is unfortunate, but this a known 
+bug in Django that can happen.
 
-finaly create superuser account
+Then optionally with `pgAdmin` 
+import the SQL data file 'oscar-data.sql' to obtain a sample 
+of data in order to test the website.
+
+Finally create a superuser account
 ```sh
 $ python manage.py createsuperuser
 ```

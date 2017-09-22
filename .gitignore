@@ -7,3 +7,4 @@ oscar/settings_local.py
 .idea/
 */migrations/
 documentation/build/
+.DS_Store
