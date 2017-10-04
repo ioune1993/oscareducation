@@ -64,9 +64,11 @@ $ python manage.py runserver
 You can now access the website: `http://127.0.0.1:8000`.
 
 The administration is on `http://127.0.0.1:8000/admin`. You can
-create a new "Prof" (green +), there, click on "green +" again to start a 
+create a new "Professor" (green +) (and later, Students the same way), there, click on "green +" again to start a 
 popup in which you'll create a new user (for example "prof" with password "prof"),
 validate, select field is auto field, validate, you now have a prof user.
+Then, edit this professor by providing him/her an email address (because
+you need to confirm his/her email, you can use a temporary address in your tests).
 Log out and go back on "/" to log.
 
 Now, whenever you want to run the website again, you
