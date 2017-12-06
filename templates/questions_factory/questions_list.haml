@@ -1,0 +1,61 @@
+-extends "base.haml"
+-block content
+  .panel.panel-default{"id": "id_generated_questions_page"}
+    .panel-heading Questions générées
+    .panel-body
+      -if new_test_exercise.exercice.context
+        .well
+          =new_test_exercise.exercice.context|safe
+      %h2 Choisissez les questions que vous voulez garder
+      #question-list
+        -include 'questions_factory/_questions.haml'
+
+    .panel-body.text-center
+      -#%a.btn.btn-primary{id:"more-question-btn"}
+        Générer plus de question
+      %a.btn.btn-info.btn-lg{href: "{% url 'professor:lesson_test_online_exercices' lesson_id test_id %}", id:"return-to-test-modify"}
+        Revenir au test
+
+-block javascript
+  :javascript
+
+    $('#more-question-btn').click( function(e) {
+      e.preventDefault();
+      more_questions();
+      return false;
+    } );
+
+    function more_questions(){
+      // TODO
+    }
+
+    $(function() {
+      $('form').submit(function(event){
+        event.preventDefault();
+        $(this).find(':input[type=submit]').prop('disabled', true);
+        var divForm = $(this).parent();
+        $.ajax({
+          type: 'post',
+          url: 'submit/',
+          data: $(this).serialize(),
+          success: function (data) {
+            divForm.animate({
+              height: "0px"
+            }, 500, function() {
+              // Animation complete.
+              divForm.remove();
+            });
+          }
+        });
+      });
+
+
+      {% for exercice in new_test_exercise.skill.exercice_set.all %}
+      {% for _, question in exercice.get_questions.items %}
+      {% if question.type == "graph" %}
+        new Graph('graph-' + {{ forloop.counter0 }})
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+    });
+

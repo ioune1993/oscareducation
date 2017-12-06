@@ -1,0 +1,25 @@
+-for question in questions
+  .panel.panel-success
+    .panel-heading
+      Question générée
+    .panel-body
+      -if question.description
+        .well.question-description
+          =question.description|safe
+      -if question.source
+        %p
+          %b Source(s) :
+        .well.questions-source
+          =question.source|safe
+      -with answer=question.get_answer
+        -include "professor/exercice/exercice_with_answers_rendering.haml"
+
+    %form{method:"POST", enctype: 'application/json'}
+      -csrf_token
+      %input{type: "hidden", name: "question_description", value: "{{question.description}}"}
+      %input{type: "hidden", name: "question_source", value: "{{question.source}}"}
+      %input{type: "hidden", name: "question_answer", value: "{{question.answer}}"}
+      %input{type: "hidden", name: "exercise_id", value: "{{ new_test_exercise.id }}"}
+      .text-center
+        %button.btn.btn-primary{type: "submit"}
+          Choisir cet exercice

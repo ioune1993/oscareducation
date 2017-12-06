@@ -64,8 +64,7 @@
             %b Indication pour les professeurs :
           .well.question-indication
             =question.indication|safe
-        -with answer=question.get_answer
-          -include "professor/exercice/exercice_with_answers_rendering.haml"
+        -include "professor/exercice/exercice_with_answers_rendering.haml"
     -else
       Aucune question n'est reliée à ce contexte !
 

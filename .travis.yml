@@ -1,7 +1,31 @@
 language: python
-install:
-  - pip install pyyaml
 python:
   - "2.7"
+
+services:
+  - postgresql
+
+addons:
+  postgresql: "9.4"
+
+install:
+  - pip install -r requirements-oscar2.txt
+
+before_script:
+  - "export DISPLAY=:99.0"
+  - psql -c "CREATE USER oscar WITH PASSWORD 'oscar' CREATEDB;" -U postgres
+  - psql -c "CREATE DATABASE oscar OWNER oscar;" -U postgres
+  - python manage.py makemigrations
+  - chmod +x makemigrations.sh
+  - ./makemigrations.sh
+  - python manage.py migrate
+
 script:
-  - python validate_exercices.py
+  # Targeted Unit Testing with Coverage
+  - coverage run -a --source=questions_factory manage.py test questions_factory
+  # General Behaviour Testing with Coverage
+  - coverage run -a --source=questions_factory manage.py behave
+
+
+after_success:
+    coveralls

@@ -20,7 +20,7 @@
           %br
 
           .center
-            %a.btn.btn-primary.center{href: "{% url 'professor:lesson_test_online_add' lesson.pk %}"}
+            %a.btn.btn-primary.center{href: "{% url 'professor:lesson_test_online_add' lesson.pk %}", id: "id_add_test_online_button"}
               Ajouter un test en ligne
 
     .col-md-5
@@ -36,5 +36,5 @@
           %br
 
           .center
-            %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_add' lesson.pk %}"}
+            %a.btn.btn-primary{href: "{% url 'professor:lesson_test_from_class_add' lesson.pk %}", id: "id_add_test_offline_button"}
               Ajouter une évaluation libre

@@ -90,6 +90,9 @@
                 Ajouter une question
             %a.btn.btn-danger.delete-skill{id: "{{skill.id}}_{{test.id}}", title: "Supprimer cette compétence du test et toutes les questions qui y sont liées"}
               Supprimer cette compétence
+
+            %a.btn.btn-primary{href: "{% url 'questions_factory:generator' lesson.pk skill.id test.id %}", data-toogle: "tooltip", data-placement: "top", title: "Génerer des questions automatiques", id: "id_generate_button"}
+              Générer des questions
       -for test_exercice in test.testexercice_set.all
         -if test_exercice.skill == skill
           -# ID set to delete a question, class set to delete questions linked to a deleted skill
@@ -150,8 +153,7 @@
                     .well.question-indication
                       =question.indication|safe
 
-                  -with answer=question.get_answer
-                    -include "professor/exercice/exercice_with_answers_rendering.haml"
+                  -include "professor/exercice/exercice_with_answers_rendering.haml"
 
               -else
                 %p

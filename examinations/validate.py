@@ -25,8 +25,8 @@ def validate_exercice_yaml_structure(exercice):
         if "type" not in data:
             return (u"chaque question doit avoir un type, or la question '%s' n'a pas de type" % (question)).encode("Utf-8")
 
-        if data["type"] not in ("radio", "text", "checkbox", "math", "math-simple", "math-advanced", "graph", "professor"):
-            return (u"la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox', 'math', 'math-simple', 'math-advanced', 'graph' et 'radio' " % (question, data["type"])).encode("Utf-8")
+        if data["type"] not in ("radio", "text", "checkbox", "math", "math-simple", "math-advanced", "graph", "professor", "fill-text-blanks", "fill-table-blanks"):
+            return (u"la question '%s' possède un type invalide: '%s'\nLes types valides sont : 'text', 'checkbox', 'math', 'math-simple', 'math-advanced', 'graph', 'radio', 'fill-text-blanks' et 'fill-table-blanks' " % (question, data["type"])).encode("Utf-8")
 
         if "answers" not in data:
             return (u"chaque question doit avoir une section 'answers' contenant les réponses, or la question '%s' ne contient pas cette section" % (question)).encode("Utf-8")
@@ -86,6 +86,29 @@ def validate_exercice_yaml_structure(exercice):
                     assert isinstance(graph["coordinates"].get("Y"), int)
 
                     # XXX put warning if X/Y is our of graph
+
+        elif data["type"] == "fill-table-blanks":
+            if len(data["answers"]) == 0:
+                return (u'Un tableau à trous doit avoir au moins un blanc (cliquez sur le "Générer les champs" pour en ajouter)')
+            counter = 0
+            for answer in data["answers"]:
+                counter += 1
+                if answer["type"] not in ["text", "math-simple", "math-advanced"]:
+                    return (u'Le type de la question %s est illégal' % (counter)).encode("Utf-8")
+                if len(answer["answers"]) == 0:
+                    return (u'Le champs %s doit avoir au moins une réponse possible' % (counter)).encode("Utf-8")
+
+
+        elif data["type"] == "fill-text-blanks":
+            if len(data["answers"]) == 0:
+                return (u'Une question à trous doit avoir au moins un blanc (cliquez sur le "+" pour en ajouter)')
+            counter = 0
+            for answer in data["answers"]:
+                counter += 1
+                if answer["type"] not in ["text", "math-simple", "math-advanced"]:
+                    return (u'Le type de la question %s est illégal' %(counter)).encode("Utf-8")
+                if len(answer["answers"]) == 0:
+                    return (u'Le champs %s doit avoir au moins une réponse possible' %(counter)).encode("Utf-8")
 
         elif data["type"] == "professor":
             # No verification to perform, no automatic grade if the Professor grades the Question

@@ -74,7 +74,7 @@
         %ul.list-group{ng-if: "testable_online"}
           %li.list-group-item{ng-repeat: "question in questions", ng-init: "topIndex = $index.toString()"}
             .form-horizontal
-              .form-group
+              .form-group{ng-if: "question.type != \"fill-text-blanks\""}
                 %label.control-label.col-sm-2 Énoncé de la question
                 .col-sm-9
                   %input.form-control{type: "text", ng-model: "question.instructions", ng-required: "true"}
@@ -87,12 +87,92 @@
                   %select.form-control{ng-model: "question.type", ng-required: "true", ng-change: "onChangeQuestionType(topIndex, question)"}
                     %option{value: ""}
                     %option{value: "text"} Réponse textuelle exacte
+                    %option{value: "fill-text-blanks"} Question à trous
+                    %option{value: "fill-table-blanks"} Tableau à trous
                     %option{value: "math-simple"} Réponse mathématique simple
                     %option{value: "math-advanced"} Réponse mathématique avancée
                     %option{value: "radio"} Une seule réponse unique possible parmi toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
                     %option{value: "graph"} Réponse sur un graphique
                     %option{value: "professor"} Réponse corrigée par le professeur
+              //Module A begin main block
+              //Text-filling form
+              .form-group{ng-if : "question.type == \"fill-text-blanks\""}
+                %label.control-label.col-sm-2 Texte à compléter
+                .col-sm-1
+                  %button.btn.btn-success{ng-click: "addAnswerField(question, topIndex)", type: "button", data-toggle: "tooltip", data-placement: "top", title: "Ajouter un champ"}
+                    %span.glyphicon.glyphicon-plus
+                .col-sm-9
+                  %textarea.form-control{id: "blank-text{& topIndex &}", type: "text", ng-model: "question.instructions", ng-required: "true", :rows => 3}
+                  %p.help-block Pour ajouter un champ, appuyez sur le "+" à gauche
+              //Table-filling form
+              .form-group{ng-if: "question.type == \"fill-table-blanks\""}
+                .col-sm-2
+                  %label.control-label.col-sm-2 Tableau
+                .col-sm-10
+                  %p.help-block Appuyez sur "Générer les champs" une fois votre tableau prêt pour que les cases vides puissent être remplies par les élèves.
+                  %button.btn.btn-success.sm-margin{ng-click: "addColumnTableBlank(table)", type: "button"} Nouvelle colonne
+                  %div.table-responsive
+                    %table.fillparent{ng-init:"table = question.table"}
+                      %tr{ng-if: "table[0].length > 1"}
+                        %td
+                        %td{ng-repeat: "column in table[0] track by $index"}
+                          %button.btn.btn-danger.fillparent{type: "button",ng-click: "removeColumnTableBlank(table, $index)"}
+                            %span.glyphicon.glyphicon-remove
+                      %tr{ng-repeat: "row in table track by $index", ng-init: "x = $index.toString()"}
+                        %td
+                          %button.btn.btn-danger{type: "button", ng-if: "table.length > 1", ng-click: "removeRowTableBlank(table, x)"}
+                            %span.glyphicon.glyphicon-remove
+                        %td{ng-repeat: "column in row track by $index", ng-init:"y = $index.toString()"}
+                          %input.form-control{type: "text", ng-model: "table[x][y]", ng-change:"onQuestionTableChange(table)"}
+                      %tr
+                        %td
+                          %button.btn.btn-success{ng-click: "addRowTableBlank(table)", type: "button"}
+                            %span.glyphicon.glyphicon-plus                      	
+                        	
+              .form-group{ng-if : "question.type.startsWith(\"fill-\")"}
+                %label.control-label.col-sm-2 Réponses
+                .col-sm-10
+                	%span
+		                %button.btn.btn-success{ng-disabled:"question.type == \"fill-text-blanks\" && !isPlaceholder(question) || (question.type == \"fill-table-blanks\" && tableHasField(question.table))", id: 'parserField', ng-click: "parseFieldsInQuestion(topIndex, question)", type: "button"}
+		                  Générer les champs
+		                %p.help-block{ng-hide: "(question.type == \"fill-text-blanks\" && isPlaceholder(question))||(question.type == \"fill-table-blanks\" && !tableHasField(question.table))"} 
+		                	Aucun champ détecté
+                  %ul.list-group{ng-if: "question.type.startsWith(\"fill-\")"}
+                    %li.list-group-item{ng-repeat: "answer in question.answers", ng-init: "answerIndex = ($index+1).toString()"}
+                      %p
+                        %label.control-label Champ {& answerIndex &}
+                      %p
+                      .form-group
+                        .col-sm-2
+                          %label.small Type de réponse
+                        .col-sm-10
+                          %select.form-control{ng-model: "answer.type", ng-required: "true", ng-change: "wipeAnswersInField(question, answerIndex)"}
+                            %option{value: "text"} Réponse textuelle exacte
+                            %option{value: "math-simple"} Réponse mathématique simple
+                            %option{value: "math-advanced"} Réponse mathématique complexe
+                      %ul.list-group
+                        %li.list-group-item{ng-repeat: "possible in answer.answers", ng-init: "subAnswerIndex = $index.toString()"}
+                          Réponse possible
+                          .form-group
+                            .col-sm-10
+                              %input.form-control{ng-if: "answer.type == \"text\"",type: "text", ng-model: "possible.text", ng-required: "true"}
+
+                              %span{ng-if: "answer.type == \"math-simple\"", ng-required: "true"}
+                                %textarea.keyboard
+                                %span.mathquill{class: "mathquill-{& topIndex &} mathquill-{& topIndex &}-{& answerIndex-1 &}-{& subAnswerIndex &}", data-keyboard-type: "math-simple"}
+
+                              %span{ng-if: "answer.type == \"math-advanced\"", ng-required: "true"}
+                                %textarea.keyboard
+                                %span.mathquill{class: "mathquill-{& topIndex &} mathquill-{& topIndex &}-{& answerIndex-1 &}-{& subAnswerIndex &}", data-keyboard-type: "math-advanced"}
+
+                            .col-sm-1
+                              %button.btn.btn-danger.btn-sm{ng-click: "removeAnswerBlank(question, answerIndex, $index)", type: "button"}
+                                %span.glyphicon.glyphicon-remove
+                        %button.btn.btn-success{ng-click: "addBlankAnswer(topIndex, question, answerIndex)", type: "button"}
+                          Nouvelle réponse
+
+              //Module A end main block
               .form-group
                 %label.control-label.col-sm-2 Source(s)
                 .col-sm-10
@@ -101,8 +181,9 @@
                 %label.control-label.col-sm-2 Indication pour les professeurs
                 .col-sm-10
                   %input.form-control{type: "text", ng-model: "question.indication", ng-required: "false"}
+
             %ul.list-group
-              %li.list-group-item{ng-if: "question.type != \"professor\"", ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
+              %li.list-group-item{ng-if: "question.type != \"professor\"&& !question.type.startsWith(\"fill-\")", ng-repeat: "answer in question.answers", ng-init: "answerIndex = $index.toString()"}
                 .form-horizontal{ng-if: "question.type != \"graph\""}
                   .form-group
                     %label.col-sm-2.control-label Réponse possible :
@@ -117,7 +198,7 @@
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
-                  .form-group.no-bottom{ng-if: "question.type != \"text\" && ! question.type.startsWith(\"math\")"}
+                  .form-group.no-bottom{ng-if: "question.type != \"text\" && question.type != \"fill-text-blanks\" && ! question.type.startsWith(\"math\")"}
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
@@ -132,7 +213,7 @@
                     .col-sm-1
                       %button.btn.btn-danger.btn-sm{ng-click: "removeAnswer(question, answer)", type: "button"}
                         %span.glyphicon.glyphicon-remove
-                  -# ng-if: point
+		              -# ng-if: point
                   .form-group{ng-if: "answer.graph.type == \"point\""}
                     %label.control-label.col-sm-2 Coordonnées
                     .form-inline.col-sm-10
@@ -143,7 +224,8 @@
                         .input-group-addon Y
                         %input.form-control{type: "number", ng-required: "true", placeholder: "0", ng-model: "answer.graph.coordinates.Y"}
 
-            %button.btn.btn-success.btn-sm{ng-if: "question.type != \"professor\"", ng-click: "addAnswer(topIndex, question)", type: "button"}
+
+            %button.btn.btn-success.btn-sm{ng-if: "question.type != \"professor\" && !question.type.startsWith(\"fill-\")", ng-click: "addAnswer(topIndex, question)", type: "button"}
               %span.glyphicon.glyphicon-plus
               nouvelle réponse possible
 
@@ -177,12 +259,20 @@
             %div{ng-bind-html: "htmlRendering"}
 
           #exercice-rendering-yaml{ng-if: "yamlRendering != \"\"", ng-bind-html: "yamlRendering"}
-
   :css
     body {
       padding-bottom: 200px;
     }
+    #question_table{
+      border: 1px solid lightgrey;
+    }
 
+    .fillparent {
+      width : 100% !important;
+    }
+    .sm-margin{
+      margin-bottom : 5px
+    }
     .hidden-math-form {
       display: inline;
 }

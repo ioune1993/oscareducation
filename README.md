@@ -1,5 +1,12 @@
 # Development environment
 
+## Group 6 Status
+
+[![Build Status](https://travis-ci.org/nbyouri/oscareducation.svg?branch=master)](https://travis-ci.org/nbyouri/oscareducation)
+[![Coverage Status](https://coveralls.io/repos/github/nbyouri/oscareducation/badge.svg?branch=coverage)](https://coveralls.io/github/nbyouri/oscareducation?branch=coverage)
+
+See further for information about our part of the project.
+
 ## Installation
 
 ### Database
@@ -100,3 +107,31 @@ the modules described in the .rst files, located in the
 
 The `conf.py` file in the `documentation/source` contains the
 configuration for the `sphinx` tool.
+
+# Notes of Group 6
+
+## About Testing Env
+
+### General Setup and Requirements
+- If you use Posix, install requirements-group6.txt. See further for Windows
+- Make sure you have PhantomJS installed and in your path environment variable!
+- In your Postgres, please allow user oscar to drop and create databases as the testing framework use a disposable testing db
+- Add a configuration selecting "Behave"
+- If you want to run the tests in PyCharm, go in Settings/Language & Framework/BDD and select Behave
+
+## Usage
+
+Just run your tests with Behave within Pycharm or run `behave` in your terminal in the project's root.
+
+### BDD Testing Framework
+Behave is the testing framework used.
+See http://pythonhosted.org/behave/ for further documentation.
+
+### POM DSL
+Still not found, but should be highly interesting to find an equivalent of
+the combination Capybara-SitePrism of Rails in order to abstract the test steps.
+
+### Integrity errors - FactoryBoy
+Please be careful when creating factories with FactoryBoy, respect the integrity constraints
+by using SubFactories or other RelatedFactories.
+http://factoryboy.readthedocs.io/en/latest/

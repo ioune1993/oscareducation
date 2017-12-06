@@ -27,14 +27,14 @@
       .container-fluid.boxclassetitle
 
         .pull-right
-          %a.icon.new-class{href: "{% url 'professor:lesson_add' %}", data-toggle: "tooltip", data-placement: "top", title: "Ajouter une classe"}
+          %a.icon.new-class{href: "{% url 'professor:lesson_add' %}", data-toggle: "tooltip", id: "id_add_lesson", data-placement: "top", title: "Ajouter une classe"}
 
       .ligneorangefine
 
       .container-fluid.boxclasse
         .list-group
           -for lesson in lessons
-            %a.list-group-item{href: "{% url 'professor:lesson_detail' lesson.pk %}"}
+            %a.list-group-item{href: "{% url 'professor:lesson_detail' lesson.pk %}", data-purpose: "class-button"}
               =lesson.name|capfirst
 
           -empty

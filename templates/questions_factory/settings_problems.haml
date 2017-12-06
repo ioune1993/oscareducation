@@ -1,0 +1,48 @@
+-extends "base.haml"
+
+-load bootstrap3
+
+-block content
+  .panel.panel-default
+    .panel-heading{id: "id_question_generator"} Outil de création de questions
+    -if form.errors
+      .alert.alert-danger{:id => "id_error_panel"}
+        -for field in form
+          -if field.errors
+            =field.label_tag
+            =field.errors
+
+    .panel-body
+      .left.column
+
+      %form#parameters-form{action: "{{ app_path }}", method: "POST", role: "form"}
+        -csrf_token
+
+        -for field in form
+          -if field.name in mask_field
+            .form-group
+              =field.label_tag
+              =field
+        %hr
+        #container-settings
+          -include 'questions_factory/_generator_form.haml'
+
+-block javascript
+  :javascript
+    function get_form() {
+      $.ajax({
+          type: 'GET',
+          url: "form/" + $("#id_generator_name").val() + "/"
+        }).done(function ( data ) {
+           $( "#container-settings" ).html( data );
+        });
+    }
+
+    $('#id_generator_name').on('change', function(){
+        get_form();
+      });
+    {% if valid %}
+      $(function() {
+         get_form();
+      });
+    {% endif %}

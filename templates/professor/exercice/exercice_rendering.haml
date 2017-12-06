@@ -6,7 +6,8 @@
   -csrf_token
   -for label, question in questions.items
     .form-group
-      %label{for: "{{ forloop.counter0 }}"}= label|safe
+      -if question.type != "fill-text-blanks"
+        %label{for: "{{ forloop.counter0 }}"}= label|safe
       -if question.type == "text"
         %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off", disabled:"disabled"}
       -elif question.type == "math" or question.type == "math-simple" or question.type == "math-advanced"
@@ -36,8 +37,39 @@
             %input.hidden{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
       -elif question.type == "professor"
         %i A corriger par le professeur
+      -elif question.type == "fill-text-blanks"
+        -with toploop_counter0=forloop.counter0
+          -for ans in question.answers
+            =ans.text.0
+            -with inloop_counter0=forloop.counter0
+              -if ans.type == "math" or ans.type  == "math-simple" or ans.type  == "math-advanced"
+                %span
+                  %textarea.keyboard
+                  %span.mathquill{data-keyboard-type: "{{ ans.type }}", style: "width:241px"}
+                  %input.hidden-math-form{id: "fill-{{ toploop_counter0 }}-{{ inloop_counter0 }}", name: "fill-{{ toploop_counter0 }}-{{ inloop_counter0 }}", type: "text", autocomplete: "off",  disabled:"disabled"}
+              -else
+                %input{id: "fill-{{ toploop_counter0 }}-{{ inloop_counter0 }}", name: "fill-{{ toploop_counter0 }}-{{ inloop_counter0 }}", type: "text", autocomplete: "off",  disabled:"disabled"}
+            =ans.text.1
+      -elif question.type == "fill-table-blanks"
+        -with toploop_counter0=forloop.counter0
+          %table.table.table-bordered{style: "table-layout:fixed"}
+            %tbody
+            -for row in question.table
+              %tr
+              -for col in row
+                -if col.blank
+                  %td
+                    -if col.blank.type == "math" or col.blank.type  == "math-simple" or col.blank.type  == "math-advanced"
+                      %span
+                        %textarea.keyboard
+                        %span.mathquill{data-keyboard-type: "{{ col.blank.type }}", style: "width:100%"}
+                        %input.hidden-math-form{id: "fill-{{ toploop_counter0 }}-{{ col.index }}", name: "fill-{{ toploop_counter0 }}-{{ col.index }}", type: "text", autocomplete: "off",  disabled:"disabled", style: "width:100%"}
+                    -else
+                      %input{id: "fill-{{ toploop_counter0 }}-{{ col.index }}", name: "fill-{{ toploop_counter0 }}-{{ col.index }}", type: "text", autocomplete: "off",  disabled:"disabled", style: "width:100%"}
+                -else
+                  %td= col.text
       -else
-        =question.type
+        ="test"
 
   %input.btn.btn-primary{type: "submit", value: "Répondre", disabled:"disabled"}
 

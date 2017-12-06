@@ -1,0 +1,12 @@
+-# Partial template
+-for field in form
+  -if field.name not in mask_field
+    .form-group
+      =field.label_tag
+      =field
+
+.submit-row
+  %label
+    &nbsp
+  %input.btn.btn-primary.btn-block.center{type: "submit", value: "Créer", id: "id_generate_button"}
+
