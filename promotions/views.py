@@ -49,6 +49,14 @@ from .forms import LessonForm, StudentAddForm, SyntheseForm, KhanAcademyForm, St
 from .utils import generate_random_password, user_is_professor, force_encoding
 import csv
 from django.http import JsonResponse
+from users.models import Student, Professor
+from rating.models import Question as RatingQuestion
+from rating.models import Rating, Star_rating
+from django.conf import settings
+from django.forms import model_to_dict
+
+from train.models import Scenario
+from train.models import ScenaSkill
 
 
 @user_is_professor
@@ -59,11 +67,37 @@ def dashboard(request):
     :param request:
     :return:
     """
+    prof = None
+    if Professor.objects.filter(user_id=request.user.id):
+        prof = Professor.objects.get(user_id=request.user.id)
+
+    obj2 = None
+    if prof is not None:
+        if prof.status is not None:
+            obj = json.loads(prof.status)
+            try:
+                obj["name"]
+            except KeyError:
+                obj["name"] = None
+            try:
+                obj["icon"]
+            except KeyError:
+                obj["icon"] = "/static/img/status6.png"
+            obj2 = prof.status_changed
+            prof.status_changed = 0
+            prof.save()
+        else:
+            obj = {}
+            obj["name"] = None
+            obj["icon"] = "/static/img/status6.png"
     return render(request, "professor/dashboard.haml", {
         "lessons": Lesson.objects.filter(professors=request.user.professor).annotate(Count("students")).select_related(
             "stage"),
         "no_menu": True,
-    })
+        "name": obj["name"],
+        "icon": obj["icon"],
+        "status_changed": obj2,
+        })
 
 
 @user_is_professor
@@ -116,11 +150,33 @@ def lesson_detail(request, pk):
             print e
             print "Error: could no calculate heatmap"
 
-    return render(request, "professor/lesson/detail.haml", {
-        "lesson": lesson,
-        "number_of_students": number_of_students,
-        "skills_to_heatmap_class": skills_to_heatmap_class,
-    })
+    dico = {}
+    dico["lesson_number"] = pk
+    dico["own_scenarios"]=[]
+    dico["skills"]=[]
+    # test d recup de date dans la db
+    for s in Scenario.objects.filter(creator = request.user):
+
+        dico["own_scenarios"].append({"id":s.id,"sequence":s.title, "skill":s.skill, "topic":s.topic, "grade":s.grade_level,"edit":"","delete":"","see":""})
+        for sk in ScenaSkill.objects.filter(id_scenario = s.id):
+            dico["skills"].append({"id":s.id,"skillcode":sk.code_skill})
+
+
+
+    dico["foreign_scenarios"] = []
+
+    for s in Scenario.objects.exclude(creator = request.user).filter(public = True):
+        dico["foreign_scenarios"].append({"id":s.id,"sequence":s.title, "skill":s.skill, "topic":s.topic, "grade":s.grade_level,"edit":"","delete":"","see":""})
+        for sk in ScenaSkill.objects.filter(id_scenario = s.id):
+            dico["skills"].append({"id":s.id,"skillcode":sk.code_skill})
+    # old line = dico["headline"] = ["Title", "Type of exercice", "Topic", "Grade Level", "Actions"]
+    dico["headline"] = ["Titre", "Competence(s)", "Thematique", "Niveau", "Actions"]
+
+    dico.update({"lesson": lesson,
+                "number_of_students": number_of_students,
+                "skills_to_heatmap_class": skills_to_heatmap_class})
+
+    return render(request, "professor/lesson/detail.haml", dico)
 
 
 @user_is_professor
@@ -170,7 +226,7 @@ def lesson_update(request, pk):
 @user_is_professor
 def lesson_student_add(request, pk):
     """
-    Add one or more students to a lesson : either with an XLS file (template provided) or manually 
+    Add one or more students to a lesson : either with an XLS file (template provided) or manually
 
     :param request:
     :param pk: primary key of a Lesson
@@ -307,7 +363,7 @@ def lesson_student_detail(request, lesson_pk, pk):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param pk: primary key of a Student
-    :return: 
+    :return:
     """
     # TODO: a professor can only see one of his students
 
@@ -327,7 +383,7 @@ def lesson_student_update(request, lesson_pk, pk):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param pk: primary key of a Student
-    :return: 
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     student = get_object_or_404(Student, pk=pk)
@@ -357,7 +413,7 @@ def lesson_student_test_detail(request, pk, lesson_pk, test_pk):
     :param pk: primary key of a Student
     :param lesson_pk: primary key of a Lesson
     :param test_pk: primary key of a Test
-    :return: 
+    :return:
     """
     # TODO: a professor can only see one of his students
 
@@ -567,8 +623,8 @@ def lesson_test_list(request, pk):
     Query a Lesson to display its associated tests
 
     :param request:
-    :param pk: primary key of a Lesson 
-    :return: 
+    :param pk: primary key of a Lesson
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -585,7 +641,7 @@ def lesson_test_add(request, pk):
 
     :param request:
     :param pk: primary key of a Lesson
-    :return: 
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -602,7 +658,7 @@ def lesson_test_update(request, lesson_pk, pk):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param pk: primary key of a BaseTest
-    :return: 
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     test = get_object_or_404(BaseTest, pk=pk)
@@ -630,7 +686,7 @@ def lesson_skill_detail(request, lesson_pk, skill_code):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param skill_code: code of a Skill
-    :return: 
+    :return:
     """
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
     skill = get_object_or_404(Skill, code=skill_code)
@@ -659,7 +715,7 @@ def regenerate_student_password(request):
     Regenerate a password for a student
 
     :param request:
-    :return: 
+    :return:
     """
     # TODO : TO DELETE ?
     data = json.load(request)
@@ -688,10 +744,10 @@ def get_encoded_image(encoded_image=None):
 def update_pedagogical_ressources(request, type, id):
     """
     Display a form to update a Resource
-    :param request: 
+    :param request:
     :param id: id of a Skill, Section or CodeR
     :param type: string containing either "skill", "section" or "coder"
-    :return: 
+    :return:
     """
 
     if request.method == "POST" and request.POST["form_type"] == "my_resource":
@@ -798,6 +854,24 @@ def update_pedagogical_ressources(request, type, id):
     resource_form = ResourceForm()
     KhanAcademy_form = KhanAcademyForm()
     Sesamath_form = SesamathForm()
+    
+    rated_res = {}
+    """All resource id from the page!"""
+    for item in base.resource.all():
+        resource = Resource.objects.get(pk=item.id)
+        st,p = resource.average()
+
+        r = Rating.objects.filter(resource=item.id,rated_by=request.user)
+        s = Star_rating.objects.filter(resource=item.id,rated_by=request.user)
+        if r.exists() & s.exists():
+            if s.count() != 1:
+                print "Error more than 1 star rating for 1 resource"
+            rated_res[item.id] = {}
+            rated_res[item.id]["prof"] = p
+            rated_res[item.id]["stud"] = st
+            print(str(p)+""+str(st))
+            for rr in r:
+                rated_res[item.id][rr.question.id] = rr.value
 
     personal_resource = base.resource.filter(section="personal_resource")
     lesson_resource = base.resource.filter(section="lesson_resource")
@@ -1009,6 +1083,7 @@ def update_pedagogical_ressources(request, type, id):
     sesamath_references_manuals = Sesamath.objects.filter(ressource_kind__iexact="Manuel")
     sesamath_references_cahiers = Sesamath.objects.filter(ressource_kind__iexact="Cahier")
 
+
     return render(request, "professor/skill/update_pedagogical_resources.haml", {
         "sesamath_references_manuals": sesamath_references_manuals,
         "sesamath_references_cahier": sesamath_references_cahiers,
@@ -1036,6 +1111,7 @@ def update_pedagogical_ressources(request, type, id):
         "sori_coder_lesson_resource_sesamath": sori_coder_lesson_resource_sesamath,
         "sori_coder_lesson_resource_khanacademy": sori_coder_lesson_resource_khanacademy,
         "sori_coder_exercice_resource_sesamath": sori_coder_exercice_resource_sesamath,
+        "rated_resources": rated_res,
     })
 
     # TODO : TO DELETE
@@ -1176,13 +1252,13 @@ def update_pedagogical_ressources(request, type, id):
 @user_is_professor
 def remove_pedagogical_ressources(request, type, id_type, kind, id):
     """
-    Remove a Sesamath, KhanAcademy or Resource object 
-    :param request: 
+    Remove a Sesamath, KhanAcademy or Resource object
+    :param request:
     :param type: contains "skill", "section" or "coder"
     :param id_type: id of Skill, Section or CodeR
-    :param kind: value equal either to "sesamath", "khanAcademy" or "resource" 
+    :param kind: value equal either to "sesamath", "khanAcademy" or "resource"
     :param id: id of a Resource
-    :return: 
+    :return:
     """
     if not Resource.objects.filter(id=id):
         print "The resource doesn't exist (kind : %s, id : %s)" % (kind, id)
@@ -1218,7 +1294,7 @@ def validate_student_skill(request, lesson_pk, student_skill):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param student_skill: id of a StudentSkill
-    :return: 
+    :return:
     """
     # TODO: a professor can only do this on one of his students
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
@@ -1244,7 +1320,7 @@ def unvalidate_student_skill(request, lesson_pk, student_skill):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param student_skill: id of a StudentSkill
-    :return: 
+    :return:
     """
     # TODO: a professor can only do this on one of his students
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
@@ -1270,7 +1346,7 @@ def default_student_skill(request, lesson_pk, student_skill):
     :param request:
     :param lesson_pk: primary key of a Lesson
     :param student_skill: id of a StudentSkill
-    :return: 
+    :return:
     """
     # TODO: a professor can only do this on one of his students
     lesson = get_object_or_404(Lesson, pk=lesson_pk)
@@ -1290,10 +1366,10 @@ def default_student_skill(request, lesson_pk, student_skill):
 @user_is_professor
 def lesson_tests_and_skills(request, lesson_id):
     """
-    
-    :param request: 
-    :param lesson_id: id of a Lesson 
-    :return: 
+
+    :param request:
+    :param lesson_id: id of a Lesson
+    :return:
     """
     # TODO: a professor can only see one of his lesson
 
@@ -1333,7 +1409,7 @@ def exercice_to_approve_list(request):
 @user_is_professor
 def students_password_page(request, pk):
     """
-    Regenerate a code for every student of a lesson (to allow him/her to create a new password)    
+    Regenerate a code for every student of a lesson (to allow him/her to create a new password)
     """
     lesson = get_object_or_404(Lesson, pk=pk)
 
@@ -1356,7 +1432,7 @@ def students_password_page(request, pk):
 @user_is_professor
 def single_student_password_page(request, lesson_pk, student_pk):
     """
-    Regenerate a code for a student (to allow him/her to create a new password)    
+    Regenerate a code for a student (to allow him/her to create a new password)
     """
 
     students = []
@@ -1400,6 +1476,12 @@ def exercice_validation_form_validate_exercice(request):
                 "answers": question["answers"],
             }
 
+        elif question["type"].startswith("chart"):
+            questions[question["instructions"]] = {
+                "type": question["type"],
+                #GROUPE 7 on enregistre dans la BD
+                "answers": [x["chart"] for x in question["answers"]],
+            }
         # No provided answer if corrected by a Professor
         elif question["type"] == "professor":
             questions[question["instructions"]] = {
@@ -1548,6 +1630,44 @@ def exercice_validation_form_submit(request, pk=None):
                     "answers": "",
                 }
 
+            #Group 7
+            elif question["type"] == "chart-barchart":
+                answers = []
+
+                for answer in question["answers"]:
+                    if "latex" in answer:
+                        del answer["latex"]
+                    if "correct" in answer:
+                        del answer["correct"]
+                    if "text" in answer:
+                        del answer["text"]
+                    if "graph" in answer:
+                        del answer["graph"]
+                    answers.append(answer)
+
+                new_question_answers = {
+                    "type": question["type"],
+                    "answers": question["answers"],
+                }
+
+            #Group 7
+            elif question["type"] == "chart-piechart":
+                answers = []
+
+                for answer in question["answers"]:
+                    if "latex" in answer:
+                        del answer["latex"]
+                    if "correct" in answer:
+                        del answer["correct"]
+                    if "text" in answer:
+                        del answer["text"]
+                    answers.append(answer)
+
+                new_question_answers = {
+                    "type": question["type"],
+                    "answers": question["answers"],
+                }
+
             else:
                 answers = CommentedMap()
                 for i in question["answers"]:
@@ -1616,7 +1736,7 @@ def exercice_validation_form_validate_exercice_yaml(request):
     return HttpResponse(json.dumps({
         "yaml": {
             "result": "success",
-            "message": "L'exercice semble valide",
+            "message": "L'exercice semble valide ",
         },
         "rendering": rendering.content,
     }, indent=4), content_type="application/json")
@@ -1659,10 +1779,10 @@ def exercice_update(request, pk):
 @user_is_professor
 def exercice_update_json(request, pk):
     """
-    
-    :param request: 
-    :param pk: primary key of a Context 
-    :return: 
+
+    :param request:
+    :param pk: primary key of a Context
+    :return:
     """
     context = get_object_or_404(Context, pk=pk)
 
@@ -1681,6 +1801,8 @@ def exercice_update_json(request, pk):
             answers = question.get_answer()["answers"]
         elif question_type == "professor":
             answers = ""
+        elif question_type.startwith("chart"):
+            answers = question.get_answer()["answers"]
         elif isinstance(question.get_answer()["answers"], list):
             answers = [{"text": key, "correct": True} for key in question.get_answer()["answers"]]
         else:  # assuming dict
@@ -1705,10 +1827,10 @@ def exercice_update_json(request, pk):
 def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
     """
     Add an exercice for a test
-    :param request: 
+    :param request:
     :param exercice_pk: primary key of an exercice
     :param test_exercice_pk: primary key of a TestExercice
-    :return: 
+    :return:
     """
     exercice = get_object_or_404(Context, pk=exercice_pk)
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
@@ -1729,10 +1851,10 @@ def exercice_for_test_exercice(request, exercice_pk, test_exercice_pk):
 @user_is_professor
 def exercice_adapt_test_exercice(request, test_exercice_pk):
     """
-    
-    :param request: 
+
+    :param request:
     :param test_exercice_pk: primary key of a TestExercice
-    :return: 
+    :return:
     """
     test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)
     exercice = test_exercice.exercice
@@ -1789,10 +1911,10 @@ def exercice_remove_test_exercice(request, test_exercice_pk):
 @user_is_professor
 def contribute_page(request):
     """
-    Display a ResourceForm or submit it 
+    Display a ResourceForm or submit it
 
     :param request:
-    :return: 
+    :return:
     """
     data = {x.short_name: x for x in Stage.objects.all()}
 
@@ -1820,7 +1942,7 @@ def global_resources_delete(request, pk):
 
     :param request:
     :param pk: primary key of a Resource
-    :return: 
+    :return:
     """
     gr = get_object_or_404(Resource, pk=pk)
 
@@ -1870,3 +1992,123 @@ def enseign_trans(request):
     data["code_r"] = CodeR.objects.all().order_by('id')
     data["section"] = Section.objects.all()
     return render(request, "professor/skill/new-list-trans.haml", data)
+
+
+def create_rate(request,type,id):
+    if request.method == 'POST':
+        json_str = request.POST.get('json_str')
+
+        response_data = {}
+        try:
+            dict = json.loads(json_str)
+        except ValueError, e:
+            print "Invalid JSON received"
+            return HttpResponse(json.dumps(response_data),content_type="application/json")
+        r_id = int(dict["id"])
+        try:
+            resource = Resource.objects.get(pk=r_id)
+        except Resource.DoesNotExist:
+            print "Error: resource doensn't exist"
+            return
+        stars = 0.0
+        count = 0
+        for item in dict["rated"]:
+            q = RatingQuestion.objects.get(pk=int(item))
+            resource.add_rating(question=q, value=float(dict["rated"][item]), user=request.user)
+            count +=1
+            stars += float(dict["rated"][item])
+            response_data[int(item)] = resource.get_votes_question(question=q)
+        if count != 0:
+            if dict["comment"].strip() != "":
+                resource.add_star(stars/count, request.user,comment=dict["comment"].strip())
+            else:
+                resource.add_star(stars/count, request.user)
+        # Fill response data with average for each question of that resource
+            #EMPTY for now
+        return HttpResponse(
+            json.dumps(response_data),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({"nothing to see": "this isn't happening"}),
+            content_type="application/json"
+        )
+
+
+def get_rate_vote(request,type,id):
+    if request.method == 'POST':
+        dicty = {}
+        id = int(request.POST.get('id'))
+        try:
+            Professor.objects.get(user=request.user)
+            prof_or_stud = 0
+        except Professor.DoesNotExist:
+            try:
+                Student.objects.get(user=request.user)
+                prof_or_stud = 1
+            except Student.DoesNotExist:
+                print "Error: the user is no a student nor a professor"
+                prof_or_stud = -1
+
+        if prof_or_stud == 0:
+            questions = RatingQuestion.objects.filter(type=0)
+        elif prof_or_stud == 1:
+            questions = RatingQuestion.objects.filter(type=1)
+        else:
+            questions = {}
+        dicty["data"] = {}
+        resource = Resource.objects.get(pk=id)
+        s,p = resource.average()
+        dicty["professor"] = s
+        dicty["student"] = p
+        for q in questions:
+            dicty["data"][int(q.id)] = []
+            dicty["data"][int(q.id)].append(q.question_statement)
+            r = Rating.objects.filter(question=q,resource=id,rated_by=request.user)
+            if r.exists():
+                stars = r.first().value
+                dicty["data"][int(q.id)].append(int(stars))
+            else:
+                dicty["data"][int(q.id)].append(0)
+        s = Star_rating.objects.filter(rated_by=request.user,resource=id)
+        if (s.exists() and s.count() == 1):
+            dicty["comment"] = s.first().comment
+        else:
+            dicty["comment"] = ""
+        if len(dicty["data"]) <= 0:
+            print("NO questions found in DB")
+        return HttpResponse(
+            json.dumps(dicty),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({}),
+            content_type="application/json"
+        )
+
+def get_average(request,type,id):
+    if request.method == 'POST':
+        id = int(request.POST.get('id'))
+        type = str(request.POST.get('type'))
+        try:
+            r = Resource.objects.get(pk=id)
+        except Resource.DoesNotExist:
+            r = None
+        questions = r.get_question_voted(type)
+        votes = {}
+        for qid in questions:
+            votes[qid] = []
+            votes[qid].append(r.get_average_votes_question(qid,type))
+            votes[qid].append(RatingQuestion.objects.get(pk=qid).label)
+
+        return HttpResponse(
+            json.dumps(votes),
+            content_type="application/json"
+        )
+    else:
+        return HttpResponse(
+            json.dumps({}),
+            content_type="application/json"
+        )

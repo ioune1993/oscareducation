@@ -246,7 +246,7 @@
                                         %tr
                                           %td.right-border{width: "50%"}
                                             -for j in student_answer
-                                              =j
+                                             radio =j
                                           %td{width: "50%"}
                                             %ul
                                               -for x, y in question.get_graph_points
@@ -256,6 +256,10 @@
                                                   ;
                                                   =y
                                                   )
+                                      -#-elif type == "chart-barchart"
+                                        -# Group 7
+                                        %p (Group 07) File 'templates/professor/lesson/student/test/detail.haml' doesn't contain information to display here.
+                                      -#-elif type == "chart-piechart"
                                 %a.btn.btn-default.infos{id: "{{ question.id }}"} Afficher les sources/informations
                                 %p.hiddeninfo{id: "source_{{ question.id }}"}
                                   %u Source(s) :

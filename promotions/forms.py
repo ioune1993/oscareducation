@@ -9,7 +9,6 @@ from examinations.models import BaseTest
 
 from .models import Lesson
 
-
 class LessonForm(forms.ModelForm):
     class Meta:
         model = Lesson

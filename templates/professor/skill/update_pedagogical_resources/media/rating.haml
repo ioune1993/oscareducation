@@ -1,0 +1,110 @@
+-load static
+-load rating_tags
+-load compress
+
+%div.small.rating{id:"big{{resource.id}}", owner:"{% owner request.user resource.added_by 'true' 'false' %}",style:"cursor: default;"}
+  %table
+    %th
+      %div
+        %img{class:"pop{{resource.id}}",id: "star{{ resource.id }}", data-placement:"top",data-toggle:"popover",src: "https://d30y9cdsu7xlg0.cloudfront.net/png/431-200.png",style:"height:20px;width:height;"}
+    %th
+      %div{id:"ratingtext{{resource.id}}"}
+        Note
+  %link{href: "{% static 'StarRating.css' %}",rel: "stylesheet"}
+  %link{href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",rel: "stylesheet"}
+    %div.hidden{id:"tooltip{{resource.id}}"}
+      %table{cellspacing:"20"}
+        %th
+          %div{id:"questionnaire", onclick:"showQ({{resource.id}})"}
+            %img{id: "img{{resource.id}}",src: "{% static 'q.png' %}",style:"height:50px;width:height;"}
+          %p Vote
+        %th
+          %div{id:"BoardIcon", onclick:"showProfAvg({{resource.id}},this)"}
+            %div{id:"EmptyBoard"}
+              %img{style:"width: 100%; height: 100%;", src:"{% static 'blackboard1.png' %}" }
+            %div{id:"fillBoard"}
+              %img{style:"width: 50px; height: 50px;", src:"{% static 'blackboard2.png' %}" }
+          %p{id:"profavg"}
+            {% get_average_rated_dict rated_resources resource.id "prof" %}%
+        %th
+          %div{id:"HatIcon", onclick:"showStudAvg({{resource.id}},this)"}
+            %div{id:"EmptyHat"}
+              %img{src: "{% static 'student_hat1.png' %}",style:"height:100%;width:100%;"}
+            %div{id:"fillHat"}
+              %img{src: "{% static 'student_hat2.png' %}",style:"height:50px;width:50px;"}
+          %p{id:"studavg"}
+            {% get_average_rated_dict rated_resources resource.id "stud" %}%
+  %div.small
+  -if resource.added_by == request.user
+    Vous ne pouvez pas voter votre propre resource
+  -else
+    -if resource.id in rated_resources
+      Merci pour votre vote. Cliquer pour le modifier
+  -block javascript
+    -compress js
+      %script{src: "{% static 'jquery-3.2.1.min.js' %}"}
+      %script{src: "{% static 'questionnaire.js' %}"}
+      %script{src: "{% static 'jquery.canvasjs.min.js' %}"}
+    :javascript
+      var t = '{{rated_resources|get_json|safe}}';
+      var popup = null;
+      $(document).ready(function(){
+          setratedresources(t);
+          $(".pop"+{{resource.id}}).popover({
+            focus: true,
+            trigger: "manual",
+            html: true,
+            animation:false,
+            content: $("#tooltip"+{{resource.id}}).html()
+          });
+          $("#big"+{{resource.id}}).click(function(e) {
+              initFunctions();
+		      var fill_board = 0;
+		      var update_board = setInterval(function()
+                {
+                    fill_board += 1;
+                    $("#big"+{{resource.id}}).find('#fillBoard').css('height', (fill_board+'%'));
+                    //$('#fillIcon').css('margin-top', ((100 - fill)+'%'));
+                    var v = $("#big"+{{resource.id}}).find("#profavg").html();
+                    v = v.replace("%","");
+                    if (fill_board >= parseFloat(v)) {
+                        clearInterval(update_board);
+                    }
+
+                    }, 10);
+
+                var fill_hat = 0;
+                var update_hat = setInterval(function()
+                {
+                    fill_hat += 1;
+                    $("#big"+{{resource.id}}).find('#fillHat').css('height', (fill_hat+'%'));
+                    var v = $("#big"+{{resource.id}}).find("#studavg").html();
+                    v = v.replace("%","");
+                    //$('#fillIcon').css('margin-top', ((100 - fill)+'%'));
+                    if (fill_hat >= parseFloat(v) ) {
+                        clearInterval(update_hat);
+                    }
+
+                    }, 10);
+              var owner = $("#big"+{{resource.id}}).attr('owner');
+              e.stopPropagation();
+              if (popup != null){
+                  popup.next().remove();
+                  popup = null;
+              } else {
+                if ($("#popupdiv").length <= 0) {
+                  if ($("#questions").length <=0) {
+                    popup = $("#star"+{{ resource.id}});
+                    popup.popover("show");
+                  } else {
+                    $("#questions").remove();
+                    popup = $("#star"+{{ resource.id}});
+                    popup.popover("show");
+                  }
+                  if (owner=="true") {
+                    $("#img"+{{resource.id}}).addClass('grey');
+                  }
+                }
+              }
+          });
+        });

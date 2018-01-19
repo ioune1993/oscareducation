@@ -1,0 +1,78 @@
+-# -extends "base.haml"
+
+-load static
+-load compress
+
+-block content
+    .ligneorange
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/static/css/train/stylesheet_train.css"}
+    %script{:src => "/static/js/train/list_scenario.js"}
+    #whiteBoxListScenario
+        #parameters.blk
+            %h1 Mes Scénarios
+            -#%p #{dico}
+
+            %table.table.no-border
+                %tbody.mylist
+                    %tr#headline
+                        -# %p {{data}}
+                        -for st in headline
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st}
+
+                    -for st in own_scenarios
+
+                        %tr#contentlist.mycontentlist
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st.sequence}
+                            %td{:width => "20%"}
+                                %p.skillList{:dico => "tab"}
+                                    -for sk in skills
+                                        -if sk.id == st.id
+                                            #{sk.skillcode}
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st.topic}
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st.grade}
+                            %td{:width => "20%"}
+                                %a{:href => "/professor/train/lesson/#{lesson_number}/create_scenario/#{st.id}"}
+                                    %img.icon{:alt => "Editer le scénario",:width => "25%", :height => "25%",src: "{% static 'img/icons/modify.png' %}", data-toggle: "tooltip", data-placement: "top", title: "modifier"}
+                                %a{:data => "#{st.id}", :href => "#", :onclick => "return ConfirmDelete(this)"}
+                                    %img.icon{:data => "#{st.id}", :alt => "Supprimer le scénario",:width => "25%", :height => "25%",src: "{% static 'img/icons/delete.png' %}", data-toggle: "tooltip", data-placement: "top", title: "supprimer"}
+                                %a{:href => "/professor/train/#{lesson_number}/make_scenario/#{st.id}"}
+                                    %span.glyphicon.glyphicon-play{title:"jouer"}
+
+        #addScenarioButton.blk
+            %a.btn.btn-primary#addElement{:href => "/professor/train/lesson/#{lesson.pk}/create_scenario/"} Créer un autre scénario
+        .ligneorange
+        #parameters.blk
+            %h1 Les scénarios d'autres professeurs
+            -#%p #{dico}
+
+            %table.table.no-border
+                %tbody.otherlist
+                    %tr#headline
+                        -# %p {{data}}
+                        -for st in headline
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st}
+
+                    -for st in foreign_scenarios
+
+                        %tr#contentlist.othercontentlist
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st.sequence}
+                            %td{:width => "20%"}
+                                %p.skillForeignerList{:dico => "tab"}
+                                    -for sk in skills
+                                        -if sk.id == st.id
+                                            #{sk.skillcode}
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st.topic}
+                            %td{:width => "20%"}
+                                %p{:dico => "tab"} #{st.grade}
+                            %td{:width => "20%"}
+                                %a{:href => "/professor/train/#{lesson_number}/make_scenario/#{st.id}"}
+                                    %span.glyphicon.glyphicon-play{title:"jouer"}
+                                %a{:href => "/professor/train/lesson/#{lesson_number}/create_scenario/#{st.id}"}
+                                    %span.glyphicon.glyphicon-copy{title:"Dupliquer"}

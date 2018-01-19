@@ -5,7 +5,9 @@
 -block head
   -compress js
     %script{type: "text/javascript", src: "{% static 'js/professor_validate_exercice.js' %}"}
-
+    %script{type: "text/javascript", src: "{% static 'js/barchart.js' %}"}
+    %script{type: "text/javascript", src: "{% static 'js/piechart.js' %}"}
+    %script{type: "text/javascript", src: "{% static 'js/previsualize_chart_from_page.js' %}"}
 -block breadcrumb
   %ol.breadcrumb
     %li
@@ -91,7 +93,11 @@
                     %option{value: "math-advanced"} Réponse mathématique avancée
                     %option{value: "radio"} Une seule réponse unique possible parmi toutes (radio)
                     %option{value: "checkbox"} Question à choix multiples (checkbox)
-                    %option{value: "graph"} Réponse sur un graphique
+                    %option{value: "graph"} Réponse sur un graphe
+                    -# Group 7
+                    %optgroup{label: "Graphiques"}
+                      %option{value: "chart-barchart"} Réponse sur un graphique en bâtonnets
+                      %option{value: "chart-piechart"} Réponse sur un graphique circulaire
                     %option{value: "professor"} Réponse corrigée par le professeur
               .form-group
                 %label.control-label.col-sm-2 Source(s)
@@ -121,6 +127,81 @@
                     %label.control-label.col-sm-2 Réponse correcte ?
                     .col-sm-1
                       %input.form-control{type: "checkbox", ng-change: "question.type == \"radio\" && answer.correct === true && onChangeRadio(question, answer)", ng-model: "answer.correct"}
+
+                .form-horizontal{ng-if: "question.type == \"chart-barchart\""}
+                  .form-group
+                    %label.control-label.col-sm-3 Nom de l'axe des abscisses
+                    .col-sm-9
+                      %input.form-control{id: "barGraphX",class: "barGraphX",type: "text", ng-model: "barGraphX", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Nom de l'axe des ordonnées
+                    .col-sm-9
+                       %input.form-control{id: "barGraphY", class:"barGraphY",type: "text", ng-model: "barGraphY", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Définir le pas des abscisses
+                    .col-sm-9
+                      %input.form-control{id: "stepX",class: "stepX",type: "number", ng-model: "stepX", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Définir le pas des ordonnées
+                    .col-sm-9
+                      %input.form-control{id: "stepY",class: "stepY",type: "number", ng-model: "stepY", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Abscisse minimale
+                    .col-sm-9
+                      %input.form-control{id: "zeroX",class: "zeroX",type: "number", ng-model: "zeroX", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Ordonnée minimale
+                    .col-sm-9
+                      %input.form-control{id: "zeroY",class: "zeroY",type: "number", ng-model: "zeroY", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Abscisse maximale
+                    .col-sm-9
+                      %input.form-control{id: "maxX",class: "maxX",type: "number", ng-model: "maxX", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 Ordonnée maximale
+                    .col-sm-9
+                      %input.form-control{id: "maxY",class: "maxY",type: "number", ng-model: "maxY", ng-required: "false"}
+                  .form-group
+                    %label.control-label.col-sm-3 precision des barres
+                    .col-sm-9
+                      %input.form-control{id: "precisionValue",class: "precisionValue",type: "number", ng-model: "precisionValue", ng-required: "false"}
+                  %button.btn.btn-success.btn-sm.btn-updateBar{ng-model: "createBarChart", onclick: "chart_btnUpdate($(this))", type: "button"}
+                    %span.glyphicon.glyphicon-ok
+                    Mettre à jour le graphique
+                  .jxgbox.chartQuestion.chartQuestionValidation.chartQuestionBarchart#jxgbox{id:barChartForm,style:"width:100%; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-barchart",value:"chart-barchart"}
+                  .form-group
+                    %label.control-label.col-sm-3 Ajouter une nouvelle ordonnée
+                    .col-sm-3
+                      %input.form-control{id: "newBarY",class: "newBarY",type: "number", ng-model: "newBarY", ng-required: "false"}
+                    .col-sm-2
+                      %button.btn.btn-success.btn-addBar{onclick: "chart_add($(this))", type: "button"}
+                        %span.glyphicon.glyphicon-plus
+                        Ajouter
+                    .col-sm-2
+                      %button.btn.btn-danger.btn-deleteBar{onclick: "chart_deleteLastBar($(this))", type: "button"}
+                        %span.glyphicon.glyphicon-minus
+                        Supprimer la dernière
+                  -# = .jxgbox.chartQuestion.chartQuestionValidation.chartQuestionBarchart#jxgbox{style:"width:100%; height:676px;",data-chart-type:"piechart",data-chart-percent:'[20,30,50]',data-chart-label:'["math","francais","Sciences"]'}
+
+                .form-horizontal{ng-if: "question.type == \"chart-piechart\""}
+                  .form-group
+                    %label.control-label.col-sm-3 Amplitude du secteur
+                    .col-sm-3
+                      %input.form-control{id: "sector",class: "sector",type: "number", ng-model: "sector", ng-required: "false"}
+                    %label.control-label.col-sm-3 Nom du secteur
+                    .col-sm-3
+                      %input.form-control{id: "labelPie",class: "labelPie",type: "text", ng-model: "labelPie", ng-required: "false"}
+                  .form-group
+                    .col-sm-2
+                      %button.btn.btn-success.btn-addPie{onclick: "chart_createPieChartFromForm()", type: "button"}
+                        %span.glyphicon.glyphicon-plus
+                        Ajouter
+                    .col-sm-2
+                      %button.btn.btn-danger.btn-deletePie{onclick: "chart_deleteLastPie($(this))", type: "button", class:"btn-deletePie"}
+                        %span.glyphicon.glyphicon-minus
+                        Supprimer la dernière
+                  .jxgbox.chartQuestion.chartQuestionValidation.chartQuestionPiechart#jxgbox{id:pieChartForm,style:"width:100%; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-piechart",value:"chart-piechart"}
+                  -# = .jxgbox.chartQuestion.chartQuestionValidation#jxgbox{style:"width:100%; height:676px;",data-chart-type:"piechart",data-chart-percent:'[20,30,50]',data-chart-label:'["math","francais","Sciences"]'}
 
                 .form-horizontal{ng-if: "question.type == \"graph\""}
                   .form-group

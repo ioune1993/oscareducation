@@ -1,0 +1,41 @@
+-extends "base.haml"
+
+-load static
+-load compress
+
+-load bootstrap3
+
+-block content
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/static/css/train/stylesheet_train.css"}
+    #whiteBox
+        #parameters.blk
+            %h1 Exercices
+            %label{:for => 'creator'} Créateur :
+            #{scenario.creator}
+            %br
+            %label{:for => 'title'} Titre :
+            #{scenario.title}
+            %br
+            %label{:for => 'skill'} Compétences :
+            #{scenario.skill}
+            %br
+            %label{:for => 'topic'} Sujet :
+            #{scenario.topic}
+            %br
+            %label{:for => 'grade_level'} Niveau scolaire:
+            #{scenario.grade_level}
+            %br
+            %label{:for => 'instructions'} Instructions :
+            #{scenario.instructions}
+            %br
+
+
+    #videoBlockElem{:style => "display: none"}
+        URL de votre vidéo :
+        video
+
+    #mcqBlockElem{:style => "display: none"}
+        Les QCMS ne sont pas encore fait, lol
+
+    #textBlockElem{:style => "display: none"}
+        text

@@ -1,0 +1,13 @@
+modified : 
+oscareducation/promotions/views.py L:1551
+oscareducation/templates/professor/exercice/exercice_rendering.haml L:37
+oscareducation/templates/professor/exercice/exercice_with_answers_rendering.haml L:48
+oscareducation/templates/examinations/exercice_rendering.haml L:42
+oscareducation/templates/professor/exercice/test.haml L:116
+oscareducation/templates/professor/exercice/test.haml L:116
+oscareducation/templates/professor/exercice/validate_form/example_exercice -- pour ajouter un example ?
+oscareducation/templates/professor/exercice/validation_form.haml L:95
+oscareducation/templates/professor/lesson/student/test/detail.haml L:259
+oscareducation/examinations/validate.py L:28 -- pour ajouter un type de question valide
+oscareducation/oscar/settings.py L:63 -- pour dire à django d'aller chercher des templates dans notre dossier de module
+

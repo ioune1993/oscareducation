@@ -17,16 +17,28 @@ class UsernameLoginForm(forms.Form):
             user = User.objects.get(username=username)
         except:
             raise forms.ValidationError("This user does not exist.")
-
         try:
             prof_or_stud = Professor.objects.get(user=user)
+            #prof_or_stud.print_something()
+            prof_or_stud.update_status()
         except:
             try:
                 prof_or_stud = Student.objects.get(user=user)
             except:
                 raise forms.ValidationError("This user is not a student nor a professor.")
 
-        return (prof_or_stud,username)
+        return (prof_or_stud, username)
+        # try:
+        #     prof_or_stud = Professor.objects.get(user=user)
+        #     prof_or_stud.print_something()
+        #     prof_or_stud.update_status()
+        # except:
+        #     try:
+        #         prof_or_stud = Student.objects.get(user=user)
+        #     except:
+        #         raise forms.ValidationError("This user is not a student nor a professor.")
+        #
+        # return (prof_or_stud,username)
 
 class CodeForm(UsernameLoginForm):
     code = forms.CharField(max_length=4)

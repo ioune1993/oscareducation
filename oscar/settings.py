@@ -55,11 +55,15 @@ INSTALLED_APPS = (
     'planification',
     'examinations',
     'student',
+    'rating',
     'stats',
     'compressor',
     'users',
+    'train',
     'resources',
     'end_test_poll',
+    'django.contrib.sites',
+    'chart'  # group 07
 
 ) + ADDITIONAL_APPS
 
@@ -158,6 +162,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+SITE_ID = 1
+
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
@@ -197,3 +204,7 @@ EMAIL_HOST_USER ="euredukaoscar.noreply@gmail.com"
 EMAIL_HOST_PASSWORD ="7A=em=nBt@+r3MFq"
 
 EMAIL_USE_TLS = True
+
+DEFAULT_QUESTIONS_ID = []
+WEIGHT_STUDENTS = 0.3
+WEIGHT_PROFESSORS = 0.7

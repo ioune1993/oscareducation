@@ -3,9 +3,9 @@
 
 
 %h5 Ressources personnelles
-          %small pour mes élèves uniquement
-          %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
-            Ajouter
+  %small pour mes élèves uniquement
+  %button.show-form.btn.btn-sm.btn-primary{data-target: "#personal_resource-form"}
+    Ajouter
 
 %ul.list-group
   -for resource in personal_resources
@@ -22,7 +22,7 @@
       .row
         -if resource.content.resources.link|cut:" "|length > 0 or  resource.content.resoures.file|cut:" "|length > 0
           %div{class: "col-md-{% if resource.content.resources.link|cut:' '|length > 0 and resource.content.resoures.file|cut:' '|length > 0 %}6{% else %}12{% endif %}"}
-                %h5 Fichiers
+            %h5 Fichiers
 
               .list-group
                  

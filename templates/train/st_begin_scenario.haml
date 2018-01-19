@@ -1,0 +1,48 @@
+-extends "base.haml"
+
+-load static
+
+-block javascript
+  -# %script{src: "{% static 'js/mermaid.full.js' %}"}
+
+-block content
+  %h3{:dico => "tab"} #{scenario.title}
+    -# =id.title
+  %hr
+  %h4{:dico => "tab"} #{scenario.creator}
+    -# =id.instructions
+
+
+
+  .ligneorangefine
+
+  .boxclasse.container-fluid{:style => " background-color: white; background: url(#{scenario.backgroundImage}) no-repeat; background-size: cover; backgroudn-clip: padding-box; padding-bottom: 20px;"}
+        %div{:style => " background-color: #ffffffb3;padding: 20px;"}
+            %label Sujet:
+            %p{:dico => "tab"} #{scenario.topic}
+            %br
+            %label Niveau:
+            %p{:dico => "tab"} #{scenario.grade_level}
+            %br
+            %label Instructions:
+            %p{:dico => "tab"} #{scenario.instructions}
+
+
+  %a.btn.btn-primary#begin{:onclick => "return nextButton(this)", :style => "marginTop: 20px"} Commencer l'exercice
+
+  %script
+    function nextButton(){
+        var pathTab = window.location.pathname.split("/");
+        var user_type = pathTab[1];
+        var id = pathTab[pathTab.length - 1];
+        var pk = pathTab[3]
+        console.log(id);
+        console.log(pk);
+
+        if(user_type == "student"){
+            window.location.href = "/student/train/"+pk+"/scenario/"+id;
+        }else{
+            window.location.href = "/professor/train/"+pk+"/scenario/"+id;
+        }
+
+    }

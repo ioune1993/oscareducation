@@ -1,7 +1,15 @@
 language: python
 install:
   - pip install pyyaml
+  - pip install coveralls
+  - pip install pyhamcrest
 python:
   - "2.7"
 script:
   - python validate_exercices.py
+  - coverage run --source=chart validate_exercices.py
+  - coverage run --source=chart chart/tests/tests.py
+after_success:
+  - coveralls
+notifications:
+  email: false

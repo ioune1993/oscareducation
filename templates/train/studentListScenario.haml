@@ -1,0 +1,31 @@
+
+-load static
+-load compress
+
+-block content
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/static/css/train/stylesheet_train.css"}
+    %script{:src => "/static/js/train/list_scenario.js"}
+    #parameters3.blk
+        %h5 Scénarios disponibles
+        %p #{dico}
+
+        %table.table.no-border
+            %tbody.mylist
+                %tr#headline
+                    -# %p {{data}}
+                    -for st in headline
+                        %td{:width => "20%"}
+                            %p{:dico => "tab"} #{st}
+
+                -for st in scenarios
+
+                    %tr#contentlist.mycontentlist
+                        %td{:width => "20%"}
+                            %a{:href => "/student/train/#{st.pk}/make_scenario/#{st.id}"} #{st.sequence}
+                        %td{:width => "20%"}
+                            %p{:dico => "tabs"} #{st.topic}
+                        %td{:width => "20%"}
+                            %p{:dico => "tab"} #{st.grade}
+                        %td{:width => "20%"}
+                            %a{:href => "/student/train/#{st.pk}/make_scenario/#{st.id}"}
+                                %span.glyphicon.glyphicon-play{:title => "jouer", :style => "font-size: 2.2em"}

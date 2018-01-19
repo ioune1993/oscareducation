@@ -26,6 +26,10 @@
     %li{role: "presentation"}
       %a.real-link{href: "{% url 'professor:lesson_detail' lesson.pk %}#heatmap"}
         Vue globale de la classe
+    %li{role: "presentation"}
+      %a.real-link{href: "{% url 'professor:lesson_detail' lesson.pk %}#listscena"}
+        Mes scénarios
+
 
   .ligneorange
 
@@ -130,4 +134,3 @@
         Cette classe ne comporte pas encore de tests.
         %a{href: "{% url 'professor:lesson_test_add' lesson.pk %}"}
           Ajouter un test
-

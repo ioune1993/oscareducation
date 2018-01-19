@@ -1,0 +1,102 @@
+@base: #2a3644;
+@blue: #2296cf;
+@gray: #cccccc;
+@mint: #20b9a4;
+@oran: #e2764a;
+@norm: #ffffff;
+@dark: #777;
+@link: rgba(0, 0, 0, .1);
+
+.rounded (@radius: 6px) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+      -ms-border-radius: @radius;
+       -o-border-radius: @radius;
+          border-radius: @radius;
+}
+
+.trans (@transition: .3s) {
+  -webkit-transition: all @transition ease-in-out;
+     -moz-transition: all @transition ease-in-out;
+          transition: all @transition ease-in-out;
+
+}
+
+{
+  margin:0;
+  padding:0;
+  border:none;
+  list-style:none;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  font:15px/1.25 'Open Sans' sans-serif;
+  background:@base;
+}
+
+section {
+  text-align:center;
+  padding:150px 0px 150px 0px;
+}
+
+section > button {
+  background:@mint;
+  display:block;
+  margin:0 auto;
+  margin-bottom:20px;
+  width:200px;
+  font-size: 16.996px;
+  line-height: 20px;
+  padding: 12px 18px 13px;
+  .rounded;
+  .trans;
+  color:@norm;
+  cursor:pointer;
+}
+
+section > button:hover {
+  opacity:0.8;
+  .trans;
+}
+
+.pop {
+  display:none;
+  position:fixed;
+  top:10.3%;
+  left:10.3%;
+  width:80%;
+  height:80%;
+  background:@oran;
+  .rounded;
+  outline:10px solid @link;
+}
+
+.pop > h1 {
+  padding:30px 30px 10px 30px;
+  color:@base;
+  font-size:100%;
+}
+
+.pop > p {
+  padding-left:30px;
+  font-size:100%;
+  color:@dark;
+}
+
+.pop > span {
+  cursor:pointer;
+  position:absolute;
+  top:4%;
+  right:4%;
+  -webkit-border-radius:100px;
+     -moz-border-radius:100px;
+          border-radius:100px;
+  background:@gray;
+  color:@norm;
+  padding:6px 0px 0px 9px;
+  width:30px;
+  height:30px;
+}

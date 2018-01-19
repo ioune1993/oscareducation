@@ -1,5 +1,7 @@
 -load static
 -load bootstrap3
+-load rating_tags
+-load crispy_forms_tags
 
 %h5 Autres ressources
 
@@ -7,7 +9,7 @@
   %button.show-form.btn.btn-sm.btn-primary{data-target: "#other_resource-form"}
     Ajouter
   .panel.panel-default{style: "display: none", id: "other_resource-form"}
-      .panel-heading= title
+      .panel-heading=title
       .panel-body
         %form{method: "POST", enctype: "multipart/form-data", action: ""}
           -csrf_token
@@ -44,47 +46,47 @@
             Valider
 %ul.list-group
   -for resource in other_resources
-   %li.list-group-item
+    %li.list-group-item
       %h5=resource.content.title
         -#%small.badge= resource.content.kind
-      %p.list-group-text
-        -if resource.content.comment
-          %p.small=resource.content.comment|safe
-        -for item in resource.content.resources
-          -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
-            .panel.panel-default
-              %table.table
-                %tbody
-                  %tr
-                    %td
-                      -if item.optionalName
-                        -if item.link|cut:" "|length > 0 and item.mediaType == "link"
-                          %small.badge
-                            lien
-                          %a{href: "{{ item.link }}", target: "_blank"}
-                            {{item.optionalName}}
-                        -if item.file|cut:" "|length > 0 and item.mediaType == "file"
-                           %small.badge
-                            fichier
-                          %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
-                            {{item.optionalName}}
-                      -else
-                        -if item.link|cut:" "|length > 0 and item.mediaType == "link"
-                          %small.badge
-                            lien
-                          %a{href: "{{ item.link }}", target: "_blank"}
-                            {{item.link}}
-                        -if item.file|cut:" "|length > 0 and item.mediaType == "file"
-                          %small.badge
-                            fichier
-                          %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
-                            {{item.file}}
-                    -if user.professor
-
-        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
-          -csrf_token
-          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-            supprimer
+        %p.list-group-text
+          -if resource.content.comment
+            %p.small=resource.content.comment|safe
+          -for item in resource.content.resources
+            -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
+              .panel.panel-default
+                %table.table
+                  %tbody
+                    %tr
+                      %td
+                        -if item.optionalName
+                          -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                            %small.badge
+                              lien
+                            %a{href: "{{ item.link }}", target: "_blank"}
+                              {{item.optionalName}}
+                          -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                            %small.badge
+                              fichier
+                            %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                              {{item.optionalName}}
+                        -else
+                          -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                            %small.badge
+                              lien
+                            %a{href: "{{ item.link }}", target: "_blank"}
+                              {{item.link}}
+                          -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                            %small.badge
+                              fichier
+                            %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                              {{item.file}}
+          -include "professor/skill/update_pedagogical_resources/media/rating.haml"
+          -if user.professor and request.user == resource.added_by
+            %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                supprimer
 
 
 
@@ -92,3 +94,5 @@
 -with type=type add=False resource_lesson_coder=sori_coder_other_resources resource_lesson_skills=sori_skills_other_resources
   -if resource_lesson_coder or resource_lesson_skills
     -include "professor/skill/update_pedagogical_resources/other.haml"
+
+

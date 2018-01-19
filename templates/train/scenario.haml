@@ -1,0 +1,132 @@
+-extends "base.haml"
+
+-load static
+-load compress
+
+-load bootstrap3
+
+-block content
+    %link{:rel => "stylesheet", :type => "text/css", :href => "/static/css/train/stylesheet_train.css"}
+    %script{:src => "/static/js/train/visualize_scenario.js"}
+
+    %h3#title{:dico => "tab"} #{scenario.title}
+    -# =id.title
+    %hr
+    %h4#instructions{:dico => "tab"} #{scenario.instructions}
+    -# =id.instructions
+
+    #tipsWindow{:style => "display: none"}
+        %p.tipsValue
+
+    %div#anchor{:style => "margin-bottom: 120px;"}
+        #textBlockElem{:style => "display: none"}
+            .ligneorange
+
+            .container-fluid.boxclassetitle
+                %h1.titre
+                %button.quit
+                    Quitter
+
+            .ligneorangefine
+
+            .boxclasse.container-fluid{:style => "background: url(#{scenario.backgroundImage}) no-repeat; background-size: cover; backgroudn-clip: padding-box; background-color: white; height: 70%"}
+                %p.content.simple-text
+
+        #imgBlockElem{:style => "display: none"}
+            .ligneorange
+
+            .container-fluid.boxclassetitle
+                %h1.titre
+                %button.quit
+                    Quitter
+
+            .ligneorangefine
+
+            .boxclasse.container-fluid
+                %img.content.img_scenario
+                %p.description
+
+        #videoBlockElem{:style => "display: none"}
+            .ligneorange
+
+            .container-fluid.boxclassetitle
+                %h1.titre
+                %button.quit
+                    Quitter
+
+            .ligneorangefine
+
+            .boxclasse.container-fluid
+                %iframe.content.video_scenario{:allowfullscreen => "allowfullscreen", :mozallowfullscreen => "mozallowfullscreen", :msallowfullscreen => "msallowfullscreen", :oallowfullscreen => "oallowfullscreen", :webkitallowfullscreen => "webkitallowfullscreen"}
+                %p.description
+
+        #pdfBlockElem{:style => "display: none"}
+            .ligneorange
+
+            .container-fluid.boxclassetitle
+                %h1.titre
+                %button.quit
+                    Quitter
+
+            .ligneorangefine
+
+            .boxclasse.container-fluid
+                %iframe.content.pdf_scenario
+                %p.description
+
+        #mcqBlockElem{:style => "display: none"}
+            .ligneorange
+
+            .container-fluid.boxclassetitle.boxTitleMcq{:style => 'inline-block'}
+                %h2.titre.titleMCQ
+                %button.quit
+                    Quitter
+
+
+
+            .ligneorangefine
+
+            .boxclasse.container-fluid.containerMCQ{:style => "background: url(#{scenario.backgroundImage}) no-repeat; background-size: cover; backgroudn-clip: padding-box; background-color: white"}
+                %div
+                    %div.question#questionMCQ
+                .answers
+                        .blocanswer{:style => "display: none"}
+                            %label
+                                %input.isAnswer{:type => "checkbox"}
+                                -# %span.verticalBar
+                                .answer
+                                -#%img.isFalse{:style => "display: none", :height => "2%", :src => "/static/img/icons/delete.png", :width => "4%"}/
+
+                %p.succededMCQ{:style => "display: none;background-color: #ffffffe6;padding: 20px;border-radius: 5px;"} Bonne(s) Réponse(s)!
+                %p.failedMCQ{:style => "display: none;background-color: #ffffffe6;padding: 20px;border-radius: 5px;"} Il y a eu une ou plusieurs erreurs
+                %button.btn-fixed-tips.tipsMCQ{:toggle => "tooltip", :data-toggle => "popover", :placement => "bottom", :title =>"Indice: ",:action => "#"}
+                    %span.glyphicon.glyphicon-info-sign
+                %button.btn-fixed-validate.validateElement#validateMCQ
+                    %span.glyphicon.glyphicon-ok
+
+    #Tools.blk
+      .container-fluid.box-options
+
+        %button.btn-fixed-previous#previousElement{:style => "display: none"}
+            %span.glyphicon.glyphicon-arrow-left
+
+        #progressBar.progressBar
+            #idTextElemProg.goToButton{:style => "display: none"}
+                %span.glyphicon.glyphicon-font.glyphiconNavbar
+            #idImgElemProg.goToButton{:style => "display: none"}
+                %span.glyphicon.glyphicon-picture.glyphiconNavbar
+            #idVideoElemProg.goToButton{:style => "display: none"}
+                %span.glyphicon.glyphicon-facetime-video.glyphiconNavbar
+            #idMCQElemProg.goToButton{:style => "display: none"}
+                %span.glyphicon.glyphicon-list.glyphiconNavbar
+            #idPDFElemProg.goToButton{:style => "display: none"}
+                %span.glyphicon.glyphicon-file.glyphiconNavbar
+
+
+        %button.btn-fixed-next#nextElement
+            %span.glyphicon.glyphicon-arrow-right
+
+        %button.btn-fixed-next#endElement{:style => "display: none", :onclick => "return endButtonElement()"}
+            %span.glyphicon.glyphicon-stop
+
+            -# :href => "/student/train/student_list_scenario"

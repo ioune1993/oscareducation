@@ -1,0 +1,460 @@
+1512659552530	geckodriver	INFO	geckodriver 0.19.1
+1512659552537	geckodriver	INFO	Listening on 127.0.0.1:56677
+1512659553732	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.oS8rX28ake7q"
+1512659554961	Marionette	INFO	Enabled via --marionette
+1512659558812	Marionette	INFO	Listening on port 34299
+1512659558861	Marionette	WARN	TLS certificate errors will be ignored for this session
+1512659558988	Marionette	DEBUG	Register listener.js for window 2147483649
+1512659559154	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1512659559261	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1512659559261	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1512659560096	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512659560146	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512659560394	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512659561360	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512659561361	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512659561557	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512659561590	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512659561688	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512659564134	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512659564135	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512659566117	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/student/dashboard/"
+1512659566184	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/student/dashboard/"
+[Child 8456, Chrome_ChildThread] WARNING: pipe error (19): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 8456, Chrome_ChildThread] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+1512660156848	geckodriver	INFO	geckodriver 0.19.1
+1512660156857	geckodriver	INFO	Listening on 127.0.0.1:43741
+1512660158025	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.nodmTjB1k2FK"
+1512660159222	Marionette	INFO	Enabled via --marionette
+1512660163342	Marionette	INFO	Listening on port 45349
+1512660163355	Marionette	WARN	TLS certificate errors will be ignored for this session
+1512660163481	Marionette	DEBUG	Register listener.js for window 2147483649
+1512660163535	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1512660163658	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1512660163658	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1512660164981	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660165028	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660165149	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660165985	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660165985	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660166133	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660166246	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660166339	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660168686	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660168687	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660172876	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/student/dashboard/"
+1512660174693	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/student/dashboard/"
+[Child 8749, Chrome_ChildThread] WARNING: pipe error (35): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 8749, Chrome_ChildThread] WARNING: pipe error (21): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 8749, Chrome_ChildThread] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+1512660428530	geckodriver	INFO	geckodriver 0.19.1
+1512660428537	geckodriver	INFO	Listening on 127.0.0.1:50201
+1512660429751	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.KogrTWjyWtTi"
+1512660430986	Marionette	INFO	Enabled via --marionette
+1512660434854	Marionette	INFO	Listening on port 35819
+1512660434906	Marionette	WARN	TLS certificate errors will be ignored for this session
+1512660435032	Marionette	DEBUG	Register listener.js for window 2147483649
+1512660435177	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1512660435283	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1512660435284	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1512660435604	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660435720	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660436067	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660437543	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660437544	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660437711	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660437863	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660437973	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660440777	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660440779	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660441967	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/student/dashboard/"
+1512660442044	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/student/dashboard/"
+[Child 8976, Chrome_ChildThread] WARNING: pipe error (35): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 8976, Chrome_ChildThread] WARNING: pipe error (21): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 8976, Chrome_ChildThread] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1512660475443	geckodriver	INFO	geckodriver 0.19.1
+1512660475451	geckodriver	INFO	Listening on 127.0.0.1:53365
+1512660476700	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.hdcJ0f3SwhmB"
+1512660477960	Marionette	INFO	Enabled via --marionette
+1512660481848	Marionette	INFO	Listening on port 36585
+1512660481935	Marionette	WARN	TLS certificate errors will be ignored for this session
+1512660482056	Marionette	DEBUG	Register listener.js for window 2147483649
+1512660482176	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1512660482324	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1512660482458	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1512660482921	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660483040	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660483254	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660484107	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660484108	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660484242	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660484350	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660484457	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660486923	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660486924	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660488765	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/student/dashboard/"
+1512660488836	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/student/dashboard/"
+1512660521999	geckodriver	INFO	geckodriver 0.19.1
+1512660522008	geckodriver	INFO	Listening on 127.0.0.1:58037
+1512660523185	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.cb664PXErOIx"
+1512660524384	Marionette	INFO	Enabled via --marionette
+1512660528325	Marionette	INFO	Listening on port 44171
+1512660528599	Marionette	WARN	TLS certificate errors will be ignored for this session
+1512660528725	Marionette	DEBUG	Register listener.js for window 2147483649
+1512660528791	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1512660528885	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1512660528885	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1512660529598	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660529656	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660529826	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660530680	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660530682	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660530867	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660530896	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660530985	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660531495	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660531497	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660533222	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660533322	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660533405	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660535288	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660535297	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660535996	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660536125	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660536191	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660539069	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660539079	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660540135	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660540335	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660540427	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660540713	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660540715	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660541334	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660541431	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660541506	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660543024	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660543028	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660543823	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/test/online/add/"
+1512660543970	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/test/online/add/"
+1512660547385	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660550671	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660550921	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660551164	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660551412	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+[Child 9341, Chrome_ChildThread] WARNING: pipe error (21): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 9341, Chrome_ChildThread] WARNING: pipe error (35): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+[Child 9341, Chrome_ChildThread] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-HLWaua/firefox-57.0+build4/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+1512660731867	geckodriver	INFO	geckodriver 0.19.1
+1512660731876	geckodriver	INFO	Listening on 127.0.0.1:45945
+1512660733076	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "-marionette" "-profile" "/tmp/rust_mozprofile.LYwFPqjDbwpa"
+1512660734275	Marionette	INFO	Enabled via --marionette
+1512660738340	Marionette	INFO	Listening on port 45411
+1512660738404	Marionette	WARN	TLS certificate errors will be ignored for this session
+1512660738541	Marionette	DEBUG	Register listener.js for window 2147483649
+1512660738635	Marionette	DEBUG	Received DOM event "beforeunload" for "about:blank"
+1512660738774	Marionette	DEBUG	Received DOM event "pagehide" for "about:blank"
+1512660738775	Marionette	DEBUG	Received DOM event "unload" for "about:blank"
+1512660739176	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660739315	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660739602	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660740592	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660740592	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/usernamelogin/"
+1512660740864	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660740901	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660744072	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660744846	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660744848	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/accounts/passwordlogin/"
+1512660745980	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660746141	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660749262	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660751306	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660751307	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/dashboard/"
+1512660752075	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660752211	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660753315	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660756398	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660756399	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/lesson/134/"
+1512660757730	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660757938	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660759040	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660759243	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660759243	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/lesson/134/test/"
+1512660759998	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660760125	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660761235	Marionette	DEBUG	Received DOM event "beforeunload" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660762900	Marionette	DEBUG	Received DOM event "pagehide" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660762900	Marionette	DEBUG	Received DOM event "unload" for "http://127.0.0.1:8000/professor/lesson/134/test/add/"
+1512660763721	Marionette	DEBUG	Received DOM event "DOMContentLoaded" for "http://127.0.0.1:8000/professor/lesson/134/test/online/add/"
+1512660763863	Marionette	DEBUG	Received DOM event "pageshow" for "http://127.0.0.1:8000/professor/lesson/134/test/online/add/"
+1512660767203	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660770454	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660770706	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660770949	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660771267	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660771510	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660771754	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660771994	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660772228	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660772469	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660772715	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660772955	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660773197	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660773424	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660773657	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660773896	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660774133	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660774380	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660774620	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660774863	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660775102	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660775333	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660775572	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660775809	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660776052	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660776294	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660776522	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660776771	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660777003	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660777236	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660777465	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660777699	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660777937	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660778179	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660778416	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660778655	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660778898	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660779133	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660779373	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660779609	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660779845	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660780085	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660780318	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660780557	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660780793	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660781034	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660781274	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660781503	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660781743	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660781985	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660782224	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660782461	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660782696	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660782933	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660783173	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660783409	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660783640	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660783876	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660784107	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660784340	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660784590	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660784828	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660785065	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660785295	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660785535	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660785779	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660786015	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660786255	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660786490	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660786731	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660786962	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660787195	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660787428	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660787661	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660787892	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660788127	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660788362	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660788592	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660788825	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660789062	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660789297	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660789527	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660789758	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660789993	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660790235	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660790468	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660790701	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660790944	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660791180	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660791409	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660791647	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660791883	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660792110	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660792351	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660792583	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660792822	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660793060	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660793295	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660793531	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660793770	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660794001	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660794232	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660794478	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660794709	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660794940	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660795172	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660795410	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660795647	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660795886	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660796112	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660796350	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660796585	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660796824	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660797062	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660797302	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660797548	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660797786	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660798021	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660798261	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660798498	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660798734	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660798972	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660799200	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660799438	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660799680	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660799921	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660800157	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660800394	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660800628	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660800870	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660801108	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660801345	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660801581	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660801815	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660802041	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660802276	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660802511	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660802748	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660802984	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660803218	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660803448	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660803686	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660803919	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660804154	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660804388	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660804618	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660804854	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660805087	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660805319	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660805552	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660805785	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660806019	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660806254	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660806486	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660806719	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660806954	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660807189	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660807425	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660807664	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660807904	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660808144	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660808535	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660808783	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660809030	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660809276	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660809510	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660809755	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660809994	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660810235	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660810471	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660810714	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660810964	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660811195	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660811433	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660811673	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660811908	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660812143	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660812382	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660812617	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660812857	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660813088	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660813329	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660813567	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660813806	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660814041	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660814279	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660814520	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660814804	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660815041	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660815281	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660815521	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660815761	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660816060	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660816299	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660816546	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660816805	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660817057	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660817310	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660817563	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660817807	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660818046	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660818282	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660818517	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660818754	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660818990	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660819225	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660819465	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660819702	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660819938	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660820174	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660820411	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660820652	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660820889	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660821128	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660821365	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660821604	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660821845	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660822083	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660822319	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660822553	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660822789	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660823026	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660823274	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660823505	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660823743	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660823977	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660824212	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660824449	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660824684	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660824922	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660825154	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660825391	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660825628	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660825865	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660826102	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660826338	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660826580	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660826816	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660827046	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660827279	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660827516	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660827757	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660827994	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660828231	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660828470	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660828709	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660828947	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660829178	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660829413	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660829650	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660829887	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660830117	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660830357	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660830592	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660830830	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660831065	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660831300	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660831537	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660831772	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660832006	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660832240	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660832474	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660832706	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660832945	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660833184	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660833419	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660833656	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660833892	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660834129	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660834366	Marionette	DEBUG	Canceled page load listener because no navigation has been detected
+1512660834602	Marionette	DEBUG	Canceled page load listener because no navigation has been detected

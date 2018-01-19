@@ -1,0 +1,108 @@
+<html>
+<head> Questions</head>
+<body>
+
+	La ressource est-elle complète ?
+
+<FORM method="POST" id="question1"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="cc">
+A. Très complète<BR>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="cc">
+B. Assez complète <BR>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="cc">
+C. Pas complète <BR>
+
+
+</FORM>
+
+La ressource est-elle assez compréhensible ?
+
+<FORM method="POST" id="question2"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="dd">
+A. Très compréhensible<BR>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="dd">
+B. Assez compréhensible <BR>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="dd">
+C. Pas compréhensible <BR>
+
+
+
+</FORM>
+
+La ressource est utile ?
+
+<FORM method="POST" id="qustion3"
+>
+
+<INPUT TYPE="RADIO" VALUE="A" NAME="ee">
+A. Très utile<BR>
+
+<INPUT TYPE="RADIO" VALUE="B" NAME="ee">
+B. Assez utile <BR>
+
+<INPUT TYPE="RADIO" VALUE="C" NAME="ee">
+C. Pas utile <BR>
+
+
+</FORM>
+
+<button type='button' id='buttonSubmit'> Enregistrer </button>
+
+
+</body>
+
+<script src="/home/lmint/Documents/oscareducation/oscar/static/js/jquery.min.js"></script>
+
+
+<SCRIPT language="JavaScript"
+        type="text/javascript">
+<!--
+//
+// Documentation:
+//   http://chami.com/tips/javascript/
+//
+
+$(function() {
+	$('#buttonSubmit').on('click', function() {
+		
+		var i = 0;
+		var q = $('#question1')
+		var s = "?"
+
+		for(;i<$('#question1').elements.length;i++) 
+		{
+			alert(i)
+       		if ($('#question1').elements[i].checked)
+    		{
+      			s = $('#question1').elements[i].value;
+   			}
+		}
+
+		if("?" == s)
+  		{
+    		alert("Please make a selection.");
+    		return false;
+  		}
+  		else
+  		{
+  			alert("Congrats you submitted")
+  		}
+
+
+
+	});
+});
+
+
+//-->
+</SCRIPT>
+
+</html>

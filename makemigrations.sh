@@ -8,3 +8,5 @@ python manage.py makemigrations skills
 python manage.py makemigrations stats
 python manage.py makemigrations student
 python manage.py makemigrations users
+python manage.py makemigrations train
+

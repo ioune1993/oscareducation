@@ -34,6 +34,45 @@
           -for answer in question.answers
             %input.hidden{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X"}
             %input.hidden{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
+
+      -elif question.type == "chart-barchart"
+        -# Group 7
+        .jxgbox.chartQuestion#jxgboxPreview{id:barChartForm,style:"width:100%; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-barchart",value:"chart-barchart",data-chart-raw:"{{question.answers}}"}
+        .form-group{style :"overflow: hidden;"}
+          %label.control-label.col-sm-3 Ajouter une nouvelle ordonnée
+          .col-sm-3
+            %input.form-control{id: "newBarY",type: "number", ng-model: "newBarY", ng-required: "false", disabled:"disabled"}
+          .col-sm-2
+            %button.btn.btn-success{onclick: "chart_add()", type: "button", disabled:"disabled"}
+              %span.glyphicon.glyphicon-plus
+              Ajouter
+          .col-sm-4
+            %button.btn.btn-danger{onclick: "chart_deleteLastBar()", type: "button", disabled:"disabled"}
+              %span.glyphicon.glyphicon-minus
+              Supprimer la dernière
+        -#%p {{ forloop.counter0 }}
+        -# -include "professor/exercice/previsualize_graph_exercices.haml"
+
+
+      -elif question.type == "chart-piechart"
+        .form-group{style :"overflow: hidden;"}
+          %label.control-label.col-sm-3 Amplitude du secteur
+          .col-sm-3
+            %input.form-control{id: "sector",type: "number", ng-model: "sector", ng-required: "false", disabled:"disabled"}
+          %label.control-label.col-sm-3 Nom du secteur
+          .col-sm-3
+            %input.form-control{id: "labelPie",type: "text", ng-model: "labelPie", ng-required: "false", disabled:"disabled"}
+        .form-group{style :"overflow: hidden;"}
+          .col-sm-2
+            %button.btn.btn-success{onclick: "chart_createPieChartFromForm()", type: "button", disabled:"disabled"}
+              %span.glyphicon.glyphicon-plus
+              Ajouter
+          .col-sm-4
+            %button.btn.btn-danger{onclick: "chart_deleteLastPie()", type: "button", disabled:"disabled"}
+              %span.glyphicon.glyphicon-minus
+              Supprimer la dernière
+        .jxgbox.chartQuestion#jxgboxPreview{id:pieChartForm,style:"width:100%; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-piechart",value:"chart-piechart",data-chart-raw:"{{question.answers}}"}
+
       -elif question.type == "professor"
         %i A corriger par le professeur
       -else

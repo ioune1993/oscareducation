@@ -39,6 +39,48 @@
               -for answer in answer.answers
                 %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-X"}
                 %input{type: "number", value: "", name: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y", id: "graph-{{ toploop_counter0 }}-{{ answer.graph.type }}-{{ forloop.counter0 }}-Y"}
+          -elif answer.type == "chart-barchart"
+            %script{type: "text/javascript", src: "/static/js/barchart.js"}
+            -with name=forloop.counter0
+              -# Group 7
+              %input{type: "hidden", value: "", name: "{{ name }}", id: "barchart-hiddenInput"}
+              .jxgbox.chartQuestion.chartQuestionStudent#jxgboxPreview{id:barChartForm,style:"width:634px; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-barchart",value:"chart-barchart",data-chart-raw3:"{{answer.answers}}"}
+              -#.jxgbox.chartQuestion.chartQuestionValidation#jxgbox{id:barChartForm,style:"width:100%; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-barchart",value:"chart-barchart"}
+              .form-group
+                %label.control-label.col-sm-3 Ajouter une nouvelle ordonnée
+                .col-sm-3
+                  %input.form-control{id: "newBarY",class: "newBarY",type: "number", ng-model: "newBarY", ng-required: "false"}
+                .col-sm-3
+                  %button.btn.btn-success.btn-addBar{onclick: "chart_add($(this))", type: "button"}
+                    %span.glyphicon.glyphicon-plus
+                    Ajouter
+                .col-sm-3
+                  %button.btn.btn-danger.btn-deleteBar{onclick: "chart_deleteLast($(this))", type: "button"}
+                    %span.glyphicon.glyphicon-minus
+                    Supprimer la dernière
+          -elif answer.type == "chart-piechart"
+            %script{type: "text/javascript", src: "/static/js/barchart.js"}
+            %script{type: "text/javascript", src: "/static/js/piechart.js"}
+            -with name=forloop.counter0
+              -# Group 7
+              .form-group
+                %label.control-label.col-sm-3 Amplitude du secteur
+                .col-sm-3
+                  %input.form-control{id: "sector",class: "sector",type: "number", ng-model: "sector", ng-required: "false"}
+                %label.control-label.col-sm-3 Nom du secteur
+                .col-sm-3
+                  %input.form-control{id: "labelPie",class: "labelPie",type: "text", ng-model: "labelPie", ng-required: "false"}
+              .form-group
+                .col-sm-2
+                  %button.btn.btn-success.btn-addPie{onclick: "chart_createPieChartFromForm()", type: "button"}
+                    %span.glyphicon.glyphicon-plus
+                    Ajouter
+                .col-sm-2
+                  %button.btn.btn-danger.btn-deletePie{onclick: "chart_deleteLastPie($(this))", type: "button", class:"btn-deletePie"}
+                    %span.glyphicon.glyphicon-minus
+                    Supprimer la dernière
+              %input{type: "hidden", value: "", name: "{{ name }}", id: "piechart-hiddenInput"}
+              .jxgbox.chartQuestion.chartQuestionStudent.chartQuestionPiechart#jxgboxPreview{id:pieChartForm,style:"width:634px; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-piechart",value:"chart-piechart",data-chart-raw3:"{{answer.answers}}"}
           -elif answer.type == "professor"
             %input.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", type: "text", autocomplete: "off"}
             -#%textarea.form-control{id: "{{ forloop.counter0 }}", name: "{{ forloop.counter0 }}", rows: "5"}

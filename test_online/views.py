@@ -24,7 +24,7 @@ from promotions.utils import user_is_professor
 @user_is_professor
 def lesson_test_online_add(request, pk):
     lesson = get_object_or_404(Lesson, pk=pk)
-
+    print("pk"+pk)
     return render(request, "professor/lesson/test/online/add.haml", {
         "lesson": lesson,
         "stages": lesson.stages_in_unchronological_order(),

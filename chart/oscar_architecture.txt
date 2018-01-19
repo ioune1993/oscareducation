@@ -1,0 +1,16 @@
+Trying to add an answer type:
+	- Add it in templates/professor/exercice/exercice_with_answers_rendering.haml
+	- ERR: doesn't recognize the answer type
+		=> what is answer?
+		- file is included in templates/professor/lesson/test/online/change.haml
+			"with answer=question.get_answer" with "question in test_exercice.exercice.get_questions" with 
+		- change.haml rendered in test_online/views.py
+			with "test_exercice = get_object_or_404(TestExercice, pk=test_exercice_pk)" (pk stands for primary key) with "from examinations.models import TestExercice"
+		- in examinations/models.py, class TestExercice
+			=> attribute "exercice = models.ForeignKey("Context", null=True)" with models from django.db => "relation de plusieurs-à-un" 
+				=> links to class Context in the same file (list of questions) => get_questions: returns a list of questions (Question objects) using a django SQL query (.objects.filter(champ__typerequete=valeur))
+					=> from Question.get_answer(): "return yaml.load(self.answer, Loader=yamlordereddictloader.Loader)" with "self.answer = models.TextField()" => self.answer is a file-like object = stream
+						from evaluate() in the same class we can see get_answer() returns a dict with key "type".
+						ACTUALLY: answer is a text field (inside the database?) which contains the answers and types in YAML format
+
+test_online/views.py: calls """render(request, "professor/lesson/test/online/change.haml","""

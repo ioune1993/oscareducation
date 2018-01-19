@@ -27,6 +27,9 @@
           Consulter les ressources du chapitre en cours
     .well
       -with type=type
+        -include "train/studentListScenario.haml"
+    .well
+      -with type=type
         -include "professor/skill/update_pedagogical_resources/my_resource.haml"
     .well
       -with type=type
@@ -37,6 +40,7 @@
     .well
       -with type=type
         -include "professor/skill/update_pedagogical_resources/other_resource.haml"
+
 
   -# TODO : Move CSS !
   :css
@@ -170,6 +174,3 @@
         event.preventDefault();
       }
     })
-      
-
-

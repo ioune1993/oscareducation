@@ -1,0 +1,389 @@
+/*#whiteBox {
+	background-color: white;
+}*/
+
+#parameters label, .mcqBlockElem .panel-body label {
+    width: 140px;
+    height: 30px;
+}
+#OurContainer {
+    display: grid;
+    grid-template-columns: 5% 110%;
+    position: relative;
+    right: 100px;
+}
+#sideNavBar {
+    grid-column: 1; /* placement en colonne 1 */
+}
+#sectionElements, #whiteBox, #ToolsBarSEC {
+    margin-left: 140px;
+    grid-column: 2; /* placement en colonne 2 */
+    margin-bottom: 20px;
+}
+
+.ui-sortable-placeholder {
+  border: 3px dashed #aaa;
+  height: 45px;
+  width: 344px;
+  background: #ccc;
+}
+
+#navFixed {
+    position:fixed;
+    overflow: auto;
+    height: 70%;
+    width: 235px;
+}
+.divElemNav {
+    background-color: white;
+    padding : 6px;
+    border: 2px solid;
+    margin: 5px;
+    border-radius: 7px;`
+}
+.divElemNav label{
+    word-break: break-word;
+}
+#parameters label, .mcqBlockElem .panel-body label {
+	width: 140px;
+	height: 30px;
+}
+
+#parameters input, .answer1, .answer2, .question_MCQ_Elem{
+	width: 270px;
+}
+.blk {
+	padding: 10px;
+}
+/*	list scenario's part	*/
+#headline {
+	background-color: #f58025;
+	border-radius: 0px;
+	font-family: 'Open Sans', sans-serif;
+	text-transform: uppercase;
+	padding: 3px;
+}
+
+#headline span {
+	padding: 13px
+}
+
+#headline td p {
+	color: white;
+}
+
+#contentlist {
+	color: #f58025;
+}
+
+#parameters, .imgBlockElem, .videoBlockElem, .textBlockElem, .mcqBlockElem, .pdfBlockElem {
+	background-color: white;
+	margin-bottom: 20px;
+}
+#addScenarioButton{
+    margin-bottom: 30px;
+}
+.imgBlockElem, .videoBlockElem, .textBlockElem, .mcqBlockElem, .pdfBlockElem, #whiteBox1 {
+	width: 100%;
+	position: relative;
+}
+
+.textBlockElem textarea {
+	width: 100%;
+}
+#parameters textarea {
+    width: 100%;
+    resize: none;
+    min-height: 50px;
+    max-height: 200px;
+}
+#DiffElem{
+    bottom : 15%;
+
+}
+#cancelScenario{
+    bottom : 20%;
+}
+#saveScenario {
+    bottom : 12%;
+    left: 410px;
+    position: relative;
+}
+
+#questionMCQ{
+    display: inline-block;
+    width: auto;
+    border: 5px solid #f38026;
+    border-radius: 12px;
+    margin: 10px;
+    font-size: 30px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #ffb378;
+}
+
+.simple-text{
+    background-color: #ffffffe6;
+    padding: 20px;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20%;
+    border-radius: 5px;
+    word-break: break-word;
+    width: 100%;
+}
+
+label:hover {
+ background:#bfbfbf;
+ cursor:pointer;
+ border-radius: 10px;
+}
+
+.boxTitleMcq{
+    padding: 5px;
+}
+.titleMCQ{
+    margin: 5px;
+    padding: 5px;
+}
+.desc_text_Elem{
+    resize:none;
+    overflow:hidden;
+    min-height:50px;
+}
+.deleteElement{
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-right: 5px;
+	padding: 0;
+}
+
+.addBackgroundImage{
+    padding:0;
+    position: absolute;
+    top:0;
+    right:0px;
+	margin-right: 5px;
+    background-color:#7db1ce;
+}
+
+.minimizeElem, .enlargeElement{
+    padding:0;
+    position: absolute;
+    top:0;
+    right:60px;;
+    background-color:#ffbe2f;
+}
+.img_scenario {
+	width: 100%;
+}
+
+.video_scenario{
+	width: 100%;
+	height: 420px;
+}
+
+.pdf_scenario{
+	width: 100%;
+	height: 420px;
+}
+
+.btn-fixed-previous {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    position: absolute;
+    right: 640px;
+	top: 15%;
+    width: 100px;
+	height: 50px;
+}
+
+.glyphicon-arrow-right, .glyphicon-arrow-left, .glyphicon-stop {
+    font-size: 40px;
+    color:#f58025;
+}
+
+.btn-fixed-next {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+	position: absolute;
+	right: 5px;
+	top: 15%;
+	width: 100px;
+	height: 50px;
+}
+
+.glyphiconNavbar{
+    font-size: 25px;
+}
+
+.btn-fixed-validate {
+    background-color: white;
+    background-repeat:no-repeat;
+    border: 2px solid #f38026;
+    border-radius: 6px;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+	position: relative;
+	left : 600px;
+	width: 70px;
+	height: 40px;
+    transition-duration: 0.4s;
+}
+
+.glyphicon-ok{
+    font-size: 30px;
+    color:#f58025;
+}
+
+.btn-fixed-validate:hover .glyphicon-ok{
+    color: white;
+    transition-duration: 0.4s;
+
+}
+
+.btn-fixed-validate:hover {
+    background-color: #f58025;
+    color: white;
+
+    border: 0px solid grey;
+    transition-duration: 0.4s;
+}
+
+.progressBar {
+    position: relative;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.goToButton{
+    background-color: white;
+    border-color: black;
+    margin: 1px;
+    height: 45px;
+    width: 45px;
+    border: 1px solid;
+    border-radius: 50%;
+}
+.box-options{
+	position: fixed;
+    /*padding-bottom: 25px;*/
+    background-color:white;
+	top: 80%;
+	width: 750px;
+    height : 60px;
+}
+
+.blocanswer{
+	display: inline-block;
+    width: auto;
+    /*min-width: 200px;
+
+    min-height: 90px;
+    height: auto;*/
+    border: solid grey;
+    border-radius: 13px;
+    font-size: 20px;
+    margin: 10px;
+    background-color: #eee;
+}
+
+.blocanswer .answer{
+    margin-left: 10px;
+}
+
+.blocanswer label{
+    margin-bottom: 0px;
+    display: flex;
+}
+
+.blocanswer .isAnswer{
+    margin: auto;
+    margin-left: 12px;
+}
+
+.answers{
+    width: 100%;
+    text-align: center;
+}
+div.answer{
+    display: inline-block;
+    max-width: 200px;
+    border-left: solid grey;
+    padding: 10px;
+    word-break: break-word;
+    font-weight: normal;
+}
+
+.containerMCQ{
+    padding-bottom: 15px;
+}
+
+.imgprev, .videoBlockElem div div iframe{
+	display: block;
+}
+
+.quit{
+    position: relative;
+    left: 89%;
+    bottom: 8px;
+    background-color : #f38026;
+    border-radius: 5px;
+}
+
+
+
+/*.ligneorangefine {
+    width: 80%;
+    margin: 0px auto;
+}*/
+#progressBar{
+	position: absolute;
+	right: 315px;
+	top: 15%;
+	width: 600px;
+	height: 35px;
+}
+#skill{
+    display: inline;
+}
+#datalist{
+    width: 80%;
+}
+datalist {
+    display: none;
+}
+.control-label{
+    font-weight: bold;
+}
+
+#boxskills{
+    position: relative;
+    left: 20px;
+    width : 90%
+
+}
+
+.emptyListScenario{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    color: grey;
+    text-align: center;
+}

@@ -31,6 +31,9 @@
     %li{role: "presentation"}
       %a{href: "#heatmap"}
         Vue globale de la classe
+    %li{role: "presentation"}
+      %a{href: "#listscena"}
+        Mes scénarios
 
 
   .tab-content
@@ -98,6 +101,9 @@
 
     #heatmap.tab-pane
       -include "professor/lesson/detail/heatmap.haml"
+
+    #listscena.tab-pane
+      -include "train/listScenario.haml"
 
   -block javascript
     :javascript

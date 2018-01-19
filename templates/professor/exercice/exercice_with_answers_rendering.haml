@@ -45,6 +45,9 @@
           %tr
             %td= answer.graph.coordinates.X
             %td= answer.graph.coordinates.Y
+    -elif answer.type == "chart-barchart"
+        %script{type: "text/javascript", src: "/static/js/barchart.js"}
+      .jxgbox.chartQuestion#jxgboxPreview{id:barChartForm,style:"width:634px; height:676px;margin-top:20px;margin-bottom:20px;",data-chart-type:"chart-barchart",value:"chart-barchart",data-chart-raw2:"{{answer.answers}}"}
     -elif answer.type == "professor"
       %span
         %p

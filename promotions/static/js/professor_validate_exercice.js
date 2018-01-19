@@ -3,31 +3,32 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         var reader = new FileReader();
         reader.readAsDataURL(files[0]);
         reader.addEventListener("load", function() {
-            console.log("yay")
             $scope.base64img = reader.result;
             $scope.$digest();
         })
     }
 
+    chart_changeInput($scope);
     $scope.validateExercice = function() {
+        //$scope.questions = chart_saveInJson();
+        $scope.questions = chart_changeScopeQuestions($scope.questions)
         $http.post("validate/", {"questions": $scope.questions, "testable_online": $scope.testable_online})
             .error(function() {
-                console.log("error")
                 $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger">Une erreur s\'est produite, nous en avons été alerté.</div>');
             })
             .success(function(data) {
-                console.log("success");
                 if (data.yaml.result == "error") {
                     $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-danger"> <b>Erreur:</b> ' + data.yaml.message + '</b></div>');
                     $scope.exerciceIsValid = false;
                 } else {
+                    console.log(data);
                     $scope.yamlValidationResult = $sce.trustAsHtml('<div class="alert alert-success">' + data.yaml.message + '</b></div>');
 
                     $scope.yamlRendering = $sce.trustAsHtml(data.rendering);
                     $scope.htmlRendering = $sce.trustAsHtml($scope.html);
 
                     $timeout(function() {
-                        
+
                         $('#exercice-rendering-yaml input[type="submit"]').addClass("disabled");
                         MathJax.Hub.Typeset(document.getElementById("exercice-rendering-panel"));
 
@@ -41,8 +42,8 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                         })
 
                     }, 0);
-
                     $scope.exerciceIsValid = true;
+                    $timeout(chart_refresh,100);
                 }
             })
 
@@ -59,7 +60,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
         }
 
         $("#submit-pull-request").addClass("disabled");
-
+        $scope.questions = chart_changeScopeQuestions($scope.questions);
         $http.post("submit/", {"questions": $scope.questions, "html": html, "skill_code": skill_code, "image": $scope.base64img, "testable_online": $scope.testable_online})
             .success(function(data) {
                 if ($scope.forTestExercice && inUpdateMode) {
@@ -113,6 +114,11 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                     $scope.renderMathquil(topIndex, i, question)
             }, 100);
         }
+
+        setTimeout(function() {
+            chart_refresh();
+        }, 100);
+
     }
 
     $scope.onChangeRadio = function(question, answer) {
@@ -144,12 +150,12 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
             text: "",
             latex: "",
             graph: {type: ""},
+            chart: {},
             correct: false
         })
 
         if (question.type.startsWith("math")) {
             $timeout(function() {
-                console.log("b");
                 $scope.renderMathquil(topIndex, question.answers.length - 1, question);
             }, 100);
         }
@@ -167,6 +173,7 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
                 "text": "",
                 latex: "",
                 graph: {type: ""},
+                chart: {},
                 "correct": false
             }],
             "source": "",
@@ -212,27 +219,19 @@ function validateExerciceController($scope, $http, $sce, $timeout, $location) {
     }
 
     $scope.renderMathquil = function(topIndex, answerIndex, question) {
-        console.log("topIndex: " + topIndex);
-        console.log("answerIndex: " + answerIndex);
         if (answerIndex != null) {
             query = $(".mathquill-" + topIndex + "-" + answerIndex);
         } else {
             query = $(".mathquill-" + topIndex);
         }
-        console.log(query);
         renderMathquil(query, function(MQ, index, mq) {
             var mathquill = MQ.MathField(mq, {
                 handlers: {
                     edit: function() {
-                        console.log("======> " + answerIndex);
-                        question.answers[answerIndex].latex = mathquill.latex();
-                        console.log(question.answers[answerIndex].latex);
-                        console.log($scope.questions);
+                        question.answers[answerIndex].latex = mathquill.latex()
                     }
                 }
             });
-
-            console.log(question.answers);
             if (question.answers[answerIndex].text) {
                 mathquill.latex(question.answers[answerIndex].text);
             }

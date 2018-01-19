@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/travis-ci/travis-web.svg?branch=master)](https://travis-ci.org/travis-ci/travis-web)
+[![Coverage Status](https://coveralls.io/repos/github/sigustin/oscareducation/badge.svg?branch=master)](https://coveralls.io/github/sigustin/oscareducation?branch=master)
+[![Code Health](https://landscape.io/github/sigustin/oscareducation/master/landscape.svg?style=flat)](https://landscape.io/github/sigustin/oscareducation/master)
 # Development environment
 
 ## Installation

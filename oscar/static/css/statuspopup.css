@@ -1,0 +1,13 @@
+.pop {
+  display: none;
+  position:fixed;
+  top:10.3%;
+  left:10.3%;
+  width: auto;
+  height: auto;
+  padding: 25px;
+  border: 5px solid #fc800c;
+  border-radius: 20px;
+  background:white;
+  outline:10px solid @link;
+}

@@ -1,10 +1,15 @@
 -load crispy_forms_tags
 -load lesson_tags
+-load rating_tags
 -load static
 -load bootstrap3
+
+%link{href: "{% static 'css/StarRating.css' %}", rel: "stylesheet"}
+
 %h5 Cours
 %b Videos
 %img{src: "{% static 'img/khanacademy-logo.png' %}", width: "143px"}
+
 -if user.professor
   %button.show-form.btn.btn-primary.btn-sm{"data-target": "#khan-form"}
     Ajouter une vidéo
@@ -25,7 +30,6 @@
           %button.btn.btn-danger.btn-xs.delete{type: "submit"}
             supprimer
 -# Display similar or identic videos, specify which skill/coder is concerned
-
 -if user.professor
   %form#khan-form{method: "POST", style: "display: none", action: "{% url 'professor:update_pedagogical_ressources' type base.id %}"}
     -csrf_token
@@ -41,7 +45,6 @@
 	  %input{type: "url", placeholder: "http:// ...", name: "url"}
 	  %p
 	    %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
 %hr
 %b
   Cours
@@ -75,12 +78,9 @@
   -if user.professor
     %form{method: "POST", id: "sesamath-manuel-form", style: "{% if not sesamath_reference_form.errors %}display: none{% endif %}", action: ""}
       -csrf_token
-
       %input{type: "hidden", value: "sesamath_reference", name: "form_type"}
       %input{type: "hidden", value: "{{ request.user.pk }}", name: "added_by"}
       %input{type: "hidden", value: "lesson_resource", name: "section"}
-
-
       .form-group
         %ul.dropdown-menu{role: "menu", aria-labelledby: "dropdownMenu", style: "display: block; position: static; margin-bottom: 5px; max-width: 50%;"}
           -regroup sesamath_references_manuals by classe as classes
@@ -121,15 +121,11 @@
               Votre navigateur ne permet pas de voir des fichiers PDFs,
               %a{href: "/pdf/sample-3pp.pdf"}
                 télécharger le PDF pour le voir
-
       .form-group
         %input.btn.btn-primary{type: "submit", value: "Ajouter"}
-
 -# Display similar or identic sesamath resource, specify which skill/coder is concerned
-
 %hr
 %b Autres
-
 -if user.professor
   %button.show-form.btn.btn-sm.btn-primary{data-target: "#my_resource-form"}
     Ajouter
@@ -138,7 +134,6 @@
       .panel-body
         %form{method: "POST", enctype: "multipart/form-data", action: ""}
           -csrf_token
-
           -if resource_form.errors
             =resource_form.errors
           %input{type: "hidden", value: "my_resource", name: "form_type"}
@@ -169,62 +164,61 @@
             -include "professor/skill/update_pedagogical_resources/media/text_field.haml"
           %button.btn.btn-primary{type: "submit"}
             Valider
-
 %ul.list-group
   -for resource in lesson_resources
     %li.list-group-item
       %h5=resource.content.title
         -#%small.badge= resource.content.kind
-      %p.list-group-text
-        -if resource.content.comment
-          %p.small=resource.content.comment|safe
-        -for item in resource.content.resources
-          -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
-            .panel.panel-default
-              %table.table
-                %tbody
-                  %tr
-                    %td
-                      -if item.optionalName
-                        -if item.link|cut:" "|length > 0 and item.mediaType == "link"
-                          %small.badge
-                            lien
-                          %a{href: "{{ item.link }}", target: "_blank"}
-                            {{item.optionalName}}
-                        -if item.file|cut:" "|length > 0 and item.mediaType == "file"
-                           %small.badge
-                            fichier
-                          %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
-                            {{item.optionalName}}
-                      -else
-                        -if item.link|cut:" "|length > 0 and item.mediaType == "link"
-                          %small.badge
-                            lien
-                          %a{href: "{{ item.link }}", target: "_blank"}
-                            {{item.link}}
-                        -if item.file|cut:" "|length > 0 and item.mediaType == "file"
-                          %small.badge
-                            fichier
-                          %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
-                            {{item.file}}
-                    -if user.professor
-
-        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
-          -csrf_token
-          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-            supprimer
-
-
-
+        %p.list-group-text
+          -if resource.content.comment
+            %p.small=resource.content.comment|safe
+          -for item in resource.content.resources
+            -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
+              .panel.panel-default
+                %table.table
+                  %tbody
+                    %tr
+                      %td
+                        -if item.optionalName
+                          -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                            %small.badge
+                              lien
+                            %a{href: "{{ item.link }}", target: "_blank"}
+                              {{item.optionalName}}
+                            %div{:name=>"container", :id=>"container#{item.link}"}
+                          -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                            %small.badge
+                              fichier
+                            %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                              {{item.optionalName}}
+                            %div{:name=>"container", :id=>"container#{item.link}"}
+                        -else
+                          -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                            %small.badge
+                              lien
+                            %a{href: "{{ item.link }}", target: "_blank"}
+                              {{item.link}}
+                            %div{:name=>"container", :id=>"container#{item.link}"}
+                          -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                            %small.badge
+                              fichier
+                            %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                              {{item.file}}
+                            %div{:name=>"container", :id => "container#{item.link}"}
+          -include "professor/skill/update_pedagogical_resources/media/rating.haml"
+          -if resource.added_by == request.user
+            %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                supprimer
 %h5 Ressources similaires & identiques
 -with type=type add=False resource_khanacademy_coder=sori_coder_lesson_resource_khanacademy resource_khanacademy_skills=sori_skills_lesson_resource_khanacademy
   -if resource_khanacademy_coder or resource_khanacademy_skills
     -include "professor/skill/update_pedagogical_resources/khanacademy.haml"
-
 -with type=type add=False resource_sesamath_coder=sori_coder_lesson_resource_sesamath resource_sesamath_skills=sori_skills_lesson_resource_sesamath
   -if resource_sesamath_coder or resource_sesamath_skills
     -include "professor/skill/update_pedagogical_resources/sesamath.haml"
-
 -with type=type add=False resource_lesson_coder=sori_coder_lesson_resources resource_lesson_skills=sori_skills_lesson_resources
   -if resource_lesson_coder or resource_lesson_skills
     -include "professor/skill/update_pedagogical_resources/other.haml"
+

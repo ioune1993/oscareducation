@@ -50,3 +50,19 @@ class PageLoadTest(TestCase):
 
     def test_static_pages_load(self):
         self.assertEqual(self.c.get(reverse("professor:dashboard")).status_code, 200)
+    #groupe 7
+    def test_barchar(self):
+        prof = Question.objects.create(description="draw")
+        prof.answer("")
+        prof.save()
+        self.prof = Question.objects.create(user = prof)
+
+        student = Question.objects.create(answer ="")
+        self.student = Question.objects.create(user = student)
+
+    def test_list_question(self):
+        link = List.question.objects.create(context_id = "question1")
+        self.link = List.question.objects.create(link)
+
+        link = List.question.objects.create(question_id = "1")
+        self.link = List.question.objects.create(link)

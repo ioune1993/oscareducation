@@ -132,44 +132,43 @@
     %li.list-group-item
       %h5=resource.content.title
         -#%small.badge= resource.content.kind
-      %p.list-group-text
-        -if resource.content.comment
-          %p.small=resource.content.comment|safe
-        -for item in resource.content.resources
-          -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
-            .panel.panel-default
-              %table.table
-                %tbody
-                  %tr
-                    %td
-                      -if item.optionalName
-                        -if item.link|cut:" "|length > 0 and item.mediaType == "link"
-                          %small.badge
-                            lien
-                          %a{href: "{{ item.link }}", target: "_blank"}
-                            {{item.optionalName}}
-                        -if item.file|cut:" "|length > 0 and item.mediaType == "file"
-                           %small.badge
-                            fichier
-                          %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
-                            {{item.optionalName}}
-                      -else
-                        -if item.link|cut:" "|length > 0 and item.mediaType == "link"
-                          %small.badge
-                            lien
-                          %a{href: "{{ item.link }}", target: "_blank"}
-                            {{item.link}}
-                        -if item.file|cut:" "|length > 0 and item.mediaType == "file"
-                          %small.badge
-                            fichier
-                          %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
-                            {{item.file}}
-                    -if user.professor
-
-        %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
-          -csrf_token
-          %button.btn.btn-danger.btn-xs.delete{type: "submit"}
-            supprimer
+        %p.list-group-text
+          -if resource.content.comment
+            %p.small=resource.content.comment|safe
+          -for item in resource.content.resources
+            -if item.link|cut:" "|length > 0 or  item.file|cut:" "|length > 0
+              .panel.panel-default
+                %table.table
+                  %tbody
+                    %tr
+                      %td
+                        -if item.optionalName
+                          -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                            %small.badge
+                              lien
+                            %a{href: "{{ item.link }}", target: "_blank"}
+                              {{item.optionalName}}
+                          -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                            %small.badge
+                              fichier
+                            %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                              {{item.optionalName}}
+                        -else
+                          -if item.link|cut:" "|length > 0 and item.mediaType == "link"
+                            %small.badge
+                              lien
+                            %a{href: "{{ item.link }}", target: "_blank"}
+                              {{item.link}}
+                          -if item.file|cut:" "|length > 0 and item.mediaType == "file"
+                            %small.badge
+                              fichier
+                            %a{href: "{{ MEDIA_URL }}{{ item.file }}", target: "_blank"}
+                              {{item.file}}
+          -if user.professor and user == resource.added_by
+            %form.remove-form{method: "POST", action: "{% url 'professor:remove_pedagogical_ressources' type base.id 'resource' resource.id %}"}
+              -csrf_token
+              %button.btn.btn-danger.btn-xs.delete{type: "submit"}
+                supprimer
 
 
 

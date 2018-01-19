@@ -1,14 +1,23 @@
 # encoding: utf-8
 
 from django.conf import settings
+from django.contrib import messages
+# Avoid shadowing the login() and logout() views below.
+from django.contrib.auth import (REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout)
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
+from django.db import transaction
 from django.http import HttpResponseRedirect
+from django.shortcuts import resolve_url, render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.utils.http import is_safe_url
-from django.shortcuts import resolve_url, redirect, render, get_object_or_404
-from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.debug import sensitive_post_parameters
+from forms import UsernameLoginForm, CodeForm, CreatePasswordForm, SubscribeTeacherForm
 
 from stats.models import LoginStats
 
@@ -21,15 +30,14 @@ from users.models import Professor
 from django.db import transaction
 from django.contrib import messages
 
-
 from forms import UsernameLoginForm, CodeForm, CreatePasswordForm, SubscribeTeacherForm
 from django.core.mail import send_mail
 from users.models import Student, Professor
 
+
 @sensitive_post_parameters()
 @csrf_protect
 @never_cache
-
 # TODO: TO DELETE
 # def root_redirection(request):
 #     """
@@ -57,7 +65,7 @@ from users.models import Student, Professor
 def username(request, template_name='registration/login_username.haml',
              redirect_field_name=REDIRECT_FIELD_NAME,
              usernamelogin_form=UsernameLoginForm,
-             current_app=None, extra_context=None) :
+             current_app=None, extra_context=None):
     """
     Displays the username form and handles the login action.
     """
@@ -65,11 +73,10 @@ def username(request, template_name='registration/login_username.haml',
         return HttpResponseRedirect("/admin/")
 
     if hasattr(request.user, "professor"):
-        return HttpResponseRedirect(reverse("professor:dashboard"))
+         return HttpResponseRedirect(reverse("professor:dashboard"))
 
     if hasattr(request.user, "student"):
         return HttpResponseRedirect(reverse("student_dashboard"))
-
 
     redirect_to = request.POST.get(redirect_field_name,
                                    request.GET.get(redirect_field_name, ''))
@@ -81,7 +88,7 @@ def username(request, template_name='registration/login_username.haml',
                 redirect_to = resolve_url(settings.LOGIN_REDIRECT_URL)
 
             user = form.cleaned_data['username']
-            return is_pending(request,user)
+            return is_pending(request, user)
     else:
         form = usernamelogin_form()
 
@@ -95,7 +102,8 @@ def username(request, template_name='registration/login_username.haml',
     }
 
     return TemplateResponse(request, template_name, context,
-                        current_app)
+                            current_app)
+
 
 def pending_teacher(request):
     if request.method == "POST":
@@ -108,13 +116,15 @@ def pending_teacher(request):
                     url = "http://{}/accounts/confirmteacher/{}".format(domain, user.id)
                     body = "Bonjour, suivez ce lien pour confirmer votre inscription : {}".format(url)
                     send_mail(u'Votre inscription a bien été enregistrée.', body, 'noreply@oscar.education',
-                        [request.POST['email']], fail_silently=False)
-                    messages.add_message(request, messages.SUCCESS, "Un email a bien été renvoyé à {}".format(request.POST['email']))
+                              [request.POST['email']], fail_silently=False)
+                    messages.add_message(request, messages.SUCCESS,
+                                         "Un email a bien été renvoyé à {}".format(request.POST['email']))
                 else:
                     messages.add_message(request, messages.ERROR, "Ce compte est déjà actif !")
         else:
             messages.add_message(request, messages.ERROR, "Cette adresse e-mail n'est associée à aucun compte !")
     return render(request, 'registration/pending_teacher.haml', locals())
+
 
 def confirm_teacher(request, user_id):
     user = get_object_or_404(Professor, user_id=user_id, is_pending=True)
@@ -122,6 +132,7 @@ def confirm_teacher(request, user_id):
     user.save()
     messages.add_message(request, messages.SUCCESS, "Votre compte a été activé, vous pouvez désormais vous connecter.")
     return HttpResponseRedirect(reverse('username_login'))
+
 
 def is_pending(request, user):
     """
@@ -141,11 +152,11 @@ def is_pending(request, user):
         request.session['user'] = user[1]
         return HttpResponseRedirect(reverse('password_login'))
 
+
 def password(request, template_name='registration/login_password.haml',
              redirect_field_name=REDIRECT_FIELD_NAME,
              authentication_form=AuthenticationForm,
-             current_app=None, extra_context=None) :
-
+             current_app=None, extra_context=None):
     """
     Displays the password form and handles the login action.
     """
@@ -191,11 +202,11 @@ def password(request, template_name='registration/login_password.haml',
     return TemplateResponse(request, template_name, context,
                             current_app)
 
-def code(request, template_name='registration/login_code.haml',
-             redirect_field_name=REDIRECT_FIELD_NAME,
-             code_form=CodeForm,
-             current_app=None, extra_context=None) :
 
+def code(request, template_name='registration/login_code.haml',
+         redirect_field_name=REDIRECT_FIELD_NAME,
+         code_form=CodeForm,
+         current_app=None, extra_context=None):
     """
     Displays the authentication-code form and handles the login action.
     """
@@ -226,10 +237,10 @@ def code(request, template_name='registration/login_code.haml',
     return TemplateResponse(request, template_name, context,
                             current_app)
 
+
 def create_password(request, template_name='registration/create_password.haml',
                     redirect_field_name=REDIRECT_FIELD_NAME,
-                    cp_form=CreatePasswordForm,current_app=None, extra_context=None):
-
+                    cp_form=CreatePasswordForm, current_app=None, extra_context=None):
     """
     Displays the password creation form and handles the login action.
     """
@@ -250,7 +261,6 @@ def create_password(request, template_name='registration/create_password.haml',
     else:
         form = cp_form()
 
-
     current_site = get_current_site(request)
     context = {
         'form': form,
@@ -260,6 +270,7 @@ def create_password(request, template_name='registration/create_password.haml',
         'user': request.session['user'],
     }
     return TemplateResponse(request, template_name, context, current_app)
+
 
 def subscribe_teacher(request):
     if request.method == "POST":
@@ -287,10 +298,12 @@ def subscribe_teacher(request):
             send_mail(u'Votre inscription a bien été enregistrée.', body, 'noreply@oscar.education',
                       [request.POST['email']], fail_silently=False)
             messages.add_message(request, messages.SUCCESS,
-                                 "Veuillez consulter votre boite mail ({}) pour activer votre compte.".format(request.POST['email']))
+                                 "Veuillez consulter votre boite mail ({}) pour activer votre compte.".format(
+                                     request.POST['email']))
             return HttpResponseRedirect(reverse('username_login'))
 
-    return render(request,'registration/subscribe_teacher.haml', locals())
+    return render(request, 'registration/subscribe_teacher.haml', locals())
+
 
 def logout(request, next_page=None,
            template_name='registration/logged_out.html',
